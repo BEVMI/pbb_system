@@ -63,4 +63,11 @@ class User extends Authenticatable
         }
         return $users;
     }
+
+    public function is_active(){
+        if($this->is_active== "1" ){
+            return true;
+        }
+        return false;
+    }
 }

@@ -10,6 +10,7 @@
         "ext-gd": "*",
         "laravel/framework": "^11.9",
         "laravel/tinker": "^2.9",
+        "laravel/ui": "^4.5",
         "maatwebsite/excel": "^1.1",
         "phpoffice/phpspreadsheet": "^2.2",
         "realrashid/sweet-alert": "^7.2",

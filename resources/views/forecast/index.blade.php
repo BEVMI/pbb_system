@@ -74,6 +74,7 @@
 @endsection
 
 @section('scripts')
+@include('includes.form_error')
 <script>
     let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');   
 </script>
@@ -107,18 +108,18 @@
                 data: fd,
                 success:function(data){
                     console.log(data);
-                    $.ajax({
-                        type:'post',
-                        headers: {  'Access-Control-Allow-Origin': '*' },
-                        url:'http://192.168.0.183:81/api/Forecast/UploadForecast',
-                        data: JSON.stringify(data),
-                        crossDomain: true,
-                        dataType: 'json',
-                        contentType: "application/json; charset=utf-8",
-                        success:function(data){
-                            console.log(data);
-                        }
-                    });
+                    // $.ajax({
+                    //     type:'post',
+                    //     headers: {  'Access-Control-Allow-Origin': '*' },
+                    //     url:'http://192.168.0.183:81/api/Forecast/UploadForecast',
+                    //     data: JSON.stringify(data),
+                    //     crossDomain: true,
+                    //     dataType: 'json',
+                    //     contentType: "application/json; charset=utf-8",
+                    //     success:function(data){
+                    //         console.log(data);
+                    //     }
+                    // });
                 }
             });
         // }        
