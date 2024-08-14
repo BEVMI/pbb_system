@@ -1,0 +1,8 @@
+php artisan migrate --path=\database/migrations/2024_08_13_083844_create_months_table.php
+php artisan migrate:refresh --path=\database/migrations/2024_08_13_083844_create_months_table.php
+
+php artisan migrate --path=\database/migrations/2024_08_12_165556_create_forecasts_table.php
+php artisan migrate:refresh --path=\database/migrations/2024_08_12_165556_create_forecasts_table.php
+
+php artisan migrate --path=\database/migrations/0001_01_01_000000_create_users_table.php
+php artisan migrate:refresh --path=\database/migrations/0001_01_01_000000_create_users_table.php
