@@ -14,6 +14,9 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'IsActive' => \App\Http\Middleware\IsActive::class,
         ]);
+        $middleware->validateCsrfTokens(except: [
+            'http://localhost:82/pbb-system/public/pbb_stockcode' // <-- exclude this route
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

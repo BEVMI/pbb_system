@@ -56,15 +56,15 @@
 @endsection
 
 @section('title') 
-    FORECAST MODULE
+    PO COMPIANCE MODULE
 @endsection 
 
 @section('subtitle')
-    LIST OF FORECAST
+    LIST OF PO COMPLIANCE
 @endsection
 
 @section('breadcrumbs_1')
-    Forecast
+    PO COMPLIANCE
 @endsection
 
 @section('breadcrumbs_2')
@@ -72,34 +72,33 @@
 @endsection
 
 @section('button')
-    <button class="btn btn-primary mt-2 mt-xl-0" data-bs-toggle="modal" data-bs-target="#modalCreate">UPLOAD FORECAST</button> 
+
 @endsection
 
 
 @section('main')
-
 <div class="container-fluid">
     <div class="row">
         <div class="col-xl-2 col-lg-3 col-sm-6 col-12">
-            <label for="myInput">MONTH FILTER</label>
-            {{-- <input class="form-control" type="text" id="myInput"  placeholder="Search for names.." title="Type in a name"> --}}
-            <select id="myInput" class="form-control" onchange="myFunction()">
-                <option value="">ALL</option>
-                <option value="JANUARY">JANUARY</option>
-                <option value="FEBRUARY">FEBRUARY</option>
-                <option value="MARCH">MARCH</option>
-                <option value="APRIL">APRIL</option>
-                <option value="MAY">MAY</option>
-                <option value="JUNE">JUNE</option>
-                <option value="JULY">JULY</option>
-                <option value="AUGUST">AUGUST</option>
-                <option value="SEPTEMBER">SEPTEMBER</option>
-                <option value="OCTOBER">OCTOBER</option>
-                <option value="NOVEMBER">NOVEMBER</option>
-                <option value="DECEMBER">DECEMBER</option>
+           
+            
+            
+        </div>
+        <div class="col-xl-2 col-lg-3 col-sm-6 col-12">
+            
+        </div>
+        <div class="col-xl-2 col-lg-3 col-sm-6 col-12">
+            <label for="months">MONTH FILTER</label>
+            <select class="form-control" id="months">
+                @foreach ($months as $month)
+                    @if($month->month_number === $month_now)
+                        <option selected value="{{$month->month_number}}">{{$month->month_name}}</option>
+                    @else
+                        <option value="{{$month->month_number}}">{{$month->month_name}}</option>
+                    @endif
+                @endforeach
             </select>
         </div>
-        <div class="col-xl-6 col-lg-3 col-sm-6 col-12"></div>
         <div class="col-xl-2 col-lg-3 col-sm-6 col-12">
             <div class="form-group">
                 <label for="year">YEAR</label>
@@ -107,34 +106,38 @@
             </div>
         </div>
         <div class="col-xl-2 col-lg-3 col-sm-6 col-12">
+            <label for="year">STATUS</label>
+            <select class="form-control" name="status" id="status">
+                <option value="">ALL</option>
+                <option value="9">COMPLETED</option>
+                <option value="S">SUSPEND</option>
+                <option value="O">OPEN PO</option>
+            </select>
+        </div>
+        <div class="col-xl-2 col-lg-3 col-sm-6 col-12">
             <br>
             {{ html()->submit('FILTER')->class('btn btn-outline-success btn-block loading_button')->attribute('style','width:100%; margin-top:3px;') }}
         </div>
-    </div>
-    <div class="row">
-        <div class="col-12">
-            <div class="table-responsive"  style="height:60vh; overflow:auto;">
-                <table class="table text-center">
-                    <thead class="irene_thead">
-                        <th>ID</th>
-                        <th>MONTH</th>
-                        <th>YEAR</th>
-                        <th>ACTION</th>
-                    </thead>
-                    <tbody id="get_header_forecast">
-                        
-                    </tbody>
-                </table>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="table-responsive"  style="height:60vh; overflow:auto;">
+                    <table class="table text-center">
+                        <thead class="irene_thead">
+                            <th>SalesOrder</th>
+                            <th>Customer</th>
+                        </thead>
+                        <tbody id="get_header_po">
+                            
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
 </div>
-
-@include('includes.forecast_modals')
-@include('includes.loading')
 @endsection
 
 @section('scripts')
-@include('includes.form_error')
-@include('api.forecast')
+@include('api.pocompliance')
 @endsection

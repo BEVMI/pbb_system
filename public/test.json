@@ -1,0 +1,312 @@
+[
+    {
+        "id": 0,
+        "nYear": "2024",
+        "nMonth": "8",
+        "StockCodes": [
+            {
+                "id": 0,
+                "cStockCode": "CSP01",
+                "nQty": "330.00"
+            },
+            {
+                "id": 0,
+                "cStockCode": "CSP02",
+                "nQty": "537.00"
+            },
+            {
+                "id": 0,
+                "cStockCode": "CSP03",
+                "nQty": "891.00"
+            },
+            {
+                "id": 0,
+                "cStockCode": "AQL01",
+                "nQty": "6,000.00"
+            },
+            {
+                "id": 0,
+                "cStockCode": "AQL02",
+                "nQty": "8,500.00"
+            },
+            {
+                "id": 0,
+                "cStockCode": "AQL03",
+                "nQty": "9,000.00"
+            },
+            {
+                "id": 0,
+                "cStockCode": "GBP01",
+                "nQty": "2,293.00"
+            },
+            {
+                "id": 0,
+                "cStockCode": "GBP02",
+                "nQty": "4,462.00"
+            },
+            {
+                "id": 0,
+                "cStockCode": "GBP03",
+                "nQty": "6,517.00"
+            },
+            {
+                "id": 0,
+                "cStockCode": "PEPSI",
+                "nQty": "52,955.00"
+            },
+            {
+                "id": 0,
+                "cStockCode": "PEPSI",
+                "nQty": "6,333.00"
+            }
+        ]
+    },
+    {
+        "id": 0,
+        "nYear": "2024",
+        "nMonth": "9",
+        "StockCodes": [
+            {
+                "id": 0,
+                "cStockCode": "CSP01",
+                "nQty": "330.00"
+            },
+            {
+                "id": 0,
+                "cStockCode": "CSP02",
+                "nQty": "537.00"
+            },
+            {
+                "id": 0,
+                "cStockCode": "CSP03",
+                "nQty": "891.00"
+            },
+            {
+                "id": 0,
+                "cStockCode": "AQL01",
+                "nQty": "6,000.00"
+            },
+            {
+                "id": 0,
+                "cStockCode": "AQL02",
+                "nQty": "8,500.00"
+            },
+            {
+                "id": 0,
+                "cStockCode": "AQL03",
+                "nQty": "9,000.00"
+            },
+            {
+                "id": 0,
+                "cStockCode": "GBP01",
+                "nQty": "3,990.00"
+            },
+            {
+                "id": 0,
+                "cStockCode": "GBP02",
+                "nQty": "5,729.00"
+            },
+            {
+                "id": 0,
+                "cStockCode": "GBP03",
+                "nQty": "6,474.00"
+            },
+            {
+                "id": 0,
+                "cStockCode": "PEPSI",
+                "nQty": "49,032.00"
+            },
+            {
+                "id": 0,
+                "cStockCode": "PEPSI",
+                "nQty": "5,864.00"
+            }
+        ]
+    },
+    {
+        "id": 0,
+        "nYear": "2024",
+        "nMonth": "10",
+        "StockCodes": [
+            {
+                "id": 0,
+                "cStockCode": "CSP01",
+                "nQty": "330.00"
+            },
+            {
+                "id": 0,
+                "cStockCode": "CSP02",
+                "nQty": "537.00"
+            },
+            {
+                "id": 0,
+                "cStockCode": "CSP03",
+                "nQty": "891.00"
+            },
+            {
+                "id": 0,
+                "cStockCode": "AQL01",
+                "nQty": "6,000.00"
+            },
+            {
+                "id": 0,
+                "cStockCode": "AQL02",
+                "nQty": "8,500.00"
+            },
+            {
+                "id": 0,
+                "cStockCode": "AQL03",
+                "nQty": "9,000.00"
+            },
+            {
+                "id": 0,
+                "cStockCode": "GBP01",
+                "nQty": "3,990.00"
+            },
+            {
+                "id": 0,
+                "cStockCode": "GBP02",
+                "nQty": "5,729.00"
+            },
+            {
+                "id": 0,
+                "cStockCode": "GBP03",
+                "nQty": "6,474.00"
+            },
+            {
+                "id": 0,
+                "cStockCode": "PEPSI",
+                "nQty": "53,151.00"
+            },
+            {
+                "id": 0,
+                "cStockCode": "PEPSI",
+                "nQty": "6,405.00"
+            }
+        ]
+    },
+    {
+        "id": 0,
+        "nYear": "2024",
+        "nMonth": "11",
+        "StockCodes": [
+            {
+                "id": 0,
+                "cStockCode": "CSP01",
+                "nQty": "330.00"
+            },
+            {
+                "id": 0,
+                "cStockCode": "CSP02",
+                "nQty": "537.00"
+            },
+            {
+                "id": 0,
+                "cStockCode": "CSP03",
+                "nQty": "891.00"
+            },
+            {
+                "id": 0,
+                "cStockCode": "AQL01",
+                "nQty": "6,000.00"
+            },
+            {
+                "id": 0,
+                "cStockCode": "AQL02",
+                "nQty": "8,500.00"
+            },
+            {
+                "id": 0,
+                "cStockCode": "AQL03",
+                "nQty": "9,000.00"
+            },
+            {
+                "id": 0,
+                "cStockCode": "GBP01",
+                "nQty": "3,990.00"
+            },
+            {
+                "id": 0,
+                "cStockCode": "GBP02",
+                "nQty": "5,729.00"
+            },
+            {
+                "id": 0,
+                "cStockCode": "GBP03",
+                "nQty": "6,474.00"
+            },
+            {
+                "id": 0,
+                "cStockCode": "PEPSI",
+                "nQty": "51,295.00"
+            },
+            {
+                "id": 0,
+                "cStockCode": "PEPSI",
+                "nQty": "6,209.00"
+            }
+        ]
+    },
+    {
+        "id": 0,
+        "nYear": "2024",
+        "nMonth": "12",
+        "StockCodes": [
+            {
+                "id": 0,
+                "cStockCode": "CSP01",
+                "nQty": "330.00"
+            },
+            {
+                "id": 0,
+                "cStockCode": "CSP02",
+                "nQty": "537.00"
+            },
+            {
+                "id": 0,
+                "cStockCode": "CSP03",
+                "nQty": "891.00"
+            },
+            {
+                "id": 0,
+                "cStockCode": "AQL01",
+                "nQty": "6,000.00"
+            },
+            {
+                "id": 0,
+                "cStockCode": "AQL02",
+                "nQty": "8,500.00"
+            },
+            {
+                "id": 0,
+                "cStockCode": "AQL03",
+                "nQty": "9,000.00"
+            },
+            {
+                "id": 0,
+                "cStockCode": "GBP01",
+                "nQty": "3,990.00"
+            },
+            {
+                "id": 0,
+                "cStockCode": "GBP02",
+                "nQty": "5,729.00"
+            },
+            {
+                "id": 0,
+                "cStockCode": "GBP03",
+                "nQty": "6,474.00"
+            },
+            {
+                "id": 0,
+                "cStockCode": "PEPSI",
+                "nQty": "49,417.00"
+            },
+            {
+                "id": 0,
+                "cStockCode": "PEPSI",
+                "nQty": "6,005.00"
+            }
+        ]
+    }
+]
