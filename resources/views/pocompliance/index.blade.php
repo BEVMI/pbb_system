@@ -80,13 +80,8 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-xl-2 col-lg-3 col-sm-6 col-12">
-           
-            
-            
         </div>
-        <div class="col-xl-2 col-lg-3 col-sm-6 col-12">
-            
-        </div>
+        
         <div class="col-xl-2 col-lg-3 col-sm-6 col-12">
             <label for="months">MONTH FILTER</label>
             <select class="form-control" id="months">
@@ -109,14 +104,20 @@
             <label for="year">STATUS</label>
             <select class="form-control" name="status" id="status">
                 <option value="">ALL</option>
-                <option value="9">COMPLETED</option>
+                <option value="9">COMPLETED</option>1O
                 <option value="S">SUSPEND</option>
-                <option value="O">OPEN PO</option>
+                <option value="1">OPEN PO</option>
+            </select>
+        </div>
+        <div class="col-xl-2 col-lg-3 col-sm-6 col-12">
+            <label for="pages">PAGE</label>
+            <select class="form-control" id='load_pages'>
+
             </select>
         </div>
         <div class="col-xl-2 col-lg-3 col-sm-6 col-12">
             <br>
-            {{ html()->submit('FILTER')->class('btn btn-outline-success btn-block loading_button')->attribute('style','width:100%; margin-top:3px;') }}
+            <input onclick="loadPoFilter()" class="btn btn-outline-success btn-block loading_button" style="width:100%; margin-top:3px;" type="submit" value="FILTER">
         </div>
 
         <div class="row">
@@ -126,6 +127,10 @@
                         <thead class="irene_thead">
                             <th>SalesOrder</th>
                             <th>Customer</th>
+                            <th>Compliance</th>
+                            <th>CustomerPONumber</th>
+                            <th>Status</th>
+                            <th>Action</th>
                         </thead>
                         <tbody id="get_header_po">
                             
@@ -136,6 +141,7 @@
         </div>
     </div>
 </div>
+@include('includes.po_compliance_modals')
 @endsection
 
 @section('scripts')

@@ -107,6 +107,7 @@
   <script src="{{asset('assets/js/argon-dashboard.min.js?v=2.0.4')}}"></script>
   {{-- <script src="{{asset('js/buttons.js')}}"></script> --}}
   <script src="{{asset('js/sweetalert2@11.js')}}"></script>
+  <script src="{{asset('js/moment.js')}}"></script>
   @include('includes.form_error')
 </body>
 

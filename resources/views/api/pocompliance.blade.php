@@ -7,12 +7,22 @@
     let current_year = '{!!$year_now!!}';
     let current_month = '{!!$month_now!!}';
     let page_number = 1;
-    let status = 'all';
-    console.log(current_year);
+    let status = '';
+   
     loadPo(api_url,current_year,current_month,page_number,status);
+    
+
+    function loadPoFilter(){
+        let months_filter = document.getElementById('months').value;   
+        let year_now_filter = document.getElementById('year_now').value;   
+        let status_filter = document.getElementById('status').value;
+        let load_pages_filter = document.getElementById('load_pages').value;
+        
+        loadPo(api_url,year_now_filter,months_filter,load_pages_filter,status_filter);
+    }
 
     function loadPo(api_url,current_year,current_month,page_number,status){
-        console.log(api_url);
+        $('#get_header_po').empty();
         var fd = new FormData();
         fd.append('nYear',current_year);
         fd.append('nMonth',current_month);
@@ -21,32 +31,55 @@
         
         $.ajax({
         type: 'GET', //THIS NEEDS TO BE GET
-        url: api_url+'/PurchaseOrder/GetPOCompliance',
+        url: api_url+'/PurchaseOrder/GetPOCompliance?nYear='+current_year+'&nMonth='+current_month+'&nPageNum='+page_number+'&cStatus='+status,
         data: fd,
         // dataType: 'json',
         // contentType: "application/json; charset=utf-8",
         processData: false,
         success: function (data) {
             irene_parse = JSON.parse(data);
-            // console.log(irene_parse[0][0].SalesOrder);
-            // console.log(irene_parse[1][0].Totalpage);
+            totalpages = irene_parse[1][0].Totalpage+1;
+            $("#load_pages").empty();
+            for (let i = 1; i < totalpages; i++) {
+                $('#load_pages').append("<option value="+i+">"+i+"</option>")
+            }
+            document.getElementById('load_pages').value = page_number;
             irene_parse_2 = irene_parse[0];
-            console.log(irene_parse_2);
             $.each(irene_parse_2, function(index,item) {
                 var x = document.getElementById('get_header_po').insertRow(-1);
             
                 var i = x.insertCell(0);
                 var r = x.insertCell(1);
-                var e = x.insertCell(2);
-                var n = x.insertCell(3);
+                var o = x.insertCell(2);
+                var e = x.insertCell(3);
+                var n = x.insertCell(4);
+                var j = x.insertCell(5);
                 
-            
+                if(item.OrderStatus == 9){
+                    irene_status = '<span class="badge bg-success">COMPLETED</span>';
+                }else if(item.OrderStatus == 'S'){
+                    irene_status = '<span class="badge bg-warning">SUSPEND</span>';
+                }
+                else{
+                    irene_status = '<span class="badge bg-secondary">OPEN PO</span>';
+                }
 
-                i.innerHTML = item.SalesOrder;
+                i.innerHTML = parseInt(item.SalesOrder,10);
                 r.innerHTML = item.Customer;
+                o.innerHTML = item.Compliance+'%';
+                e.innerHTML = item.CustomerPoNumber;
+                n.innerHTML = irene_status;
+                j.innerHTML = '<a href="#" class="btn btn-success mt-2 mt-xl-0 view_data" data-bs-toggle="modal" data-bs-target="#modalView" data-id="'+item.SalesOrder+'"> <i class="fas fa-eye"></i></a>';
 
             });
 
+            Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "LOADING PLEASE WAIT",
+                    showConfirmButton: false,
+                    timer: 3000
+            });
         },
         error: function() { 
         }
@@ -54,42 +87,66 @@
     }
 </script>
 
-{{-- <script>
-    function loadPo(api_url,current_year,current_month,page_number,status){
-    // var fd = new FormData();
-    //     fd.append('nYear',current_year);
-    //     fd.append('nMonth',current_month);
-    //     fd.append('nPageNum',page_number);
-    //     fd.append('cStatus',status);
+<script>
+    $(document).ready(function(){
+        $(document).on('click', '.view_data', function (e) {
+            let sales_order = $(this).data('id');
+            let api_url = '{!!$api_url!!}';
+            $('#ireneTable4').empty();
 
-    //     console.log(fd);
-    
-    // $.ajax({
-    //     type: 'GET', //THIS NEEDS TO BE GET
-    //     url: api_url+'/Forecast/GetForecastHeader/',
-    //     data: fd,
-    //     processData: false,
-    //     success: function (data) {
-    //         irene_parse = JSON.parse(data);
-    //         $.each(irene_parse, function(index,item) {
-    //             var x = document.getElementById('get_header_forecast').insertRow(-1);
-            
-    //             var i = x.insertCell(0);
-    //             var r = x.insertCell(1);
-    //             var e = x.insertCell(2);
-    //             var n = x.insertCell(3);
-                
-            
+            $.ajax({
+            type: 'GET', //THIS NEEDS TO BE GET
+            url: api_url+'/PurchaseOrder/GetPODetails?cSalesOrder='+sales_order,
+            data: {
+                cSalesOrder:sales_order
+            },
+                success: function (data) {
+                    irene_parse = JSON.parse(data);
+                    $.each(irene_parse, function(index,item) {
+                    let sales_order = document.getElementById('sales_order_column').innerHTML = 'SALES ORDER - '+parseInt(item.SalesOrder,10);
+                    var x = document.getElementById('ireneTable4').insertRow(-1);
+                    var i = x.insertCell(0);
+                    var r = x.insertCell(1);
+                    var e = x.insertCell(2);
+                    var n = x.insertCell(3);
+                    var j = x.insertCell(4);
+                    var o = x.insertCell(5);
+                    var p = x.insertCell(6);
 
-    //             i.innerHTML = item.id;
-    //             r.innerHTML = post_month;
-    //             e.innerHTML = item.nYear;
-    //             n.innerHTML = '<a href="#" class="btn btn-success mt-2 mt-xl-0 view_data" data-bs-toggle="modal" data-bs-target="#modalView" data-id="'+item.id+'"> <i class="fas fa-eye"></i></a>&nbsp;<a onclick="confirmDeleteForecastHeader('+item.id+')" href="#" class="btn btn-danger mt-2 mt-xl-0"><i class="fa-solid fa-trash"></i></a>';
-    //         });
+                    if(item.MStockCode==null){
+                        i.innerHTML = item.MStockDes+'<br>'+item.LongDesc;
+                    }else{
+                        i.innerHTML = item.MStockCode+'-'+item.MStockDes+' '+item.LongDesc;
+                    }
+                    if(item.AddrCode==null){
+                        r.innerHTML = item.ShortName;
+                    }else{
+                        r.innerHTML = item.ShortName+'-'+item.AddrCode;
+                    }
+                    // let orderDate = Date.parse(item.OrderDate);
+                    e.innerHTML = formatDate(item.OrderDate);
+                    n.innerHTML = formatDate(item.ReqShipDate);
+                    j.innerHTML = item.MOrderQty;
+                    o.innerHTML = item.MBackOrderQty;
+                    p.innerHTML = item.MOrderUom;
+                    });
+                }
+            });
+        });            
+    });
+</script>
 
-    //     },
-    //     error: function() { 
-    //     }
-    // });
-    }
-</script> --}}
+<script>
+    function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
+}
+</script>
+
