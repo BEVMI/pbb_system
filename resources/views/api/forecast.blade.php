@@ -180,13 +180,13 @@
         let id_post = id;
         let api_url = '{!!$api_url!!}';
 
-        let nQyt = document.getElementById('nQyt'+id_post).value;
+        let nQty = document.getElementById('nQyt'+id_post).value;
         let cStockCode = document.getElementById('cStockCode'+id_post).value;
         var form_detail = new FormData();
        
         let irene_data = {
             id:id_post,
-            nQty:nQyt,
+            nQty:nQty,
             cStockCode:cStockCode
         };
 
@@ -243,7 +243,7 @@
                     r.innerHTML = '<select id="cStockCode'+item.id+'" data-select2-id="'+item.id+'" class="pbb_stockcode form-control" ><option selected>'+item.cStockCode+'</option></select>';
                     e.innerHTML = item.cDescription;
                     n.innerHTML = item.cLongDesc;
-                    j.innerHTML = '<input id="nQyt'+item.id+'" type="text" class="form-control" value='+item.nQyt+' />';
+                    j.innerHTML = '<input id="nQyt'+item.id+'" type="text" class="form-control" value='+item.nQty+' />';
                     o.innerHTML = '<a onclick="updateForecastDetail('+item.id+','+id+')" href="#" class="btn btn-success mt-2 mt-xl-0"><i class="fa-solid fa-arrow-right"></i></a>&nbsp;<a onclick="confirmDeleteForecastDetail('+item.id+','+id+')" href="#" class="btn btn-danger mt-2 mt-xl-0"><i class="fa-solid fa-trash"></i></a>';
                 });
 

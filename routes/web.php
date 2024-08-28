@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ForecastController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PoComplianceController;
+use App\Http\Controllers\InventoryMaterials;
+use App\Http\Controllers\InventoriesFGController;
 
 Route::get('/', ['middleware' => 'guest', function()
 {
@@ -30,7 +32,6 @@ Route::middleware([IsActive::class])->group(function () {
 
         // PO COMPLIANCE ROUTES
         Route::get('/pocompliance',[PoComplianceController::class, 'index'])->name('pocompliance.index');
-        
         // END PO COMPLIANCE ROUTES
         
         // USER ROUTES
@@ -43,6 +44,14 @@ Route::middleware([IsActive::class])->group(function () {
             return csrf_token(); 
         });
         // END USER ROUTES
+
+        // INVENTORY MATERIALS
+        Route::get('/inventorymaterials',[InventoryMaterials::class, 'index'])->name('inventorymaterials.index');
+        // END INVENTORY MATERIALS
+
+        // INVENTORY MATERIALS
+        Route::get('/inventoryfg',[InventoriesFGController::class, 'index'])->name('inventoryfg.index');
+        // END INVENTORY MATERIALS
     });
 });
 

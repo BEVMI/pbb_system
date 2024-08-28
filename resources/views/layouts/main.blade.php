@@ -71,6 +71,15 @@
         </li>
 
         <li class="nav-item">
+          <a class="nav-link " href="{{route('inventorymaterials.index')}}">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="fa-solid fa-money-bill text-sm opacity-10"  style="color:rgb(2, 169, 247);"></i>
+            </div>
+            <span class="nav-link-text ms-1" style="margin-top:8px;">INVENTORY MATERIALS</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
           <a class="nav-link " href="{{route('users.index')}}">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
