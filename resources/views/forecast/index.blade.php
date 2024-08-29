@@ -113,6 +113,7 @@
     </div>
     <div class="row">
         <div class="col-12">
+            <input type="hidden" name="" id="forecast_header_id">
             <div class="table-responsive"  style="height:60vh; overflow:auto;">
                 <table class="table text-center">
                     <thead class="irene_thead">

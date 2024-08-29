@@ -170,6 +170,7 @@
             $(document).on('click', '.view_data', function (e) {
                 let id = $(this).data('id');
                 let api_url = '{!!$api_url!!}';
+                document.getElementById('forecast_header_id').value = id;
                 load_stock_code_detail(id,api_url)
             });            
         });
@@ -217,7 +218,25 @@
         }, 2000);
     }
 </script>
+{{-- <script src="https://cdn.jsdelivr.net/npm/underscore@1.13.7/underscore-umd-min.js"></script>
+<script>
 
+    // let irene2  = _.debounce(debounceHandler, 1000, false);
+    // // console.log(changeIrene);
+    // // function debounceHandler() {
+    // //     console.log('irene');
+    // // }
+
+    function changeIrene(id,header_id) {
+        let irene2  = _.debounce(debounceHandler, 1000, false);
+        function debounceHandler() {
+            console.log('irene');
+        }
+    }
+
+    
+    
+</script> --}}
 <script>
     function load_stock_code_detail(id,api_url){
         $('#ireneTable4').empty();
@@ -243,10 +262,12 @@
                     r.innerHTML = '<select id="cStockCode'+item.id+'" data-select2-id="'+item.id+'" class="pbb_stockcode form-control" ><option selected>'+item.cStockCode+'</option></select>';
                     e.innerHTML = item.cDescription;
                     n.innerHTML = item.cLongDesc;
-                    j.innerHTML = '<input id="nQyt'+item.id+'" type="text" class="form-control" value='+item.nQty+' />';
+                    j.innerHTML = '<input id="nQyt'+item.id+'" type="text" class="form-control search_now" value='+item.nQty+' />';
                     o.innerHTML = '<a onclick="updateForecastDetail('+item.id+','+id+')" href="#" class="btn btn-success mt-2 mt-xl-0"><i class="fa-solid fa-arrow-right"></i></a>&nbsp;<a onclick="confirmDeleteForecastDetail('+item.id+','+id+')" href="#" class="btn btn-danger mt-2 mt-xl-0"><i class="fa-solid fa-trash"></i></a>';
                 });
 
+
+                
                 $( ".pbb_stockcode" ).select2({
                     dropdownParent: $("#modalView").parent(),
                     ajax: { 
@@ -267,6 +288,13 @@
                         },
                         cache: true
                     }
+                });
+
+                $('.pbb_stockcode').on('select2:select', function (e) {
+                    var data = e.params.data;
+                    id = $(this).closest("tr").find('td:first').text();
+                    header_id = document.getElementById('forecast_header_id').value;
+                    updateForecastDetail(id,header_id)
                 });
             }
         });

@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\PoComplianceController;
 use App\Http\Controllers\InventoryMaterials;
 use App\Http\Controllers\InventoriesFGController;
+use App\Http\Controllers\PlanController;
 
 Route::get('/', ['middleware' => 'guest', function()
 {
@@ -52,6 +53,11 @@ Route::middleware([IsActive::class])->group(function () {
         // INVENTORY MATERIALS
         Route::get('/inventoryfg',[InventoriesFGController::class, 'index'])->name('inventoryfg.index');
         // END INVENTORY MATERIALS
+
+        // PLAN
+        Route::get('/plan',[PlanController::class, 'index'])->name('plan.index');
+        Route::post('/planupload',[PlanController::class, 'upload'])->name('plan.upload');
+        // END PLAN
     });
 });
 
