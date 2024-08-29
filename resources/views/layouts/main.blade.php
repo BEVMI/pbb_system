@@ -71,6 +71,15 @@
         </li>
 
         <li class="nav-item">
+          <a class="nav-link " href="{{route('inventoryfg.index')}}">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="fa-regular fa-clipboard text-sm opacity-10"  style="color:rgb(2, 247, 239);"></i>
+            </div>
+            <span class="nav-link-text ms-1" style="margin-top:8px;">INVENTORY FG</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
           <a class="nav-link " href="{{route('inventorymaterials.index')}}">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="fa-solid fa-money-bill text-sm opacity-10"  style="color:rgb(2, 169, 247);"></i>

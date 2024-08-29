@@ -8,19 +8,23 @@
         background-color: #5e72e4;
         color: white;
     }
+    tr{
+        vertical-align: middle;
+        font-weight: bold;
+    }
 </style>
 @endsection
 
 @section('title') 
-    INVENTORY MATERIALS MODULE
+    INVENTORY FG MODULE
 @endsection 
 
 @section('subtitle')
-    LIST OF MATERIALS
+    LIST OF FG
 @endsection
 
 @section('breadcrumbs_1')
-    Material
+    FG
 @endsection
 
 @section('breadcrumbs_2')
@@ -48,12 +52,12 @@
                 @foreach($stock_codes as $stock_code)
                     <option value="{{$stock_code}}">{{$stock_code}}</option>
                 @endforeach
-                <option value="">ALL</option>
+                <option selected value="">ALL</option>
             </select>
         </div>
         <div class="col-xl-2 col-lg-3 col-sm-6 col-12">
             <br>
-            <input onclick="loadMaterialFilter('1')" class="btn btn-outline-success btn-block loading_button" style="width:100%; margin-top:3px;" type="submit" value="FILTER">
+            <input onclick="loadFGFilter('1')" class="btn btn-outline-success btn-block loading_button" style="width:100%; margin-top:3px;" type="submit" value="FILTER">
         </div>
     </div>
 
@@ -62,26 +66,27 @@
             <div class="table-responsive"  style="height:60vh; overflow:auto;">
                 <table class="table text-center">
                     <thead class="irene_thead">
-                        <th scope="col">StockCode</th>
-                        <th scope="col">Description</th>
-                        <th scope="col">LongDesc</th>
-                        <th scope="col">Uom</th>
-                        <th scope="col">QtyOnHand</th>
-                        <th scope="col">QtyOnOrder</th>
-                        <th scope="col">QtyAllocatedWip</th>
-                        <th scope="col">FutureBalance</th>
+                        <th>StockCode</th>
+                        <th>OnHand</th>
+                        <th>Allocated</th>
+                        <th>OnHand(NET)</th>
+                        <th>BackOrder</th>
+                        <th>Capacity</th>
+                        <th>AveSales</th>
+                        <th>ToProduce1</th>
+                        <th>Month Cover</th>
+                        <th>Completion Days</th>
                     </thead>
-                    <tbody id="get_header_materials">
-                        
+                    <tbody id="fg_table">
+
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-
 </div>
 @endsection
 
 @section('scripts')
-@include('api.materials')
+@include('api.fg')
 @endsection
