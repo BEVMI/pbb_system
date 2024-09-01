@@ -26,6 +26,9 @@ class User extends Authenticatable
         'is_warehouse',
         'is_qc',
         'is_production',
+        'line_1',
+        'line_2',
+        'injection',
     ];
 
     /**

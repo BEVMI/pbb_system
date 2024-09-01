@@ -25,5 +25,6 @@ class GlobalFunctionsServiceProvider extends ServiceProvider
         View::share('api_url', 'http://192.168.0.183:81/api');
         View::share('year_now', $now->year);
         View::share('month_now', (string)$now->month);
+        View::share('initial_date', $now->format('Y-m-d'));
     }
 }

@@ -32,6 +32,9 @@ class UserController extends Controller
         $is_production = $request->input('is_production');
         $is_qc = $request->input('is_qc');
         $uuid = Uuid::generate(4);
+        $line_1 = $request->input('line_1');
+        $line_2 = $request->input('line_2');
+        $injection = $request->input('injection');
         
         $data_user = array(
             'id'=>$uuid,
@@ -42,7 +45,10 @@ class UserController extends Controller
             'is_admin' => $is_admin,
             'is_warehouse' => $is_warehouse,
             'is_production' => $is_production,
-            'is_qc' => $is_qc, 
+            'is_qc' => $is_qc,
+            'line_1'=>$line_1,
+            'line_2'=>$line_2,
+            'injection'=>$injection,
         );
 
         User::create($data_user);
@@ -61,6 +67,11 @@ class UserController extends Controller
         $is_production = $request->input('is_production_update');
         $user_row = User::where('id',$user_id)->first();
         $password_post = trim($request->input('password_update'));  
+
+        $line_1 = $request->input('line_1_update');
+        $line_2 = $request->input('line_2_update');
+        $injection = $request->input('injection_update');
+
         if(empty($password_post)):
             $password = $user_row->password;
         else:
@@ -76,6 +87,9 @@ class UserController extends Controller
             'is_warehouse' => $is_warehouse,
             'is_production' => $is_production,
             'is_qc' => $is_qc, 
+            'line_1'=>$line_1,
+            'line_2'=>$line_2,
+            'injection'=>$injection,
         );
 
         User::where('id',$user_id)->update($data_user);

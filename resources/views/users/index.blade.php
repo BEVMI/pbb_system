@@ -82,6 +82,9 @@
                                             data-warehouse="{{$user->is_warehouse}}"
                                             data-qc="{{$user->is_qc}}"
                                             data-production="{{$user->is_production}}"
+                                            data-line1="{{$user->line_1}}"
+                                            data-line2="{{$user->line_2}}"
+                                            data-injection="{{$user->injection}}"
                                         >
                                             <i class="fas fa-edit"></i>
                                         </a>
@@ -209,6 +212,24 @@
                                         <td class="text-center"><input type="radio" form="store" name="is_production" value="1" checked></td>
                                         <td class="text-center"><input type="radio" form="store" name="is_production" value="0"></td>
                                     </tr>
+
+                                    <tr class="irene-tr">
+                                        <td>LINE 1</td>
+                                        <td class="text-center"><input type="radio" form="store" name="line_1" value="1" checked></td>
+                                        <td class="text-center"><input type="radio" form="store" name="line_1" value="0"></td>
+                                    </tr>
+
+                                    <tr class="irene-tr">
+                                        <td>LINE 2</td>
+                                        <td class="text-center"><input type="radio" form="store" name="line_2" value="1" checked></td>
+                                        <td class="text-center"><input type="radio" form="store" name="line_2" value="0"></td>
+                                    </tr>
+
+                                    <tr class="irene-tr">
+                                        <td>INJECTION</td>
+                                        <td class="text-center"><input type="radio" form="store" name="injection" value="1" checked></td>
+                                        <td class="text-center"><input type="radio" form="store" name="injection" value="0"></td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -296,6 +317,24 @@
                                         <td class="text-center"><input type="radio" id="production_true" form="update" name="is_production_update" value="1" checked></td>
                                         <td class="text-center"><input type="radio" id="production_false" form="update" name="is_production_update" value="0"></td>
                                     </tr>
+
+                                    <tr class="irene-tr">
+                                        <td>LINE 1</td>
+                                        <td class="text-center"><input type="radio" id="line_1_true" form="update" name="line_1_update" value="1" checked></td>
+                                        <td class="text-center"><input type="radio" id="line_1_false" form="update" name="line_1_update" value="0"></td>
+                                    </tr>
+
+                                    <tr class="irene-tr">
+                                        <td>LINE 2</td>
+                                        <td class="text-center"><input type="radio" id="line_2_true" form="update" name="line_2_update" value="1" checked></td>
+                                        <td class="text-center"><input type="radio" id="line_2_false" form="update" name="line_2_update" value="0"></td>
+                                    </tr>
+
+                                    <tr class="irene-tr">
+                                        <td>INJECTION</td>
+                                        <td class="text-center"><input type="radio" id="injection_true" form="update" name="injection_update" value="1" checked></td>
+                                        <td class="text-center"><input type="radio" id="injection_false" form="update" name="injection_update" value="0"></td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -324,6 +363,9 @@
                 let warehouse = $(this).data('warehouse');
                 let qc = $(this).data('qc');
                 let production = $(this).data('production');
+                let line_1 = $(this).data('line1');
+                let line_2 = $(this).data('line2');
+                let injection = $(this).data('injection');
                           
                 $('#update_id').val(id);
                 $('#name_update').val(name);
@@ -367,6 +409,30 @@
                 }else{
                     $("#production_true").prop("checked", false);
                     $("#production_false").prop("checked", true);
+                }
+
+                if(line_1 === 1){
+                    $("#line_1_true").prop("checked", true);
+                    $("#line_1_false").prop("checked", false);
+                }else{
+                    $("#line_1_true").prop("checked", false);
+                    $("#line_1_false").prop("checked", true);
+                }
+
+                if(line_2 === 1){
+                    $("#line_2_true").prop("checked", true);
+                    $("#line_2_false").prop("checked", false);
+                }else{
+                    $("#line_2_true").prop("checked", false);
+                    $("#line_2_false").prop("checked", true);
+                }
+
+                if(injection === 1){
+                    $("#injection_true").prop("checked", true);
+                    $("#injection_false").prop("checked", false);
+                }else{
+                    $("#injection_true").prop("checked", false);
+                    $("#injection_false").prop("checked", true);
                 }
             });
         });

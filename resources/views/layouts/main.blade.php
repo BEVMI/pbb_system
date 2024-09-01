@@ -52,11 +52,29 @@
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link " href="{{route('plan.index')}}">
+          <a class="nav-link " href="{{route('plan_line1.index')}}">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="fa-solid fa-upload text-sm opacity-10"  style="color:rgb(2, 31, 247);"></i>
+              <i class="fa-solid fa-1 text-sm opacity-10"  style="color:rgb(2, 31, 247);"></i>
             </div>
-            <span class="nav-link-text ms-1" style="margin-top:8px;">PLAN</span>
+            <span class="nav-link-text ms-1" style="margin-top:8px;">LINE 1</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link " href="{{route('plan_line2.index')}}">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="fa-solid fa-2 text-sm opacity-10"  style="color:rgb(2, 31, 247);"></i>
+            </div>
+            <span class="nav-link-text ms-1" style="margin-top:8px;">LINE 2</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link " href="{{route('injection.index')}}">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="fa-solid fa-3 text-sm opacity-10"  style="color:rgb(2, 31, 247);"></i>
+            </div>
+            <span class="nav-link-text ms-1" style="margin-top:8px;">INJECTION</span>
           </a>
         </li>
 
@@ -292,6 +310,7 @@
   <script src="{{asset('assets/js/argon-dashboard.min.js?v=2.0.4')}}"></script>
   {{-- <script src="{{asset('js/buttons.js')}}"></script> --}}
   <script src="{{asset('js/sweetalert2@11.js')}}"></script>
+  
   @yield('scripts')
 </body>
 

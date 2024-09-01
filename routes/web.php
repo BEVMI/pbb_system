@@ -55,8 +55,12 @@ Route::middleware([IsActive::class])->group(function () {
         // END INVENTORY MATERIALS
 
         // PLAN
-        Route::get('/plan',[PlanController::class, 'index'])->name('plan.index');
+        Route::get('/plan_line_1',[PlanController::class, 'index'])->name('plan_line1.index');
+        Route::get('/plan_line_2',[PlanController::class, 'line_2'])->name('plan_line2.index');
+        Route::get('/injection',[PlanController::class, 'injection'])->name('injection.index');
+
         Route::post('/planupload',[PlanController::class, 'upload'])->name('plan.upload');
+        Route::get('/plan_ajax/{year}/{month}/{line}',[PlanController::class, 'plan_ajax'])->name('plan.ajax');
         // END PLAN
     });
 });
