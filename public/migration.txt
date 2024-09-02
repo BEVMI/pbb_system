@@ -9,3 +9,8 @@ php artisan migrate:refresh --path=\database/migrations/0001_01_01_000000_create
 
 php artisan migrate --path=\database/migrations/2024_08_30_153136_add_columns.php
 php artisan migrate:refresh --path=\database/migrations/2024_08_30_153136_add_columns.php
+
+php artisan make:migration add_is_pm --table=users
+
+php artisan migrate --path=\database/migrations/2024_09_02_075416_add_is_pm.php
+php artisan migrate:refresh --path=\database/migrations/2024_09_02_075416_add_is_pm.php

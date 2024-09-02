@@ -13,6 +13,10 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
             'IsActive' => \App\Http\Middleware\IsActive::class,
+            'IsInjection' => \App\Http\Middleware\IsInjection::class,
+            'IsLine1' => \App\Http\Middleware\IsLine1::class,
+            'IsLine2' => \App\Http\Middleware\IsLine2::class,
+            'IsPm' => \App\Http\Middleware\IsPm::class,
         ]);
         $middleware->validateCsrfTokens(except: [
             'http://localhost:82/pbb-system/public/pbb_stockcode' // <-- exclude this route

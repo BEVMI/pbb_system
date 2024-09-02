@@ -31,6 +31,7 @@ class UserController extends Controller
         $is_warehouse = $request->input('is_warehouse');
         $is_production = $request->input('is_production');
         $is_qc = $request->input('is_qc');
+        $is_pm = $request->input('is_pm');
         $uuid = Uuid::generate(4);
         $line_1 = $request->input('line_1');
         $line_2 = $request->input('line_2');
@@ -49,6 +50,7 @@ class UserController extends Controller
             'line_1'=>$line_1,
             'line_2'=>$line_2,
             'injection'=>$injection,
+            'is_pm'=>$is_pm
         );
 
         User::create($data_user);
@@ -61,6 +63,7 @@ class UserController extends Controller
         $email = $request->input('email_update');
         
         $is_admin = $request->input('is_admin_update');
+        $is_pm = $request->input('is_pm_update');
         $is_active = $request->input('is_active_update');
         $is_warehouse = $request->input('is_warehouse_update');
         $is_qc = $request->input('is_qc_update');
@@ -81,7 +84,7 @@ class UserController extends Controller
         $data_user = array(
             'name'=>$name,
             'email'=>$email,
-            'password'=>md5($password),
+            'password'=>$password,
             'is_active'=>$is_active,
             'is_admin' => $is_admin,
             'is_warehouse' => $is_warehouse,
@@ -90,6 +93,7 @@ class UserController extends Controller
             'line_1'=>$line_1,
             'line_2'=>$line_2,
             'injection'=>$injection,
+            'is_pm'=>$is_pm
         );
 
         User::where('id',$user_id)->update($data_user);

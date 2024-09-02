@@ -29,6 +29,7 @@ class User extends Authenticatable
         'line_1',
         'line_2',
         'injection',
+        'is_pm'
     ];
 
     /**
@@ -69,6 +70,34 @@ class User extends Authenticatable
 
     public function is_active(){
         if($this->is_active== "1" ){
+            return true;
+        }
+        return false;
+    }
+
+    public function line_1(){
+        if($this->line_1== "1" ){
+            return true;
+        }
+        return false;
+    }
+
+    public function line_2(){
+        if($this->line_2== "1" ){
+            return true;
+        }
+        return false;
+    }
+
+    public function injection(){
+        if($this->injection== "1" ){
+            return true;
+        }
+        return false;
+    }
+
+    public function is_pm(){
+        if($this->is_pm== "1" ){
             return true;
         }
         return false;

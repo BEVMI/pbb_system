@@ -85,6 +85,7 @@
                                             data-line1="{{$user->line_1}}"
                                             data-line2="{{$user->line_2}}"
                                             data-injection="{{$user->injection}}"
+                                            data-is_pm="{{$user->is_pm}}"
                                         >
                                             <i class="fas fa-edit"></i>
                                         </a>
@@ -230,6 +231,12 @@
                                         <td class="text-center"><input type="radio" form="store" name="injection" value="1" checked></td>
                                         <td class="text-center"><input type="radio" form="store" name="injection" value="0"></td>
                                     </tr>
+
+                                    <tr class="irene-tr">
+                                        <td>PM</td>
+                                        <td class="text-center"><input type="radio" form="store" name="is_pm" value="1" checked></td>
+                                        <td class="text-center"><input type="radio" form="store" name="is_pm" value="0"></td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -335,6 +342,12 @@
                                         <td class="text-center"><input type="radio" id="injection_true" form="update" name="injection_update" value="1" checked></td>
                                         <td class="text-center"><input type="radio" id="injection_false" form="update" name="injection_update" value="0"></td>
                                     </tr>
+
+                                    <tr class="irene-tr">
+                                        <td>IS PM</td>
+                                        <td class="text-center"><input type="radio" id="is_pm_true" form="update" name="is_pm_update" value="1" checked></td>
+                                        <td class="text-center"><input type="radio" id="is_pm_false" form="update" name="is_pm_update" value="0"></td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -366,7 +379,7 @@
                 let line_1 = $(this).data('line1');
                 let line_2 = $(this).data('line2');
                 let injection = $(this).data('injection');
-                          
+                let is_pm = $(this).data('is_pm'); 
                 $('#update_id').val(id);
                 $('#name_update').val(name);
                 $('#email_update').val(email);
@@ -433,6 +446,14 @@
                 }else{
                     $("#injection_true").prop("checked", false);
                     $("#injection_false").prop("checked", true);
+                }
+
+                if(is_pm === 1){
+                    $("#is_pm_true").prop("checked", true);
+                    $("#is_pm_false").prop("checked", false);
+                }else{
+                    $("#is_pm_true").prop("checked", false);
+                    $("#is_pm_false").prop("checked", true);
                 }
             });
         });
