@@ -20,7 +20,8 @@ class PlanController extends Controller
         foreach($stockcodes_resource as $row):
             $stock_codes[] =$row->StockCode;
         endforeach;
-        return view('plan.index',compact('months','line','stock_codes'));
+        $pm_flag = '0';
+        return view('plan.index',compact('months','line','stock_codes','pm_flag'));
     }
 
     public function line_2(){
@@ -34,7 +35,8 @@ class PlanController extends Controller
         foreach($stockcodes_resource as $row):
             $stock_codes[] =$row->StockCode;
         endforeach;
-        return view('plan.index',compact('months','line','stock_codes'));
+        $pm_flag = '0';
+        return view('plan.index',compact('months','line','stock_codes','pm_flag'));
     }
 
     public function injection(){
@@ -48,7 +50,8 @@ class PlanController extends Controller
         foreach($stockcodes_resource as $row):
             $stock_codes[] =$row->StockCode;
         endforeach;
-        return view('plan.index',compact('months','line','stock_codes'));
+        $pm_flag = '0';
+        return view('plan.index',compact('months','line','stock_codes','pm_flag'));
     }
 
     public function plan_ajax($year,$month,$line){

@@ -1,4 +1,6 @@
-<!--
+<?php 
+    $user_auth = Auth::user();
+?><!--
 =========================================================
 * Argon Dashboard 2 - v2.0.4
 =========================================================
@@ -49,34 +51,58 @@
       </a>
     </div>
     <hr class="horizontal dark mt-0">
+   
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
       <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link " href="{{route('plan_line1.index')}}">
-            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="fa-solid fa-1 text-sm opacity-10"  style="color:rgb(2, 31, 247);"></i>
-            </div>
-            <span class="nav-link-text ms-1" style="margin-top:8px;">LINE 1</span>
-          </a>
+        <li class="nav-item text-center">
+          <b>{{$user_auth->name}}</b>
+          <br>
+          <hr style="background-color: black; height: 1px; border: 0;">
         </li>
 
-        <li class="nav-item">
-          <a class="nav-link " href="{{route('plan_line2.index')}}">
-            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="fa-solid fa-2 text-sm opacity-10"  style="color:rgb(2, 31, 247);"></i>
-            </div>
-            <span class="nav-link-text ms-1" style="margin-top:8px;">LINE 2</span>
-          </a>
-        </li>
+        @if($user_auth->line_1 =='1')
+          <li class="nav-item">
+            <a class="nav-link " href="{{route('plan_line1.index')}}">
+              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="fa-solid fa-1 text-sm opacity-10"  style="color:rgb(2, 31, 247);"></i>
+              </div>
+              <span class="nav-link-text ms-1" style="margin-top:8px;">LINE 1</span>
+            </a>
+          </li>
+        @endif
 
-        <li class="nav-item">
-          <a class="nav-link " href="{{route('injection.index')}}">
-            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="fa-solid fa-3 text-sm opacity-10"  style="color:rgb(2, 31, 247);"></i>
-            </div>
-            <span class="nav-link-text ms-1" style="margin-top:8px;">INJECTION</span>
-          </a>
-        </li>
+        @if($user_auth->line_2 == '1')
+          <li class="nav-item">
+            <a class="nav-link " href="{{route('plan_line2.index')}}">
+              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="fa-solid fa-2 text-sm opacity-10"  style="color:rgb(2, 31, 247);"></i>
+              </div>
+              <span class="nav-link-text ms-1" style="margin-top:8px;">LINE 2</span>
+            </a>
+          </li>
+        @endif
+
+        @if($user_auth->injection == '1')
+          <li class="nav-item">
+            <a class="nav-link " href="{{route('injection.index')}}">
+              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="fa-solid fa-3 text-sm opacity-10"  style="color:rgb(2, 31, 247);"></i>
+              </div>
+              <span class="nav-link-text ms-1" style="margin-top:8px;">INJECTION</span>
+            </a>
+          </li>
+        @endif
+
+        @if($user_auth->is_pm='1')
+          <li class="nav-item">
+            <a class="nav-link " href="{{route('pm.index')}}">
+              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="fa-solid fa-sheet-plastic text-sm opacity-10"  style="color:rgb(2, 31, 247);"></i>
+              </div>
+              <span class="nav-link-text ms-1" style="margin-top:8px;">PM</span>
+            </a>
+          </li>
+        @endif
 
         <li class="nav-item">
           <a class="nav-link " href="{{route('forecast.index')}}">

@@ -16,6 +16,12 @@ class PlanResource extends JsonResource
     {   
         $carbon = Carbon::parse($this->dPlanDate)->format('Y-m-d');
         $rand = str_pad(dechex(rand(0x000000, 0xFFFFFF)), 6, 0, STR_PAD_LEFT);
+        
+        if($this->bPmApproved === 1):
+            $color = '#32de84';
+        else:
+            $color = '#D10000';
+        endif;
 
         if($this->nQty==null):
             $post_qty = '';
@@ -32,7 +38,7 @@ class PlanResource extends JsonResource
             'end'=>strval($carbon),
             'plan_date'=>$carbon,
             'plan_qty'=>$qty,
-            'color'=>'#'.$rand,
+            'color'=>$color,
             'stock_code'=>$this->cStockCode
         ];
     }

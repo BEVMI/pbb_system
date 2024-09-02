@@ -7,6 +7,7 @@ use App\Http\Controllers\PoComplianceController;
 use App\Http\Controllers\InventoryMaterials;
 use App\Http\Controllers\InventoriesFGController;
 use App\Http\Controllers\PlanController;
+use App\Http\Controllers\PmController;
 
 Route::get('/', ['middleware' => 'guest', function()
 {
@@ -64,7 +65,11 @@ Route::middleware([IsActive::class])->group(function () {
         Route::group(['middleware' => 'IsInjection'], function () {
             Route::get('/injection',[PlanController::class, 'injection'])->name('injection.index');
         });
-        
+
+        Route::group(['middleware' => 'IsPm'], function () {
+            Route::get('/pm',[PmController::class, 'index'])->name('pm.index');
+        });
+
         Route::post('/planupload',[PlanController::class, 'upload'])->name('plan.upload');
         Route::get('/plan_ajax/{year}/{month}/{line}',[PlanController::class, 'plan_ajax'])->name('plan.ajax');
         // END PLAN

@@ -34,6 +34,8 @@
     let month = {!!$month_now!!};
     let line = {!!$line!!};
     let year = {!!$year_now!!};
+    let pm_flag = {!!$pm_flag!!};
+   
     $.ajax({
         async: false,
         type:"GET",//or POST
@@ -112,10 +114,24 @@
                                 calendar.refetchEvents();
                             }, "1");
                           }
+                        },
+                        refresh: {
+                        text: 'REFRESH',
+                        click: async function() {
+                            var date2 = calendar.getDate();
+                            let irene4 = irene3(date2);
+                            setTimeout(() => {
+                                calendar.removeAllEvents();
+                                calendar.addEventSource({
+                                    events:irene4
+                                });
+                                calendar.refetchEvents();
+                            }, "1");
+                            }
                         }
                     },
                     headerToolbar: {
-                        left: 'prevButton,nextButton,prevYearButton,nextYearButton',
+                        left: 'prevButton,nextButton,prevYearButton,nextYearButton,refresh',
                         center:'title' ,
                         right: 'dayGridMonth,listWeek'
                     },
@@ -132,17 +148,21 @@
                     eventClick: function(info) {
                         // console.log(info.event.start);
                         // console.log(info.event.extendedProps.plan_date);
-                        document.getElementById('plan_id').value = info.event.id;
-                        document.getElementById('planTitle').innerHTML = info.event.title;
-                        document.getElementById('qty_update').value = info.event.extendedProps.plan_qty;
-                        if(info.event.extendedProps.plan_qty === 0){
-                            document.getElementById('stock_codes_update').value = 'NO_STOCK_CODE';
-                            document.getElementById('display_update').style.display = 'block';
-                            document.getElementById('custom_update').value = info.event.title;
+                        if(pm_flag ==0){
+                            document.getElementById('plan_id').value = info.event.id;
+                            document.getElementById('planTitle').innerHTML = info.event.title;
+                            document.getElementById('qty_update').value = info.event.extendedProps.plan_qty;
+                            if(info.event.extendedProps.plan_qty === 0){
+                                document.getElementById('stock_codes_update').value = 'NO_STOCK_CODE';
+                                document.getElementById('display_update').style.display = 'block';
+                                document.getElementById('custom_update').value = info.event.title;
+                            }else{
+                                document.getElementById('stock_codes_update').value = info.event.extendedProps.stock_code;
+                                document.getElementById('display_update').style.display = 'none';
+                                document.getElementById('custom_update').value = '';
+                            }
                         }else{
-                            document.getElementById('stock_codes_update').value = info.event.extendedProps.stock_code;
-                            document.getElementById('display_update').style.display = 'none';
-                            document.getElementById('custom_update').value = '';
+                            document.getElementById('plan_id').value = info.event.id;
                         }
                         $('#modalDetail').modal('show');
                     }
@@ -208,7 +228,8 @@
                             timer: 2000
                         });
                         setTimeout(() => {
-                            location.reload();
+                            refresh();
+                            $('#modalDetail').modal('hide');
                         }, "2000");
                        
                     }
@@ -227,7 +248,8 @@
                         timer: 2000
                     });
                     setTimeout(() => {
-                        location.reload();
+                        refresh();
+                        $('#modalDetail').modal('hide');
                     }, "2000");
                 }
             });
@@ -299,8 +321,51 @@
                 timer: 2000
         });
         setTimeout(function(){
-           location.reload();
+            refresh();
         }, 2000);
 
+    }
+</script>
+
+<script>
+    function approvePM(){
+        let user = '{!!$user_name!!}';
+        let plan_id = document.getElementById('plan_id').value;
+        let api_url = '{!!$api_url!!}';
+
+        $.ajax({
+            type: 'POST', //THIS NEEDS TO BE GET
+            url: api_url+'/MonthlyPlan/ApprovedPmMonthlyPlan?iPlanId='+plan_id+'&cPmApprovedBy='+user,
+            success: function (data) {
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "SUCCESSFULLY SAVED",
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+                setTimeout(() => {
+                    Swal.fire({
+                            position: "center",
+                            icon: "success",
+                            title: "PM Successfully Approved",
+                            showConfirmButton: false,
+                            timer: 2000
+                    });
+                    refresh();
+                    setTimeout(() => {
+                        $('#modalDetail').modal('hide');
+                    }, 2000)
+                }, "2000");
+            }
+        });
+        
+        
+    }
+
+    function refresh(){
+        setTimeout(() => {
+            document.querySelector('.fc-refresh-button').click();
+        }, 500) //1 second delay
     }
 </script>

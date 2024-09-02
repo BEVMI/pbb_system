@@ -65,8 +65,11 @@
         <div class="col-xl-3 col-sm-12"></div>
     </div>
 </div>
-    
-@include('includes.plan_modal')
+@if($pm_flag==0)
+    @include('includes.plan_modal')
+@else
+    @include('includes.pm_modal')
+@endif
 @endsection
 
 @section('scripts')
