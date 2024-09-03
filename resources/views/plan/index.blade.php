@@ -1,3 +1,7 @@
+<?php 
+    $user_name = Auth::user()->name;
+?>
+
 @extends('layouts.main')
 
 @section('styles')

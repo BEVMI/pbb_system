@@ -85,7 +85,6 @@
 
 <script>
     function myFunction() {
-        console.log('irene');
       var input, filter, table, tr, td, i, txtValue;
       input = document.getElementById("myInput").value;
       filter = input.toUpperCase();
@@ -218,25 +217,7 @@
         }, 2000);
     }
 </script>
-{{-- <script src="https://cdn.jsdelivr.net/npm/underscore@1.13.7/underscore-umd-min.js"></script>
-<script>
 
-    // let irene2  = _.debounce(debounceHandler, 1000, false);
-    // // console.log(changeIrene);
-    // // function debounceHandler() {
-    // //     console.log('irene');
-    // // }
-
-    function changeIrene(id,header_id) {
-        let irene2  = _.debounce(debounceHandler, 1000, false);
-        function debounceHandler() {
-            console.log('irene');
-        }
-    }
-
-    
-    
-</script> --}}
 <script>
     function load_stock_code_detail(id,api_url){
         $('#ireneTable4').empty();

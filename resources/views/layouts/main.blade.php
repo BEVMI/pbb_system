@@ -31,7 +31,8 @@
   <link href="{{asset('assets/css/nucleo-icons.css')}}" rel="stylesheet" />
   <link href="{{asset('assets/css/nucleo-svg.css')}}" rel="stylesheet" />
   <!-- Font Awesome Icons -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/fontawesome.min.css" integrity="sha384-BY+fdrpOd3gfeRvTSMT+VUZmA728cfF9Z2G42xpaRkUGu2i3DyzpTURDo5A6CaLK" crossorigin="anonymous">
+  <link rel="stylesheet" href="{{asset('assets/css/fontawesome.min.css')}}" integrity="sha384-BY+fdrpOd3gfeRvTSMT+VUZmA728cfF9Z2G42xpaRkUGu2i3DyzpTURDo5A6CaLK" crossorigin="anonymous">
+  <link href="{{asset('assets/css/nucleo-svg.css')}}" rel="stylesheet" />
   <script src="{{asset('js/877d2cecdc.js')}}" crossorigin="anonymous"></script>
   <link href="{{asset('assets/css/nucleo-svg.css')}}" rel="stylesheet" />
   <!-- CSS Files -->
@@ -58,8 +59,8 @@
           <b>{{$user_auth->name}}</b>
           <br>
           <hr style="background-color: black; height: 1px; border: 0;">
-        </li>
-
+        </li> 
+        
         @if($user_auth->line_1 =='1')
           <li class="nav-item">
             <a class="nav-link " href="{{route('plan_line1.index')}}">
@@ -103,52 +104,6 @@
             </a>
           </li>
         @endif
-
-        <li class="nav-item">
-          <a class="nav-link " href="{{route('forecast.index')}}">
-            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
-            </div>
-            <span class="nav-link-text ms-1">FORECAST</span>
-          </a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link " href="{{route('pocompliance.index')}}">
-            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="fa-solid fa-book-open-reader text-sm opacity-10"  style="color:rgb(149, 2, 247);"></i>
-            </div>
-            <span class="nav-link-text ms-1" style="margin-top:8px;">PO COMP.</span>
-          </a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link " href="{{route('inventoryfg.index')}}">
-            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="fa-regular fa-clipboard text-sm opacity-10"  style="color:rgb(2, 247, 239);"></i>
-            </div>
-            <span class="nav-link-text ms-1" style="margin-top:8px;">INVENTORY FG</span>
-          </a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link " href="{{route('inventorymaterials.index')}}">
-            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="fa-solid fa-money-bill text-sm opacity-10"  style="color:rgb(2, 169, 247);"></i>
-            </div>
-            <span class="nav-link-text ms-1" style="margin-top:8px;">INVENTORY MATERIALS</span>
-          </a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link " href="{{route('users.index')}}">
-            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
-            </div>
-            <span class="nav-link-text ms-1">USERS</span>
-          </a>
-        </li>
-
         <li class="nav-item">
           <a class="nav-link " href="{{route('logout')}}">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -161,7 +116,9 @@
       </ul>
     </div>
     <div class="sidenav-footer mx-3 ">
-      
+      <button href="javascript:;" class="btn btn-outline-secondary fixed-plugin-button-nav cursor-pointer" style="width:100%;">
+        MORE LINK
+      </button>
     </div>
   </aside>
   <main class="main-content position-relative border-radius-lg ">
@@ -185,11 +142,6 @@
                   <i class="sidenav-toggler-line bg-white"></i>
                   <i class="sidenav-toggler-line bg-white"></i>
                 </div>
-              </a>
-            </li>
-            <li class="nav-item px-3 d-flex align-items-center">
-              <a href="javascript:;" class="nav-link text-white p-0">
-                <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
               </a>
             </li>
           </ul>
@@ -250,8 +202,7 @@
     <div class="card shadow-lg">
       <div class="card-header pb-0 pt-3 ">
         <div class="float-start">
-          <h5 class="mt-3 mb-0">Argon Configurator</h5>
-          <p>See our dashboard options.</p>
+          <h5 class="mt-3 mb-0">LINKS</h5>
         </div>
         <div class="float-end mt-4">
           <button class="btn btn-link text-dark p-0 fixed-plugin-close-button">
@@ -262,57 +213,49 @@
       </div>
       <hr class="horizontal dark my-1">
       <div class="card-body pt-sm-3 pt-0 overflow-auto">
-        <!-- Sidebar Backgrounds -->
-        <div>
-          <h6 class="mb-0">Sidebar Colors</h6>
-        </div>
-        <a href="javascript:void(0)" class="switch-trigger background-color">
-          <div class="badge-colors my-2 text-start">
-            <span class="badge filter bg-gradient-primary active" data-color="primary" onclick="sidebarColor(this)"></span>
-            <span class="badge filter bg-gradient-dark" data-color="dark" onclick="sidebarColor(this)"></span>
-            <span class="badge filter bg-gradient-info" data-color="info" onclick="sidebarColor(this)"></span>
-            <span class="badge filter bg-gradient-success" data-color="success" onclick="sidebarColor(this)"></span>
-            <span class="badge filter bg-gradient-warning" data-color="warning" onclick="sidebarColor(this)"></span>
-            <span class="badge filter bg-gradient-danger" data-color="danger" onclick="sidebarColor(this)"></span>
-          </div>
-        </a>
-        <!-- Sidenav Type -->
-        <div class="mt-3">
-          <h6 class="mb-0">Sidenav Type</h6>
-          <p class="text-sm">Choose between 2 different sidenav types.</p>
-        </div>
-        <div class="d-flex">
-          <button class="btn bg-gradient-primary w-100 px-3 mb-2 active me-2" data-class="bg-white" onclick="sidebarType(this)">White</button>
-          <button class="btn bg-gradient-primary w-100 px-3 mb-2" data-class="bg-default" onclick="sidebarType(this)">Dark</button>
-        </div>
-        <p class="text-sm d-xl-none d-block mt-2">You can change the sidenav type just on desktop view.</p>
-        <!-- Navbar Fixed -->
-        <div class="d-flex my-3">
-          <h6 class="mb-0">Navbar Fixed</h6>
-          <div class="form-check form-switch ps-0 ms-auto my-auto">
-            <input class="form-check-input mt-1 ms-auto" type="checkbox" id="navbarFixed" onclick="navbarFixed(this)">
-          </div>
-        </div>
-        <hr class="horizontal dark my-sm-4">
-        <div class="mt-2 mb-5 d-flex">
-          <h6 class="mb-0">Light / Dark</h6>
-          <div class="form-check form-switch ps-0 ms-auto my-auto">
-            <input class="form-check-input mt-1 ms-auto" type="checkbox" id="dark-version" onclick="darkMode(this)">
-          </div>
-        </div>
-        <a class="btn bg-gradient-dark w-100" href="https://www.creative-tim.com/product/argon-dashboard">Free Download</a>
-        <a class="btn btn-outline-dark w-100" href="https://www.creative-tim.com/learning-lab/bootstrap/license/argon-dashboard">View documentation</a>
-        <div class="w-100 text-center">
-          <a class="github-button" href="https://github.com/creativetimofficial/argon-dashboard" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star creativetimofficial/argon-dashboard on GitHub">Star</a>
-          <h6 class="mt-3">Thank you for sharing!</h6>
-          <a href="https://twitter.com/intent/tweet?text=Check%20Argon%20Dashboard%20made%20by%20%40CreativeTim%20%23webdesign%20%23dashboard%20%23bootstrap5&amp;url=https%3A%2F%2Fwww.creative-tim.com%2Fproduct%2Fargon-dashboard" class="btn btn-dark mb-0 me-2" target="_blank">
-            <i class="fab fa-twitter me-1" aria-hidden="true"></i> Tweet
-          </a>
-          <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.creative-tim.com/product/argon-dashboard" class="btn btn-dark mb-0 me-2" target="_blank">
-            <i class="fab fa-facebook-square me-1" aria-hidden="true"></i> Share
-          </a>
-        </div>
-      </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <a class="nav-link " href="{{route('mrp.index')}}">
+              <i class="fa-solid fa-file-invoice text-primary text-sm opacity-10" style="color:rgb(247, 2, 247);"></i>
+              <span class="nav-link-text ms-1 pt-2" style="margin-left: 5% !IMPORTANT;">MRP</span>
+            </a>
+          </li>
+  
+          <li class="list-group-item">
+            <a class="nav-link " href="{{route('forecast.index')}}">
+              <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
+              <span class="nav-link-text ms-1" style="margin-left: 4% !IMPORTANT;">FORECAST</span>
+            </a>
+          </li>
+  
+          <li class="list-group-item">
+            <a class="nav-link " href="{{route('pocompliance.index')}}">
+              <i class="fa-solid fa-book-open-reader text-sm opacity-10"  style="color:rgb(149, 2, 247);"></i>
+              <span class="nav-link-text ms-1" style="margin-left: 4% !IMPORTANT;">PO COMP.</span>
+            </a>
+          </li>
+  
+          <li class="list-group-item">
+            <a class="nav-link " href="{{route('inventoryfg.index')}}">
+              <i class="fa-regular fa-clipboard text-sm opacity-10"  style="color:rgb(2, 247, 239);"></i>
+              <span class="nav-link-text ms-1" style="margin-left: 5% !IMPORTANT;">INVENTORY FG</span>
+            </a>
+          </li>
+  
+          <li class="list-group-item">
+            <a class="nav-link " href="{{route('inventorymaterials.index')}}">
+              <i class="fa-solid fa-money-bill text-sm opacity-10"  style="color:rgb(2, 169, 247);"></i>
+              <span class="nav-link-text ms-1" style="margin-left: 4% !IMPORTANT;">INVENTORY MATERIALS</span>
+            </a>
+          </li>
+  
+          <li class="list-group-item">
+            <a class="nav-link " href="{{route('users.index')}}">
+              <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
+              <span class="nav-link-text ms-1" style="margin-left: 4% !IMPORTANT;">USERS</span>
+            </a>
+          </li>
+        </ul>
     </div>
   </div>
   <!--   Core JS Files   -->

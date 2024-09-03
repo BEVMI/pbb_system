@@ -8,6 +8,7 @@ use App\Http\Controllers\InventoryMaterials;
 use App\Http\Controllers\InventoriesFGController;
 use App\Http\Controllers\PlanController;
 use App\Http\Controllers\PmController;
+use App\Http\Controllers\MrpController;
 
 Route::get('/', ['middleware' => 'guest', function()
 {
@@ -69,10 +70,14 @@ Route::middleware([IsActive::class])->group(function () {
         Route::group(['middleware' => 'IsPm'], function () {
             Route::get('/pm',[PmController::class, 'index'])->name('pm.index');
         });
-
         Route::post('/planupload',[PlanController::class, 'upload'])->name('plan.upload');
         Route::get('/plan_ajax/{year}/{month}/{line}',[PlanController::class, 'plan_ajax'])->name('plan.ajax');
         // END PLAN
+
+        // MRP
+        Route::get('/mrp',[MrpController::class, 'index'])->name('mrp.index');
+        Route::get('/mrp_detail/{month}/{year}/{source}',[MrpController::class, 'detail'])->name('mrp.detail');
+        // END MRP
     });
 });
 

@@ -22541,7 +22541,7 @@ hr.horizontal.gray-light {
 .navbar-vertical.navbar-expand-xs .navbar-collapse {
   display: block;
   overflow: auto;
-  height: 140% !important;
+  height: calc(100vh - 200px);
 }
 
 .navbar-vertical.navbar-expand-xs>[class*="container"] {

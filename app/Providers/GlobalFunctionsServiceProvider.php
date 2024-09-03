@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\URL;
 use Auth;
 class GlobalFunctionsServiceProvider extends ServiceProvider
 {
@@ -27,6 +28,6 @@ class GlobalFunctionsServiceProvider extends ServiceProvider
         View::share('year_now', $now->year);
         View::share('month_now', (string)$now->month);
         View::share('initial_date', $now->format('Y-m-d'));
-        View::share('user_irene', );
+        View::share('irene_base_url',URL::to('/'));
     }
 }
