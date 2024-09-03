@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Http;
 class PlanResource extends JsonResource
 {
     /**
@@ -16,11 +17,27 @@ class PlanResource extends JsonResource
     {   
         $carbon = Carbon::parse($this->dPlanDate)->format('Y-m-d');
         $rand = str_pad(dechex(rand(0x000000, 0xFFFFFF)), 6, 0, STR_PAD_LEFT);
-        
+        $api_url = Config('irene.api_url');
+        // $response = Http::get($api_url.'/Production/GetFGStockCodes');
+
         if($this->bPmApproved === 1):
-            $color = '#32de84';
+            if($this->iSysproJob == NULL):
+                $color = '#5C4033';
+            else:
+                $color = '#32de84';
+            endif;
         else:
-            $color = '#D10000';
+            if($this->iSysproJob == NULL):
+                $color = '#D10000';
+            else:
+                $color = '#5C4033';
+            endif;
+        endif;
+
+        if($this->iSysproJob == NULL):
+            $post_job = '';
+        else:
+            $post_job = ' (JOB -'.$this->iSysproJob.')';
         endif;
 
         if($this->nQty==null):
@@ -33,13 +50,14 @@ class PlanResource extends JsonResource
 
         return [
             'id'=> $this->id,
-            'title'=>$this->cStockCode.$post_qty,
+            'title'=>$this->cStockCode.$post_qty.$post_job,
             'start'=>strval($carbon),
             'end'=>strval($carbon),
             'plan_date'=>$carbon,
             'plan_qty'=>$qty,
             'color'=>$color,
-            'stock_code'=>$this->cStockCode
+            'stock_code'=>$this->cStockCode,
+            'job'=>$post_job
         ];
     }
 }

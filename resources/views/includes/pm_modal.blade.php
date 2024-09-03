@@ -8,7 +8,7 @@
                 </button>
             </div>
             <div class="modal-body">  
-               <div class="row">
+               <div class="row" style="padding: 10px;">
                     <input type="hidden" id="plan_id">
                     <button class="btn btn-outline-success" onclick="approvePM()">
                         APPROVE

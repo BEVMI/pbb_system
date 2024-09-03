@@ -150,16 +150,41 @@
                         // console.log(info.event.extendedProps.plan_date);
                         if(pm_flag ==0){
                             document.getElementById('plan_id').value = info.event.id;
+                            document.getElementById('job_plan_id').value = info.event.id;
                             document.getElementById('planTitle').innerHTML = info.event.title;
                             document.getElementById('qty_update').value = info.event.extendedProps.plan_qty;
                             if(info.event.extendedProps.plan_qty === 0){
                                 document.getElementById('stock_codes_update').value = 'NO_STOCK_CODE';
                                 document.getElementById('display_update').style.display = 'block';
+                                document.getElementById('stock_code_irene').innerHTML = 'STOCK CODE DOES NOT EXIST';
                                 document.getElementById('custom_update').value = info.event.title;
+                                document.getElementById('job_section').style.display = 'none';
+                                document.getElementById('job_stock_code').value = '';
                             }else{
-                                document.getElementById('stock_codes_update').value = info.event.extendedProps.stock_code;
-                                document.getElementById('display_update').style.display = 'none';
-                                document.getElementById('custom_update').value = '';
+                                if(info.event.extendedProps.job !==''){
+                                    document.getElementById('stock_code_irene').innerHTML = 'JOB IS ALREADY CREATED FOR THIS PLAN -  '+info.event.extendedProps.job;
+                                    document.getElementById('qty_to_make').value = '';
+                                    document.getElementById('qty_to_make').style.display = 'none';
+                                    document.getElementById('qty_to_make_display').style.display = 'none';
+                                    document.getElementById('createJobDisplay').style.display = 'none';
+                                    document.getElementById('job_number').style.display = 'none';
+                                    document.getElementById('display_update').style.display = 'none';
+                                    document.getElementById('custom_update').value = '';
+                                    document.getElementById('job_section').style.display = 'none';
+                                }else{
+                                    document.getElementById('job_number').value = '';
+                                    document.getElementById('job_number').style.display = 'block';
+                                    document.getElementById('qty_to_make').value = '';
+                                    document.getElementById('qty_to_make').style.display = 'none';
+                                    document.getElementById('qty_to_make_display').style.display = 'none';
+                                    document.getElementById('createJobDisplay').style.display = 'none';
+                                    document.getElementById('stock_codes_update').value = info.event.extendedProps.stock_code;
+                                    document.getElementById('stock_code_irene').innerHTML = 'JOB CREATE - STKC '+info.event.extendedProps.stock_code;
+                                    document.getElementById('job_stock_code').value = info.event.extendedProps.stock_code;
+                                    document.getElementById('display_update').style.display = 'none';
+                                    document.getElementById('custom_update').value = '';
+                                    document.getElementById('job_section').style.display = '';
+                                }
                             }
                         }else{
                             document.getElementById('plan_id').value = info.event.id;
@@ -367,5 +392,117 @@
         setTimeout(() => {
             document.querySelector('.fc-refresh-button').click();
         }, 500) //1 second delay
+    }
+
+    function verifyJob(){
+        let plan_id = document.getElementById('job_plan_id').value;
+        let job_number = document.getElementById('job_number').value; 
+        let job_stock_code = document.getElementById('job_stock_code').value; 
+        let api_url = '{!!$api_url!!}';
+
+        if(!job_number){
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "JOB NUMBER FIELD IS EMPTY",
+                showConfirmButton: false,
+                timer: 2000
+            });
+        }
+        else{
+            $.ajax({
+            type: 'GET', //THIS NEEDS TO BE GET
+            url: api_url+'/Production/GetJobSysproDetails?ijob='+job_number,
+            success: function (data) {
+                irene_parse = JSON.parse(data);
+                if(irene_parse[0].cStockCode === job_stock_code){
+                    document.getElementById('qty_to_make').value = irene_parse[0].nQtyToMake; 
+                    document.getElementById('qty_to_make_display').style.display = 'block';
+                    document.getElementById('qty_to_make').style.display = 'block';
+                    document.getElementById('createJobDisplay').style.display = 'block'; 
+                }else{
+                    document.getElementById('qty_to_make_display').style.display = 'none';
+                    document.getElementById('qty_to_make').style.display = 'none';
+                    document.getElementById('createJobDisplay').style.display = 'none'; 
+                    Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        title:"STOCK DOES NOT MATCH",
+                        text: "STOCK CODE "+job_stock_code+" TO JOB STOCK CODE "+irene_parse[0].cStockCode,
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
+                }
+            }
+        });
+        }
+    }
+
+    function hideJob(){
+        document.getElementById('qty_to_make_display').style.display = 'none';
+        document.getElementById('createJobDisplay').style.display = 'none'; 
+    }
+
+    function createJob(){
+        let job_number = document.getElementById('job_number').value; 
+        let plan_id = document.getElementById('plan_id').value;
+        let api_url = '{!!$api_url!!}';
+        let qty_to_make = document.getElementById('qty_to_make').value;
+
+        $.ajax({
+            type: 'GET', //THIS NEEDS TO BE GET
+            url: api_url+'/Production/GetJobSysproDetails?ijob='+job_number,
+            success: function (data) {
+                irene_parse = JSON.parse(data);
+                console.log(irene_parse[0].cStockCode);
+                // var fd = new FormData();
+       
+                // fd.append('iPlanId',plan_id);
+                // fd.append('iJobNo',job_number);
+                // fd.append('dJobDate',irene_parse[0].dJobDate);
+                // fd.append('nQtyToMake',irene_parse[0].nQtyToMake);
+                // fd.append('cStockCode',irene_parse[0].cStockCode);
+                // fd.append('cDescription',irene_parse[0].cDescription);
+                // fd.append('cLongDesc',irene_parse[0].cLongDesc);
+                // fd.append('cStatus','Pending');
+                // fd.append('nQtyProduce',irene_parse[0].nQtyToMake);
+
+                $.ajax({
+                    type:'POST',
+                    method:'POST',
+                    url:api_url+'/Production/CreateJob',
+                    crossDomain: true,
+                    dataType: 'json',
+                    headers: { 
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json' 
+                    },
+                    data:  JSON.stringify({
+                        'iPlanId':plan_id,
+                        'iJobNo':job_number,
+                        'dJobDate':irene_parse[0].dJobDate,
+                        'nQtyToMake':irene_parse[0].nQtyToMake,
+                        'cStockCode':irene_parse[0].cStockCode,
+                        'cDescription':irene_parse[0].cDescription,
+                        'cLongDesc':irene_parse[0].cLongDesc,
+                        'cStatus':'Pending',
+                        'nQtyProduce':0
+                    }),
+                    success:function(data){
+                        Swal.fire({
+                            position: "center",
+                            icon: "success",
+                            title: "SUCCESSFULLY SAVED",
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                        setTimeout(() => {
+                            refresh();
+                            $('#modalDetail').modal('hide');
+                        }, "2000");
+                    }
+                });    
+            }
+        });
     }
 </script>

@@ -38,12 +38,10 @@
                                 <label for="line">LINE</label>
                                 <select id="line" class="form-control">
                                     @foreach ($lines as $line_post )
-                                        @if($line == 1)
-                                            <option value="1">{{$line_post->cDescription}}</option>
-                                        @elseif($line==2)
-                                            <option value="2">{{$line_post->cDescription}}</option>
-                                        @elseif($line=='3')
-                                            <option value="3">{{$line_post->cDescription}}</option>
+                                        @if($line == $line_post->id)
+                                            <option selected value="{{$line_post->id}}">{{$line_post->cDescription}}</option>
+                                        @else
+                                            <option value="{{$line_post->id}}">{{$line_post->cDescription}}</option>
                                         @endif
                                     @endforeach
                                 </select>
@@ -77,8 +75,9 @@
             </div>
             <div class="modal-body">  
                 <div class="row">
-                    <div class="col-xl-6 col-12">
+                    <div class="col-xl-4 col-lg-4 col-sm-6 col-12">
                         <h5 class="text-center">CREATION OF PLAN</h5>
+                        <hr>
                         <div class="form-group">
                             <label for="stock_codes_create">STOCK CODE:</label>
                             <select class="form-control" name="stock_codes_create" id="stock_codes_create">
@@ -89,8 +88,9 @@
                         </div>
                         
                     </div>
-                    <div class="col-xl-6 col-12">
+                    <div class="col-xl-4 col-lg-4 col-sm-6 col-12">
                         <h5 class="text-center">UPDATE OF PLAN</h5>
+                        <hr>
                         <div class="form-group">
                             <label for="stock_codes_update">STOCK CODE:</label>
                             <select onchange="updateStockCode()" class="form-control" name="stock_codes_update" id="stock_codes_update">
@@ -104,17 +104,50 @@
                             <label for="custom_update">CUSTOM PLAN</label>
                             <input id="custom_update" class="form-control" type="text">
                         </div>
-
-                        <div class="form-group">
-                            <label for="qty_update">QTY:</label>
-                            <input type="hidden" id="plan_id">
-                            <input id="qty_update" class="form-control" name="qty_update" type="number" min='0' >
-                        </div>
-
-                        <div class="form-group">
-                            <button onclick="updatePlan()" class="btn btn-success btn-block" style="width:100%;" type="button">UPDATE</button>
+                        <div class="row">
+                            <div class="col-8">
+                                <div class="form-group">
+                                    <label for="qty_update">QTY:</label>
+                                    <input type="hidden" id="plan_id">
+                                    <input id="qty_update" class="form-control" name="qty_update" type="number" min='0' >
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <br>
+                                    <button onclick="updatePlan()" class="btn btn-outline-success btn-block" style="margin-top:3px; width:100%;" type="button">UPDATE</button>
+                                </div>
+                            </div>
                         </div>
                        
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-sm-6 col-12">
+                        <h5 class="text-center" id="stock_code_irene">JOB CREATION</h5>
+                        <hr>
+                        <input type="hidden" id="job_plan_id">
+                        <input type="hidden" id="job_stock_code">
+                        <div class="row" id="job_section" style="display: none;">
+                            <div class="col-8">
+                                <div class="form-group">
+                                    <label for="job_number">JOB NUMBER:</label>
+                                    <input onkeyup="hideJob()" class="form-control" id="job_number" type="number" name="job_number">
+                                </div>
+
+                                <div class="form-group" style="display: none;" id="qty_to_make_display">
+                                    <label for="qty_to_make">QTY TO MAKE</label>
+                                    <input readonly class="form-control" id="qty_to_make" type="number" name="qty_to_make">
+                                </div>
+
+                            </div>
+                            <div class="col-4">
+                                <br>
+                                <button onclick="verifyJob()" class="btn btn-outline-success" style="margin-top:2px; width:100%;">VERIFY</button>
+
+                                <br>
+                                <br>
+                                <button id="createJobDisplay" onclick="createJob()" class="btn btn-outline-success" style="margin-top:4px; width:100%; display: none;">CREATE</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
