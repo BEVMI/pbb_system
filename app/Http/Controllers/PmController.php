@@ -24,6 +24,8 @@ class PmController extends Controller
         foreach($stockcodes_resource as $row):
             $stock_codes[] =$row->StockCode;
         endforeach;
-        return view('pm.index',compact('months','line','stock_codes','pm_flag'));
+        $response_line = Http::get($api_url.'/Production/GetLines');
+        $lines = $response_line->object();
+        return view('pm.index',compact('months','line','stock_codes','pm_flag','lines'));
     }
 }

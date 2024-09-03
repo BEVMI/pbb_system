@@ -47,23 +47,14 @@
             <div class="form-group">
                 <label for="line">CHOOSE LINE</label>
                 <select class="form-control" form="search" name="line" id="line">
-                    @if($line == 1)
-                        <option selected value="1">LINE 1</option>
-                        <option value="2">LINE 2</option>
-                        <option value="3">INJECTION</option>
-                    @elseif($line == 2)    
-                        <option value="1">LINE 1</option>
-                        <option selected value="2">LINE 2</option>
-                        <option value="3">INJECTION</option>
-                    @elseif($line == 3)   
-                        <option value="1">LINE 1</option>
-                        <option value="2">LINE 2</option>
-                        <option selected value="3">INJECTION</option>
-                    @else
-                        <option value="1">LINE 1</option>
-                        <option value="2">LINE 2</option>
-                        <option value="3">INJECTION</option>
-                    @endif
+                    @foreach ($lines as $line_post)
+                        @if($line == $line_post->id)
+                            <option selected value="{{$line_post->id}}">{{$line_post->cDescription}}</option>
+                        @else
+                            <option value="{{$line_post->id}}">{{$line_post->cDescription}}</option>
+                        @endif
+                    @endforeach
+                   
                 </select>
             </div>
         </div>
@@ -77,7 +68,6 @@
 
 <div class="container-fluid">
     <div class="row">
-        {{$user_irene}}
         <div class="col-xl-12 col-sm-12">
             <div id='calendar'></div>
         </div>

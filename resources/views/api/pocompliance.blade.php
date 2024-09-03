@@ -113,15 +113,15 @@
                     var o = x.insertCell(5);
                     var p = x.insertCell(6);
 
-                    if(item.MStockCode==null){
+                    if(item.MStockCode==null || item.MStockCode==' ' || item.MStockCode==''){
                         i.innerHTML = item.MStockDes+'<br>'+item.LongDesc;
                     }else{
-                        i.innerHTML = item.MStockCode+'-'+item.MStockDes+' '+item.LongDesc;
+                        i.innerHTML = item.MStockCode+'<br>'+item.MStockDes+' '+item.LongDesc;
                     }
                     if(item.AddrCode==null){
                         r.innerHTML = item.ShortName;
                     }else{
-                        r.innerHTML = item.ShortName+'-'+item.AddrCode;
+                        r.innerHTML = item.ShortName+' - '+item.AddrCode;
                     }
                     // let orderDate = Date.parse(item.OrderDate);
                     e.innerHTML = formatDate(item.OrderDate);

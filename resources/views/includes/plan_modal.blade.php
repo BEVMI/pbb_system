@@ -37,13 +37,15 @@
                             <div class="form-group">
                                 <label for="line">LINE</label>
                                 <select id="line" class="form-control">
-                                    @if($line == 1)
-                                        <option value="1">LINE 1</option>
-                                    @elseif($line==2)
-                                        <option value="2">LINE 2</option>
-                                    @elseif($line=='3')
-                                        <option value="3">INJECTION</option>
-                                    @endif
+                                    @foreach ($lines as $line_post )
+                                        @if($line == 1)
+                                            <option value="1">{{$line_post->cDescription}}</option>
+                                        @elseif($line==2)
+                                            <option value="2">{{$line_post->cDescription}}</option>
+                                        @elseif($line=='3')
+                                            <option value="3">{{$line_post->cDescription}}</option>
+                                        @endif
+                                    @endforeach
                                 </select>
                             </div>
                         </div>

@@ -21,7 +21,11 @@ class PlanController extends Controller
             $stock_codes[] =$row->StockCode;
         endforeach;
         $pm_flag = '0';
-        return view('plan.index',compact('months','line','stock_codes','pm_flag'));
+
+        $response_line = Http::get($api_url.'/Production/GetLines');
+        $lines = $response_line->object();
+        
+        return view('plan.index',compact('months','line','stock_codes','pm_flag','lines'));
     }
 
     public function line_2(){
@@ -36,7 +40,9 @@ class PlanController extends Controller
             $stock_codes[] =$row->StockCode;
         endforeach;
         $pm_flag = '0';
-        return view('plan.index',compact('months','line','stock_codes','pm_flag'));
+        $response_line = Http::get($api_url.'/Production/GetLines');
+        $lines = $response_line->object();
+        return view('plan.index',compact('months','line','stock_codes','pm_flag','lines'));
     }
 
     public function injection(){
@@ -51,7 +57,9 @@ class PlanController extends Controller
             $stock_codes[] =$row->StockCode;
         endforeach;
         $pm_flag = '0';
-        return view('plan.index',compact('months','line','stock_codes','pm_flag'));
+        $response_line = Http::get($api_url.'/Production/GetLines');
+        $lines = $response_line->object();
+        return view('plan.index',compact('months','line','stock_codes','pm_flag','lines'));
     }
 
     public function plan_ajax($year,$month,$line){
