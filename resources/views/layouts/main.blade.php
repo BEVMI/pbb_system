@@ -104,6 +104,16 @@
             </a>
           </li>
         @endif
+
+        <li class="nav-item">
+          <a class="nav-link " href="{{route('job.index')}}">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="fa-solid fa-bars-progress text-sm opacity-10"  style="color:rgb(218, 2, 247);"></i>
+            </div>
+            <span class="nav-link-text ms-1" style="margin-top:8px;">JOB</span>
+          </a>
+        </li>
+
         <li class="nav-item">
           <a class="nav-link " href="{{route('logout')}}">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -279,7 +289,29 @@
   <script src="{{asset('assets/js/argon-dashboard.min.js?v=2.0.4')}}"></script>
   {{-- <script src="{{asset('js/buttons.js')}}"></script> --}}
   <script src="{{asset('js/sweetalert2@11.js')}}"></script>
-  
+  <script>
+    let api_url = '{!!$api_url!!}';
+    function formatDate(date) {
+      var d = new Date(date),
+          month = '' + (d.getMonth() + 1),
+          day = '' + d.getDate(),
+          year = d.getFullYear();
+
+      if (month.length < 2) month = '0' + month;
+      if (day.length < 2) day = '0' + day;
+
+      return [year, month, day].join('-');
+    }
+
+    window.onload = function () {
+        $('.fc-toolbar.fc-header-toolbar').addClass('row col-lg-12');
+    };
+
+    // add the responsive classes when navigating with calendar buttons
+    $(document).on('click', '.fc-button', function(e) {
+        $('.fc-toolbar.fc-header-toolbar').addClass('row col-lg-12');
+    });
+  </script>
   @yield('scripts')
 </body>
 

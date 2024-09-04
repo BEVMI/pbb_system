@@ -3,7 +3,7 @@
 </script>
 <script src="{{asset('js/select2.min.js')}}"></script>
 <script>
-    let api_url = '{!!$api_url!!}';
+    
     let current_year = '{!!$year_now!!}';
     var fd = new FormData();
         fd.append('nYear',current_year);
@@ -136,7 +136,7 @@
     function ireneUpload(){
         var CSRF_TOKEN = document.querySelector('meta[name="csrf-token"]').getAttribute("content");  
         let upload_file_irene =  $('#forecast_upload')[0].files;
-        let api_url = '{!!$api_url!!}';
+        
         var fd = new FormData();
         fd.append('file',upload_file_irene[0]);
         fd.append('_token',CSRF_TOKEN);
@@ -168,7 +168,7 @@
         $(document).ready(function(){
             $(document).on('click', '.view_data', function (e) {
                 let id = $(this).data('id');
-                let api_url = '{!!$api_url!!}';
+                
                 document.getElementById('forecast_header_id').value = id;
                 load_stock_code_detail(id,api_url)
             });            
@@ -178,7 +178,7 @@
 <script>
     function updateForecastDetail(id,header_id){
         let id_post = id;
-        let api_url = '{!!$api_url!!}';
+        
 
         let nQty = document.getElementById('nQyt'+id_post).value;
         let cStockCode = document.getElementById('cStockCode'+id_post).value;

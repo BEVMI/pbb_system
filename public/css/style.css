@@ -3,3 +3,9 @@
 .page-item.active span{
   color: white !important;
 }
+
+@media only screen and (max-width: 880px) {
+  .fc-toolbar-chunk {
+    font-size: 12px !important;
+  }
+}

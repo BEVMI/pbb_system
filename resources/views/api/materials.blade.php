@@ -1,5 +1,5 @@
 <script>
-    let api_url = '{!!$api_url!!}';
+    
     loadMaterialFilter('0');
 
     function loadMaterialFilter(flag){

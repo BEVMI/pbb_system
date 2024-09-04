@@ -1,5 +1,5 @@
 <script>
-    let api_url = '{!!$api_url!!}';
+    
     loadFGFilter('0');
     function loadFGFilter(flag){
         if(flag ==='0'){

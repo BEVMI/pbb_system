@@ -9,6 +9,7 @@ use App\Http\Controllers\InventoriesFGController;
 use App\Http\Controllers\PlanController;
 use App\Http\Controllers\PmController;
 use App\Http\Controllers\MrpController;
+use App\Http\Controllers\JobController;
 
 Route::get('/', ['middleware' => 'guest', function()
 {
@@ -78,6 +79,11 @@ Route::middleware([IsActive::class])->group(function () {
         Route::get('/mrp',[MrpController::class, 'index'])->name('mrp.index');
         Route::get('/mrp_detail/{month}/{year}/{source}',[MrpController::class, 'detail'])->name('mrp.detail');
         // END MRP
+
+        // JOB
+        Route::get('/job',[JobController::class, 'index'])->name('job.index');
+        
+        // END JOB
     });
 });
 

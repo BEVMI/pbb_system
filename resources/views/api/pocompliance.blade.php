@@ -3,7 +3,7 @@
 </script>
 <script src="{{asset('js/select2.min.js')}}"></script>
 <script>
-    let api_url = '{!!$api_url!!}';
+    
     let current_year = '{!!$year_now!!}';
     let current_month = '{!!$month_now!!}';
     let page_number = 1;
@@ -91,7 +91,7 @@
     $(document).ready(function(){
         $(document).on('click', '.view_data', function (e) {
             let sales_order = $(this).data('id');
-            let api_url = '{!!$api_url!!}';
+            
             $('#ireneTable4').empty();
 
             $.ajax({
@@ -137,16 +137,6 @@
 </script>
 
 <script>
-    function formatDate(date) {
-    var d = new Date(date),
-        month = '' + (d.getMonth() + 1),
-        day = '' + d.getDate(),
-        year = d.getFullYear();
 
-    if (month.length < 2) month = '0' + month;
-    if (day.length < 2) day = '0' + day;
-
-    return [year, month, day].join('-');
-}
 </script>
 

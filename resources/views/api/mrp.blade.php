@@ -14,7 +14,7 @@
         let month = document.getElementById('month_now').value;
         let year_now = document.getElementById('year_now').value;
         let source = document.getElementById('source').value;
-        let api_url = '{!!$api_url!!}';
+        
 
         $.ajax({
             type:'POST',
@@ -52,7 +52,7 @@
 
 <script>
      function getMaterials(get_month,get_year,get_source,get_type){
-        let api_url = '{!!$api_url!!}';
+        
         let base_url = '{!!$irene_base_url!!}';
         $('#get_header').empty();
 

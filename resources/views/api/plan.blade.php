@@ -4,7 +4,7 @@
         let year_now = document.getElementById('year_now').value;
         let line = document.getElementById('line').value;
         let upload_file_irene =  $('#plan_upload')[0].files;
-        let api_url = '{!!$api_url!!}';
+        
         var fd = new FormData();
        
         fd.append('file',upload_file_irene[0]);
@@ -26,7 +26,7 @@
 
 <script>
     let initial_date = '{{$initial_date}}';
-
+   
     Array.prototype.clear = function() {
         this.splice(0, this.length);
     };
@@ -43,6 +43,14 @@
         success:function(calendars){
            irene2 = calendars.data;
         }
+    });
+
+    Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "LOADING PLEASE WAIT",
+        showConfirmButton: false,
+        timer: 2500
     });
 
     document.addEventListener('DOMContentLoaded', function() {
@@ -63,6 +71,14 @@
                                 calendar.addEventSource({
                                     events:irene4
                                 });
+                                Swal.fire({
+                                    position: "center",
+                                    icon: "success",
+                                    title: "LOADING PLEASE WAIT",
+                                    showConfirmButton: false,
+                                    timer: 2500
+                                });
+
                                 calendar.refetchEvents();
                             }, "1");
                             }
@@ -79,6 +95,14 @@
                                 calendar.addEventSource({
                                     events:irene4
                                 });
+                                Swal.fire({
+                                    position: "center",
+                                    icon: "success",
+                                    title: "LOADING PLEASE WAIT",
+                                    showConfirmButton: false,
+                                    timer: 2500
+                                });
+
                                 calendar.refetchEvents();
                             }, "1");
                             }
@@ -95,6 +119,14 @@
                                 calendar.addEventSource({
                                     events:irene4
                                 });
+                                Swal.fire({
+                                    position: "center",
+                                    icon: "success",
+                                    title: "LOADING PLEASE WAIT",
+                                    showConfirmButton: false,
+                                    timer: 2500
+                                });
+
                                 calendar.refetchEvents();
                             }, "1");
                             }
@@ -111,6 +143,14 @@
                                 calendar.addEventSource({
                                     events:irene4
                                 });
+                                Swal.fire({
+                                    position: "center",
+                                    icon: "success",
+                                    title: "LOADING PLEASE WAIT",
+                                    showConfirmButton: false,
+                                    timer: 2500
+                                });
+
                                 calendar.refetchEvents();
                             }, "1");
                           }
@@ -125,6 +165,14 @@
                                 calendar.addEventSource({
                                     events:irene4
                                 });
+                                Swal.fire({
+                                    position: "center",
+                                    icon: "success",
+                                    title: "LOADING PLEASE WAIT",
+                                    showConfirmButton: false,
+                                    timer: 2500
+                                });
+
                                 calendar.refetchEvents();
                             }, "1");
                             }
@@ -229,7 +277,7 @@
         let stock_code = document.getElementById('stock_codes_update').value;
         let custom_update = document.getElementById('custom_update').value;
         let qty_update = document.getElementById('qty_update').value;
-        let api_url = '{!!$api_url!!}';
+        
 
         if(stock_code === 'NO_STOCK_CODE'){
             if(custom_update===''){
@@ -325,7 +373,7 @@
         let irene_data = {
             iPlanId:id_post, 
         };
-        let api_url = '{!!$api_url!!}';
+        
         
         $.ajax({
             type:'post',
@@ -356,7 +404,7 @@
     function approvePM(){
         let user = '{!!$user_name!!}';
         let plan_id = document.getElementById('plan_id').value;
-        let api_url = '{!!$api_url!!}';
+        
 
         $.ajax({
             type: 'POST', //THIS NEEDS TO BE GET
@@ -398,7 +446,7 @@
         let plan_id = document.getElementById('job_plan_id').value;
         let job_number = document.getElementById('job_number').value; 
         let job_stock_code = document.getElementById('job_stock_code').value; 
-        let api_url = '{!!$api_url!!}';
+        
 
         if(!job_number){
             Swal.fire({
@@ -446,7 +494,7 @@
     function createJob(){
         let job_number = document.getElementById('job_number').value; 
         let plan_id = document.getElementById('plan_id').value;
-        let api_url = '{!!$api_url!!}';
+        
         let qty_to_make = document.getElementById('qty_to_make').value;
 
         $.ajax({
