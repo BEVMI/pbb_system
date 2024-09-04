@@ -10,6 +10,7 @@ use App\Http\Controllers\PlanController;
 use App\Http\Controllers\PmController;
 use App\Http\Controllers\MrpController;
 use App\Http\Controllers\JobController;
+use App\Http\Controllers\RejectController;
 
 Route::get('/', ['middleware' => 'guest', function()
 {
@@ -38,17 +39,18 @@ Route::middleware([IsActive::class])->group(function () {
         Route::get('/pocompliance',[PoComplianceController::class, 'index'])->name('pocompliance.index');
         // END PO COMPLIANCE ROUTES
         
-        // USER ROUTES
-        Route::resource('users', UserController::class,['names'=>[
-            'index'=>'users.index',   
-            'store'=>'users.store',
-        ],'only' => ['index', 'store']]);
-        Route::post('/update_user',[UserController::class, 'update_user'])->name('update_user');
-        Route::get('/token', function () {
-            return csrf_token(); 
+        Route::group(['middleware' => 'IsAdmin'], function () {
+            // USER ROUTES
+            Route::resource('users', UserController::class,['names'=>[
+                'index'=>'users.index',   
+                'store'=>'users.store',
+            ],'only' => ['index', 'store']]);
+            Route::post('/update_user',[UserController::class, 'update_user'])->name('update_user');
+            Route::get('/token', function () {
+                return csrf_token(); 
+            });
+            // END USER ROUTES
         });
-        // END USER ROUTES
-
         // INVENTORY MATERIALS
         Route::get('/inventorymaterials',[InventoryMaterials::class, 'index'])->name('inventorymaterials.index');
         // END INVENTORY MATERIALS
@@ -82,8 +84,11 @@ Route::middleware([IsActive::class])->group(function () {
 
         // JOB
         Route::get('/job',[JobController::class, 'index'])->name('job.index');
-        
         // END JOB
+
+        // REJECT
+        Route::get('/reject',[RejectController::class, 'index'])->name('reject.index');
+        // END REJECT
     });
 });
 

@@ -17,6 +17,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'IsLine1' => \App\Http\Middleware\IsLine1::class,
             'IsLine2' => \App\Http\Middleware\IsLine2::class,
             'IsPm' => \App\Http\Middleware\IsPm::class,
+            'IsAdmin' => \App\Http\Middleware\IsAdmin::class,
         ]);
         $middleware->validateCsrfTokens(except: [
             'http://localhost:82/pbb-system/public/pbb_stockcode' // <-- exclude this route

@@ -102,4 +102,11 @@ class User extends Authenticatable
         }
         return false;
     }
+
+    public function is_admin(){
+        if($this->is_admin== "1" ){
+            return true;
+        }
+        return false;
+    }
 }
