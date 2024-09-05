@@ -86,8 +86,9 @@
                         </div>
                         <div class="col-4">
                             <div class="form-group">
+                                <input id="header_id" type="hidden">
                                 <label for="job_number_update">JOB</label>
-                                <input class="form-control" id="job_number_update" type="text" value="">
+                                <input readonly class="form-control" id="job_number_update" type="text" value="">
                             </div>
                         </div>
                         <div class="col-4">
@@ -114,7 +115,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button id="post_reject" onclick="updateReject()" class="btn btn-success mt-2 mt-xl-0" style="display:none;">
+                <button id="post_reject" onclick="updateReject()" class="btn btn-success mt-2 mt-xl-0">
                     UPDATE REJECT
                 </button> 
             </div>

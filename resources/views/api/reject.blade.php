@@ -175,8 +175,91 @@
 <script>
     $(document).ready(function(){
         $(document).on('click', '.modalView', function (e) {
+            $('#reject_body_update').empty();
             let id = $(this).data('id');
-            console.log(id);
+            let line = $(this).data('line');
+            document.getElementById('header_id').value = id;
+            get_rejects(id,line).done(function(irene_parse){
+                let details = irene_parse.rejectDetails;
+                document.getElementById('lost_case_update').value = irene_parse.lossCase;
+                document.getElementById('job_number_update').value = irene_parse.jobNo;
+                $.each(details, function(index,item) {
+                    var x = document.getElementById('reject_body_update').insertRow(-1);
+                    var i = x.insertCell(0);
+                    var r = x.insertCell(1);
+                    var e = x.insertCell(2);
+
+                    i.innerHTML = item.section+'<input name="materialIdUpdate[]" value="'+item.materialId+'" type="hidden">';
+                    r.innerHTML = item.materials+'<input name="sectionIdUpdate[]" value="'+item.sectionId+'" type="hidden">';  
+                    e.innerHTML = '<input name="sectionUpdate[]" value="'+item.section+'" type="hidden"><input name="materialsUpdate[]" value="'+item.materials+'" type="hidden"><input type="number" value="'+item.qty+'" name="qtyUpdate[]" class="form-control">';
+                    
+                });
+            });
         });
     });
+</script>
+
+<script>
+    function updateReject(){
+        let materialId = document.getElementsByName('materialIdUpdate[]');
+        let sectionId = document.getElementsByName('sectionIdUpdate[]');
+        let section = document.getElementsByName('sectionUpdate[]');
+        let materials = document.getElementsByName('materialsUpdate[]');
+        let qty = document.getElementsByName('qtyUpdate[]');
+        let rejectDetailsUpdate = [];
+        let lines = document.getElementById('lines_update').value;
+        let job_number = document.getElementById('job_number_update').value;
+        let lost_case = document.getElementById('lost_case_update').value;
+        let initial_date = "{!!$initial_date!!}";
+        let header_id = document.getElementById('header_id').value;
+        for (var i = 0; i <materialId.length; i++) {
+            let material_id=materialId[i].value;
+            let section_id=sectionId[i].value;
+            let section_post=section[i].value;
+            let materials_post=materials[i].value;
+            let qty_post=qty[i].value;
+            
+            rejectDetailsUpdate.push({
+                "materialId": material_id,
+                "sectionId": section_id,
+                "section": section_post,
+                "materials": materials_post,
+                "qty": qty_post
+            });
+        }
+
+        $.ajax({
+            type:'POST',
+            method:'POST',
+            url:api_url+'/Reject/UpdateRejectHeader',
+            crossDomain: true,
+            dataType: 'json',
+            headers: { 
+                'Accept': 'application/json',
+                'Content-Type': 'application/json' 
+            },
+            data:  JSON.stringify({
+                "lineId": lines,
+                "rejectHeaderId": header_id,
+                "jobNo": job_number,
+                "lossCase": lost_case,
+                "rejectDetails":rejectDetailsUpdate,
+                "rejectDate": initial_date
+            }),
+            success:function(data){
+                rejectDetailsUpdate = [];
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "SUCCESSFULLY UPDATE",
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+                setTimeout(() => {
+                    searchRejects();
+                    $('#modalView').modal('hide');
+                }, "2000");
+            }
+        });
+    }
 </script>

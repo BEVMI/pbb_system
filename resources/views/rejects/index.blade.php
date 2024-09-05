@@ -69,7 +69,7 @@ endif;
         </div>
         <div class="col-xl-2 col-lg-3 col-sm-6 col-12">
             <div class="form-group">
-                <label for="year">YEAR</label>
+                <label for="year_now">YEAR</label>
                 <input class="form-control" id='year_now' type="number" value="{{$year_now}}">
             </div>
         </div>
