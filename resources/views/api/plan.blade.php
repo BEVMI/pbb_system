@@ -502,19 +502,7 @@
             url: api_url+'/Production/GetJobSysproDetails?ijob='+job_number,
             success: function (data) {
                 irene_parse = JSON.parse(data);
-                console.log(irene_parse[0].cStockCode);
-                // var fd = new FormData();
-       
-                // fd.append('iPlanId',plan_id);
-                // fd.append('iJobNo',job_number);
-                // fd.append('dJobDate',irene_parse[0].dJobDate);
-                // fd.append('nQtyToMake',irene_parse[0].nQtyToMake);
-                // fd.append('cStockCode',irene_parse[0].cStockCode);
-                // fd.append('cDescription',irene_parse[0].cDescription);
-                // fd.append('cLongDesc',irene_parse[0].cLongDesc);
-                // fd.append('cStatus','Pending');
-                // fd.append('nQtyProduce',irene_parse[0].nQtyToMake);
-
+               
                 $.ajax({
                     type:'POST',
                     method:'POST',
