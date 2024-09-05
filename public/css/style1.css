@@ -5,7 +5,13 @@
 .g-sidenav-show:not(.rtl) .sidenav {
     transform: translateX(-17.125rem);
 }
+.irene_center1{
+    text-align: right;
+}
 
+.irene_center{
+    text-align: left;
+}
 @media only screen and (max-width: 1200px) {
     .irene_hide a{
         display: none;
@@ -21,7 +27,19 @@
     }
 }
 
+@media only screen and (max-width: 880px) {
+    .fc-toolbar-chunk {
+      font-size: 12px !important;
+    }
+  }
+
 @media only screen and (max-width: 768px) {
+    .irene_center1{
+        text-align: center;
+    }
+    .irene_center{
+        text-align: center;
+    }
     .irene_hide a{
         display: none;
     }
@@ -29,6 +47,24 @@
         width: 100% !important;
         position: absolute !important;
         left: 180px;
+    }
+   
+    .fc .fc-toolbar {
+        display: block !important; 
+    
+    }
+    .fc .fc-button-group {
+        font-size: 14px !important;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .fc .fc-toolbar {
+        display: block !important; 
+        
+    }
+    .fc .fc-button-group {
+        font-size: 11px !important;
     }
 }
 

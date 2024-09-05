@@ -45,10 +45,10 @@
 <body class="g-sidenav-show bg-gray-100  g-sidenav-hidden">
   <div class="container-fluid py-2" style="max-width: 1920px;">
     <div class="row">
-      <div class="col-6">
-        <img src="{{asset('images/PBB_LOGO.png')}}"  class="navbar-brand-img h-100" alt="main_logo" style="width: 150px;">
+      <div class="irene_center col-md-6 col-12">
+        <img src="{{asset('images/PBB_LOGO.png')}}" class="navbar-brand-img h-100" alt="main_logo" style="width: 150px;">
       </div>
-      <div class="col-6" style="text-align: right; margin: auto;">
+      <div class="irene_center1 col-md-6 col-12 irene_user_name" style="margin: auto;">
         <b>{{$user_auth->name}}</b>
       </div>
     </div>
@@ -77,8 +77,7 @@
           <div class="ms-md-auto pe-md-3 d-flex align-items-center">
            
           </div>
-          <ul class="navbar-nav irene-nav justify-content-end">
-
+          <ul class="irene-nav-1" style="position: absolute; right: 0px; top: auto;">
             <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
               <a href="javascript:;" class="nav-link text-white p-0" id="iconNavbarSidenav">
                 <div class="sidenav-toggler-inner">
@@ -88,7 +87,8 @@
                 </div>
               </a>
             </li>
-
+          </ul>
+          <ul class="navbar-nav irene-nav justify-content-end">
             @if($user_auth->line_1 =='1' || $user_auth->line_2 =='1' || $user_auth->injection =='1')
             <li class="nav-item dropdown irene_hide px-2 d-flex align-items-center">
               <a href="javascript:;" class="nav-link text-white p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">

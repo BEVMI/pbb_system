@@ -4,6 +4,7 @@
   color: white !important;
 }
 
+
 @media only screen and (max-width: 880px) {
   .fc-toolbar-chunk {
     font-size: 12px !important;
@@ -11,6 +12,7 @@
 }
 
 @media only screen and (max-width: 700px) {
+
   .fc .fc-toolbar {
     display: block !important; 
    
