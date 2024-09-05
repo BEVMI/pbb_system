@@ -22,7 +22,7 @@ class PmController extends Controller
         $stockcodes_resource = $response->object();
         $stock_codes[] = 'NO_STOCK_CODE';
         foreach($stockcodes_resource as $row):
-            $stock_codes[] =$row->StockCode;
+            $stock_codes[] =$row->cStockCode;
         endforeach;
         $response_line = Http::get($api_url.'/Production/GetLines');
         $lines = $response_line->object();

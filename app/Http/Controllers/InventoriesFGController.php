@@ -13,7 +13,7 @@ class InventoriesFGController extends Controller
      
         $stockcodes_resource = $response->object();
         foreach($stockcodes_resource as $row):
-            $stock_codes[] =$row->StockCode;
+            $stock_codes[] =$row->cStockCode;
         endforeach;
         return view('fg.index',compact('stock_codes'));
     }

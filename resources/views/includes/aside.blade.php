@@ -65,7 +65,7 @@
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="fa-solid fa-bars-progress text-sm opacity-10"  style="color:rgb(218, 2, 247);"></i>
             </div>
-            <span class="nav-link-text ms-1" style="margin-top:8px;">JOB{{session('pms_pbb_design')}}</span>
+            <span class="nav-link-text ms-1" style="margin-top:8px;">JOB</span>
           </a>
         </li>
 

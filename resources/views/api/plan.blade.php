@@ -525,17 +525,20 @@
                         'nQtyProduce':0
                     }),
                     success:function(data){
-                        Swal.fire({
-                            position: "center",
-                            icon: "success",
-                            title: "SUCCESSFULLY SAVED",
-                            showConfirmButton: false,
-                            timer: 2000
-                        });
-                        setTimeout(() => {
-                            refresh();
-                            $('#modalDetail').modal('hide');
-                        }, "2000");
+                        if(data.indexOf("Column1") > -1){
+                            Swal.fire({
+                                position: "center",
+                                icon: "error",
+                                title: "STOCK CODE DOES NOT EXIST",
+                                showConfirmButton: false,
+                                timer: 2000
+                            });
+                        }else{
+                            setTimeout(() => {
+                                refresh();
+                                $('#modalDetail').modal('hide');
+                            }, "2000");
+                        }
                     }
                 });    
             }

@@ -120,24 +120,34 @@
                     'nQtyProduce':0
                 }),
                 success:function(data){
-                    Swal.fire({
-                        position: "center",
-                        icon: "success",
-                        title: "SUCCESSFULLY SAVED",
-                        showConfirmButton: false,
-                        timer: 2000
-                    });
-                    setTimeout(() => {
-                    getJobs(month_now,year_now);
-                        $('#modalCreate').modal('hide');
-                            document.getElementById('job_section').style.display = 'none';
-                            document.getElementById('job_section_1').style.display = 'none';
-                            document.getElementById('stock_code').value = '';
-                            document.getElementById('qty_to_make').value = '';
-                    }, "2000");
-                }
-            });    
-        });
+                    if(data.indexOf("Column1") > -1){
+                        Swal.fire({
+                            position: "center",
+                            icon: "error",
+                            title: "STOCK CODE DOES NOT EXIST",
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                    }else{
+                        Swal.fire({
+                            position: "center",
+                            icon: "success",
+                            title: "SUCCESSFULLY SAVED",
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                        setTimeout(() => {
+                            getJobs(month_now,year_now);
+                                $('#modalCreate').modal('hide');
+                                document.getElementById('job_section').style.display = 'none';
+                                document.getElementById('job_section_1').style.display = 'none';
+                                document.getElementById('stock_code').value = '';
+                                document.getElementById('qty_to_make').value = '';
+                            }, "2000");
+                        }
+                    }
+                });    
+            });
     }
 
     function hideJob(){

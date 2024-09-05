@@ -18,7 +18,7 @@ class PlanController extends Controller
         $stockcodes_resource = $response->object();
         $stock_codes[] = 'NO_STOCK_CODE';
         foreach($stockcodes_resource as $row):
-            $stock_codes[] =$row->StockCode;
+            $stock_codes[] =$row->cStockCode;
         endforeach;
         $pm_flag = '0';
 
@@ -37,7 +37,7 @@ class PlanController extends Controller
         $stockcodes_resource = $response->object();
         $stock_codes[] = 'NO_STOCK_CODE';
         foreach($stockcodes_resource as $row):
-            $stock_codes[] =$row->StockCode;
+            $stock_codes[] =$row->cStockCode;
         endforeach;
         $pm_flag = '0';
         $response_line = Http::get($api_url.'/Production/GetLines');
@@ -54,7 +54,7 @@ class PlanController extends Controller
         $stockcodes_resource = $response->object();
         $stock_codes[] = 'NO_STOCK_CODE';
         foreach($stockcodes_resource as $row):
-            $stock_codes[] =$row->StockCode;
+            $stock_codes[] =$row->cStockCode;
         endforeach;
         $pm_flag = '0';
         $response_line = Http::get($api_url.'/Production/GetLines');
