@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Auth;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Session;
 
 class LoginController extends Controller
 {
@@ -46,12 +47,14 @@ class LoginController extends Controller
         if (Auth::check()):
             return redirect('/forecast')->with('danger','YOUR ARE ALREADY LOG IN');
         else:
+            $design = $request->design;
             $user = User::where('email', $request->email)
                     ->where('password',md5($request->password))
                     ->first();
             if($user!=NULL):
                 if($user->is_active=='1'):
                     Auth::login($user, $remember = false);
+                    Session::put('pms_pbb_design', $design);
                     return redirect('/forecast')->with('success','SUCCESSFULLY LOGIN');
                 else:
                     return redirect('/login')->with('danger','YOUR ACCOUNT IS ALREADY INACTIVE!');
@@ -65,6 +68,9 @@ class LoginController extends Controller
 
     public function logout(Request $request) {
         Auth::logout();
+        $request->session()->flush();
         return redirect('/login')->with('success','Successfully logout!');
     }
+
+    
 }

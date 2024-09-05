@@ -37,113 +37,35 @@
   <link href="{{asset('assets/css/nucleo-svg.css')}}" rel="stylesheet" />
   <!-- CSS Files -->
   <link href="{{asset('css/style.css')}}" rel="stylesheet" />
+  <link href="{{asset('css/style1.css')}}" rel="stylesheet" />
   <link id="pagestyle" href="{{asset('assets/css/argon-dashboard.css?v=2.0.4')}}" rel="stylesheet" />
   @yield('styles')
 </head>
 
-<body class="g-sidenav-show   bg-gray-100">
+<body class="g-sidenav-show bg-gray-100  g-sidenav-hidden">
+  <div class="container-fluid py-2" style="max-width: 1920px;">
+    <div class="row">
+      <div class="col-6">
+        <img src="{{asset('images/PBB_LOGO.png')}}"  class="navbar-brand-img h-100" alt="main_logo" style="width: 150px;">
+      </div>
+      <div class="col-6" style="text-align: right; margin: auto;">
+        <b>{{$user_auth->name}}</b>
+      </div>
+    </div>
+  </div>
   <div class="min-height-300 bg-primary position-absolute w-100"></div>
-  <aside class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4 " id="sidenav-main">
-    <div class="sidenav-header">
-      <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
-      <a class="navbar-brand m-0">
-        <img src="{{asset('images/PBB_LOGO.png')}}"  class="navbar-brand-img h-100" alt="main_logo">
-        <span class="ms-1 font-weight-bold">PBB SYSTEM</span>
-      </a>
-    </div>
-    <hr class="horizontal dark mt-0">
-   
-    <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
-      <ul class="navbar-nav">
-        <li class="nav-item text-center">
-          <b>{{$user_auth->name}}</b>
-          <br>
-          <hr style="background-color: black; height: 1px; border: 0;">
-        </li> 
-        
-        @if($user_auth->line_1 =='1')
-          <li class="nav-item">
-            <a class="nav-link " href="{{route('plan_line1.index')}}">
-              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="fa-solid fa-1 text-sm opacity-10"  style="color:rgb(2, 31, 247);"></i>
-              </div>
-              <span class="nav-link-text ms-1" style="margin-top:8px;">LINE 1</span>
-            </a>
-          </li>
-        @endif
-
-        @if($user_auth->line_2 == '1')
-          <li class="nav-item">
-            <a class="nav-link " href="{{route('plan_line2.index')}}">
-              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="fa-solid fa-2 text-sm opacity-10"  style="color:rgb(2, 31, 247);"></i>
-              </div>
-              <span class="nav-link-text ms-1" style="margin-top:8px;">LINE 2</span>
-            </a>
-          </li>
-        @endif
-
-        @if($user_auth->injection == '1')
-          <li class="nav-item">
-            <a class="nav-link " href="{{route('injection.index')}}">
-              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="fa-solid fa-3 text-sm opacity-10"  style="color:rgb(2, 31, 247);"></i>
-              </div>
-              <span class="nav-link-text ms-1" style="margin-top:8px;">INJECTION</span>
-            </a>
-          </li>
-        @endif
-
-        @if($user_auth->is_pm='1')
-          <li class="nav-item">
-            <a class="nav-link " href="{{route('pm.index')}}">
-              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="fa-solid fa-sheet-plastic text-sm opacity-10"  style="color:rgb(2, 31, 247);"></i>
-              </div>
-              <span class="nav-link-text ms-1" style="margin-top:8px;">PM</span>
-            </a>
-          </li>
-        @endif
-
-        <li class="nav-item">
-          <a class="nav-link " href="{{route('job.index')}}">
-            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="fa-solid fa-bars-progress text-sm opacity-10"  style="color:rgb(218, 2, 247);"></i>
-            </div>
-            <span class="nav-link-text ms-1" style="margin-top:8px;">JOB</span>
-          </a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link " href="{{route('reject.index')}}">
-            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="fa-solid fa-eject text-sm opacity-10"  style="color:rgb(247, 227, 2);"></i>
-            </div>
-            <span class="nav-link-text ms-1" style="margin-top:8px;">REJECTS</span>
-          </a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link " href="{{route('logout')}}">
-            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="fa-solid fa-right-from-bracket text-sm opacity-10"  style="color:red;"></i>
-            </div>
-            <span class="nav-link-text ms-1" style="margin-top:8px;">LOGOUT</span>
-          </a>
-        </li>
-        
-      </ul>
-    </div>
-    <div class="sidenav-footer mx-3 ">
-      <button href="javascript:;" class="btn btn-outline-secondary fixed-plugin-button-nav cursor-pointer" style="width:100%;">
-        MORE LINK
-      </button>
-    </div>
-  </aside>
+  {{-- ASIDE --}}
+  @include('includes.aside')
+  {{-- END ASIDE --}}
   <main class="main-content position-relative border-radius-lg ">
     <!-- Navbar -->
-    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur" data-scroll="false">
-      <div class="container-fluid py-1 px-3">
+    <div class="row">
+      <div class="col-sm-12">
+       
+      </div>
+    </div>
+    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur" data-scroll="false" >
+      <div class="container-fluid py-1 px-3" style="max-width: 1920px;">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
             <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">@yield('breadcrumbs_1')</a></li>
@@ -155,7 +77,7 @@
           <div class="ms-md-auto pe-md-3 d-flex align-items-center">
            
           </div>
-          <ul class="navbar-nav  justify-content-end">
+          <ul class="navbar-nav irene-nav justify-content-end">
 
             <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
               <a href="javascript:;" class="nav-link text-white p-0" id="iconNavbarSidenav">
@@ -168,7 +90,7 @@
             </li>
 
             @if($user_auth->line_1 =='1' || $user_auth->line_2 =='1' || $user_auth->injection =='1')
-            <li class="nav-item dropdown px-2 d-flex align-items-center">
+            <li class="nav-item dropdown irene_hide px-2 d-flex align-items-center">
               <a href="javascript:;" class="nav-link text-white p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="fa-solid fa-table-columns"></i>
                 <span class="d-sm-inline d-none" style="font-weight: bold;">PLAN</span>
@@ -205,7 +127,7 @@
             @endif
             
             @if($user_auth->is_pm='1')
-              <li class="nav-item dropdown px-2 d-flex align-items-center">
+              <li class="nav-item dropdown irene_hide px-2 d-flex align-items-center">
                 <a href="{{route('pm.index')}}" class="nav-link text-white p-0">
                   <i class="fa-solid fa-sheet-plastic"></i>
                   <span class="nav-link-text ms-1" style="margin-top:8px; font-weight:bold;">PM</span>
@@ -213,14 +135,14 @@
               </li>
             @endif
 
-            <li class="nav-item dropdown px-2 d-flex align-items-center">
+            <li class="nav-item dropdown irene_hide px-2 d-flex align-items-center">
               <a href="{{route('job.index')}}" class="nav-link text-white p-0">
                 <i class="fa-solid fa-bars-progress"></i>
                 <span class="nav-link-text ms-1" style="margin-top:8px; font-weight:bold;">JOB</span>
               </a>
             </li>
 
-            <li class="nav-item dropdown px-2 d-flex align-items-center">
+            <li class="nav-item dropdown irene_hide px-2 d-flex align-items-center">
               <a href="{{route('reject.index')}}" class="nav-link text-white p-0">
                 <i class="fa-solid fa-eject"></i>
                 <span class="nav-link-text ms-1" style="margin-top:8px; font-weight:bold;">REJECTS</span>
@@ -229,7 +151,7 @@
 
             
 
-            <li class="nav-item dropdown px-2 d-flex align-items-center">
+            <li class="nav-item dropdown irene_hide px-2 d-flex align-items-center">
               <a href="javascript:;" class="nav-link text-white p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="fa-solid fa-warehouse"></i>
                 <span class="d-sm-inline d-none" style="font-weight: bold;">INVENTORY</span>
@@ -251,21 +173,21 @@
               </ul>
             </li>
             
-            <li class="nav-item px-2 d-flex align-items-center">
+            <li class="nav-item px-2 irene_hide d-flex align-items-center">
               <a href="{{route('mrp.index')}}" class="nav-link text-white p-0">
                 <i class="fa-solid fa-file-invoice"></i>
                 <span class="nav-link-text ms-1" style="margin-top:8px; font-weight:bold;">MRP</span>
               </a>
             </li>
 
-            <li class="nav-item px-2 d-flex align-items-center">
+            <li class="nav-item px-2 irene_hide d-flex align-items-center">
               <a href="{{route('pocompliance.index')}}" class="nav-link text-white p-0">
                 <i class="fa-solid fa-file-invoice"></i>
                 <span class="nav-link-text ms-1" style="margin-top:8px; font-weight:bold;">PO. COMPLIANCE</span>
               </a>
             </li>
 
-            <li class="nav-item px-2 d-flex align-items-center">
+            <li class="nav-item px-2 irene_hide d-flex align-items-center">
               <a href="{{route('forecast.index')}}" class="nav-link text-white p-0">
                 <i class="fa-solid fa-file-invoice"></i>
                 <span class="nav-link-text ms-1" style="margin-top:8px; font-weight:bold;">FORECAST</span>
@@ -273,7 +195,7 @@
             </li>
 
             @if($user_auth->is_admin='1')
-              <li class="nav-item px-2 d-flex align-items-center">
+              <li class="nav-item px-2 irene_hide d-flex align-items-center">
                 <a href="{{route('users.index')}}" class="nav-link text-white p-0">
                   <i class="fa-solid fa-user"></i>
                   <span class="nav-link-text ms-1" style="margin-top:8px; font-weight:bold;">USERS</span>
@@ -281,7 +203,7 @@
               </li>
             @endif
 
-            <li class="nav-item dropdown px-2 d-flex align-items-center">
+            <li class="nav-item dropdown irene_hide px-2 d-flex align-items-center">
               <a href="{{route('logout')}}" class="nav-link text-white p-0">
                 <i class="fa-solid fa-right-from-bracket"></i>
                 <span class="nav-link-text ms-1" style="margin-top:8px; font-weight:bold;">LOGOUT</span>
@@ -292,7 +214,7 @@
       </div>
     </nav>
     <!-- End Navbar -->
-    <div class="container-fluid py-4">
+    <div class="container-fluid py-1"  style="max-width: 1920px;">
       <div class="row">
         <div class="col-12">
           <div class="card mb-4">
@@ -308,17 +230,15 @@
                   @yield('button')
                 </div>
               </div>
-              
-              
             </div>
-            <div class="card-body px-0 pt-0 pb-2">
+            <div class="card-body px-0 pt-0 pb-2" >
               <hr style="background-color: black; height: 1px; border: 0;">
               @yield('main')
             </div>
           </div>
         </div>
       </div>
-      <footer class="footer pt-3  ">
+      <footer class="footer">
         <div class="container-fluid">
           <div class="row align-items-center justify-content-lg-between">
             <div class="col-lg-6 mb-lg-0 mb-4">
@@ -326,7 +246,7 @@
                 © <script>
                   document.write(new Date().getFullYear())
                 </script>,
-                made with <i class="fa fa-heart"></i> by
+                made <i class="fa fa-heart"></i> by
                 IT DEPARTMENT
               </div>
             </div>
@@ -356,51 +276,10 @@
       </div>
       <hr class="horizontal dark my-1">
       <div class="card-body pt-sm-3 pt-0 overflow-auto">
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">
-            <a class="nav-link " href="{{route('mrp.index')}}">
-              <i class="fa-solid fa-file-invoice text-primary text-sm opacity-10" style="color:rgb(247, 2, 247);"></i>
-              <span class="nav-link-text ms-1 pt-2" style="margin-left: 5% !IMPORTANT;">MRP</span>
-            </a>
-          </li>
-  
-          <li class="list-group-item">
-            <a class="nav-link " href="{{route('forecast.index')}}">
-              <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
-              <span class="nav-link-text ms-1" style="margin-left: 4% !IMPORTANT;">FORECAST</span>
-            </a>
-          </li>
-  
-          <li class="list-group-item">
-            <a class="nav-link " href="{{route('pocompliance.index')}}">
-              <i class="fa-solid fa-book-open-reader text-sm opacity-10"  style="color:rgb(149, 2, 247);"></i>
-              <span class="nav-link-text ms-1" style="margin-left: 4% !IMPORTANT;">PO COMP.</span>
-            </a>
-          </li>
-  
-          <li class="list-group-item">
-            <a class="nav-link " href="{{route('inventoryfg.index')}}">
-              <i class="fa-regular fa-clipboard text-sm opacity-10"  style="color:rgb(2, 247, 239);"></i>
-              <span class="nav-link-text ms-1" style="margin-left: 5% !IMPORTANT;">INVENTORY FG</span>
-            </a>
-          </li>
-  
-          <li class="list-group-item">
-            <a class="nav-link " href="{{route('inventorymaterials.index')}}">
-              <i class="fa-solid fa-money-bill text-sm opacity-10"  style="color:rgb(2, 169, 247);"></i>
-              <span class="nav-link-text ms-1" style="margin-left: 4% !IMPORTANT;">INVENTORY MATERIALS</span>
-            </a>
-          </li>
-          @if($user_auth->is_admin='1')
-            <li class="list-group-item">
-              <a class="nav-link " href="{{route('users.index')}}">
-                <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
-                <span class="nav-link-text ms-1" style="margin-left: 4% !IMPORTANT;">USERS</span>
-              </a>
-            </li>
-          @endif
-        </ul>
-    </div>
+        {{-- LINKS --}}
+        @include('includes.links')
+        {{-- END LINKS --}}
+      </div>
   </div>
   <!--   Core JS Files   -->
   <script src="{{asset('js/jquery-3.7.1.js')}}"></script>

@@ -2,7 +2,16 @@
     $user_name = Auth::user()->name;
 ?>
 
-@extends('layouts.main')
+<?php 
+$layout = session('pms_pbb_design');
+if($layout == 1):
+    $layout_post = 'main';
+else:
+    $layout_post = 'main1';
+endif;
+?>
+
+@extends('layouts.'.$layout_post)
 
 @section('styles')
 <meta name="csrf-token" content="{{ csrf_token() }}">
