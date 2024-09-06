@@ -15,9 +15,7 @@ php artisan make:migration add_is_pm --table=users
 php artisan migrate --path=\database/migrations/2024_09_02_075416_add_is_pm.php
 php artisan migrate:refresh --path=\database/migrations/2024_09_02_075416_add_is_pm.php
 
-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
 
-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
 
 git config user.name "irenejoy15"
 
