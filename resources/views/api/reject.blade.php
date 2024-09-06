@@ -43,12 +43,14 @@
                     var e = x.insertCell(2);
                     var n = x.insertCell(3);
                     var j = x.insertCell(4);
+                    var o = x.insertCell(5);
 
                     i.innerHTML = item.iLineId;
                     r.innerHTML = item.iJobNo;
                     e.innerHTML = formatDate(item.dDate);  
                     n.innerHTML = item.iLossCase;
-                    j.innerHTML = '<a href="#" class="btn btn-success mt-2 mt-xl-0 modalView" data-bs-toggle="modal" data-bs-target="#modalView" data-id="'+item.id+'" data-line="'+item.iLineId+'"> <i class="fas fa-eye"></i></a>';    
+                    j.innerHTML = item.cEncodedBy;
+                    o.innerHTML = '<a href="#" class="btn btn-success mt-2 mt-xl-0 modalView" data-bs-toggle="modal" data-bs-target="#modalView" data-id="'+item.id+'" data-line="'+item.iLineId+'"> <i class="fas fa-eye"></i></a>';    
                
                 });
             }
@@ -110,6 +112,7 @@
         let job_number = document.getElementById('job_number').value;
         let lost_case = document.getElementById('lost_case').value;
         let initial_date = "{!!$initial_date!!}";
+        let cEncodedBy = "{!!$user_auth->name!!}";
         for (var i = 0; i <materialId.length; i++) {
             let material_id=materialId[i].value;
             let section_id=sectionId[i].value;
@@ -145,7 +148,8 @@
                 "isValidated": 0,
                 "validatedBy": "",
                 "rejectDetails":rejectDetails,
-                "rejectDate": initial_date
+                "rejectDate": initial_date,
+                "cEncodedBy":cEncodedBy
             }),
             success:function(data){
                 rejectDetails = [];
@@ -157,7 +161,7 @@
                     timer: 2000
                 });
                 setTimeout(() => {
-                    // refresh();
+                    searchRejects();
                     $('#modalCreate').modal('hide');
                 }, "2000");
             }
@@ -212,6 +216,7 @@
         let lost_case = document.getElementById('lost_case_update').value;
         let initial_date = "{!!$initial_date!!}";
         let header_id = document.getElementById('header_id').value;
+        let cEncodedBy = "{!!$user_auth->name!!}"
         for (var i = 0; i <materialId.length; i++) {
             let material_id=materialId[i].value;
             let section_id=sectionId[i].value;
@@ -244,7 +249,8 @@
                 "jobNo": job_number,
                 "lossCase": lost_case,
                 "rejectDetails":rejectDetailsUpdate,
-                "rejectDate": initial_date
+                "rejectDate":initial_date,
+                "cEncodedBy":cEncodedBy
             }),
             success:function(data){
                 rejectDetailsUpdate = [];

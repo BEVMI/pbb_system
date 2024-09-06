@@ -67,8 +67,8 @@
                 </div>
                 <div class="card-footer text-center pt-0 px-lg-2 px-1">
                   <p class="mb-4 text-sm mx-auto">
-                    Don't have an account?
-                    <a href="javascript:;" class="text-primary text-gradient font-weight-bold">PLEASE CONTACT THE IT DEPARTMENT</a>
+                    Don't have an account?<br>
+                    <a target="_blank" href="http://hr.bevmi.com/helpdesk/login.php" class="text-primary text-gradient font-weight-bold">PLEASE CONTACT THE IT DEPARTMENT</a>
                   </p>
                 </div>
               </div>

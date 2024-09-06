@@ -1,4 +1,5 @@
 <?php 
+$user_auth = Auth::user();
 $layout = session('pms_pbb_design');
 if($layout == 1):
     $layout_post = 'main';
@@ -85,7 +86,8 @@ endif;
                     <th style="width: 20%">LINEID#</th>
                     <th style="width: 20%">JOB#</th>
                     <th style="width: 20%">DATE</th>
-                    <th style="width: 20%">LOST CASE</th>
+                    <th style="width: 10%">LOST CASE</th>
+                    <th style="width: 10%">ENCODED BY</th>
                     <th style="width: 20%">ACTION</th>
                 </thead>
                 <tbody class="text-center" id="reject_body_table">
