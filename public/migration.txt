@@ -14,3 +14,14 @@ php artisan make:migration add_is_pm --table=users
 
 php artisan migrate --path=\database/migrations/2024_09_02_075416_add_is_pm.php
 php artisan migrate:refresh --path=\database/migrations/2024_09_02_075416_add_is_pm.php
+
+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
+
+git config user.name "irenejoy15"
+git config credential.username "irenejoy15"
+
+git config --global user.email "irenejoy15@gmail.com"
+git config --global user.email "34486370+irenejoy15@users.noreply.github.com"
+git reset --soft HEAD~
+
+git pull --rebase origin main

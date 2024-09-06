@@ -246,8 +246,8 @@
                 © <script>
                   document.write(new Date().getFullYear())
                 </script>,
-                made <i class="fa fa-heart"></i> by
-                IT DEPARTMENT
+                MADE WITH <i class="fa fa-heart"></i> BY
+                <b>IT DEPARTMENT</b>
               </div>
             </div>
             <div class="col-lg-6">

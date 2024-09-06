@@ -60,6 +60,9 @@ endif;
         font-weight: bold;
     }
 
+    td{
+        vertical-align: middle;
+    }
     
 </style>
 @endsection
