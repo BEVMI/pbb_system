@@ -143,6 +143,13 @@
             </li>
 
             <li class="nav-item dropdown irene_hide px-2 d-flex align-items-center">
+              <a href="{{route('machine_counter.index')}}" class="nav-link text-white p-0">
+                <i class="fa-solid fa-arrow-down-wide-short"></i>
+                <span class="nav-link-text ms-1" style="margin-top:8px; font-weight:bold;">MACH. COUNTER</span>
+              </a>
+            </li>
+
+            <li class="nav-item dropdown irene_hide px-2 d-flex align-items-center">
               <a href="{{route('reject.index')}}" class="nav-link text-white p-0">
                 <i class="fa-solid fa-eject"></i>
                 <span class="nav-link-text ms-1" style="margin-top:8px; font-weight:bold;">REJECTS</span>

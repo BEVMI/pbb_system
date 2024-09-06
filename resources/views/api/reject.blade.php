@@ -113,6 +113,7 @@
         let lost_case = document.getElementById('lost_case').value;
         let initial_date = "{!!$initial_date!!}";
         let cEncodedBy = "{!!$user_auth->name!!}";
+        
         for (var i = 0; i <materialId.length; i++) {
             let material_id=materialId[i].value;
             let section_id=sectionId[i].value;

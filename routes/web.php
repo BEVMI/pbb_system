@@ -13,6 +13,7 @@ use App\Http\Controllers\JobController;
 use App\Http\Controllers\RejectController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\MailController;
+use App\Http\Controllers\MachineCounter;
 
 Route::get('/', ['middleware' => 'guest', function()
 {
@@ -95,6 +96,10 @@ Route::middleware([IsActive::class])->group(function () {
 
         // EMAIL
         Route::post('/email_post',[PlanController::class, 'email_post'])->name('email.post');
+        // END EMAIL
+
+        // EMAIL
+        Route::get('/machine_counter',[MachineCounter::class, 'index'])->name('machine_counter.index');
         // END EMAIL
     });
 });
