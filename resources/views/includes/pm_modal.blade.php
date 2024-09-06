@@ -1,4 +1,4 @@
-<div class="modal fade" id="modalDetail" tabindex="-1" role="dialog" aria-labelledby="modalCreateCenterTitle" aria-hidden="true">
+<div class="modal fade" data-bs-backdrop='static' id="modalDetail" tabindex="-1" role="dialog" aria-labelledby="modalCreateCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">

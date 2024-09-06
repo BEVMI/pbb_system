@@ -1,4 +1,4 @@
-<div class="modal fade" id="modalView" tabindex="-1" role="dialog" aria-hidden="true"  style="z-index: 10000000;">
+<div class="modal fade" data-bs-backdrop='static' id="modalView" tabindex="-1" role="dialog" aria-hidden="true"  style="z-index: 10000000;">
     <div class="modal-dialog modal-xl modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
