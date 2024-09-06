@@ -11,6 +11,8 @@ use App\Http\Controllers\PmController;
 use App\Http\Controllers\MrpController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\RejectController;
+use App\Http\Controllers\TestController;
+use App\Http\Controllers\MailController;
 
 Route::get('/', ['middleware' => 'guest', function()
 {
@@ -18,7 +20,8 @@ Route::get('/', ['middleware' => 'guest', function()
 }]);
 
 Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout')->name('logout');;
-
+Route::get('/emaildesign',[TestController::class, 'emaildesign'])->name('test.emaildesign');
+Route::get('/emailtest',[TestController::class, 'emailtest'])->name('test.emailtest');
 
 Auth::routes([
     'register' => false, // Registration Routes...
@@ -89,6 +92,10 @@ Route::middleware([IsActive::class])->group(function () {
         // REJECT
         Route::get('/reject',[RejectController::class, 'index'])->name('reject.index');
         // END REJECT
+
+        // EMAIL
+        Route::post('/email_post',[PlanController::class, 'email_post'])->name('email.post');
+        // END EMAIL
     });
 });
 
