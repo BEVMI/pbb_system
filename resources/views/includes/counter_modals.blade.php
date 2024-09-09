@@ -60,3 +60,87 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" data-bs-backdrop='static' id="finalize" aria-hidden="true" aria-labelledby="finalizeModalToggleLabel2" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="finalizeModalToggleLabel2">FINALIZE FORECAST</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="table-responsive">
+                <table class="table" id="table">
+                    <tbody id="ireneTable2" class="text-center font-weight-bold">
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-bs-target="#modalCreate" data-bs-toggle="modal" data-bs-dismiss="modal">GO BACK</button>
+          <button onclick="ireneUpload()" class="btn btn-success mt-2 mt-xl-0 loading_button">
+                UPLOAD
+           </button> 
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="modal fade" data-bs-backdrop='static' id="modalView" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="finalizeModalToggleLabel2">DETAIL</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="hidden_header_id">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="lines_update">LINE:</label>
+                                <select class="form-control" name="lines_update" id="lines_update">
+                                    @foreach ($lines as $line)
+                                        <option value="{{$line->id}}">{{$line->cDescription}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="job_number">JOB</label>
+                                <input class="form-control" id="job_number_update" readonly type="text" value="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="table-reponsive">
+                                <table class="table">
+                                    <thead class="irene_thead text-center">
+                                        <th class="col">SECTION</th>
+                                        <th class="col">IN</th>
+                                        <th class="col">OUT</th>
+                                    </thead>
+                                    <tbody id="counter_body_update" class="text-center">
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" onclick="updateCounter()">
+                    UPDATE
+                </button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">
+                    CLOSE
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

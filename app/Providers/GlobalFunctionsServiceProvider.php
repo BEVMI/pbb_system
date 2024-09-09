@@ -24,7 +24,7 @@ class GlobalFunctionsServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $now = Carbon::now();
-        View::share('api_url', 'http://192.168.0.183:81/api');
+        View::share('api_url', env('API_URL'));
         View::share('year_now', $now->year);
         View::share('month_now', (string)$now->month);
         View::share('initial_date', $now->format('Y-m-d'));

@@ -14,8 +14,7 @@ return [
     */
 
     'name' => env('APP_NAME', 'Laravel'),
-    'api_url_controller','http://192.168.0.183:81/api',
-
+    'api_url_controller' => env('API_URL', 'http://localhost'),
     /*
     |--------------------------------------------------------------------------
     | Application Environment
