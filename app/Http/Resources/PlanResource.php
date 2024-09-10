@@ -17,7 +17,7 @@ class PlanResource extends JsonResource
     {   
         $carbon = Carbon::parse($this->dPlanDate)->format('Y-m-d');
         $rand = str_pad(dechex(rand(0x000000, 0xFFFFFF)), 6, 0, STR_PAD_LEFT);
-        $api_url = Config('irene.api_url');
+        $api_url = env('API_URL');
         // $response = Http::get($api_url.'/Production/GetFGStockCodes');
 
         if($this->bPmApproved === 1):

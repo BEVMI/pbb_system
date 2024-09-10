@@ -12,7 +12,7 @@ class PlanController extends Controller
     public function index(){
         $months = Month::all();
         $line = '1';
-        $api_url = Config('irene.api_url');
+        $api_url = env('API_URL');
         $response = Http::get($api_url.'/Inventory/GetFGStockCodes');
      
         $stockcodes_resource = $response->object();
@@ -31,7 +31,7 @@ class PlanController extends Controller
     public function line_2(){
         $months = Month::all();
         $line = '2';
-        $api_url = Config('irene.api_url');
+        $api_url = env('API_URL');
         $response = Http::get($api_url.'/Inventory/GetFGStockCodes');
      
         $stockcodes_resource = $response->object();
@@ -48,7 +48,7 @@ class PlanController extends Controller
     public function injection(){
         $months = Month::all();
         $line = '3';
-        $api_url = Config('irene.api_url');
+        $api_url = env('API_URL');
         $response = Http::get($api_url.'/Inventory/GetFGStockCodes');
      
         $stockcodes_resource = $response->object();
@@ -63,7 +63,7 @@ class PlanController extends Controller
     }
 
     public function plan_ajax($year,$month,$line){
-        $api_url = Config('irene.api_url');
+        $api_url = env('API_URL');
         $response = Http::get($api_url.'/MonthlyPlan/GetMonthlyPlan?nYear='.$year.'&nMonth='.$month.'&nLineNo='.$line);
         return PlanResource::collection($response->object());
     }
@@ -73,7 +73,7 @@ class PlanController extends Controller
         $nYear = $request->input('nYear');
         $nMonth = $request->input('nMonth');
 
-        $api_url = Config('irene.api_url');     
+        $api_url = env('API_URL');
         $response = Http::post($api_url.'/MonthlyPlan/upload', [
             'nYear' => $nYear,
             'nMonth' => $nMonth,

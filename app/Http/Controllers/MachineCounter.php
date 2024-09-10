@@ -9,7 +9,7 @@ use App\Models\Month;
 class MachineCounter extends Controller
 {
     public function index(){
-        $api_url = Config('irene.api_url');
+        $api_url = env('API_URL');
         $response_line = Http::get($api_url.'/Production/GetLines');
         $lines = $response_line->object();
         $months = Month::all();

@@ -16,7 +16,7 @@ class PmController extends Controller
         else:
             $line = $line_post;
         endif;
-        $api_url = Config('irene.api_url');
+        $api_url =  env('API_URL');
         $response = Http::get($api_url.'/Inventory/GetFGStockCodes');
         $pm_flag = '1';
         $stockcodes_resource = $response->object();

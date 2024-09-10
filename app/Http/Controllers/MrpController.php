@@ -14,7 +14,7 @@ class MrpController extends Controller
     }
 
     public function detail($month,$year,$source){
-        $api_url = Config('irene.api_url');
+        $api_url = env('API_URL');
         $response = Http::get($api_url.'/Mrp/GetComputedMaterials?nYear='.$year.'&nMonth='.$month.'&cSource='.$source.'&cType=Detail');
         $mrps = $response->object();
 

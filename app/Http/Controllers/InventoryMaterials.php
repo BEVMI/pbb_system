@@ -9,7 +9,7 @@ use App\Http\Resources\FgResource;
 class InventoryMaterials extends Controller
 {
     public function index(Request $request){
-        $api_url = Config('irene.api_url');
+        $api_url = env('API_URL');
         $search = strtoupper($request->search);
         $response = Http::get($api_url.'/Inventory/GetFGStockCodes');
      
