@@ -79,7 +79,7 @@
            
           </div>
           <ul class="irene-nav-1" style="position: absolute; right: 0px; top: auto;">
-            <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
+            <li class="nav-item d-xl-none d-lg-block ps-3 d-flex align-items-center">
               <a href="javascript:;" class="nav-link text-white p-0" id="iconNavbarSidenav">
                 <div class="sidenav-toggler-inner">
                   <i class="sidenav-toggler-line bg-white"></i>
