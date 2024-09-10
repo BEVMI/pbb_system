@@ -20,7 +20,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'IsAdmin' => \App\Http\Middleware\IsAdmin::class,
         ]);
         $middleware->validateCsrfTokens(except: [
-            'http://localhost:82/pbb-system/public/pbb_stockcode' // <-- exclude this route
+            // 'http://localhost:82/pbb-system/public/pbb_stockcode' // <-- exclude this route
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

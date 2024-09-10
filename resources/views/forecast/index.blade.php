@@ -117,7 +117,7 @@ endif;
         </div>
         <div class="col-xl-2 col-lg-3 col-sm-6 col-12">
             <br>
-            {{ html()->submit('FILTER')->class('btn btn-outline-success btn-block loading_button')->attribute('style','width:100%; margin-top:3px;') }}
+            <button class="btn btn-outline-success btn-block" onclick="searchForecastFilter()" style="width:100%;">FILTER</button>
         </div>
     </div>
     <div class="row">

@@ -5,82 +5,94 @@
 <script>
     
     let current_year = '{!!$year_now!!}';
-    var fd = new FormData();
-        fd.append('nYear',current_year);
-
-    $.ajax({
-        type: 'GET', //THIS NEEDS TO BE GET
-        url: api_url+'/Forecast/GetForecastHeader/',
-        data: fd,
-        processData: false,
-        success: function (data) {
-            irene_parse = JSON.parse(data);
-            $.each(irene_parse, function(index,item) {
-                var x = document.getElementById('get_header_forecast').insertRow(-1);
-            
-                var i = x.insertCell(0);
-                var r = x.insertCell(1);
-                var e = x.insertCell(2);
-                var n = x.insertCell(3);
+    searchForecast(current_year);
+    function searchForecast(year){
+        $.ajax({
+            type: 'GET', //THIS NEEDS TO BE GET
+            url: api_url+'/Forecast/GetForecastHeader?nYear='+year,
+            processData: false,
+            success: function (data) {
+                irene_parse = JSON.parse(data);
+                $.each(irene_parse, function(index,item) {
+                    var x = document.getElementById('get_header_forecast').insertRow(-1);
                 
-                if(item.nMonth===1){
-                    post_month = 'JANUARY';
-                }
+                    var i = x.insertCell(0);
+                    var r = x.insertCell(1);
+                    var e = x.insertCell(2);
+                    var n = x.insertCell(3);
+                    
+                    if(item.nMonth===1){
+                        post_month = 'JANUARY';
+                    }
 
-                if(item.nMonth===2){
-                    post_month = 'FEBRUARY';
-                }
+                    if(item.nMonth===2){
+                        post_month = 'FEBRUARY';
+                    }
 
-                if(item.nMonth===3){
-                    post_month = 'MARCH';
-                }
+                    if(item.nMonth===3){
+                        post_month = 'MARCH';
+                    }
 
-                if(item.nMonth===4){
-                    post_month = 'APRIL';
-                }
+                    if(item.nMonth===4){
+                        post_month = 'APRIL';
+                    }
 
-                if(item.nMonth===5){
-                    post_month = 'MAY';
-                }
+                    if(item.nMonth===5){
+                        post_month = 'MAY';
+                    }
 
-                if(item.nMonth===6){
-                    post_month = 'JUNE';
-                }
+                    if(item.nMonth===6){
+                        post_month = 'JUNE';
+                    }
 
-                if(item.nMonth===7){
-                    post_month = 'JULY';
-                }
+                    if(item.nMonth===7){
+                        post_month = 'JULY';
+                    }
 
-                if(item.nMonth===8){
-                    post_month = 'AUGUST';
-                }
+                    if(item.nMonth===8){
+                        post_month = 'AUGUST';
+                    }
 
-                if(item.nMonth===9){
-                    post_month = 'SEPTEMBER';
-                }
+                    if(item.nMonth===9){
+                        post_month = 'SEPTEMBER';
+                    }
 
-                if(item.nMonth===10){
-                    post_month = 'OCTOBER';
-                }
+                    if(item.nMonth===10){
+                        post_month = 'OCTOBER';
+                    }
 
-                if(item.nMonth===11){
-                    post_month = 'NOVEMBER';
-                }
+                    if(item.nMonth===11){
+                        post_month = 'NOVEMBER';
+                    }
 
-                if(item.nMonth===12){
-                    post_month = 'DECEMBER';
-                }
+                    if(item.nMonth===12){
+                        post_month = 'DECEMBER';
+                    }
 
-                i.innerHTML = item.id;
-                r.innerHTML = post_month;
-                e.innerHTML = item.nYear;
-                n.innerHTML = '<a href="#" class="btn btn-success mt-2 mt-xl-0 view_data" data-bs-toggle="modal" data-bs-target="#modalView" data-id="'+item.id+'"> <i class="fas fa-eye"></i></a>&nbsp;<a onclick="confirmDeleteForecastHeader('+item.id+')" href="#" class="btn btn-danger mt-2 mt-xl-0"><i class="fa-solid fa-trash"></i></a>';
-            });
+                    i.innerHTML = item.id;
+                    r.innerHTML = post_month;
+                    e.innerHTML = item.nYear;
+                    n.innerHTML = '<a href="#" class="btn btn-success mt-2 mt-xl-0 view_data" data-bs-toggle="modal" data-bs-target="#modalView" data-id="'+item.id+'"> <i class="fas fa-eye"></i></a>&nbsp;<a onclick="confirmDeleteForecastHeader('+item.id+')" href="#" class="btn btn-danger mt-2 mt-xl-0"><i class="fa-solid fa-trash"></i></a>';
+                });
 
-        },
-        error: function() { 
-        }
-    });
+            },
+            error: function() { 
+            }
+        });
+    }
+
+    function searchForecastFilter(){
+        Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "PLEASE WAIT",
+            showConfirmButton: false,
+            timer: 2000
+        });
+        $('#get_header_forecast').empty();
+        let year_now = document.getElementById('year_now').value;
+        searchForecast(year_now);
+    }
 </script>
 
 <script>
