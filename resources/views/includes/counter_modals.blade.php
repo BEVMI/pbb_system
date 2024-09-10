@@ -27,7 +27,8 @@
                             </div>
                         </div>
                         <div class="col-6">
-                            
+                            <label for="lines">DATE:</label>
+                            <input class="form-control" id="date_counter" type="date" value="{{$initial_date}}">
                         </div>
                         <div class="col-6">
                             <br>
@@ -96,6 +97,7 @@
             </div>
             <div class="modal-body">
                 <input type="hidden" id="hidden_header_id">
+                <input id="date_update" type="hidden">
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-6">

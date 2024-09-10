@@ -61,11 +61,12 @@
     function choose_line(){
         let line = document.getElementById('lines').value;
         let job_number = document.getElementById('job_number').value;
-        if(!job_number){
+        let initial_date = document.getElementById('date_reject').value;
+        if(!job_number || !initial_date){
             Swal.fire({
                 position: "center",
                 icon: "error",
-                title: "JOB NUMBER FIELD IS EMPTY",
+                title: "JOB NUMBER OR DATE FIELD IS EMPTY",
                 showConfirmButton: false,
                 timer: 2000
             });
@@ -111,7 +112,7 @@
         let lines = document.getElementById('lines').value;
         let job_number = document.getElementById('job_number').value;
         let lost_case = document.getElementById('lost_case').value;
-        let initial_date = "{!!$initial_date!!}";
+        let initial_date = document.getElementById('date_reject').value;
         let cEncodedBy = "{!!$user_auth->name!!}";
         
         for (var i = 0; i <materialId.length; i++) {
@@ -166,7 +167,7 @@
                     $('#modalCreate').modal('hide');
                 }, "2000");
             }
-        });    
+        }); 
     }
 </script>
 
@@ -188,6 +189,7 @@
                 let details = irene_parse.rejectDetails;
                 document.getElementById('lost_case_update').value = irene_parse.lossCase;
                 document.getElementById('job_number_update').value = irene_parse.jobNo;
+                document.getElementById('date_update').value = formatDate(irene_parse.rejectDate); 
                 $.each(details, function(index,item) {
                     var x = document.getElementById('reject_body_update').insertRow(-1);
                     var i = x.insertCell(0);
@@ -215,7 +217,7 @@
         let lines = document.getElementById('lines_update').value;
         let job_number = document.getElementById('job_number_update').value;
         let lost_case = document.getElementById('lost_case_update').value;
-        let initial_date = "{!!$initial_date!!}";
+        let initial_date = document.getElementById('date_update').value;
         let header_id = document.getElementById('header_id').value;
         let cEncodedBy = "{!!$user_auth->name!!}"
         for (var i = 0; i <materialId.length; i++) {

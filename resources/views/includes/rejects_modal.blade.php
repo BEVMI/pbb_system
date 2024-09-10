@@ -31,6 +31,10 @@
                             <input class="form-control" id="lost_case" type="number" min="0" value="0">
                         </div>
                         <div class="col-6">
+                            <label for="lines">DATE:</label>
+                            <input class="form-control" id="date_reject" type="date" value="{{$initial_date}}">
+                        </div>
+                        <div class="col-6">
                             <br>
                             <button onclick="choose_line()" class="btn btn-outline-success" style="margin-top:3px; width:100%;">CHOOSE</button>
                         </div>
@@ -87,6 +91,7 @@
                         <div class="col-4">
                             <div class="form-group">
                                 <input id="header_id" type="hidden">
+                                <input id="date_update" type="hidden">
                                 <label for="job_number_update">JOB</label>
                                 <input readonly class="form-control" id="job_number_update" type="text" value="">
                             </div>

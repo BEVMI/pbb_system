@@ -103,11 +103,12 @@
         $(document).ready(function(){
             let line = document.getElementById('lines').value;
             let job_number = document.getElementById('job_number').value;
-            if(!job_number){
+            let date_counter = document.getElementById('date_counter').value;
+            if(!job_number || !date_counter){
                 Swal.fire({
                     position: "center",
                     icon: "error",
-                    title: "PLEASE FILL UP THE JOB FIELD",
+                    title: "PLEASE FILL UP THE JOB OR DATE FIELD",
                     showConfirmButton: false,
                     timer: 2500
                 });
@@ -137,7 +138,7 @@
         let outs_post = document.getElementsByName('out_create[]');
         let flag_post = document.getElementsByName('flag[]');
         let counterDetails = [];
-        let initial_date = "{!!$initial_date!!}";
+        let initial_date = document.getElementById('date_counter').value;
         let cEncodedBy = "{!!$user_auth->name!!}";
 
         let line_start = document.getElementById('line_search').value;
@@ -216,7 +217,9 @@
             url: api_url+'/MachineCounter/GetMachineCounterDetails?iMachineCounterHeaderId='+id+'&iLineNo='+line,
             success: function (data) {
                 irene_parse = data;
+                
                 document.getElementById('job_number_update').value = irene_parse.jobNo;
+                document.getElementById('date_update').value = formatDate(irene_parse.countDate); 
                 $.each(irene_parse.counterDetails, function(index,item) {
                     x = document.getElementById('counter_body_update').insertRow(-1);
                     var i = x.insertCell(0);
@@ -251,7 +254,7 @@
         let line_start = document.getElementById('line_search').value;
         let month_now_start = document.getElementById('month_now').value;
         let year_now = document.getElementById('year_now').value;
-        let initial_date = "{!!$initial_date!!}";
+        let initial_date = document.getElementById('date_update').value;
         let cEncodedBy = "{!!$user_auth->name!!}";
         // getCounter(line_start,year_now,month_now_start);
         for (var i = 0; i < section_id_update.length; i++) {
