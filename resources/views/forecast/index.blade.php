@@ -117,7 +117,7 @@ endif;
         </div>
         <div class="col-xl-2 col-lg-3 col-sm-6 col-12">
             <br>
-            <button class="btn btn-outline-success btn-block" onclick="searchForecastFilter()" style="width:100%;">FILTER</button>
+            <button class="btn btn-outline-success btn-block" onclick="searchForecastFilter()" style="margin-top:3px; width:100%;">FILTER</button>
         </div>
     </div>
     <div class="row">

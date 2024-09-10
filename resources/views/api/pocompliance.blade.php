@@ -66,7 +66,7 @@
 
                 i.innerHTML = parseInt(item.SalesOrder,10);
                 r.innerHTML = item.Customer;
-                o.innerHTML = item.Compliance+'%';
+                o.innerHTML = item.Compliance.toFixed(2)+'%';
                 e.innerHTML = item.CustomerPoNumber;
                 n.innerHTML = irene_status;
                 j.innerHTML = '<a href="#" class="btn btn-success mt-2 mt-xl-0 view_data" data-bs-toggle="modal" data-bs-target="#modalView" data-id="'+item.SalesOrder+'"> <i class="fas fa-eye"></i></a>';
