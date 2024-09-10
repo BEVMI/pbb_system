@@ -15,7 +15,7 @@
             url: api_url+'/Inventory/GetFGStockCodes?cText='+stock_code,
             success: function (data) {
                 irene_parse = JSON.parse(data);
-               
+                
                 $.each(irene_parse, function(index,item) {
                     var x = document.getElementById('fg_table').insertRow(-1);
                     var i = x.insertCell(0);
@@ -40,11 +40,7 @@
                         p.innerHTML = 0;
                     }
 
-                    console.log(total_irene);
-
-                    i.innerHTML = item.StockCode+'<br>'+item.Description+'<br>'+item.LongDesc;
-                    
-
+                    i.innerHTML = item.cStockCode+'<br>'+item.cDescription+'<br>'+item.cLongDesc;
                     r.innerHTML = item.QtyOnHand;  
                     e.innerHTML = item.QtyAllocated;
                     n.innerHTML = qty_on_hand_net;    
