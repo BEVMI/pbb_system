@@ -49,6 +49,7 @@
         <img src="{{asset('images/PBB_LOGO.png')}}" class="navbar-brand-img h-100" alt="main_logo" style="width: 150px;">
       </div>
       <div class="irene_center1 col-md-6 col-12 irene_user_name" style="margin: auto;">
+        <img style="border-radius: 50%;" src="{{asset('user_images')}}/{{$user_auth->photo}}" width="75px" alt="">
         <b>{{$user_auth->name}}</b>
       </div>
     </div>

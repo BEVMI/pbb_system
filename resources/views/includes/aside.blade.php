@@ -10,7 +10,8 @@
    
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
       <ul class="navbar-nav">
-        <li class="nav-item text-center">
+        <li class="nav-item text-center" style="font-size:14px;">
+          <img style="border-radius: 50%;" src="{{asset('user_images')}}/{{$user_auth->photo}}" width="55px" alt="" style="margin-top: 6px;">
           <b>{{$user_auth->name}}</b>
           <br>
           <hr style="background-color: black; height: 1px; border: 0;">

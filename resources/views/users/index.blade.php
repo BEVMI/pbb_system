@@ -39,10 +39,10 @@ endif;
 {!! html()->modelForm(null, null)->class('form')->id('search')->attribute('action',route('users.index'))->attribute('method','GET')->open() !!}
 {!! html()->closeModelForm() !!}
 
-{!! html()->modelForm(null, null)->class('form')->id('store')->attribute('action',route('users.store'))->attribute('method','POST')->open() !!}
+{!! html()->modelForm(null, null)->class('form')->id('store')->attribute('action',route('users.store'))->attribute('method','POST')->acceptsFiles()->open() !!}
 {!! html()->closeModelForm() !!}
 
-{!! html()->modelForm(null, null)->class('form')->id('update')->attribute('action',route('update_user'))->attribute('method','POST')->open() !!}
+{!! html()->modelForm(null, null)->class('form')->id('update')->attribute('action',route('update_user'))->attribute('method','POST')->acceptsFiles()->open() !!}
 {!! html()->closeModelForm() !!}
 
 
@@ -66,6 +66,7 @@ endif;
                 <table class="table align-items-center mb-0">
                     <thead class="text-center">
                         <th style="width:10%;">ACTION</th>
+                        <th style="width:10%;">PHOTO</th>
                         <th style="width:25%;">NAME</th>
                         <th style="width:15%;">EMAIL</th>
                         <th style="width:10%;">SUPERUSER</th>
@@ -79,7 +80,7 @@ endif;
                         @else
                             @foreach ($users as $user)
                                 <tr>
-                                    <td>
+                                    <td style="vertical-align: middle;">
                                         <a href="#" class="btn btn-primary mt-2 mt-xl-0 show_data" 
                                             data-bs-toggle="modal" 
                                             data-bs-target="#modalEdit"
@@ -98,6 +99,9 @@ endif;
                                         >
                                             <i class="fas fa-edit"></i>
                                         </a>
+                                    </td>
+                                    <td style="vertical-align: middle;">
+                                        <img style="border-radius: 50%;" src="{{asset('user_images')}}/{{$user->photo}}" width="75px" alt="">
                                     </td>
                                     <td>{{$user->name}}</td>
                                     <td>{{$user->email}}</td>
@@ -177,7 +181,10 @@ endif;
                             {{ html()->label('PASSWORD:')->attribute('style','font-weight:bold;')->attribute('for','password') }}
                             {{ html()->password('password')->class('form-control')->id('password')->attribute('style','font-weight:bold;')->attribute('form','store') }}
                         </div>
-
+                        <div class="form-group">
+                            {{ html()->label('UPLOAD PICTURE:')->attribute('style','font-weight:bold;')->attribute('for','photo') }}
+                            {{ html()->file('photo')->class('form-control')->id('photo')->attribute('style','font-weight:bold;')->attribute('form','create_user') }}
+                        </div>
                     </div>    
                     <div class="col-sm-6">
                         <div class="table-responsive">
@@ -287,6 +294,11 @@ endif;
                         <div class="form-group">
                             {{ html()->label('PASSWORD:')->attribute('style','font-weight:bold;')->attribute('for','password_update') }}
                             {{ html()->password('password_update')->class('form-control')->id('password_update')->attribute('style','font-weight:bold;')->attribute('form','update') }}
+                        </div>
+
+                        <div class="form-group">
+                            {{ html()->label('UPLOAD PICTURE:')->attribute('style','font-weight:bold;')->attribute('for','update_photo') }}
+                            {{ html()->file('update_photo')->class('form-control')->id('password')->attribute('style','font-weight:bold;')->attribute('form','update') }}
                         </div>
 
                     </div>    

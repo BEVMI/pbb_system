@@ -15,17 +15,7 @@ php artisan make:migration add_is_pm --table=users
 php artisan migrate --path=\database/migrations/2024_09_02_075416_add_is_pm.php
 php artisan migrate:refresh --path=\database/migrations/2024_09_02_075416_add_is_pm.php
 
+php artisan make:migration add_photo --table=users
 
-
-git config user.name "irenejoy15"
-
-
-git config --global user.email "34486370+irenejoy15@users.noreply.github.com"
-git reset --soft HEAD~
-
-git pull --rebase origin main
-
-git fetch origin main:tmp
-git rebase tmp
-
-TEST
+php artisan migrate --path=\database/migrations/2024_09_10_132256_add_photo.php
+php artisan migrate:refresh --path=\database/migrations/2024_09_10_132256_add_photo.php

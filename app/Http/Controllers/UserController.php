@@ -8,6 +8,7 @@ use App\Http\Requests\UserUpdateRequest;
 use Uuid;
 use App\Models\User;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\File;
 
 class UserController extends Controller
 {
@@ -37,21 +38,48 @@ class UserController extends Controller
         $line_2 = $request->input('line_2');
         $injection = $request->input('injection');
         
-        $data_user = array(
-            'id'=>$uuid,
-            'name'=>$name,
-            'email'=>$email,
-            'password'=>md5($password),
-            'is_active'=>$is_active,
-            'is_admin' => $is_admin,
-            'is_warehouse' => $is_warehouse,
-            'is_production' => $is_production,
-            'is_qc' => $is_qc,
-            'line_1'=>$line_1,
-            'line_2'=>$line_2,
-            'injection'=>$injection,
-            'is_pm'=>$is_pm
-        );
+        $request->validate([
+            'photo' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        ]);    
+
+        $photo_name = time().'.'.$photo->extension();
+        
+        $photo->move('user_images', $photo_name);
+        $photo_image_post = $photo_name;
+        if(!empty($photo)):
+            $data_user = array(
+                'id'=>$uuid,
+                'name'=>$name,
+                'email'=>$email,
+                'password'=>md5($password),
+                'is_active'=>$is_active,
+                'is_admin' => $is_admin,
+                'is_warehouse' => $is_warehouse,
+                'is_production' => $is_production,
+                'is_qc' => $is_qc,
+                'line_1'=>$line_1,
+                'line_2'=>$line_2,
+                'injection'=>$injection,
+                'is_pm'=>$is_pm,
+                'photo'=> $photo_image_post,
+            );
+        else:
+            $data_user = array(
+                'id'=>$uuid,
+                'name'=>$name,
+                'email'=>$email,
+                'password'=>md5($password),
+                'is_active'=>$is_active,
+                'is_admin' => $is_admin,
+                'is_warehouse' => $is_warehouse,
+                'is_production' => $is_production,
+                'is_qc' => $is_qc,
+                'line_1'=>$line_1,
+                'line_2'=>$line_2,
+                'injection'=>$injection,
+                'is_pm'=>$is_pm,
+            );
+        endif;
 
         User::create($data_user);
         return back()->with('success','USER SUCCESSFULLY CREATED!');
@@ -74,27 +102,56 @@ class UserController extends Controller
         $line_1 = $request->input('line_1_update');
         $line_2 = $request->input('line_2_update');
         $injection = $request->input('injection_update');
+        $update_photo = $request->file('update_photo');
 
         if(empty($password_post)):
             $password = $user_row->password;
         else:
             $password = md5($password_post);
         endif;
-        
-        $data_user = array(
-            'name'=>$name,
-            'email'=>$email,
-            'password'=>$password,
-            'is_active'=>$is_active,
-            'is_admin' => $is_admin,
-            'is_warehouse' => $is_warehouse,
-            'is_production' => $is_production,
-            'is_qc' => $is_qc, 
-            'line_1'=>$line_1,
-            'line_2'=>$line_2,
-            'injection'=>$injection,
-            'is_pm'=>$is_pm
-        );
+
+        if(!empty($update_photo)):
+            $photo_name = time().'.'.$update_photo->extension();
+            $photo_path = "user_images/".$user_row->photo;
+
+            if(File::exists($photo_path)) {
+                File::delete($photo_path);
+            }
+            $update_photo->move('user_images', $photo_name);
+            $photo_image_post = $photo_name;
+        endif;
+        if(!empty($update_photo)):
+            $data_user = array(
+                'name'=>$name,
+                'email'=>$email,
+                'password'=>$password,
+                'is_active'=>$is_active,
+                'is_admin' => $is_admin,
+                'is_warehouse' => $is_warehouse,
+                'is_production' => $is_production,
+                'is_qc' => $is_qc, 
+                'line_1'=>$line_1,
+                'line_2'=>$line_2,
+                'injection'=>$injection,
+                'is_pm'=>$is_pm,
+                'photo'=> $photo_image_post,
+            );
+        else:
+            $data_user = array(
+                'name'=>$name,
+                'email'=>$email,
+                'password'=>$password,
+                'is_active'=>$is_active,
+                'is_admin' => $is_admin,
+                'is_warehouse' => $is_warehouse,
+                'is_production' => $is_production,
+                'is_qc' => $is_qc, 
+                'line_1'=>$line_1,
+                'line_2'=>$line_2,
+                'injection'=>$injection,
+                'is_pm'=>$is_pm,
+            );
+        endif;
 
         User::where('id',$user_id)->update($data_user);
         return back()->with('success',"USER SUCCESSFULLY UPDATED!");
