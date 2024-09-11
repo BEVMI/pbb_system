@@ -34,8 +34,7 @@
     let month = {!!$month_now!!};
     let line = {!!$line!!};
     let year = {!!$year_now!!};
-    let pm_flag = {!!$pm_flag!!};
-   
+    console.log(month);
     $.ajax({
         async: false,
         type:"GET",//or POST
@@ -277,7 +276,6 @@
         let stock_code = document.getElementById('stock_codes_update').value;
         let custom_update = document.getElementById('custom_update').value;
         let qty_update = document.getElementById('qty_update').value;
-        
 
         if(stock_code === 'NO_STOCK_CODE'){
             if(custom_update===''){

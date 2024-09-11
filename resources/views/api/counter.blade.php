@@ -1,4 +1,5 @@
 <script>
+    $('#job_number_update').css('pointer-events','none');
     $(document).ready(function(){
         let line_start = document.getElementById('line_search').value;
         let month_now_start = document.getElementById('month_now').value;

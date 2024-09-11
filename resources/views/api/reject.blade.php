@@ -1,4 +1,5 @@
 <script>
+    $('#job_number_update').css('pointer-events','none');
     $(document).ready(function(){
         let get_month = {!!$month_now!!};
         let get_year = {!!$year_now!!};

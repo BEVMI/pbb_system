@@ -12,6 +12,14 @@
 .irene_center{
     text-align: left;
 }
+td{
+    vertical-align: middle !important;
+}
+
+td a{
+    margin: auto !important;
+}
+  
 @media only screen and (max-width: 1200px) {
     .irene_hide a{
         display: none;

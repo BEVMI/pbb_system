@@ -23,7 +23,11 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="job_number">JOB</label>
-                                <input onkeyup="hideFields()" class="form-control" id="job_number" type="text" value="">
+                                <select onchange="hideJob()" class="form-control" name="job_number" id="job_number">
+                                    @foreach ($jobs as $job)
+                                        <option value="{{$job}}">{{$job}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                         <div class="col-6">
@@ -112,8 +116,12 @@
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="job_number">JOB</label>
-                                <input class="form-control" id="job_number_update" readonly type="text" value="">
+                                <label for="job_number_update">JOB</label>
+                                <select class="form-control" name="job_number_update" id="job_number_update">
+                                    @foreach ($jobs as $job)
+                                        <option value="{{$job}}">{{$job}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                     </div>
