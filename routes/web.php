@@ -15,6 +15,8 @@ use App\Http\Controllers\TestController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\MachineCounter;
 use App\Http\Controllers\PdfController;
+use App\Http\Controllers\QcController;
+use App\Http\Controllers\PalletsController;
 
 Route::get('/', ['middleware' => 'guest', function()
 {
@@ -104,8 +106,13 @@ Route::middleware([IsActive::class])->group(function () {
         // END EMAIL
 
         // PDF
-        Route::get('/test_quarantine',[MachineCounter::class, 'test_quarantine'])->name('pdf.test_quarantine');
+        Route::get('/test_quarantine',[PdfController::class, 'test_quarantine'])->name('pdf.test_quarantine');
         // END PDF
+
+        // PALLETS
+        Route::get('/pallets',[PalletsController::class, 'index'])->name('pallets.index');
+        // END PALLETS
+
     });
 });
 

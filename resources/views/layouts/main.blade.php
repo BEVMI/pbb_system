@@ -157,7 +157,12 @@
               </a>
             </li>
 
-            
+            <li class="nav-item dropdown irene_hide px-2 d-flex align-items-center">
+              <a href="{{route('pallets.index')}}" class="nav-link text-white p-0">
+                <i class="fa-solid fa-box-archive"></i>
+                <span class="nav-link-text ms-1" style="margin-top:8px; font-weight:bold;">PALLETS</span>
+              </a>
+            </li>
 
             <li class="nav-item dropdown irene_hide px-2 d-flex align-items-center">
               <a href="javascript:;" class="nav-link text-white p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
@@ -295,6 +300,7 @@
   <script src="{{asset('assets/js/core/bootstrap.min.js')}}"></script>
   <script src="{{asset('assets/js/plugins/perfect-scrollbar.min.js')}}"></script>
   <script src="{{asset('assets/js/plugins/smooth-scrollbar.min.js')}}"></script>
+  <script src="{{asset('js/ifvisible.js')}}"></script>
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {
@@ -312,6 +318,7 @@
   <script src="{{asset('js/sweetalert2@11.js')}}"></script>
   <script>
     let api_url = '{!!$api_url!!}';
+    let irene_api_base_url = '{!!$irene_api_base_url!!}';
     function formatDate(date) {
       var d = new Date(date),
           month = '' + (d.getMonth() + 1),

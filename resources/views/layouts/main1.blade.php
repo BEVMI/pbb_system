@@ -149,6 +149,7 @@
   <script src="{{asset('assets/js/core/bootstrap.min.js')}}"></script>
   <script src="{{asset('assets/js/plugins/perfect-scrollbar.min.js')}}"></script>
   <script src="{{asset('assets/js/plugins/smooth-scrollbar.min.js')}}"></script>
+  <script src="{{asset('js/ifvisible.js')}}"></script>
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {
@@ -166,6 +167,7 @@
   <script src="{{asset('js/sweetalert2@11.js')}}"></script>
   <script>
     let api_url = '{!!$api_url!!}';
+    let irene_api_base_url = '{!!$irene_api_base_url!!}';
     function formatDate(date) {
       var d = new Date(date),
           month = '' + (d.getMonth() + 1),

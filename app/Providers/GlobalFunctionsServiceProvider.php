@@ -29,5 +29,6 @@ class GlobalFunctionsServiceProvider extends ServiceProvider
         View::share('month_now', (string)$now->month);
         View::share('initial_date', $now->format('Y-m-d'));
         View::share('irene_base_url',URL::to('/'));
+        View::share('irene_api_base_url',URL::to('/').'/api');
     }
 }

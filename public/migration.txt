@@ -19,3 +19,10 @@ php artisan make:migration add_photo --table=users
 
 php artisan migrate --path=\database/migrations/2024_09_10_132256_add_photo.php
 php artisan migrate:refresh --path=\database/migrations/2024_09_10_132256_add_photo.php
+
+
+php artisan migrate --path=\database/migrations/2024_09_11_101506_create_qc_tags_table.php
+php artisan migrate:refresh --path=\database/migrations/2024_09_11_101506_create_qc_tags_table.php
+
+php artisan migrate --path=\database/migrations/2024_09_13_082839_create_pallet_statuses_table.php
+php artisan migrate:refresh --path=\database/migrations/2024_09_13_082839_create_pallet_statuses_table.php
