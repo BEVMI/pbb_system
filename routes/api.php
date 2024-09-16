@@ -12,6 +12,7 @@ Route::get('/user', function (Request $request) {
 // PalletStatus
 Route::get('/pallet_status_check/{status}',[PalletStatusController::class, 'check'])->name('pallet_status.check');
 Route::get('/pallet_status_row/{status}',[PalletStatusController::class, 'row'])->name('pallet_status.row');
+Route::get('/pallet_status_check2/{status}',[PalletStatusController::class, 'check2'])->name('pallet_status.check2');
 // END PalletStatus
 
 

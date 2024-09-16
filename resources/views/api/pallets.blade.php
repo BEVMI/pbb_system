@@ -13,18 +13,18 @@
                 date_post = date;
             }
             getPallets(reference,status,date)
-                Swal.fire({
-                position: "center",
-                icon: "success",
-                title: "LOADING PLEASE WAIT",
-                showConfirmButton: false,
-                timer: 2500
-            });
-           
         });
 
     }
+    
     $(document).ready(function(){
+        Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "LOADING PLEASE WAIT",
+            showConfirmButton: false,
+            timer: 2500
+        });
         let reference = document.getElementById('reference').value;
         let status = document.getElementById('status').value;
         let date = document.getElementById('date').value;
@@ -37,14 +37,6 @@
                 date_post = date;
             }
             getPallets(reference,status,date)
-                Swal.fire({
-                position: "center",
-                icon: "success",
-                title: "LOADING PLEASE WAIT",
-                showConfirmButton: false,
-                timer: 2500
-            });
-           
         });
 
         if(!date){
@@ -69,6 +61,13 @@
     });
 
     function getPallets(reference,status,date){
+        Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "LOADING PLEASE WAIT",
+            showConfirmButton: false,
+            timer: 2500
+        });
         $('#pallet_body_table').empty();
         ifvisible.off('idle');
         refresh();
@@ -77,7 +76,68 @@
             url: api_url+'/Pallet/GetPallet?cPalletRef='+reference+'&cStatus='+status+'&dOutputDate='+date+'%2000%3A00%3A00',
             success: function (data) {
                 irene_parse = JSON.parse(data);
-               
+                let status_post = document.getElementById('status').value;
+                if(status_post == 'Quarantine' || status_post == 'Approved' ){
+                    document.getElementById('pGlobal').style.display = '';
+                }else{
+                    document.getElementById('pGlobal').style.display = 'none';
+                }
+                $.ajax({
+                    async: false ,
+                    type: 'GET', //THIS NEEDS TO BE GET
+                    url: irene_api_base_url+'/pallet_status_check2/'+status_post,
+                    success: function (data) {
+                        irene_parse2 = JSON.stringify(data);
+                        if(irene_parse2 == 0){
+                            document.getElementById('qGlobal').style.display = 'none';
+                            document.getElementById('aGlobal').style.display = 'none';
+                            document.getElementById('oGlobal').style.display = 'none';
+                            document.getElementById('rGlobal').style.display = 'none';
+                            document.getElementById('tGlobal').style.display = 'none';
+
+                            quarantine_boolean = irene_parse2.includes('Quarantine');
+                            approved_boolean = irene_parse2.includes('Approved');
+                            on_hold_boolean = irene_parse2.includes('On Hold');
+                            reject_boolean = irene_parse2.includes('Reject');
+                            turnover_boolean = irene_parse2.includes('Turnover');
+                        }else{
+                            quarantine_boolean = irene_parse2.includes('Quarantine');
+                            if(quarantine_boolean === true){
+                                document.getElementById('qGlobal').style.display = '';
+                            }else{
+                                document.getElementById('qGlobal').style.display = 'none';
+                            }
+                            
+                            approved_boolean = irene_parse2.includes('Approved');
+                            if(approved_boolean === true){
+                                document.getElementById('aGlobal').style.display = '';
+                            }else{
+                                document.getElementById('aGlobal').style.display = 'none';
+                            }
+
+                            on_hold_boolean = irene_parse2.includes('On Hold');
+                            if(on_hold_boolean === true){
+                                document.getElementById('oGlobal').style.display = '';
+                            }else{
+                                document.getElementById('oGlobal').style.display = 'none';
+                            }
+
+                            reject_boolean = irene_parse2.includes('Reject');
+                            if(reject_boolean === true){
+                                document.getElementById('rGlobal').style.display = '';
+                            }else{
+                                document.getElementById('rGlobal').style.display = 'none';
+                            }
+
+                            turnover_boolean = irene_parse2.includes('Turnover');
+                            if(turnover_boolean === true){
+                                document.getElementById('tGlobal').style.display = '';
+                            }else{
+                                document.getElementById('tGlobal').style.display = 'none';
+                            }
+                        }
+                    }
+                });
                 $.each(irene_parse, function(index,item) {
                     var x = document.getElementById('pallet_body_table').insertRow(-1);
                     var i = x.insertCell(0);
@@ -90,13 +150,13 @@
                     
                     
                     i.innerHTML = '<div class="form-check" class="text-center" style="display:inline-block;"><input class="form-check-input checkbox_print" type="checkbox" value='+item.id+' checked></div>';
-                   
                     
-                    let quarantine_now = quarantine(item.id,item.cStatus,item.cReason,item.cPalletRef);
-                    let approved_now = approved(item.id,item.cStatus,item.cReason,item.cPalletRef);
-                    let on_hold_now = on_hold(item.id,item.cStatus,item.cReason,item.cPalletRef);
-                    let reject_now = reject(item.id,item.cStatus,item.cReason,item.cPalletRef);
-                    let turnover_now = turnover(item.id,item.cStatus,item.cReason,item.cPalletRef);
+                    
+                    let quarantine_now = quarantine(item.id,item.cStatus,item.cReason,item.cPalletRef,quarantine_boolean);
+                    let approved_now = approved(item.id,item.cStatus,item.cReason,item.cPalletRef,approved_boolean);
+                    let on_hold_now = on_hold(item.id,item.cStatus,item.cReason,item.cPalletRef,on_hold_boolean);
+                    let reject_now = reject(item.id,item.cStatus,item.cReason,item.cPalletRef,reject_boolean);
+                    let turnover_now = turnover(item.id,item.cStatus,item.cReason,item.cPalletRef,turnover_boolean);
 
                     r.innerHTML = quarantine_now+' '+approved_now+' '+on_hold_now+' '+reject_now+' '+turnover_now;
                     
@@ -111,78 +171,107 @@
         });
     }
 
-    function quarantine(id,cStatus,cReason,cPalletRef){
-        $.ajax({
+    function quarantine(id,cStatus,cReason,cPalletRef,boolean){
+        if(boolean == true){
+            $.ajax({
+                async: false,
+                type: 'GET', //THIS NEEDS TO BE GET
+                url: api_url+'/Pallet/GetPallet?cPalletRef='+cPalletRef,
+                success: function (data) {
+                    irene_parse = JSON.parse(data);
+                    reference2 = irene_parse[0].cPalletRef;
+                }
+            });
+           
+            return '<i class="modalView fa-solid fa-q style="color:black;" data-bs-toggle="modal" data-bs-target="#modalView" data-id="'+id+'" data-status="'+cStatus+'" data-reasonnow="'+cReason+'" data-reference="'+reference2+'" data-module="Quarantine" ></i>';
+        }
+        else{
+            
+            return '';
+        }
+       
+    }
+
+    function approved(id,cStatus,cReason,cPalletRef,boolean){
+        if(boolean == true){
+            $.ajax({
             async: false,
-            type: 'GET', //THIS NEEDS TO BE GET
-            url: api_url+'/Pallet/GetPallet?cPalletRef='+cPalletRef,
-            success: function (data) {
-                irene_parse = JSON.parse(data);
-                reference2 = irene_parse[0].cPalletRef;
-            }
-        });
+                type: 'GET', //THIS NEEDS TO BE GET
+                url: api_url+'/Pallet/GetPallet?cPalletRef='+cPalletRef,
+                success: function (data) {
+                    irene_parse = JSON.parse(data);
+                    reference2 = irene_parse[0].cPalletRef;
+                }
+            });
+           
+            let tag = '<i class="modalView fa-solid fa-a" style="color:black;" data-bs-toggle="modal" data-bs-target="#modalView" data-id="'+id+'" data-status="'+cStatus+'" data-reasonnow="'+cReason+'" data-reference="'+reference2+'" data-module="Approved" ></i>'
+            return tag;
+        }else{
+            return '';
+        }
+       
+    }
+
+    function on_hold(id,cStatus,cReason,cPalletRef,boolean){
+        if(boolean == true){
+            $.ajax({
+                async: false,
+                type: 'GET', //THIS NEEDS TO BE GET
+                url: api_url+'/Pallet/GetPallet?cPalletRef='+cPalletRef,
+                success: function (data) {
+                    irene_parse = JSON.parse(data);
+                    reference2 = irene_parse[0].cPalletRef;
+                }
+            });
+            
+            let tag = '<i class="modalView fa-solid fa-o" style="color:black;" data-bs-toggle="modal" data-bs-target="#modalView" data-id="'+id+'" data-status="'+cStatus+'" data-reasonnow="'+cReason+'" data-reference="'+reference2+'" data-module="On Hold"></i>'
+            return tag;
+        }else{
+           
+            return '';
+        } 
+
         
-        return '<i class="modalView fa-solid fa-q style="color:black;" data-bs-toggle="modal" data-bs-target="#modalView" data-id="'+id+'" data-status="'+cStatus+'" data-reasonnow="'+cReason+'" data-reference="'+reference2+'" data-module="Quarantine"></i>'
     }
 
-    function approved(id,cStatus,cReason,cPalletRef){
-        $.ajax({
-            async: false,
-            type: 'GET', //THIS NEEDS TO BE GET
-            url: api_url+'/Pallet/GetPallet?cPalletRef='+cPalletRef,
-            success: function (data) {
-                irene_parse = JSON.parse(data);
-                reference2 = irene_parse[0].cPalletRef;
-            }
-        });
-
-        let tag = '<i class="modalView fa-solid fa-a" style="color:black;" data-bs-toggle="modal" data-bs-target="#modalView" data-id="'+id+'" data-status="'+cStatus+'" data-reasonnow="'+cReason+'" data-reference="'+reference2+'" data-module="Approved"></i>'
-        return tag;
+    function reject(id,cStatus,cReason,cPalletRef,boolean){
+        if(boolean == true){
+            $.ajax({
+                async: false,
+                type: 'GET', //THIS NEEDS TO BE GET
+                url: api_url+'/Pallet/GetPallet?cPalletRef='+cPalletRef,
+                success: function (data) {
+                    irene_parse = JSON.parse(data);
+                    reference2 = irene_parse[0].cPalletRef;
+                }
+            });
+           
+            let tag = '<i class="modalView fa-solid fa-r" style="color:black;" data-bs-toggle="modal" data-bs-target="#modalView" data-id="'+id+'" data-status="'+cStatus+'" data-reasonnow="'+cReason+'" data-reference="'+reference2+'" data-module="Reject"></i>'
+            return tag;
+        }else{
+            
+            return '';
+        }
     }
 
-    function on_hold(id,cStatus,cReason,cPalletRef){
-        $.ajax({
-            async: false,
-            type: 'GET', //THIS NEEDS TO BE GET
-            url: api_url+'/Pallet/GetPallet?cPalletRef='+cPalletRef,
-            success: function (data) {
-                irene_parse = JSON.parse(data);
-                reference2 = irene_parse[0].cPalletRef;
-            }
-        });
-
-        let tag = '<i class="modalView fa-solid fa-o" style="color:black;" data-bs-toggle="modal" data-bs-target="#modalView" data-id="'+id+'" data-status="'+cStatus+'" data-reasonnow="'+cReason+'" data-reference="'+reference2+'" data-module="On Hold"></i>'
-        return tag;
-    }
-
-    function reject(id,cStatus,cReason,cPalletRef){
-        $.ajax({
-            async: false,
-            type: 'GET', //THIS NEEDS TO BE GET
-            url: api_url+'/Pallet/GetPallet?cPalletRef='+cPalletRef,
-            success: function (data) {
-                irene_parse = JSON.parse(data);
-                reference2 = irene_parse[0].cPalletRef;
-            }
-        });
-
-        let tag = '<i class="modalView fa-solid fa-r" style="color:black;" data-bs-toggle="modal" data-bs-target="#modalView" data-id="'+id+'" data-status="'+cStatus+'" data-reasonnow="'+cReason+'" data-reference="'+reference2+'" data-module="Reject"></i>'
-        return tag;
-    }
-
-    function turnover(id,cStatus,cReason,cPalletRef){
-        $.ajax({
-            async: false,
-            type: 'GET', //THIS NEEDS TO BE GET
-            url: api_url+'/Pallet/GetPallet?cPalletRef='+cPalletRef,
-            success: function (data) {
-                irene_parse = JSON.parse(data);
-                reference2 = irene_parse[0].cPalletRef;
-            }
-        });
-
-        let tag = '<i class="modalView fa-solid fa-t" style="color:black;" data-bs-toggle="modal" data-bs-target="#modalView" data-id="'+id+'" data-status="'+cStatus+'" data-reasonnow="'+cReason+'" data-reference="'+reference2+'" data-module="Turnover"></i>'
-        return tag;
+    function turnover(id,cStatus,cReason,cPalletRef,boolean){
+        if(boolean == true){
+            $.ajax({
+                async: false,
+                type: 'GET', //THIS NEEDS TO BE GET
+                url: api_url+'/Pallet/GetPallet?cPalletRef='+cPalletRef,
+                success: function (data) {
+                    irene_parse = JSON.parse(data);
+                    reference2 = irene_parse[0].cPalletRef;
+                }
+            });
+            
+            let tag = '<i class="modalView fa-solid fa-t" style="color:black;" data-bs-toggle="modal" data-bs-target="#modalView" data-id="'+id+'" data-status="'+cStatus+'" data-reasonnow="'+cReason+'" data-reference="'+reference2+'" data-module="Turnover"></i>'
+            return tag;
+        }else{
+            
+            return '';
+        }
     }
 
     function search(){
@@ -340,14 +429,94 @@
 <script>
     function updateList(){
         let checked = document.querySelectorAll('input.checkbox_print:checked');
-        console.log(checked);
+        let cStatus = document.getElementById('status_global').value;
+        let cReason = document.getElementById('global_reason').value;
+        let cUpdatedBy = "{!!$user_auth->name!!}";
 
+        let reference = document.getElementById('reference').value;
+        let status = document.getElementById('status').value;
+        let date = document.getElementById('date').value;
+        
         var ids = [];
         for(var x = 0, l = checked.length; x < l;  x++)
         {
             ids.push(checked[x].value);
         }
-        console.log(ids);
+        
+        $.ajax({
+            type:'POST',
+            method:'POST',
+            url:api_url+'/Pallet/UpdatePallet',
+            crossDomain: true,
+            dataType: 'json',
+            headers: { 
+                'Accept': 'application/json',
+                'Content-Type': 'application/json' 
+            },
+            data:  JSON.stringify({
+                "cStatus": cStatus,
+                "cUpdatedBy": cUpdatedBy,
+                "cReason": cReason,
+                "ids": ids,
+            }),
+            success:function(data){;
+             
+            }
+        });
+
+           Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "SUCCESSFULLY UPDATE",
+                showConfirmButton: false,
+                timer: 2000
+            });
+            setTimeout(() => {
+                $('#modalGlobal').modal('hide');
+                getPallets(reference,status,date)
+            }, "2000");
     }
     
 </script>
+
+<script>
+    function globalFunction(module1){
+        if(module1 === 'Print'){
+            $('#modalPrint').modal('show');
+        }else{
+            $('#modalGlobal').modal('show');
+            document.getElementById('modalGlobalLongTitle').innerHTML = module1+' STATUS';
+            document.getElementById('status_global').value = module1;
+            document.getElementById('global_reason').value = '';
+
+            if(module1 == 'On Hold' || module1 == 'Reject'){
+                document.getElementById('global_reason_display').style.display = '';
+            }else{
+                document.getElementById('global_reason_display').style.display = 'none';
+            }
+        }
+        
+    }
+</script>
+
+<script>
+    function myFunction() {
+      var input, filter, table, tr, td, i, txtValue;
+      input = document.getElementById("myInput");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("irene_table");
+      tr = table.getElementsByTagName("tr");
+      for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[2];
+        if (td) {
+          txtValue = td.textContent || td.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }       
+      }
+    }
+</script>
+    

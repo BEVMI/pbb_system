@@ -52,4 +52,34 @@ class PalletStatusController extends Controller
 
         
     }
+
+    public function check2($status){
+        $status = PalletStatus::where('status_name',$status)->first();
+        
+        if($status->is_quarantine == '1'):
+            $data[] = 'Quarantine';
+        endif;
+
+        if($status->is_approved == '1'):
+            $data[] = 'Approved';
+        endif;
+
+        if($status->is_on_hold == '1'):
+            $data[] = 'On Hold';
+        endif;
+
+        if($status->is_reject == '1'):
+            $data[] = 'Reject';
+        endif;
+
+        if($status->is_turnover == '1'):
+            $data[] = 'Turnover';
+        endif;
+
+        if(!empty($data)):
+            return $data;
+        else:
+            return 0;
+        endif;
+    }
 }

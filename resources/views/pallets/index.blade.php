@@ -17,9 +17,13 @@ $user_auth = Auth::user();
         font-weight: bold;
         background-color: #5e72e4;
         color: white;
+        vertical-align: middle;
     }
     td{
         vertical-align: middle;
+    }
+    .tooltip {
+        z-index: 100000000; 
     }
 </style>
 @endsection
@@ -77,11 +81,20 @@ $user_auth = Auth::user();
 </div>
 <div class="row">
     <div class="table-responsive" style="height:60vh; overflow:auto;">
-        <table class="table" style="font-size:14px;">
+        <table class="table" id="irene_table" style="font-size:14px;">
             <thead class="text-center irene_thead">
                 <th class="col"></th>
-                <th class="col">ACTION</th>
-                <th class="col">ID'S</th>
+                <th class="col">
+                    <i style="display: none;" id="qGlobal" onclick="globalFunction('Quarantine')" class="fa-solid fa-q"></i>
+                    <i id="aGlobal" onclick="globalFunction('Approved')" class="fa-solid fa-a"></i>
+                    <i id="oGlobal" onclick="globalFunction('On Hold')" class="fa-solid fa-o"></i>
+                    <i id="rGlobal" onclick="globalFunction('Reject')" class="fa-solid fa-r"></i>
+                    <i id="tGlobal" onclick="globalFunction('Turnover')" class="fa-solid fa-t"></i>
+                    <i id="pGlobal" onclick="globalFunction('Print')" class="fa-solid fa-p"></i>
+                </th>
+                <th class="col">
+                    <input  type="text" id="myInput" onkeyup="myFunction()" placeholder="SEARCH">
+                </th>
                 <th class="col">DATES</th>
                 <th class="col">JOB#</th>
                 <th class="col">LOT</th>
