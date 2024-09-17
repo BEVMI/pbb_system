@@ -183,7 +183,7 @@ endif;
                         </div>
                         <div class="form-group">
                             {{ html()->label('UPLOAD PICTURE:')->attribute('style','font-weight:bold;')->attribute('for','photo') }}
-                            {{ html()->file('photo')->class('form-control')->id('photo')->attribute('style','font-weight:bold;')->attribute('form','create_user') }}
+                            {{ html()->file('photo')->class('form-control')->id('photo')->attribute('style','font-weight:bold;')->attribute('form','store') }}
                         </div>
                     </div>    
                     <div class="col-sm-6">

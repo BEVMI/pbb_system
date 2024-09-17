@@ -72,7 +72,7 @@
 </div>
 
 <div class="modal fade" data-bs-backdrop='static' id="modalPrint" tabindex="-1" role="dialog" aria-labelledby="modalPrintCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title font-weight-bold badge bg-primary" id="modalPrintLongTitle" style="font-size:16px;">PRINT</h5>
@@ -83,7 +83,7 @@
             <div class="modal-body">  
                 <div class="container-fluid">
                     <div class="row">
-                      
+                        <div id="display_dialog"></div>
                     </div>
                 </div>
             </div>
@@ -91,7 +91,6 @@
                 <button class="btn btn-secondary" type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     CLOSE
                 </button>
-                <button  class="btn btn-success">SAVE</button>
             </div>
         </div>
     </div>

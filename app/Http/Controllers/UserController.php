@@ -37,7 +37,7 @@ class UserController extends Controller
         $line_1 = $request->input('line_1');
         $line_2 = $request->input('line_2');
         $injection = $request->input('injection');
-        
+        $photo = $request->file('photo');
         $request->validate([
             'photo' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);    

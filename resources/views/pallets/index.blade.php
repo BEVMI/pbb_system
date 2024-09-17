@@ -85,6 +85,7 @@ $user_auth = Auth::user();
             <thead class="text-center irene_thead">
                 <th class="col"></th>
                 <th class="col">
+                    <input type="hidden" id="user_name" value="{{$user_auth->name}}">
                     <i style="display: none;" id="qGlobal" onclick="globalFunction('Quarantine')" class="fa-solid fa-q"></i>
                     <i id="aGlobal" onclick="globalFunction('Approved')" class="fa-solid fa-a"></i>
                     <i id="oGlobal" onclick="globalFunction('On Hold')" class="fa-solid fa-o"></i>

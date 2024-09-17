@@ -76,97 +76,108 @@
             url: api_url+'/Pallet/GetPallet?cPalletRef='+reference+'&cStatus='+status+'&dOutputDate='+date+'%2000%3A00%3A00',
             success: function (data) {
                 irene_parse = JSON.parse(data);
-                let status_post = document.getElementById('status').value;
-                if(status_post == 'Quarantine' || status_post == 'Approved' ){
-                    document.getElementById('pGlobal').style.display = '';
-                }else{
+                if(irene_parse.length===0){
+                    document.getElementById('qGlobal').style.display = 'none';
+                    document.getElementById('aGlobal').style.display = 'none';
+                    document.getElementById('oGlobal').style.display = 'none';
+                    document.getElementById('rGlobal').style.display = 'none';
+                    document.getElementById('tGlobal').style.display = 'none';
                     document.getElementById('pGlobal').style.display = 'none';
                 }
-                $.ajax({
-                    async: false ,
-                    type: 'GET', //THIS NEEDS TO BE GET
-                    url: irene_api_base_url+'/pallet_status_check2/'+status_post,
-                    success: function (data) {
-                        irene_parse2 = JSON.stringify(data);
-                        if(irene_parse2 == 0){
-                            document.getElementById('qGlobal').style.display = 'none';
-                            document.getElementById('aGlobal').style.display = 'none';
-                            document.getElementById('oGlobal').style.display = 'none';
-                            document.getElementById('rGlobal').style.display = 'none';
-                            document.getElementById('tGlobal').style.display = 'none';
-
-                            quarantine_boolean = irene_parse2.includes('Quarantine');
-                            approved_boolean = irene_parse2.includes('Approved');
-                            on_hold_boolean = irene_parse2.includes('On Hold');
-                            reject_boolean = irene_parse2.includes('Reject');
-                            turnover_boolean = irene_parse2.includes('Turnover');
-                        }else{
-                            quarantine_boolean = irene_parse2.includes('Quarantine');
-                            if(quarantine_boolean === true){
-                                document.getElementById('qGlobal').style.display = '';
-                            }else{
+                else{
+                    let status_post = document.getElementById('status').value;
+                    if(status_post == 'Quarantine' || status_post == 'Approved' ){
+                        document.getElementById('pGlobal').style.display = '';
+                    }else{
+                        document.getElementById('pGlobal').style.display = 'none';
+                    }
+                    $.ajax({
+                        async: false ,
+                        type: 'GET', //THIS NEEDS TO BE GET
+                        url: irene_api_base_url+'/pallet_status_check2/'+status_post,
+                        success: function (data) {
+                            irene_parse2 = JSON.stringify(data);
+                            if(irene_parse2 == 0){
                                 document.getElementById('qGlobal').style.display = 'none';
-                            }
-                            
-                            approved_boolean = irene_parse2.includes('Approved');
-                            if(approved_boolean === true){
-                                document.getElementById('aGlobal').style.display = '';
-                            }else{
                                 document.getElementById('aGlobal').style.display = 'none';
-                            }
-
-                            on_hold_boolean = irene_parse2.includes('On Hold');
-                            if(on_hold_boolean === true){
-                                document.getElementById('oGlobal').style.display = '';
-                            }else{
                                 document.getElementById('oGlobal').style.display = 'none';
-                            }
-
-                            reject_boolean = irene_parse2.includes('Reject');
-                            if(reject_boolean === true){
-                                document.getElementById('rGlobal').style.display = '';
-                            }else{
                                 document.getElementById('rGlobal').style.display = 'none';
-                            }
-
-                            turnover_boolean = irene_parse2.includes('Turnover');
-                            if(turnover_boolean === true){
-                                document.getElementById('tGlobal').style.display = '';
-                            }else{
                                 document.getElementById('tGlobal').style.display = 'none';
+
+                                quarantine_boolean = irene_parse2.includes('Quarantine');
+                                approved_boolean = irene_parse2.includes('Approved');
+                                on_hold_boolean = irene_parse2.includes('On Hold');
+                                reject_boolean = irene_parse2.includes('Reject');
+                                turnover_boolean = irene_parse2.includes('Turnover');
+                            }else{
+                                quarantine_boolean = irene_parse2.includes('Quarantine');
+                                if(quarantine_boolean === true){
+                                    document.getElementById('qGlobal').style.display = '';
+                                }else{
+                                    document.getElementById('qGlobal').style.display = 'none';
+                                }
+                                
+                                approved_boolean = irene_parse2.includes('Approved');
+                                if(approved_boolean === true){
+                                    document.getElementById('aGlobal').style.display = '';
+                                }else{
+                                    document.getElementById('aGlobal').style.display = 'none';
+                                }
+
+                                on_hold_boolean = irene_parse2.includes('On Hold');
+                                if(on_hold_boolean === true){
+                                    document.getElementById('oGlobal').style.display = '';
+                                }else{
+                                    document.getElementById('oGlobal').style.display = 'none';
+                                }
+
+                                reject_boolean = irene_parse2.includes('Reject');
+                                if(reject_boolean === true){
+                                    document.getElementById('rGlobal').style.display = '';
+                                }else{
+                                    document.getElementById('rGlobal').style.display = 'none';
+                                }
+
+                                turnover_boolean = irene_parse2.includes('Turnover');
+                                if(turnover_boolean === true){
+                                    document.getElementById('tGlobal').style.display = '';
+                                }else{
+                                    document.getElementById('tGlobal').style.display = 'none';
+                                }
                             }
                         }
-                    }
-                });
-                $.each(irene_parse, function(index,item) {
-                    var x = document.getElementById('pallet_body_table').insertRow(-1);
-                    var i = x.insertCell(0);
-                    var r = x.insertCell(1);
-                    var e = x.insertCell(2);
-                    var n = x.insertCell(3);
-                    var j = x.insertCell(4);
-                    var o = x.insertCell(5);
-                    var y = x.insertCell(6);
-                    
-                    
-                    i.innerHTML = '<div class="form-check" class="text-center" style="display:inline-block;"><input class="form-check-input checkbox_print" type="checkbox" value='+item.id+' checked></div>';
-                    
-                    
-                    let quarantine_now = quarantine(item.id,item.cStatus,item.cReason,item.cPalletRef,quarantine_boolean);
-                    let approved_now = approved(item.id,item.cStatus,item.cReason,item.cPalletRef,approved_boolean);
-                    let on_hold_now = on_hold(item.id,item.cStatus,item.cReason,item.cPalletRef,on_hold_boolean);
-                    let reject_now = reject(item.id,item.cStatus,item.cReason,item.cPalletRef,reject_boolean);
-                    let turnover_now = turnover(item.id,item.cStatus,item.cReason,item.cPalletRef,turnover_boolean);
+                    });
+                    $.each(irene_parse, function(index,item) {
+                        var x = document.getElementById('pallet_body_table').insertRow(-1);
+                        var i = x.insertCell(0);
+                        var r = x.insertCell(1);
+                        var e = x.insertCell(2);
+                        var n = x.insertCell(3);
+                        var j = x.insertCell(4);
+                        var o = x.insertCell(5);
+                        var y = x.insertCell(6);
+                        
+                        
+                        i.innerHTML = '<div class="form-check" class="text-center" style="display:inline-block;"><input class="form-check-input checkbox_print" type="checkbox" value='+item.id+' checked></div>';
+                        
+                        
+                        let quarantine_now = quarantine(item.id,item.cStatus,item.cReason,item.cPalletRef,quarantine_boolean);
+                        let approved_now = approved(item.id,item.cStatus,item.cReason,item.cPalletRef,approved_boolean);
+                        let on_hold_now = on_hold(item.id,item.cStatus,item.cReason,item.cPalletRef,on_hold_boolean);
+                        let reject_now = reject(item.id,item.cStatus,item.cReason,item.cPalletRef,reject_boolean);
+                        let turnover_now = turnover(item.id,item.cStatus,item.cReason,item.cPalletRef,turnover_boolean);
 
-                    r.innerHTML = quarantine_now+' '+approved_now+' '+on_hold_now+' '+reject_now+' '+turnover_now;
-                    
-                    e.innerHTML = 'ID:'+item.id+'<br>MAC.ID:'+item.iMachineCounterId+'<br><span class="badge bg-secondary">'+item.cPalletRef+'</span>';  
-                    n.innerHTML = 'OUT. DATE: '+formatDate(item.dOutputDate)+'<br>MFG. DATE: '+formatDate(item.dMfgDate)+'<br> EXP. DATE: &nbsp;'+formatDate(item.dExpDate);
-                    j.innerHTML = 'JOB:'+item.iJobNo+'<br>'+item.iCases+' CS';    
-                    o.innerHTML = item.cLotNumber;      
-                    y.innerHTML = item.cStatus;  
-                    
-                });
+                        r.innerHTML = quarantine_now+' '+approved_now+' '+on_hold_now+' '+reject_now+' '+turnover_now;
+                        
+                        e.innerHTML = 'ID:'+item.id+'<br>MAC.ID:'+item.iMachineCounterId+'<br><span class="badge bg-secondary">'+item.cPalletRef+'</span>';  
+                        n.innerHTML = 'OUT. DATE: '+formatDate(item.dOutputDate)+'<br>MFG. DATE: '+formatDate(item.dMfgDate)+'<br> EXP. DATE: &nbsp;'+formatDate(item.dExpDate);
+                        j.innerHTML = 'JOB:'+item.iJobNo+'<br>'+item.iCases+' CS';    
+                        o.innerHTML = item.cLotNumber;      
+                        y.innerHTML = item.cStatus;  
+                        
+                    });
+                }
+               
             }
         });
     }
@@ -482,7 +493,52 @@
 <script>
     function globalFunction(module1){
         if(module1 === 'Print'){
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "RENDERING PDF",
+                showConfirmButton: false,
+                timer: 4000
+            });
             $('#modalPrint').modal('show');
+            let checked = document.querySelectorAll('input.checkbox_print:checked');
+            let global_status = document.getElementById('status').value;
+            let user_name = document.getElementById('user_name').value;
+            let ids = [];
+            for(var x = 0, l = checked.length; x < l;  x++)
+            {
+                ids.push(checked[x].value);
+            }
+            
+            $.ajax({
+                async:false,
+                type:'POST',
+                method:'POST',
+                url:api_url+'/Pallet/GetPalletByIds',
+                crossDomain: true,
+                dataType: 'json',
+                contentType: 'application/json',
+                data:JSON.stringify(ids),
+                success:function(data){;
+                   irene_parse_3 = data;
+                },
+                error: function(e) {
+                    console.log(e);
+                }
+            });
+
+            $.ajax({
+                type: 'GET', //THIS NEEDS TO BE GET
+                url: irene_api_base_url+'/print_pdf',
+                data:{
+                    "ids":ids,
+                    "tag":global_status,
+                    'user_name':user_name
+                },
+                success: function (data) {
+                    $( "#display_dialog").html('<iframe width="100%" height="600px" src="data:application/pdf;base64,' + data + '"></object>');
+                }
+            });
         }else{
             $('#modalGlobal').modal('show');
             document.getElementById('modalGlobalLongTitle').innerHTML = module1+' STATUS';
