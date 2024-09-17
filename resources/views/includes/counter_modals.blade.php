@@ -23,7 +23,7 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="job_number">JOB</label>
-                                <select onchange="hideJob()" class="form-control" name="job_number" id="job_number">
+                                <select onchange="hideFields()" class="form-control" name="job_number" id="job_number">
                                     @foreach ($jobs as $job)
                                         <option value="{{$job}}">{{$job}}</option>
                                     @endforeach

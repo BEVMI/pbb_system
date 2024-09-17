@@ -34,27 +34,25 @@
     let month = {!!$month_now!!};
     let line = {!!$line!!};
     let year = {!!$year_now!!};
-    console.log(month);
-    $.ajax({
-        async: false,
-        type:"GET",//or POST
-        url:'{{url("/plan_ajax/")}}'+'/'+year+'/'+month+'/'+line,
-        success:function(calendars){
-           irene2 = calendars.data;
-        }
-    });
-
-    Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "LOADING PLEASE WAIT",
-        showConfirmButton: false,
-        timer: 2500
-    });
-
+    let pm_flag = {!!$pm_flag!!};
+    
+    // $.ajax({
+    //     async: false,
+    //     type:"GET",//or POST
+    //     "crossDomain": true,
+    //     url:'{{url("/plan_ajax/")}}'+'/'+year+'/'+month+'/'+line,
+    //     success:function(calendars){
+    //        irene2 = calendars.data;
+    //     }
+    // });
+    
+    setTimeout(function() {
+            document.querySelector('.fc-refresh-button').click();
+    }, 2100);
+  
     document.addEventListener('DOMContentLoaded', function() {
             var calendarEl = document.getElementById('calendar');
-           
+     
             setTimeout(() => {
                 var calendar = new FullCalendar.Calendar(calendarEl, {
                     customButtons: {
@@ -240,7 +238,7 @@
                     }
                 });
                 calendar.render();
-            }, "1000");
+            }, "2000");
         });
 </script>
 <script>
