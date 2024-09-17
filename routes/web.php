@@ -17,6 +17,7 @@ use App\Http\Controllers\MachineCounter;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\QcController;
 use App\Http\Controllers\PalletsController;
+use App\Http\Controllers\TosController;
 
 Route::get('/', ['middleware' => 'guest', function()
 {
@@ -111,6 +112,10 @@ Route::middleware([IsActive::class])->group(function () {
 
         // PALLETS
         Route::get('/pallets',[PalletsController::class, 'index'])->name('pallets.index');
+        // END PALLETS
+
+        // PALLETS
+        Route::get('/tos',[TosController::class, 'index'])->name('tos.index');
         // END PALLETS
 
     });

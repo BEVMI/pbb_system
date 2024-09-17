@@ -151,9 +151,9 @@
             </li>
 
             <li class="nav-item dropdown irene_hide px-2 d-flex align-items-center">
-              <a href="{{route('reject.index')}}" class="nav-link text-white p-0">
-                <i class="fa-solid fa-eject"></i>
-                <span class="nav-link-text ms-1" style="margin-top:8px; font-weight:bold;">REJECTS</span>
+              <a href="{{route('tos.index')}}" class="nav-link text-white p-0">
+                <i class="fa-solid fa-book"></i>
+                <span class="nav-link-text ms-1" style="margin-top:8px; font-weight:bold;">TOS</span>
               </a>
             </li>
 
@@ -161,6 +161,13 @@
               <a href="{{route('pallets.index')}}" class="nav-link text-white p-0">
                 <i class="fa-solid fa-box-archive"></i>
                 <span class="nav-link-text ms-1" style="margin-top:8px; font-weight:bold;">PALLETS</span>
+              </a>
+            </li>
+
+            <li class="nav-item dropdown irene_hide px-2 d-flex align-items-center">
+              <a href="{{route('reject.index')}}" class="nav-link text-white p-0">
+                <i class="fa-solid fa-eject"></i>
+                <span class="nav-link-text ms-1" style="margin-top:8px; font-weight:bold;">REJECTS</span>
               </a>
             </li>
 
