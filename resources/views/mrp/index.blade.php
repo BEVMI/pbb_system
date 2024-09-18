@@ -40,7 +40,7 @@ endif;
 @endsection
 
 @section('button')
-    <button class="btn btn-primary mt-2 mt-xl-0" style="width: 100%;" data-bs-toggle="modal" data-bs-target="#modalMRP">COMPUTE</button> 
+    <button class="btn btn-primary mt-2 mt-xl-0" style="width: 100%;" data-bs-toggle="modal" data-bs-target="#modalMRP" style="width:100%;">COMPUTE</button> 
 @endsection
 
 @section('main')

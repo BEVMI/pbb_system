@@ -81,7 +81,7 @@ endif;
 @endsection
 
 @section('button')
-    <button class="btn btn-primary mt-2 mt-xl-0" data-bs-toggle="modal" data-bs-target="#modalCreate">UPLOAD FORECAST</button> 
+    <button class="btn btn-primary mt-2 mt-xl-0" data-bs-toggle="modal" data-bs-target="#modalCreate" style="width:100%;">UPLOAD FORECAST</button> 
 @endsection
 
 

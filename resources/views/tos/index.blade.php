@@ -25,7 +25,58 @@ $user_auth = Auth::user();
     .tooltip {
         z-index: 100000000; 
     }
+    span.tox-statusbar__branding{
+        display: none !important;
+    }
+
+    span.select2.select2-container.select2-container--default.select2-container--below.select2-container--open{
+        width: 210px !important;
+        font-size:12px !important;
+        font-weight: bold;
+    }
+
+    span.select2.select2-container.select2-container--default.select2-container--below,span.select2.select2-container.select2-container--default {
+        width: 210px  !important;
+        font-size:12px !important;
+        font-weight: bold;
+    }
+
+    span.select2.select2-container.select2-container--default.select2-container--focus {
+        width: 210px  !important;
+        font-size:12px !important;
+        font-weight: bold;
+    }
+
+    span.select2-selection.select2-selection--single {
+      height:35px !important;
+      font-size:12px !important;
+      font-weight: bold;
+    }
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+      height: 35px;
+      position: absolute;
+      top: 1px;
+      right: 1px;
+      width: 20px;
+    }
+    .select2-container--default .select2-selection--single{
+        border:1px solid #dee2e6 !important;
+        font-size:12px !important;
+        font-weight: bold;
+    }
+
+    .select2-container .select2-selection--single .select2-selection__rendered{
+        margin-top:3px !important;
+        font-size:12px !important;
+        font-weight: bold;
+        height: 50px;
+		overflow-y: auto !important;
+    }
+    .select2-container--default .select2-selection--multiple .select2-selection__choice{
+        display: block !important;
+    }
 </style>
+<link href="{{asset('css/select2.min.css')}}" rel="stylesheet" />
 @endsection
 
 @section('title') 
@@ -101,5 +152,6 @@ $user_auth = Auth::user();
 @endsection
 
 @section('scripts')
+<script src="{{asset('js/select2.min.js')}}"></script>
 @include('api.tos')
 @endsection
