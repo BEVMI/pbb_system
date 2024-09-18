@@ -48,7 +48,7 @@
                     i.innerHTML = item.cTOSRefNo;
                     r.innerHTML = formatDate(item.dDate);
                     e.innerHTML = item.cCreatedBy;
-                    n.innerHTML = '';
+                    n.innerHTML = '<button class="btn btn-danger" onclick="confirmDeleteTos('+item.id+')"><i class="fa-solid fa-trash"></i></button>';
 
                 }); 
             }
@@ -209,19 +209,69 @@
     function savePallet(){
         let checked = document.querySelectorAll('input.checkboxes:checked');
         let ref_num = document.getElementById('ref_num').value;
-     
-        $('#P-'+ref_num).html('').select2({});
-        for(var x = 0, l = checked.length; x < l;  x++)
-        {
-            let value_to_split = checked[x].value;
-            let id = value_to_split.split("~")[0];
-            let pallet_ref = value_to_split.split("~")[1];
-            var newOption = new Option(pallet_ref,id);
-            $('#P-'+ref_num).append(newOption).trigger('change');
-            $('#P-'+ref_num+' > option').prop("selected","selected");
+        
+        if(checked.length <=5){
+            $('#P-'+ref_num).html('').select2({});
+            for(var x = 0, l = checked.length; x < l;  x++)
+            {
+                let value_to_split = checked[x].value;
+                let id = value_to_split.split("~")[0];
+                let pallet_ref = value_to_split.split("~")[1];
+                var newOption = new Option(pallet_ref,id);
+                $('#P-'+ref_num).append(newOption).trigger('change');
+                $('#P-'+ref_num+' > option').prop("selected","selected");
+            }
+            $('#modalPallet').modal('hide');
+            $('#modalCreate').modal('show');
+        }else{
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "ONLY 5 MAXIMUM SELECTION",
+                showConfirmButton: false,
+                timer: 2500
+            });
         }
-        $('#modalPallet').modal('hide');
-        $('#modalCreate').modal('show');
        
+    }
+</script>
+
+<script>
+    function confirmDeleteTos(id){
+        Swal.fire({
+            title: 'Do you want to delete this TOS?',
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            denyButtonText: 'No',
+            customClass: {
+                actions: 'my-actions',
+                cancelButton: 'order-1 right-gap',
+                confirmButton: 'order-2',
+                denyButton: 'order-3',
+            },
+            }).then((result) => {
+            if (result.isConfirmed) {
+                deleteTos(id)
+            } else if (result.isDenied) {
+                Swal.fire('Changes are not saved', '', 'info')
+            }
+        })
+    }
+
+    function deleteTos(id){
+        $.ajax({
+            type:'post',
+            headers: {  'Access-Control-Allow-Origin': '*' },
+            url:api_url+'/TOS/DeleteTos?iTosId='+id,
+            crossDomain: true,
+            dataType: 'json',
+            contentType: "application/json; charset=utf-8",
+            success:function(data){
+                
+            } 
+        });
+
+        load();
     }
 </script>
