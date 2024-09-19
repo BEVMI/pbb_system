@@ -26,3 +26,9 @@ php artisan migrate:refresh --path=\database/migrations/2024_09_11_101506_create
 
 php artisan migrate --path=\database/migrations/2024_09_13_082839_create_pallet_statuses_table.php
 php artisan migrate:refresh --path=\database/migrations/2024_09_13_082839_create_pallet_statuses_table.php
+
+
+php artisan make:migration added_boolean --table=users
+
+php artisan migrate --path=\database/migrations/2024_09_19_135940_added_boolean.php
+php artisan migrate:refresh --path=\database/migrations/2024_09_19_135940_added_boolean.php

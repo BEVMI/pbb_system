@@ -29,7 +29,9 @@ class User extends Authenticatable
         'line_1',
         'line_2',
         'injection',
-        'is_pm'
+        'is_pm',
+        'is_supervisor',
+        'is_manager',
     ];
 
     /**

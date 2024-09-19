@@ -37,6 +37,10 @@ class UserController extends Controller
         $line_1 = $request->input('line_1');
         $line_2 = $request->input('line_2');
         $injection = $request->input('injection');
+
+        $is_supervisor = $request->input('is_supervisor');
+        $is_manager = $request->input('is_manager');
+
         $photo = $request->file('photo');
         $request->validate([
             'photo' => 'required|image|mimes:jpeg,png,jpg|max:2048',
@@ -61,6 +65,8 @@ class UserController extends Controller
                 'line_2'=>$line_2,
                 'injection'=>$injection,
                 'is_pm'=>$is_pm,
+                'is_supervisor'=>$is_supervisor,
+                'is_manager'=>$is_manager,
                 'photo'=> $photo_image_post,
             );
         else:
@@ -78,6 +84,8 @@ class UserController extends Controller
                 'line_2'=>$line_2,
                 'injection'=>$injection,
                 'is_pm'=>$is_pm,
+                'is_supervisor'=>$is_supervisor,
+                'is_manager'=>$is_manager,
             );
         endif;
 
@@ -102,6 +110,9 @@ class UserController extends Controller
         $line_1 = $request->input('line_1_update');
         $line_2 = $request->input('line_2_update');
         $injection = $request->input('injection_update');
+        $is_supervisor = $request->input('is_supervisor_update');
+        $is_manager = $request->input('is_manager_update');
+
         $update_photo = $request->file('update_photo');
 
         if(empty($password_post)):
@@ -133,6 +144,8 @@ class UserController extends Controller
                 'line_1'=>$line_1,
                 'line_2'=>$line_2,
                 'injection'=>$injection,
+                'is_supervisor'=>$is_supervisor,
+                'is_manager'=>$is_manager,
                 'is_pm'=>$is_pm,
                 'photo'=> $photo_image_post,
             );
@@ -150,6 +163,8 @@ class UserController extends Controller
                 'line_2'=>$line_2,
                 'injection'=>$injection,
                 'is_pm'=>$is_pm,
+                'is_supervisor'=>$is_supervisor,
+                'is_manager'=>$is_manager,
             );
         endif;
 

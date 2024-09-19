@@ -74,6 +74,8 @@ endif;
                         <th style="width:10%;">WAREHOUSE</th>
                         <th style="width:10%;">QC</th>
                         <th style="width:10%;">PRODUCTION</th>
+                        <th style="width:10%;">SUPERVISOR</th>
+                        <th style="width:10%;">MANAGER</th>
                     </thead>  
                     <tbody class="text-center">
                         @if($users->isEmpty())
@@ -96,6 +98,8 @@ endif;
                                             data-line2="{{$user->line_2}}"
                                             data-injection="{{$user->injection}}"
                                             data-is_pm="{{$user->is_pm}}"
+                                            data-is_supervisor="{{$user->is_supervisor}}"
+                                            data-is_manager="{{$user->is_manager}}"
                                         >
                                             <i class="fas fa-edit"></i>
                                         </a>
@@ -139,6 +143,22 @@ endif;
 
                                     <td>
                                         @if($user->is_production == 1)
+                                            <span class="badge bg-success" style="font-weight: bold;"><i class="fa-solid fa-thumbs-up"></i></span>
+                                        @else 
+                                            <span class="badge bg-danger" style="font-weight: bold;"><i class="fa-solid fa-thumbs-down"></i></span>
+                                        @endif
+                                    </td>
+
+                                    <td>
+                                        @if($user->is_supervisor == 1)
+                                            <span class="badge bg-success" style="font-weight: bold;"><i class="fa-solid fa-thumbs-up"></i></span>
+                                        @else 
+                                            <span class="badge bg-danger" style="font-weight: bold;"><i class="fa-solid fa-thumbs-down"></i></span>
+                                        @endif
+                                    </td>
+                                    
+                                    <td>
+                                        @if($user->is_manager == 1)
                                             <span class="badge bg-success" style="font-weight: bold;"><i class="fa-solid fa-thumbs-up"></i></span>
                                         @else 
                                             <span class="badge bg-danger" style="font-weight: bold;"><i class="fa-solid fa-thumbs-down"></i></span>
@@ -252,6 +272,18 @@ endif;
                                         <td>PM</td>
                                         <td class="text-center"><input type="radio" form="store" name="is_pm" value="1" checked></td>
                                         <td class="text-center"><input type="radio" form="store" name="is_pm" value="0"></td>
+                                    </tr>
+
+                                    <tr class="irene-tr">
+                                        <td>SUPERVISOR</td>
+                                        <td class="text-center"><input type="radio" form="store" name="is_supervisor" value="1" checked></td>
+                                        <td class="text-center"><input type="radio" form="store" name="is_supervisor" value="0"></td>
+                                    </tr>
+
+                                    <tr class="irene-tr">
+                                        <td>MANAGER</td>
+                                        <td class="text-center"><input type="radio" form="store" name="is_manager" value="1" checked></td>
+                                        <td class="text-center"><input type="radio" form="store" name="is_manager" value="0"></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -369,6 +401,18 @@ endif;
                                         <td class="text-center"><input type="radio" id="is_pm_true" form="update" name="is_pm_update" value="1" checked></td>
                                         <td class="text-center"><input type="radio" id="is_pm_false" form="update" name="is_pm_update" value="0"></td>
                                     </tr>
+
+                                    <tr class="irene-tr">
+                                        <td>IS SUPERVISOR</td>
+                                        <td class="text-center"><input type="radio" id="is_supervisor_true" form="update" name="is_supervisor_update" value="1" checked></td>
+                                        <td class="text-center"><input type="radio" id="is_supervisor_false" form="update" name="is_supervisor_update" value="0"></td>
+                                    </tr>
+
+                                    <tr class="irene-tr">
+                                        <td>IS MANAGER</td>
+                                        <td class="text-center"><input type="radio" id="is_manager_true" form="update" name="is_manager_update" value="1" checked></td>
+                                        <td class="text-center"><input type="radio" id="is_manager_false" form="update" name="is_manager_update" value="0"></td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -401,6 +445,9 @@ endif;
                 let line_2 = $(this).data('line2');
                 let injection = $(this).data('injection');
                 let is_pm = $(this).data('is_pm'); 
+                let is_supervisor = $(this).data('is_supervisor');
+                let is_manager = $(this).data('is_manager');
+                console.log(is_manager+'-'+is_pm);
                 $('#update_id').val(id);
                 $('#name_update').val(name);
                 $('#email_update').val(email);
@@ -470,11 +517,28 @@ endif;
                 }
 
                 if(is_pm === 1){
+                    console.log('irene1');
                     $("#is_pm_true").prop("checked", true);
                     $("#is_pm_false").prop("checked", false);
                 }else{
                     $("#is_pm_true").prop("checked", false);
                     $("#is_pm_false").prop("checked", true);
+                }
+
+                if(is_supervisor === 1){
+                    $("#is_supervisor_true").prop("checked", true);
+                    $("#is_supervisor_false").prop("checked", false);
+                }else{
+                    $("#is_supervisor_true").prop("checked", false);
+                    $("#is_supervisor_false").prop("checked", true);
+                }
+
+                if(is_manager === 1){
+                    $("#is_manager_true").prop("checked", true);
+                    $("#is_manager_false").prop("checked", false);
+                }else{
+                    $("#is_manager_true").prop("checked", false);
+                    $("#is_manager_false").prop("checked", true);
                 }
             });
         });
