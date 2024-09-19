@@ -108,6 +108,7 @@ Route::middleware([IsActive::class])->group(function () {
 
         // PDF
         Route::get('/test_quarantine',[PdfController::class, 'test_quarantine'])->name('pdf.test_quarantine');
+        Route::get('/test_tos',[PdfController::class, 'test_tos'])->name('pdf.test_tos');
         // END PDF
 
         // PALLETS

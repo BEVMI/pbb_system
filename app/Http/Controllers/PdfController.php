@@ -46,4 +46,16 @@ class PdfController extends Controller
     public function print_now($ids){
 
     }
+
+    public function test_tos(){
+        $print = 'pdf.test_tos';
+        $font = 'arial';
+        $position = 'portrait';
+       
+        $pdf = Pdf::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true,'defaultMediaType'=> 'all','isFontSubsettingEnabled'=>true,'defaultFont'=>$font])
+        ->loadView($print)->setPaper('LETTER', $position);
+        $pdf->getDomPDF()->set_option("enable_php", true);
+
+        return $pdf->stream('test.pdf',array('Attachment' => false));
+    }
 }
