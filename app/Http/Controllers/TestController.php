@@ -9,7 +9,8 @@ use Auth;
 class TestController extends Controller
 {
     public function emaildesign(){
-        return view('mail.index');
+        $user = Auth::user();
+        print_r($user);
     }
 
     public function emailtest(){

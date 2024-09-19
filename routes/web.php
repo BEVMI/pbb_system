@@ -34,8 +34,8 @@ Auth::routes([
     'verify' => false, // Email Verification Routes...
     'confirm'=>false, // Password Confirm
 ]);
-Route::middleware([IsActive::class])->group(function () {
-    Route::group(['middleware' => 'auth'], function () {
+    
+    Route::group(['middleware' => 'auth',IsActive::class], function () {
         // FORECAST ROUTES
         Route::get('/forecast',[ForecastController::class, 'index'])->name('forecast.index');
         Route::post('/forecast_post',[ForecastController::class, 'store'])->name('forecast.store');
@@ -120,6 +120,6 @@ Route::middleware([IsActive::class])->group(function () {
         // END PALLETS
 
     });
-});
+
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
