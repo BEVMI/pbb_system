@@ -12,6 +12,23 @@ td a{
   margin: auto !important;
 }
 
+#print_1{
+  display: none;
+}
+
+#print_0{
+  display: inline;
+}
+
+@media only screen and (max-width: 1200px) {
+  #print_1{
+    display: inline;
+  }
+  
+  #print_0{
+    display: none;
+  }
+}
 
 @media only screen and (max-width: 880px) {
   .fc-toolbar-chunk {

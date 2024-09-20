@@ -75,8 +75,14 @@ $user_auth = Auth::user();
     .select2-container--default .select2-selection--multiple .select2-selection__choice{
         display: block !important;
     }
+    iframe{
+        margin: 0px !important;
+        padding: 0px !important;
+        border:none;
+    }
 </style>
 <link href="{{asset('css/select2.min.css')}}" rel="stylesheet" />
+<link href=" https://printjs-4de6.kxcdn.com/print.min.css" rel="stylesheet" />
 @endsection
 
 @section('title') 
@@ -153,5 +159,7 @@ $user_auth = Auth::user();
 
 @section('scripts')
 <script src="{{asset('js/select2.min.js')}}"></script>
+<script src="https://printjs-4de6.kxcdn.com/print.min.js" crossorigin="anonymous"></script>
 @include('api.tos')
+
 @endsection

@@ -19,9 +19,23 @@ td{
 td a{
     margin: auto !important;
 }
-  
+#print_1{
+    display: none;
+}
+
+#print_0{
+    display: inline;
+}
 @media only screen and (max-width: 1200px) {
     .irene_hide a{
+        display: none;
+    }
+
+    #print_1{
+        display: inline;
+    }
+    
+    #print_0{
         display: none;
     }
     /* .irene-nav {

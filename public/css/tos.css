@@ -1,0 +1,102 @@
+/** Define the margins of your page **/
+@page {
+    margin: 20px 25px;
+}
+
+@font-face {
+    font-family: "source_sans_proregular";           
+    src: local("Source Sans Pro"), url("fonts/sourcesans/sourcesanspro-regular-webfont.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}        
+body{
+    font-family: "source_sans_proregular","sans-serif";            
+}
+
+body {
+    margin-top: .1cm;
+    margin-left: 0cm;
+    margin-right: 0cm;
+    margin-bottom: .1cm;
+}
+ .pdf th, .pdf td {
+ border: 1px solid;
+}
+
+.pdf{
+    border-collapse: collapse;
+    font-size:14px;
+}
+.irene_class{
+    font-size: 8px !important;
+}
+.irene_border{
+    border:1px solid black;
+}
+.text-center{
+    text-align: center;
+}
+table{ border-collapse: collapse; } 
+.irene-table {
+    border-left: 0.01em solid #ccc;
+    border-right: 0;
+    border-top: 0.01em solid #000000;
+    border-bottom: 0;
+    border-collapse: collapse;
+}
+.irene-table td,
+.irene-table th {
+    border-spacing: 0;
+    border-left: 0;
+    border-right: 0.01em solid #000000;
+    border-top: 0;
+    border-bottom: 0.01em solid #000000;
+}
+.irene-font-size{
+    font-size: 12px;
+}
+.irene-padding-7{
+    padding-top:7px;
+    padding-bottom:7px;
+}
+.irene-16{
+    width:16.67%; 
+    border:1px solid black;
+}
+.irene-20{
+    width:20%; 
+    border:1px solid black;
+}
+.irene-25{
+    width: 25%;
+    border:1px solid black;
+}
+.irene-50{
+    width: 50%;
+    border:1px solid black;
+}
+.irene-80{
+    width: 80%;
+    border:1px solid black;
+}
+.irene-100{
+    width: 100%;
+    border:1px solid black;
+}
+.font-weight-bold{
+    font-weight: bold;
+}
+.bypass-no-border{
+    border:none !important;
+}
+.irene_absolute{
+    position: relative; 
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    text-align: center;
+}
+.bypass_relative{
+    position: absolute !important;
+}

@@ -37,6 +37,7 @@
             url: api_url+'/TOS/GetTOSHeader?nYear='+year+'&nMonth='+month,
             success: function (data) {
                 irene_parse = JSON.parse(data);
+              
                 console.log(irene_parse);
                 $.each(irene_parse, function(index,item) {
                     var x = document.getElementById('tos_body_table').insertRow(-1);
@@ -44,11 +45,14 @@
                     var r = x.insertCell(1);
                     var e = x.insertCell(2);
                     var n = x.insertCell(3);
+                    let print = '<button class="btn btn-primary" onclick="printTos('+item.id+')" style="margin:0;"><i class="fa-solid fa-print"></i></button> &nbsp;';
+                    let edit = '<button class="btn btn-success" onclick="updateTos('+item.id+')" style="margin:0;"><i class="fa-solid fa-pencil"></i></button> &nbsp;';
+                    let remove = '<button class="btn btn-danger" onclick="confirmDeleteTos('+item.id+')" style="margin:0;"><i class="fa-solid fa-trash"></i></button>';
 
                     i.innerHTML = item.cTOSRefNo;
                     r.innerHTML = formatDate(item.dDate);
                     e.innerHTML = item.cCreatedBy;
-                    n.innerHTML = '<button class="btn btn-success" onclick="updateTos('+item.id+')" style="margin:0;"><i class="fa-solid fa-pencil"></i></button><button class="btn btn-danger" onclick="confirmDeleteTos('+item.id+')" style="margin:0;"><i class="fa-solid fa-trash"></i></button>';
+                    n.innerHTML = print+edit+remove;
 
                 }); 
             }
@@ -110,7 +114,7 @@
         let lot_number = document.querySelectorAll("input[name^='lot_number[']");
         let pallets = document.querySelectorAll("select[name^='iPallet[']");
         let dTurnOverDate = "{{$initial_date}}";
-        let user_auth = "{{$user_auth->name}}";
+        let user_auth = "{{$user_auth->id}}";
         let details = [];
         let pallet_details = [];
         for (var i = 0; i <lot_number.length; i++) {
@@ -149,7 +153,7 @@
             data:JSON.stringify({
                 "id": 0,
                 "dTurnOverDate": dTurnOverDate,
-                "cCreatedBy": user_auth,
+                "iUserId": user_auth,
                 "details":details
             }),
             success:function(data){
@@ -209,7 +213,7 @@
             data:JSON.stringify({
                 "id": id,
                 "dTurnOverDate": dTurnOverDate,
-                "cCreatedBy": user_auth,
+                "iUserId": user_auth,
                 "details":details
             }),
             success:function(data){
@@ -499,5 +503,40 @@
             }
         });
         
+    }
+</script>
+
+<script>
+    function printTos(id){
+        Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "RENDERING PDF",
+            showConfirmButton: false,
+            timer: 4000
+        });
+        
+        $('#modalPrint').modal('show');
+        // $.ajax({
+        //     type: 'GET', //THIS NEEDS TO BE GET
+        //     url: irene_api_base_url+'/turnover_form/'+id+'/0',
+        //     success: function (data) {
+        //         $( "#display_dialog").html('<iframe width="100%" height="600px" src="data:application/pdf;base64,' + data + '"></object>');
+        //     }
+        // });
+        $( "#display_dialog").html('<iframe  frameBorder="0" width="100%" height="1000px" src="'+irene_api_base_url+'/turnover_form1/'+id+'/0"></object>');
+    }
+</script>
+
+<script>
+    function irene(){
+        printJS({
+            printable: 'display_dialog',
+            type: 'html',
+            css: [
+                '{{asset("css/tos.css")}}'
+            ],
+            scanStyles: false
+        })
     }
 </script>

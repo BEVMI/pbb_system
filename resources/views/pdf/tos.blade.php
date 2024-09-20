@@ -423,6 +423,6 @@
                
             </table>
             <br>
-            <p class="font-weight-bold" style="text-align: right; font-size:9px;">PBB-BP-PR-FO-018 Rv01_04 Jan 2021</p>
+            <p class="font-weight-bold" style="text-align: right; font-size:9px;">{{$tag->control_no}} {{$tag->revision_number}}</p>
     </body>
 </html>

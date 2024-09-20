@@ -25,6 +25,7 @@ Route::group(['middleware' => ['web']], function () {
     // PDF
     Route::get('/print_pdf',[PdfController::class, 'print'])->name('pallet_status.print');
     Route::get('/print_pdf_now/{id}',[PdfController::class, 'print_now'])->name('pallet_status.print_now');
-    Route::get('/turnover_form/{id}',[PdfController::class, 'turnover_form'])->name('turnover_form');
+    Route::get('/turnover_form/{id}/{flag}',[PdfController::class, 'turnover_form'])->name('turnover_form');
+    Route::get('/turnover_form1/{id}/{flag}',[PdfController::class, 'turnover_form1'])->name('turnover_form1');
     // END PDF
 });

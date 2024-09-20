@@ -536,7 +536,8 @@
                     'user_name':user_name
                 },
                 success: function (data) {
-                    $( "#display_dialog").html('<iframe width="100%" height="600px" src="data:application/pdf;base64,' + data + '"></object>');
+                    console.log(data);
+                    $( "#display_dialog").html('<iframe width="100%" height="600px" srcdoc="' + data + '"></object>');
                 }
             });
         }else{

@@ -157,3 +157,27 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" data-bs-backdrop='static' id="modalPrint" aria-hidden="false" role="dialog" aria-labelledby="modalPrintCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title font-weight-bold badge bg-primary" id="modalPrintLongTitle" style="font-size:16px;">PRINT</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">  
+                <div id="display_dialog"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success"  onclick="irene()">
+                    PRINT
+                 </button>
+                <button class="btn btn-secondary" type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    CLOSE
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
