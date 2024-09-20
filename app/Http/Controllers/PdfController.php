@@ -79,6 +79,8 @@ class PdfController extends Controller
         $cases[] = 'Total Quantity (Cases)';
         $references[] = 'QA/QC Reference';
         $coas = []; 
+        $stock_codes = [];
+        $long_desc = [];
 
         foreach($fields->details as $detail):
             $jobs[] = $detail->iJobNo;
@@ -91,6 +93,8 @@ class PdfController extends Controller
             $cases[] = $detail->iCases;
             $references[] = $detail->refNo;
             $coas[] = $detail->cCoaRefNo;
+            $stock_codes[] = $detail->cStockCode;
+            $long_desc[] = $detail->cLongDesc;
         endforeach;
 
         for($x = count($jobs); $x <= 5; $x++):
@@ -104,6 +108,8 @@ class PdfController extends Controller
             $cases[] = '';
             $references[] = '';
             $coas[] = '';
+            $stock_codes[] = '';
+            $long_desc[] = '';
         endfor;
         
         $job_details = (object)array(
@@ -119,7 +125,9 @@ class PdfController extends Controller
         );
         // END DETAILS
 
-
+        $job_post = array_filter(array_unique($jobs));
+        $stock_code_post = array_filter($stock_codes);
+        $long_desc_post = array_filter($long_desc);
         // TURNOVER DETAILS
         $turnover_details = (object)array(
             'date'=>Carbon::parse($fields->dCreatedDate)->format('M d, Y'),
@@ -136,7 +144,10 @@ class PdfController extends Controller
             'received_by'=>$fields->cReceivedBy,
             'received_by_date'=>Carbon::parse($fields->dReceivedBy)->format('M d, Y'),
             'is_warehouse'=>$user_auth->is_warehouse,
-            'tos_ref'=>$tos_ref
+            'tos_ref'=>$tos_ref,
+            'job'=> $job_post,
+            'stock_code'=>$stock_code_post[0],
+            'long_desc'=>$long_desc_post[0],
         );
         // END TURNOVER DETAILS
 

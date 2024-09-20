@@ -18,6 +18,7 @@ use App\Http\Controllers\PdfController;
 use App\Http\Controllers\QcController;
 use App\Http\Controllers\PalletsController;
 use App\Http\Controllers\TosController;
+use App\Http\Controllers\ApprovalLevelConntroller;
 
 Route::get('/', ['middleware' => 'guest', function()
 {
@@ -118,6 +119,11 @@ Auth::routes([
         // PALLETS
         Route::get('/tos',[TosController::class, 'index'])->name('tos.index');
         // END PALLETS
+
+        // APPROVER LEVEL
+        Route::get('/approver_level',[ApprovalLevelConntroller::class, 'index'])->name('approver_level.index');
+        Route::post('/approver_post',[ApprovalLevelConntroller::class, 'update'])->name('approver_level.update');
+        // END APPROVER LEVEL
 
     });
 

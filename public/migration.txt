@@ -32,3 +32,11 @@ php artisan make:migration added_boolean --table=users
 
 php artisan migrate --path=\database/migrations/2024_09_19_135940_added_boolean.php
 php artisan migrate:refresh --path=\database/migrations/2024_09_19_135940_added_boolean.php
+
+php artisan migrate --path=\database/migrations/2024_09_20_100507_create_approver_levels_table.php
+php artisan migrate:refresh --path=\database/migrations/2024_09_20_100507_create_approver_levels_table.php
+
+php artisan make:migration add_signature --table=users
+
+php artisan migrate --path=\database/migrations/2024_09_20_110956_add_signature.php
+php artisan migrate:refresh --path=\database/migrations/2024_09_20_110956_add_signature.php

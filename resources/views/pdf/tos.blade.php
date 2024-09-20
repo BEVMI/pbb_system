@@ -328,27 +328,45 @@
                         <table class="irene-100 bypass-no-border" cellspacing='0' cellpadding="2" style="height: 150px;">
                             <tr>
                                 <td colspan="4" class="irene-font-size irene-100 font-weight-bold text-center bypass-no-border">
-                                    JOB-207 AQL02 - 500 ML
+                                    <?php
+                                        $job_shift = array_shift($turnover_details->job);
+                                        $new_job_array = implode(', ',$turnover_details->job);
+                                    ?> 
+                                    {{$new_job_array}} {{$turnover_details->stock_code}} - {{$turnover_details->long_desc}}
                                 </td>
                             </tr>
-                            {{-- FOR LOOP --}}
-                            @for ($x = 1; $x <= 6; $x++)
+                
                             <tr>
                                 <td class="irene-25 bypass-no-border irene-font-size">
-                                    Total:
+                                    {{$total_remark->batch_no}}
                                 </td>
                                 <td class="irene-25 bypass-no-border text-center irene-font-size">
-                                    4000
+                                    {{$total_remark->cases_qty}}
                                 </td>
                                 <td class="irene-25 bypass-no-border text-center irene-font-size">
                                     cases
                                 </td>
                                 <td class="irene-25 bypass-no-border text-center irene-font-size">
-                                    Micro Result
+                                    {{$total_remark->coa}}
                                 </td>
                             </tr>
-                            {{-- END FOR LOOP --}}
-                            @endfor
+
+                            @foreach ($remarks as $remark)
+                                <tr>
+                                    <td class="irene-25 bypass-no-border irene-font-size">
+                                        {{$remark->batch_no}}
+                                    </td>
+                                    <td class="irene-25 bypass-no-border text-center irene-font-size">
+                                        {{$remark->cases_qty}}
+                                    </td>
+                                    <td class="irene-25 bypass-no-border text-center irene-font-size">
+                                        {{$remark->cases}}
+                                    </td>
+                                    <td class="irene-25 bypass-no-border text-center irene-font-size">
+                                        {{$total_remark->coa}}
+                                    </td>
+                                </tr>
+                            @endforeach
                         </table>
                     </td>
                     <td class="irene-50 text-center">

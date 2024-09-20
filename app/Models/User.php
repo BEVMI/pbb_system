@@ -33,6 +33,7 @@ class User extends Authenticatable
         'is_pm',
         'is_supervisor',
         'is_manager',
+        'signature'
     ];
 
     /**

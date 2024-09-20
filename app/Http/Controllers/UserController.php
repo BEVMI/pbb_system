@@ -46,49 +46,49 @@ class UserController extends Controller
             'photo' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);    
 
-        $photo_name = time().'.'.$photo->extension();
+        $photo_name = 'P'.time().'.'.$photo->extension();
         
         $photo->move('user_images', $photo_name);
         $photo_image_post = $photo_name;
-        if(!empty($photo)):
-            $data_user = array(
-                'id'=>$uuid,
-                'name'=>$name,
-                'email'=>$email,
-                'password'=>md5($password),
-                'is_active'=>$is_active,
-                'is_admin' => $is_admin,
-                'is_warehouse' => $is_warehouse,
-                'is_production' => $is_production,
-                'is_qc' => $is_qc,
-                'line_1'=>$line_1,
-                'line_2'=>$line_2,
-                'injection'=>$injection,
-                'is_pm'=>$is_pm,
-                'is_supervisor'=>$is_supervisor,
-                'is_manager'=>$is_manager,
-                'photo'=> $photo_image_post,
-            );
-        else:
-            $data_user = array(
-                'id'=>$uuid,
-                'name'=>$name,
-                'email'=>$email,
-                'password'=>md5($password),
-                'is_active'=>$is_active,
-                'is_admin' => $is_admin,
-                'is_warehouse' => $is_warehouse,
-                'is_production' => $is_production,
-                'is_qc' => $is_qc,
-                'line_1'=>$line_1,
-                'line_2'=>$line_2,
-                'injection'=>$injection,
-                'is_pm'=>$is_pm,
-                'is_supervisor'=>$is_supervisor,
-                'is_manager'=>$is_manager,
-            );
-        endif;
 
+        $signature = $request->file('signature');
+        $request->validate([
+            'signature' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        ]);    
+
+        $signature_name = 'S'.time().'.'.$signature->extension();
+        
+        $signature->move('signatures', $signature_name);
+        $signature_image_post = $signature_name;
+
+        $data_user = array(
+            'id'=>$uuid,
+            'name'=>$name,
+            'email'=>$email,
+            'password'=>md5($password),
+            'is_active'=>$is_active,
+            'is_admin' => $is_admin,
+            'is_warehouse' => $is_warehouse,
+            'is_production' => $is_production,
+            'is_qc' => $is_qc,
+            'line_1'=>$line_1,
+            'line_2'=>$line_2,
+            'injection'=>$injection,
+            'is_pm'=>$is_pm,
+            'is_supervisor'=>$is_supervisor,
+            'is_manager'=>$is_manager,
+        );
+
+        if(!empty($photo)):
+            $new_array = array('photo'=>$photo_name);
+            $data_user  = array_merge($data_user,$new_array);
+        endif;
+        
+        if(!empty($signature)):
+            $new_array = array('signature'=>$signature_name);
+            $data_user  = array_merge($data_user,$new_array);
+        endif;
+        
         User::create($data_user);
         return back()->with('success','USER SUCCESSFULLY CREATED!');
     }
@@ -114,7 +114,7 @@ class UserController extends Controller
         $is_manager = $request->input('is_manager_update');
 
         $update_photo = $request->file('update_photo');
-
+        $update_signature = $request->file('update_signature');
         if(empty($password_post)):
             $password = $user_row->password;
         else:
@@ -122,7 +122,7 @@ class UserController extends Controller
         endif;
 
         if(!empty($update_photo)):
-            $photo_name = time().'.'.$update_photo->extension();
+            $photo_name = 'P'.time().'.'.$update_photo->extension();
             $photo_path = "user_images/".$user_row->photo;
 
             if(File::exists($photo_path)) {
@@ -131,43 +131,45 @@ class UserController extends Controller
             $update_photo->move('user_images', $photo_name);
             $photo_image_post = $photo_name;
         endif;
-        if(!empty($update_photo)):
-            $data_user = array(
-                'name'=>$name,
-                'email'=>$email,
-                'password'=>$password,
-                'is_active'=>$is_active,
-                'is_admin' => $is_admin,
-                'is_warehouse' => $is_warehouse,
-                'is_production' => $is_production,
-                'is_qc' => $is_qc, 
-                'line_1'=>$line_1,
-                'line_2'=>$line_2,
-                'injection'=>$injection,
-                'is_supervisor'=>$is_supervisor,
-                'is_manager'=>$is_manager,
-                'is_pm'=>$is_pm,
-                'photo'=> $photo_image_post,
-            );
-        else:
-            $data_user = array(
-                'name'=>$name,
-                'email'=>$email,
-                'password'=>$password,
-                'is_active'=>$is_active,
-                'is_admin' => $is_admin,
-                'is_warehouse' => $is_warehouse,
-                'is_production' => $is_production,
-                'is_qc' => $is_qc, 
-                'line_1'=>$line_1,
-                'line_2'=>$line_2,
-                'injection'=>$injection,
-                'is_pm'=>$is_pm,
-                'is_supervisor'=>$is_supervisor,
-                'is_manager'=>$is_manager,
-            );
+
+        if(!empty($update_signature)):
+            $signature_name = 'S'.time().'.'.$update_signature->extension();
+            $signature_path = "signatures/".$user_row->signature;
+
+            if(File::exists($signature_path)) {
+                File::delete($signature_path);
+            }
+            $update_signature->move('signatures', $signature_name);
+            $signature_image_post = $signature_name;
         endif;
 
+        $data_user = array(
+            'name'=>$name,
+            'email'=>$email,
+            'password'=>$password,
+            'is_active'=>$is_active,
+            'is_admin' => $is_admin,
+            'is_warehouse' => $is_warehouse,
+            'is_production' => $is_production,
+            'is_qc' => $is_qc, 
+            'line_1'=>$line_1,
+            'line_2'=>$line_2,
+            'injection'=>$injection,
+            'is_pm'=>$is_pm,
+            'is_supervisor'=>$is_supervisor,
+            'is_manager'=>$is_manager,
+        );
+
+        if(!empty($update_photo)):
+            $new_array = array('photo'=>$photo_image_post);
+            $data_user  = array_merge($data_user,$new_array);
+        endif;
+        
+        if(!empty($update_signature)):
+            $new_array = array('signature'=>$signature_image_post);
+            $data_user  = array_merge($data_user,$new_array);
+        endif;
+        
         User::where('id',$user_id)->update($data_user);
         return back()->with('success',"USER SUCCESSFULLY UPDATED!");
     }

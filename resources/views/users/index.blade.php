@@ -67,6 +67,7 @@ endif;
                     <thead class="text-center">
                         <th style="width:10%;">ACTION</th>
                         <th style="width:10%;">PHOTO</th>
+                        <th style="width:10%;">SIGNATURE</th>
                         <th style="width:25%;">NAME</th>
                         <th style="width:15%;">EMAIL</th>
                         <th style="width:10%;">SUPERUSER</th>
@@ -106,6 +107,9 @@ endif;
                                     </td>
                                     <td style="vertical-align: middle;">
                                         <img style="border-radius: 50%;" src="{{asset('user_images')}}/{{$user->photo}}" width="75px" alt="">
+                                    </td>
+                                    <td style="vertical-align: middle;">
+                                        <img style="border-radius: 50%;" src="{{asset('signatures')}}/{{$user->signature}}" width="75px" alt="">
                                     </td>
                                     <td>{{$user->name}}</td>
                                     <td>{{$user->email}}</td>
@@ -204,6 +208,10 @@ endif;
                         <div class="form-group">
                             {{ html()->label('UPLOAD PICTURE:')->attribute('style','font-weight:bold;')->attribute('for','photo') }}
                             {{ html()->file('photo')->class('form-control')->id('photo')->attribute('style','font-weight:bold;')->attribute('form','store') }}
+                        </div>
+                        <div class="form-group">
+                            {{ html()->label('UPLOAD SIGNATURE:')->attribute('style','font-weight:bold;')->attribute('for','signature') }}
+                            {{ html()->file('signature')->class('form-control')->id('signature')->attribute('style','font-weight:bold;')->attribute('form','store') }}
                         </div>
                     </div>    
                     <div class="col-sm-6">
@@ -330,7 +338,12 @@ endif;
 
                         <div class="form-group">
                             {{ html()->label('UPLOAD PICTURE:')->attribute('style','font-weight:bold;')->attribute('for','update_photo') }}
-                            {{ html()->file('update_photo')->class('form-control')->id('password')->attribute('style','font-weight:bold;')->attribute('form','update') }}
+                            {{ html()->file('update_photo')->class('form-control')->id('update_photo')->attribute('style','font-weight:bold;')->attribute('form','update') }}
+                        </div>
+
+                        <div class="form-group">
+                            {{ html()->label('UPLOAD SIGNATURE:')->attribute('style','font-weight:bold;')->attribute('for','update_photo') }}
+                            {{ html()->file('update_signature')->class('form-control')->id('update_signature')->attribute('style','font-weight:bold;')->attribute('form','update') }}
                         </div>
 
                     </div>    
