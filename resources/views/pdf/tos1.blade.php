@@ -314,10 +314,10 @@
                         </td>
 
                         <td class="irene-50-mobile font-weight-bold text-center"  style="border-bottom:1px solid white;">
-                            @if($user->is_qc==1)
+                            @if($user->is_qc==1 && $turnover_details->validated_by=='')
                                 <div style="height:70px; width:135px; color:white;" onclick="confirmApproved({{$turnover_details->id}},'QC')">
                             @else
-                                <div style="height:70px; width:135px; color:white;">
+                                <div style="height:70px; width:135px; color:white;" onclick="alreadyApprove('QC','{!!$turnover_details->validated_by!!}')">
                             @endif   
                                 -
                                 @if($turnover_details->validated_by!='')
@@ -329,10 +329,10 @@
                         </td>
 
                         <td class="irene-50-mobile font-weight-bold text-center"  style="border-bottom:1px solid white;">
-                            @if($user->is_supervisor==1)
+                            @if($user->is_supervisor==1 && $turnover_details->approved_by=='')
                                 <div style="height:70px; width:135px; color:white;" onclick="confirmApproved({{$turnover_details->id}},'APPROVE')">
                             @else
-                                <div style="height:70px; width:135px; color:white;"> 
+                                <div style="height:70px; width:135px; color:white;" onclick="alreadyApprove('APPROVE','{!!$turnover_details->approved_by!!}')"> 
                             @endif
                                 -
                                 @if($turnover_details->approved_by!='')
@@ -344,10 +344,10 @@
                         </td>
                         
                         <td class="irene-50-mobile font-weight-bold text-center"  style="border-bottom:1px solid white;">
-                            @if($user->is_warehouse==1)
+                            @if($user->is_warehouse==1 && $turnover_details->received_by=='')
                                 <div style="height:70px; width:135px; color:white;" onclick="confirmApproved({{$turnover_details->id}},'RECEIVED')">
                             @else
-                                <div style="height:70px; width:135px; color:white;">
+                                <div style="height:70px; width:135px; color:white;" onclick="alreadyApprove('RECEIVED','{!!$turnover_details->received_by!!}')">
                             @endif
                                 -
                                 @if($turnover_details->received_by!='')
@@ -359,10 +359,10 @@
                         </td>
 
                         <td class="irene-50-mobile font-weight-bold text-center"  style="border-bottom:1px solid white;">
-                            @if($user->is_manager==1)
+                            @if($user->is_manager==1 && $turnover_details->for_turnover=='')
                                 <div style="height:70px; width:135px; color:white;" onclick="confirmApproved({{$turnover_details->id}},'TURNOVER')">
                             @else
-                                <div style="height:70px; width:135px; color:white;">
+                                <div style="height:70px; width:135px; color:white;" onclick="alreadyApprove('TURNOVER','{!!$turnover_details->for_turnover!!}')">
                             @endif
                                 -
                                 @if($turnover_details->for_turnover!='')
@@ -411,22 +411,18 @@
         <script>
             function confirmApproved(id,module1){
                 if(module1 === 'QC'){
-                  
                     post = 'VALIDATE';
                 }
 
                 if(module1 === 'APPROVE'){
-                  
                     post = 'APPROVE';
                 }
 
                 if(module1 === 'RECEIVED'){
-                   
                     post = 'RECEIVED';
                 }
 
                 if(module1 === 'TURNOVER'){
-                   
                     post = 'TUNOVER';
                 }
                 Swal.fire({
@@ -494,13 +490,62 @@
             }
             function irene(){
                 printJS({
-                printable: 'printJS-form',
-                type: 'html',
-                css: [
-                    '{{asset("css/tos.css")}}'
-                ],
-                scanStyles: false
-            })
+                    printable: 'printJS-form',
+                    type: 'html',
+                    css: [
+                        '{{asset("css/tos.css")}}'
+                    ],
+                    scanStyles: false
+                })
+            }
+            function alreadyApprove(module1,flag2){
+
+                if(flag2==''){
+                    if(module1 === 'QC'){
+                        post = 'for VALIDATION';
+                    }
+
+                    if(module1 === 'APPROVE'){
+                        post = 'for APPROVAL';
+                    }
+
+                    if(module1 === 'RECEIVED'){
+                        post = 'for RECEIVING';
+                    }
+
+                    if(module1 === 'TURNOVER'){
+                        post = 'not yet TUNOVER';
+                    }
+                    message = "This TOS is "+post;
+                    icon = 'info';
+                }
+                else{
+                    if(module1 === 'QC'){
+                        post = 'VALIDATED';
+                    }
+
+                    if(module1 === 'APPROVE'){
+                        post = 'APPROVED';
+                    }
+
+                    if(module1 === 'RECEIVED'){
+                        post = 'RECEIVED';
+                    }
+
+                    if(module1 === 'TURNOVER'){
+                        post = 'TUNOVERED';
+                    }
+                    message = "This TOS was already "+post;
+                    icon = 'success';
+                }
+                
+                Swal.fire({
+                    position: "error",
+                    icon: icon,
+                    title: message,
+                    showConfirmButton: false,
+                    timer: 2500
+                })
             }
         </script>
     </body>
