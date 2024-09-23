@@ -172,7 +172,8 @@
         let lot_number = document.querySelectorAll("input[name^='lot_number_update[']");
         let pallets = document.querySelectorAll("select[name^='iPalletUpdate[']");
         let dTurnOverDate = "{{$initial_date}}";
-        let user_auth = "{{$user_auth->name}}";
+        let user_auth = "{{$user_auth->id}}";
+        console.log(user_auth);
         let details_update = [];
         let pallet_details_update = [];
         let id = document.getElementById('tos_id_update').value;

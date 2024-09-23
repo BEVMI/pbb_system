@@ -258,19 +258,25 @@ class PdfController extends Controller
         $long_desc_post = array_filter($long_desc);
         // TURNOVER DETAILS
         $turnover_details = (object)array(
+            'id'=>$fields->id,
             'date'=>Carbon::parse($fields->dCreatedDate)->format('M d, Y'),
             'time'=>Carbon::parse($fields->dCreatedDate)->format('h:i a'),
             'location'=>'Holding Area',
             'pallet_count'=>array_sum($pallet_counts),
             'created_by'=>$fields->cCreatedBy,
+            'created_by_signature'=> $fields->cCreatedSig,
             'approved_by'=>$fields->cApprovedBy,
             'approved_date'=>Carbon::parse($fields->dApprovedDate)->format('M d, Y'),
+            'approved_by_signature'=> $fields->cApprovedSig,
             'for_turnover'=>$fields->cForTurnover,
             'for_turnover_date'=>Carbon::parse($fields->dForTurnoverDate)->format('M d, Y'),
+            'for_turnover_by_signature'=> $fields->cForTurnoverSig,
             'validated_by'=>$fields->cValidatedBy,
             'validated_by_date'=>Carbon::parse($fields->dValidatedDate)->format('M d, Y'),
+            'validated_by_signature'=>$fields->cValidatedSig,
             'received_by'=>$fields->cReceivedBy,
-            'received_by_date'=>Carbon::parse($fields->dReceivedBy)->format('M d, Y'),
+            'received_by_date'=>Carbon::parse($fields->dReceivedDate)->format('M d, Y'),
+            'received_signature'=>$fields->cReceivedSig,
             'is_warehouse'=>$user_auth->is_warehouse,
             'tos_ref'=>$tos_ref,
             'job'=> $job_post,
@@ -303,8 +309,8 @@ class PdfController extends Controller
         $position = 'portrait';
         
         $tag = QcTag::where('id',4)->first();
-        
-        return view('pdf.tos1',compact('job_details','turnover_details','remarks','total_remark','tag'));
+        $user = Auth::user();
+        return view('pdf.tos1',compact('job_details','turnover_details','remarks','total_remark','tag','user'));
 
         
     }

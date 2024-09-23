@@ -83,6 +83,10 @@ table{ border-collapse: collapse; }
     width: 100%;
     border:1px solid black;
 }
+.irene-50-mobile{
+    width:20% !important;
+    font-size: 12px !important; 
+}
 .font-weight-bold{
     font-weight: bold;
 }
@@ -96,7 +100,32 @@ table{ border-collapse: collapse; }
     left: 0;
     right: 0;
     text-align: center;
+    margin-top: -35px;
 }
 .bypass_relative{
     position: absolute !important;
+}
+.signature{
+    width: 120px;
+}
+@media only screen and (max-width: 900px) {
+    .irene-50-mobile{
+        width:20% !important; 
+        font-size: 9px !important;
+    }
+
+    .signature{
+        width: 120px;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    .irene-50-mobile{
+        width:20% !important; 
+        font-size: 7px !important;
+    }
+
+    .signature{
+        width: 120px;
+    }
 }

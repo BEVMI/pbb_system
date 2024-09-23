@@ -2,7 +2,7 @@
     <head>
         <link rel="shortcut icon" href="{{asset('assets/images/favicon.png')}}" type="image/png">
         <link href="{{asset("css/tos.css")}}" rel="stylesheet" />
-        <link href=" https://printjs-4de6.kxcdn.com/print.min.css" rel="stylesheet" />
+        <link href="{{asset("css/print.min.css")}}" rel="stylesheet" />
     </head>
     <body>
         <div id="printJS-form">
@@ -301,38 +301,197 @@
                     </tr>
                 </thead>
                 <tbody>
-                   
-                  
                     <tr>
-                        <td class="irene-20 font-weight-bold text-center" style="font-size: 12px;">
-                            <img src="{{asset('images/test_sig.png')}}" style="width: 100px;"><br>
-                            CEFRIAN TRINCHERA
+                        <td class="irene-50-mobile font-weight-bold text-center" style="border-bottom:1px solid white;">
+                            <div style="height:70px; width:135px; color:white;">
+                                -
+                                @if($turnover_details->created_by!='')
+                                    @if($turnover_details->created_by_signature != '')
+                                        <img class="signature" src="{{asset('signatures')}}/{{$turnover_details->created_by_signature}}"><br>
+                                    @endif
+                                @endif
+                            </div>
                         </td>
-                        <td class="irene-20 font-weight-bold text-center" style="font-size: 12px;">
-                            <img src="{{asset('images/test_sig.png')}}" style="width: 100px;"><br>
-                            CEFRIAN TRINCHERA
+
+                        <td class="irene-50-mobile font-weight-bold text-center"  style="border-bottom:1px solid white;">
+                            @if($user->is_qc==1)
+                                <div style="height:70px; width:135px; color:white;" onclick="confirmApproved({{$turnover_details->id}},'QC')">
+                            @else
+                                <div style="height:70px; width:135px; color:white;">
+                            @endif   
+                                -
+                                @if($turnover_details->validated_by!='')
+                                    @if($turnover_details->validated_by_signature !='')
+                                        <img class="signature" src="{{asset('signatures')}}/{{$turnover_details->validated_by_signature}}"><br>
+                                    @endif
+                                @endif
+                            </div>
                         </td>
-                        <td class="irene-20 font-weight-bold text-center" style="font-size: 12px;">
-                            <img src="{{asset('images/test_sig.png')}}" style="width: 100px;"><br>
-                            CEFRIAN TRINCHERA
+
+                        <td class="irene-50-mobile font-weight-bold text-center"  style="border-bottom:1px solid white;">
+                            @if($user->is_supervisor==1)
+                                <div style="height:70px; width:135px; color:white;" onclick="confirmApproved({{$turnover_details->id}},'APPROVE')">
+                            @else
+                                <div style="height:70px; width:135px; color:white;"> 
+                            @endif
+                                -
+                                @if($turnover_details->approved_by!='')
+                                    @if($turnover_details->approved_by_signature !='')
+                                        <img class="signature" src="{{asset('signatures')}}/{{$turnover_details->approved_by_signature}}"><br>
+                                    @endif
+                                @endif
+                            </div>
                         </td>
-                        <td class="irene-20 font-weight-bold text-center" style="font-size: 12px;">
-                            <img src="{{asset('images/test_sig.png')}}" style="width: 100px;"><br>
-                            CEFRIAN TRINCHERA
+                        
+                        <td class="irene-50-mobile font-weight-bold text-center"  style="border-bottom:1px solid white;">
+                            @if($user->is_warehouse==1)
+                                <div style="height:70px; width:135px; color:white;" onclick="confirmApproved({{$turnover_details->id}},'RECEIVED')">
+                            @else
+                                <div style="height:70px; width:135px; color:white;">
+                            @endif
+                                -
+                                @if($turnover_details->received_by!='')
+                                    @if($turnover_details->received_signature !='')
+                                        <img class="signature" src="{{asset('signatures')}}/{{$turnover_details->received_signature}}"><br>
+                                    @endif
+                                @endif
+                            </div>
                         </td>
-                        <td class="irene-20 font-weight-bold text-center" style="font-size: 12px;">
-                            <img src="{{asset('images/test_sig.png')}}" style="width: 100px;"><br>
-                            CEFRIAN TRINCHERA
+
+                        <td class="irene-50-mobile font-weight-bold text-center"  style="border-bottom:1px solid white;">
+                            @if($user->is_manager==1)
+                                <div style="height:70px; width:135px; color:white;" onclick="confirmApproved({{$turnover_details->id}},'TURNOVER')">
+                            @else
+                                <div style="height:70px; width:135px; color:white;">
+                            @endif
+                                -
+                                @if($turnover_details->for_turnover!='')
+                                    @if($turnover_details->for_turnover_by_signature !='')
+                                        <img class="signature" src="{{asset('signatures')}}/{{$turnover_details->for_turnover_by_signature}}"><br>
+                                    @endif
+                                @endif
+                            </div>
+                        </td>
+
+                    </tr>
+                    <tr class="text-center"> 
+                        <td class="irene-50-mobile font-weight-bold" style="border-top:1px solid white;">
+                            @if($turnover_details->created_by!='')
+                                {{$turnover_details->created_by}}
+                            @endif
+                        </td>
+                        <td class="irene-50-mobile font-weight-bold" style="border-top:1px solid white;" onclick="confirmApproved({{$turnover_details->id}},'QC')">
+                            @if($turnover_details->validated_by!='')
+                                {{$turnover_details->validated_by}}
+                            @endif
+                        </td>
+                        <td class="irene-50-mobile font-weight-bold" style="border-top:1px solid white;" onclick="confirmApproved({{$turnover_details->id}},'APPROVE')">
+                            @if($turnover_details->approved_by!='')
+                                {{$turnover_details->approved_by}}
+                            @endif
+                        </td>
+                        <td class="irene-50-mobile font-weight-bold" style="border-top:1px solid white;" onclick="confirmApproved({{$turnover_details->id}},'RECEIVED')">
+                            @if($turnover_details->received_by!='')
+                                {{$turnover_details->received_by}}
+                            @endif
+                        </td>
+                        <td class="irene-50-mobile font-weight-bold" style="border-top:1px solid white;" onclick="confirmApproved({{$turnover_details->id}},'TURNOVER')"> 
+                            @if($turnover_details->for_turnover!='')
+                                {{$turnover_details->for_turnover}}
+                            @endif
                         </td>
                     </tr>
-                </tbody>
-               
             </table>
             <br>
             <p class="font-weight-bold" style="text-align: right; font-size:9px;">{{$tag->control_no}} {{$tag->revision_number}}</p>
         </div>
-        <script src="https://printjs-4de6.kxcdn.com/print.min.js" crossorigin="anonymous"></script>
+        <script src="{{asset('js/jquery-3.7.1.js')}}"></script>
+        <script src="{{asset('js/sweetalert2@11.js')}}"></script>
+        <script src="{{asset("js/print.min.js")}}" crossorigin="anonymous"></script>
         <script>
+            function confirmApproved(id,module1){
+                if(module1 === 'QC'){
+                  
+                    post = 'VALIDATE';
+                }
+
+                if(module1 === 'APPROVE'){
+                  
+                    post = 'APPROVE';
+                }
+
+                if(module1 === 'RECEIVED'){
+                   
+                    post = 'RECEIVED';
+                }
+
+                if(module1 === 'TURNOVER'){
+                   
+                    post = 'TUNOVER';
+                }
+                Swal.fire({
+                    title: 'DO YOU WANT TO '+post+' THIS TOS?',
+                    showDenyButton: true,
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes',
+                    denyButtonText: 'No',
+                    customClass: {
+                        actions: 'my-actions',
+                        cancelButton: 'order-1 right-gap',
+                        confirmButton: 'order-2',
+                        denyButton: 'order-3',
+                    },
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                        statusTos(id,module1)
+                    } else if (result.isDenied) {
+                        Swal.fire('Changes are not saved', '', 'info')
+                    }
+                })
+            }
+            function statusTos(id,module1){
+                let api_url = '{!!$api_url!!}';
+                if(module1 === 'QC'){
+                    status = 'QA/QC Validated';
+                    post = 'VALIDATED SUCCESSFULLY';
+                }
+
+                if(module1 === 'APPROVE'){
+                    status = 'Approved';
+                    post = 'APPROVE SUCCESSFULLY';
+                }
+
+                if(module1 === 'RECEIVED'){
+                    status = 'Turnover/Received';
+                    post = 'TUNOVER & RECEIVED SUCCESSFULLY';
+                }
+
+                if(module1 === 'TURNOVER'){
+                    status = 'For Turnover';
+                    post = 'TUNOVER SUCCESSFULLY';
+                }
+                // location.reload();
+                $.ajax({
+                    type:'POST',
+                    method:'POST',
+                    url:api_url+'/TOS/UpdateTOSStatus?iTosId='+id+'&cStatus='+status+'&iUserId={{$user->id}}',
+                    contentType: false,
+                    processData: false,
+                    success:function(data){
+                        Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: post,
+                        showConfirmButton: false,
+                        timer: 2500
+                    });
+
+                    setTimeout(function(){
+                            location.reload();
+                        }, 2500);
+                    }
+                });    
+            }
             function irene(){
                 printJS({
                 printable: 'printJS-form',

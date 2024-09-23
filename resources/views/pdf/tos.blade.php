@@ -67,6 +67,9 @@
                 width:20%; 
                 border:1px solid black;
             }
+            .irene-20-mobile{
+                width:20%; 
+            }
             .irene-25{
                 width: 25%;
                 border:1px solid black;
@@ -99,6 +102,18 @@
             }
             .bypass_relative{
                 position: absolute !important;
+            }
+            .signature{
+                width: 150px;
+            }
+            @media only screen and (max-width: 900px) {
+                .irene-50-mobile{
+                    width:50%; 
+                }
+
+                .signature{
+                    width: 100%;
+                }
             }
         </style>
     </head>
@@ -398,24 +413,24 @@
                    
                   
                     <tr>
-                        <td class="irene-20 font-weight-bold text-center" style="font-size: 12px;">
-                            <img src="{{asset('images/test_sig.png')}}" style="width: 150px;"><br>
+                        <td class="irene-50-mobile font-weight-bold text-center" style="font-size: 12px;">
+                            <img class="signature" src="{{asset('images/test_sig.png')}}"><br>
                             CEFRIAN TRINCHERA
                         </td>
-                        <td class="irene-20 font-weight-bold text-center" style="font-size: 12px;">
-                            <img src="{{asset('images/test_sig.png')}}" style="width: 150px;"><br>
+                        <td class="irene-50-mobile font-weight-bold text-center" style="font-size: 12px;">
+                            <img class="signature" src="{{asset('images/test_sig.png')}}"><br>
                             CEFRIAN TRINCHERA
                         </td>
-                        <td class="irene-20 font-weight-bold text-center" style="font-size: 12px;">
-                            <img src="{{asset('images/test_sig.png')}}" style="width: 150px;"><br>
+                        <td class="irene-50-mobile font-weight-bold text-center" style="font-size: 12px;">
+                            <img class="signature" src="{{asset('images/test_sig.png')}}"><br>
                             CEFRIAN TRINCHERA
                         </td>
-                        <td class="irene-20 font-weight-bold text-center" style="font-size: 12px;">
-                            <img src="{{asset('images/test_sig.png')}}" style="width: 150px;"><br>
+                        <td class="irene-50-mobile font-weight-bold text-center" style="font-size: 12px;">
+                            <img class="signature" src="{{asset('images/test_sig.png')}}"><br>
                             CEFRIAN TRINCHERA
                         </td>
-                        <td class="irene-20 font-weight-bold text-center" style="font-size: 12px;">
-                            <img src="{{asset('images/test_sig.png')}}" style="width: 150px;"><br>
+                        <td class="irene-50-mobile font-weight-bold text-center" style="font-size: 12px;">
+                            <img class="signature" src="{{asset('images/test_sig.png')}}"><br>
                             CEFRIAN TRINCHERA
                         </td>
                     </tr>
