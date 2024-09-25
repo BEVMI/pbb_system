@@ -311,7 +311,9 @@ class PdfController extends Controller
         $tag = QcTag::where('id',4)->first();
         $user = Auth::user();
         return view('pdf.tos1',compact('job_details','turnover_details','remarks','total_remark','tag','user'));
+    }
 
-        
+    public function static_report1(){
+        return view('pdf.test_report1');
     }
 }

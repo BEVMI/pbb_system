@@ -118,7 +118,7 @@
                 @if($user_auth->injection =='1')
                   <li class="mb-2">
                     <a class="nav-link" href="{{route('injection.index')}}">
-                      <i class="fa-solid fa-2 text-sm opacity-10"  style="color:rgb(2, 31, 247);"></i>
+                      <i class="fa-solid fa-3 text-sm opacity-10"  style="color:rgb(2, 31, 247);"></i>
                       <span class="nav-link-text ms-1" style="font-weight:bold; margin-top:8px;">INJECTION</span>
                     </a>
                   </li>
@@ -172,6 +172,52 @@
             </li>
 
             <li class="nav-item dropdown irene_hide px-2 d-flex align-items-center">
+              <a href="{{route('downtime.index')}}" class="nav-link text-white p-0">
+                <i class="fa-solid fa-down-long"></i>
+                <span class="nav-link-text ms-1" style="margin-top:8px; font-weight:bold;">DOWNTIME</span>
+              </a>
+            </li>
+
+            <li class="nav-item dropdown irene_hide px-2 d-flex align-items-center">
+              <a href="javascript:;" class="nav-link text-white p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fa-solid fa-swatchbook"></i>
+                <span class="d-sm-inline d-none" style="font-weight: bold;">OTHERS</span>
+              </a>
+             
+              <ul class="dropdown-menu  dropdown-menu-end  px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
+                <li class="mb-2">
+                  <a href="{{route('mrp.index')}}" class="nav-link">
+                    <i class="fa-solid fa-file-invoice"  style="color:rgb(2, 31, 247);"></i>
+                    <span class="nav-link-text ms-1" style="margin-top:8px; font-weight:bold;">MRP</span>
+                  </a>
+                </li>
+    
+                <li class="mb-2">
+                  <a href="{{route('pocompliance.index')}}" class="nav-link">
+                    <i class="fa-solid fa-file-invoice" style="color:rgb(2, 31, 247);"></i>
+                    <span class="nav-link-text ms-1" style="margin-top:8px; font-weight:bold;">PO. COMPLIANCE</span>
+                  </a>
+                </li>
+    
+                <li class="mb-2">
+                  <a href="{{route('forecast.index')}}" class="nav-link">
+                    <i class="fa-solid fa-file-invoice" style="color:rgb(2, 31, 247);"></i>
+                    <span class="nav-link-text ms-1" style="margin-top:8px; font-weight:bold;">FORECAST</span>
+                  </a>
+                </li>
+    
+                @if($user_auth->is_admin='1')
+                  <li class="mb-2">
+                    <a href="{{route('users.index')}}" class="nav-link">
+                      <i class="fa-solid fa-user" style="color:rgb(2, 31, 247);"></i>
+                      <span class="nav-link-text ms-1" style="margin-top:8px; font-weight:bold;">USERS</span>
+                    </a>
+                  </li>
+                @endif
+              </ul>
+            </li>
+
+            <li class="nav-item dropdown irene_hide px-2 d-flex align-items-center">
               <a href="javascript:;" class="nav-link text-white p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="fa-solid fa-warehouse"></i>
                 <span class="d-sm-inline d-none" style="font-weight: bold;">INVENTORY</span>
@@ -193,35 +239,7 @@
               </ul>
             </li>
             
-            <li class="nav-item px-2 irene_hide d-flex align-items-center">
-              <a href="{{route('mrp.index')}}" class="nav-link text-white p-0">
-                <i class="fa-solid fa-file-invoice"></i>
-                <span class="nav-link-text ms-1" style="margin-top:8px; font-weight:bold;">MRP</span>
-              </a>
-            </li>
-
-            <li class="nav-item px-2 irene_hide d-flex align-items-center">
-              <a href="{{route('pocompliance.index')}}" class="nav-link text-white p-0">
-                <i class="fa-solid fa-file-invoice"></i>
-                <span class="nav-link-text ms-1" style="margin-top:8px; font-weight:bold;">PO. COMPLIANCE</span>
-              </a>
-            </li>
-
-            <li class="nav-item px-2 irene_hide d-flex align-items-center">
-              <a href="{{route('forecast.index')}}" class="nav-link text-white p-0">
-                <i class="fa-solid fa-file-invoice"></i>
-                <span class="nav-link-text ms-1" style="margin-top:8px; font-weight:bold;">FORECAST</span>
-              </a>
-            </li>
-
-            @if($user_auth->is_admin='1')
-              <li class="nav-item px-2 irene_hide d-flex align-items-center">
-                <a href="{{route('users.index')}}" class="nav-link text-white p-0">
-                  <i class="fa-solid fa-user"></i>
-                  <span class="nav-link-text ms-1" style="margin-top:8px; font-weight:bold;">USERS</span>
-                </a>
-              </li>
-            @endif
+            
 
             <li class="nav-item dropdown irene_hide px-2 d-flex align-items-center">
               <a href="{{route('logout')}}" class="nav-link text-white p-0">

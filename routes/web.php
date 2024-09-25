@@ -19,6 +19,7 @@ use App\Http\Controllers\QcController;
 use App\Http\Controllers\PalletsController;
 use App\Http\Controllers\TosController;
 use App\Http\Controllers\ApprovalLevelConntroller;
+use App\Http\Controllers\DowntimeController;
 
 Route::get('/', ['middleware' => 'guest', function()
 {
@@ -107,9 +108,10 @@ Auth::routes([
         Route::get('/machine_counter',[MachineCounter::class, 'index'])->name('machine_counter.index');
         // END EMAIL
 
-        // PDF
+        // PDF TEST
         Route::get('/test_quarantine',[PdfController::class, 'test_quarantine'])->name('pdf.test_quarantine');
         Route::get('/test_tos',[PdfController::class, 'test_tos'])->name('pdf.test_tos');
+        Route::get('/test_report1',[PdfController::class, 'static_report1'])->name('pdf.static_report1');
         // END PDF
 
         // PALLETS
@@ -124,6 +126,10 @@ Auth::routes([
         Route::get('/approver_level',[ApprovalLevelConntroller::class, 'index'])->name('approver_level.index');
         Route::post('/approver_post',[ApprovalLevelConntroller::class, 'update'])->name('approver_level.update');
         // END APPROVER LEVEL
+
+        // DOWNTIME
+        Route::get('/downtime',[DowntimeController::class, 'index'])->name('downtime.index');
+        // ENDDOWNTIME
 
     });
 
