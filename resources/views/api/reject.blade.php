@@ -1,4 +1,10 @@
 <script>
+    function reset(){
+        $('#reject_body').empty();
+        document.getElementById('lost_case').value=0;
+        document.getElementById('post_reject').style.display = 'none';
+    }
+
     $('#job_number_update').css('pointer-events','none');
     $(document).ready(function(){
         let get_month = {!!$month_now!!};

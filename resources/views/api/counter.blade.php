@@ -14,6 +14,10 @@
         });
     });
 
+    function reset(){
+        $('#counter_body').empty();
+        document.getElementById('post_counter').style.display = 'none';
+    }
 
     function search(){
         let line_start = document.getElementById('line_search').value;

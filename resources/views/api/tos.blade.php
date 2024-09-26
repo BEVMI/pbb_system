@@ -5,7 +5,7 @@
     load();
     function refresh(){
         ifvisible.off('idle');
-        ifvisible.setIdleDuration(600); // Page will become idle after 120 seconds
+        ifvisible.setIdleDuration('{!!$idletime!!}'); // Page will become idle after 120 seconds
         ifvisible.on("idle", function(){
            load();
         });
@@ -73,11 +73,13 @@
             type: 'GET', //THIS NEEDS TO BE GET
             url: api_url+'/TOS/GetForTOS',
             success: function (data) {
-                if(data.length === 0){
-                    document.getElementById('savePallet').style.display = 'none';
-                }else{
-                    document.getElementById('savePallet').style.display = '';
-                    irene_parse = JSON.parse(data);
+                
+                irene_parse = JSON.parse(data);
+                if(irene_parse.length===0){
+                    document.getElementById('save_button').style.display = 'none';
+                }
+                else{
+                    document.getElementById('save_button').style.display = 'non';
                     $.each(irene_parse, function(index,item) {
                         var x = document.getElementById('tosTable').insertRow(-1);
                         var i = x.insertCell(0);
@@ -361,57 +363,39 @@
         let checked = document.querySelectorAll('input.checkboxes:checked');
         let ref_num = document.getElementById('ref_num').value;
         
-        if(checked.length <=5){
-            $('#P-'+ref_num).html('').select2({});
-            for(var x = 0, l = checked.length; x < l;  x++)
-            {
-                let value_to_split = checked[x].value;
-                let id = value_to_split.split("~")[0];
-                let pallet_ref = value_to_split.split("~")[1];
-                var newOption = new Option(pallet_ref,id);
-                $('#P-'+ref_num).append(newOption).trigger('change');
-                $('#P-'+ref_num+' > option').prop("selected","selected");
-            }
-            $('#modalPallet').modal('hide');
-            $('#modalCreate').modal('show');
-        }else{
-            Swal.fire({
-                position: "center",
-                icon: "error",
-                title: "ONLY 5 MAXIMUM SELECTION",
-                showConfirmButton: false,
-                timer: 2500
-            });
+       
+        $('#P-'+ref_num).html('').select2({});
+        for(var x = 0, l = checked.length; x < l;  x++)
+        {
+            let value_to_split = checked[x].value;
+            let id = value_to_split.split("~")[0];
+            let pallet_ref = value_to_split.split("~")[1];
+            var newOption = new Option(pallet_ref,id);
+            $('#P-'+ref_num).append(newOption).trigger('change');
+            $('#P-'+ref_num+' > option').prop("selected","selected");
         }
+        $('#modalPallet').modal('hide');
+        $('#modalCreate').modal('show');
+       
        
     }
 
     function saveUpdatePallet(){
         let checked = document.querySelectorAll('input.checkboxesUpdate:checked');
         let ref_num = document.getElementById('ref_num_update').value;
-        if(checked.length <=5){
-            $('#UP-'+ref_num).html('').select2({});
-            for(var x = 0, l = checked.length; x < l;  x++)
-            {
-                let value_to_split = checked[x].value;
-                let id = value_to_split.split("~")[0];
-                let pallet_ref = value_to_split.split("~")[1];
-                var newOption = new Option(pallet_ref,id);
-                $('#UP-'+ref_num).append(newOption).trigger('change');
-                $('#UP-'+ref_num+' > option').prop("selected","selected");
-            }
-            $('#modalPalletUpdate').modal('hide');
-            $('#modalEdit').modal('show');
-        }else{
-            Swal.fire({
-                position: "center",
-                icon: "error",
-                title: "ONLY 5 MAXIMUM SELECTION",
-                showConfirmButton: false,
-                timer: 2500
-            });
+        $('#UP-'+ref_num).html('').select2({});
+        for(var x = 0, l = checked.length; x < l;  x++)
+        {
+            let value_to_split = checked[x].value;
+            let id = value_to_split.split("~")[0];
+            let pallet_ref = value_to_split.split("~")[1];
+            var newOption = new Option(pallet_ref,id);
+            $('#UP-'+ref_num).append(newOption).trigger('change');
+            $('#UP-'+ref_num+' > option').prop("selected","selected");
         }
-       
+        $('#modalPalletUpdate').modal('hide');
+        $('#modalEdit').modal('show');
+        
     }
 </script>
 

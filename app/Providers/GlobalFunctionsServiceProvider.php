@@ -30,5 +30,6 @@ class GlobalFunctionsServiceProvider extends ServiceProvider
         View::share('initial_date', $now->format('Y-m-d'));
         View::share('irene_base_url',URL::to('/'));
         View::share('irene_api_base_url',URL::to('/').'/api');
+        View::share('idletime', 600);
     }
 }

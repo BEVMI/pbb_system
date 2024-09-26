@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use App\Models\Month;
+ 
 class DowntimeController extends Controller
 {
     public function index(){
@@ -16,6 +18,7 @@ class DowntimeController extends Controller
             $jobs_post[] =  $job->iJobNo;
         endforeach;
         $jobs = array_unique($jobs_post);
-        return view('downtime.index',compact('lines','jobs'));
+        $months = Month::pluck('month_name','id');
+        return view('downtime.index',compact('lines','jobs','months'));
     }
 }

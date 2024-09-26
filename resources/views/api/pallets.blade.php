@@ -5,7 +5,7 @@
         let status = document.getElementById('status').value;
         let date = document.getElementById('date').value;
         ifvisible.off('idle');
-        ifvisible.setIdleDuration(600); // Page will become idle after 120 seconds
+        ifvisible.setIdleDuration('{!!$idletime!!}'); // Page will become idle after 120 seconds
         ifvisible.on("idle", function(){
             if(!date){
                 date_post = '{{$initial_date}}';

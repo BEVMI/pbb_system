@@ -25,6 +25,17 @@
 </script>
 
 <script>
+    function refresh2(){
+        ifvisible.off('idle');
+        ifvisible.setIdleDuration('{!!$idletime!!}'); // Page will become idle after 120 seconds
+        ifvisible.on("idle", function(){
+            document.querySelector('.fc-refresh-button').click();
+        });
+
+    }
+</script>
+
+<script>
     let initial_date = '{{$initial_date}}';
    
     Array.prototype.clear = function() {
@@ -49,7 +60,8 @@
     setTimeout(function() {
             document.querySelector('.fc-refresh-button').click();
     }, 2100);
-  
+    
+    
     document.addEventListener('DOMContentLoaded', function() {
             var calendarEl = document.getElementById('calendar');
      
@@ -151,12 +163,14 @@
                                 calendar.refetchEvents();
                             }, "1");
                           }
+                       
                         },
                         refresh: {
                         text: 'REFRESH',
                         click: async function() {
                             var date2 = calendar.getDate();
                             let irene4 = irene3(date2);
+                            refresh2();
                             setTimeout(() => {
                                 calendar.removeAllEvents();
                                 calendar.addEventSource({

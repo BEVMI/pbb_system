@@ -28,12 +28,12 @@
                 </div>
             </div>
             <div class="modal-footer">
+                <button id="save_button" onclick="saveTos()" class="btn btn-success">
+                    SAVE
+                </button> 
                 <button type="button" class="btn btn-secondary " data-bs-dismiss="modal" aria-label="Close">
                     CLOSE
                 </button>
-                <button onclick="saveTos()" class="btn btn-success">
-                    SAVE
-                </button> 
             </div>
         </div>
     </div>
@@ -66,12 +66,12 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button onclick="goBack()" type="button" class="btn btn-danger">
-                    GO BACK
-                </button>
                 <button id="savePallet" onclick="savePallet()" class="btn btn-success">
                     CHOOSE
                 </button> 
+                <button onclick="goBack()" type="button" class="btn btn-danger">
+                    GO BACK
+                </button>
             </div>
         </div>
     </div>
@@ -109,12 +109,13 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary " data-bs-dismiss="modal" aria-label="Close">
-                    CLOSE
-                </button>
                 <button onclick="updateSaveTos()" class="btn btn-success">
                     UPDATE
                 </button> 
+
+                <button type="button" class="btn btn-secondary " data-bs-dismiss="modal" aria-label="Close">
+                    CLOSE
+                </button>
             </div>
         </div>
     </div>
@@ -147,12 +148,12 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button onclick="goBack2()" type="button" class="btn btn-danger">
-                    GO BACK
-                </button>
                 <button onclick="saveUpdatePallet()" class="btn btn-success">
                     CHOOSE
                 </button> 
+                <button onclick="goBack2()" type="button" class="btn btn-danger">
+                    GO BACK
+                </button>
             </div>
         </div>
     </div>

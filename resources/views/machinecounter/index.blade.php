@@ -41,7 +41,7 @@ endif;
 @endsection
 
 @section('button')
-<button class="btn btn-primary mt-2 mt-xl-0" data-bs-toggle="modal" data-bs-target="#modalCreate" style="width:100%;">CREATE</button> 
+<button class="btn btn-primary mt-2 mt-xl-0" data-bs-toggle="modal" data-bs-target="#modalCreate" onclick="reset()" style="width:100%;">CREATE</button> 
 @endsection
 
 @section('main')

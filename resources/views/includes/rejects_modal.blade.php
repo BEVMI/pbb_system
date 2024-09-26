@@ -65,6 +65,9 @@
                 <button id="post_reject" onclick="postReject()" class="btn btn-success mt-2 mt-xl-0" style="display:none;">
                     SAVE REJECT
                 </button> 
+                <button type="button" class="btn btn-secondary " data-bs-dismiss="modal" aria-label="Close">
+                    CLOSE
+                </button>
             </div>
         </div>
     </div>
@@ -131,6 +134,9 @@
                 <button id="post_reject" onclick="updateReject()" class="btn btn-success mt-2 mt-xl-0">
                     UPDATE REJECT
                 </button> 
+                <button type="button" class="btn btn-secondary " data-bs-dismiss="modal" aria-label="Close">
+                    CLOSE
+                </button>
             </div>
         </div>
     </div>

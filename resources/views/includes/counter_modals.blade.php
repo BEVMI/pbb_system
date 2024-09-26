@@ -61,6 +61,9 @@
                 <button id="post_counter" onclick="postCounter()" class="btn btn-success mt-2 mt-xl-0" style="display:none;">
                     SAVE
                 </button> 
+                <button class="btn btn-outline-secondary" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    CLOSE
+                </button>
             </div>
         </div>
     </div>
