@@ -526,9 +526,9 @@
                     }
 
                     if(module1 === 'TURNOVER'){
-                        post = 'not yet TUNOVER';
+                        post = 'NOT YET TUNOVER';
                     }
-                    message = "This TOS is "+post;
+                    message = "THIS TOS IS "+post;
                     icon = 'info';
                 }
                 else{
@@ -547,12 +547,12 @@
                     if(module1 === 'TURNOVER'){
                         post = 'TUNOVERED';
                     }
-                    message = "This TOS was already "+post;
+                    message = "THIS TOS WAS ALREADY "+post;
                     icon = 'success';
                 }
                 
                 Swal.fire({
-                    position: "error",
+                    position: "center",
                     icon: icon,
                     title: message,
                     showConfirmButton: false,
@@ -576,7 +576,7 @@
                 icon = 'info';
 
                 Swal.fire({
-                    position: "error",
+                    position: "center",
                     icon: icon,
                     title: message,
                     showConfirmButton: false,
