@@ -315,7 +315,11 @@
 
                         <td class="irene-50-mobile font-weight-bold text-center"  style="border-bottom:1px solid white;">
                             @if($user->is_qc==1 && $turnover_details->validated_by=='')
-                                <div style="height:70px; width:135px; color:white;" onclick="confirmApproved({{$turnover_details->id}},'QC')">
+                                @if($turnover_details->approved_by=='')
+                                    <div style="height:70px; width:135px; color:white;" onclick="validation('QC')">
+                                @else
+                                    <div style="height:70px; width:135px; color:white;" onclick="confirmApproved({{$turnover_details->id}},'QC')">
+                                @endif
                             @else
                                 <div style="height:70px; width:135px; color:white;" onclick="alreadyApprove('QC','{!!$turnover_details->validated_by!!}')">
                             @endif   
@@ -344,8 +348,12 @@
                         </td>
                         
                         <td class="irene-50-mobile font-weight-bold text-center"  style="border-bottom:1px solid white;">
-                            @if($user->is_warehouse==1 && $turnover_details->received_by=='')
-                                <div style="height:70px; width:135px; color:white;" onclick="confirmApproved({{$turnover_details->id}},'RECEIVED')">
+                            @if($user->is_warehouse==1 && $turnover_details->received_by=='') 
+                                @if($turnover_details->for_turnover=='')
+                                    <div style="height:70px; width:135px; color:white;" onclick="validation('RECEIVED')">
+                                @else
+                                    <div style="height:70px; width:135px; color:white;" onclick="confirmApproved({{$turnover_details->id}},'RECEIVED')">
+                                @endif
                             @else
                                 <div style="height:70px; width:135px; color:white;" onclick="alreadyApprove('RECEIVED','{!!$turnover_details->received_by!!}')">
                             @endif
@@ -360,7 +368,11 @@
 
                         <td class="irene-50-mobile font-weight-bold text-center"  style="border-bottom:1px solid white;">
                             @if($user->is_manager==1 && $turnover_details->for_turnover=='')
-                                <div style="height:70px; width:135px; color:white;" onclick="confirmApproved({{$turnover_details->id}},'TURNOVER')">
+                                @if($turnover_details->validated_by=='')
+                                    <div style="height:70px; width:135px; color:white;" onclick="validation('TURNOVER')">
+                                @else
+                                    <div style="height:70px; width:135px; color:white;" onclick="confirmApproved({{$turnover_details->id}},'TURNOVER')">
+                                @endif
                             @else
                                 <div style="height:70px; width:135px; color:white;" onclick="alreadyApprove('TURNOVER','{!!$turnover_details->for_turnover!!}')">
                             @endif
@@ -502,15 +514,15 @@
 
                 if(flag2==''){
                     if(module1 === 'QC'){
-                        post = 'for VALIDATION';
+                        post = 'FOR VALIDATION';
                     }
 
                     if(module1 === 'APPROVE'){
-                        post = 'for APPROVAL';
+                        post = 'FOR APPROVAL';
                     }
 
                     if(module1 === 'RECEIVED'){
-                        post = 'for RECEIVING';
+                        post = 'FOR RECEIVING';
                     }
 
                     if(module1 === 'TURNOVER'){
@@ -539,6 +551,30 @@
                     icon = 'success';
                 }
                 
+                Swal.fire({
+                    position: "error",
+                    icon: icon,
+                    title: message,
+                    showConfirmButton: false,
+                    timer: 2500
+                })
+            }
+
+            function validation(module1){
+                if(module1 === 'QC'){
+                    post = 'THIS TOS IS FOR APPROVAL';
+                }
+
+                if(module1 === 'RECEIVED'){
+                    post = 'THIS TOS IS FOR MANAGER APPROVAL';
+                }
+
+                if(module1 === 'TURNOVER'){
+                    post = 'THIS TOS IS NOT YET VALIDATED';
+                }
+                message = post;
+                icon = 'info';
+
                 Swal.fire({
                     position: "error",
                     icon: icon,

@@ -170,7 +170,7 @@
                 success:function(data){
                     $('#modalCreate').modal('hide');
                     details=[];
-                    check_count[];
+                    check_count=[];
                     load();
                 },
                 error: function(e) {
