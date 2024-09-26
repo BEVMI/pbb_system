@@ -70,6 +70,8 @@
         $('#expected_downtime_body_update').empty();
         $('#unexpected_downtime_body_update').empty();
 
+        
+
         $.ajax({
             type: 'GET', //THIS NEEDS TO BE GET
             url: api_url+'/Downtime/GetDowntimeDetails?iDowntimeHeaderId='+id+'&iLineId='+line,
@@ -78,7 +80,7 @@
                 document.getElementById('lines_update').value = irene_parse.lineId;
                 document.getElementById('shift_length_update').value = irene_parse.shiftLength;
                 document.getElementById('job_number_update').value = irene_parse.jobNo;
-
+                document.getElementById('downtime_date_update').value = formatDate(irene_parse.downtimeDate);
                 $.each(irene_parse.machineDowntime, function(index,item) {
                     var x = document.getElementById('machine_body_update').insertRow(-1);
                     var i = x.insertCell(0);
@@ -136,6 +138,7 @@
         let lines = document.getElementById('lines_update').value;
         let created_by = "{!!$user_auth->name!!}";
         let shift_length_create = document.getElementById('shift_length_update').value;
+        let downtime_date_update = document.getElementById('downtime_date_update').value;
         //MACHINE BODY
         let mcd_desc = document.getElementsByName('mcd_desc_update[]');
         let mcd_type_id = document.getElementsByName('mcd_type_id_update[]');
@@ -201,7 +204,7 @@
                 "jobNo": job,
                 "shiftLength": shift_length_create,
                 "createdBy":created_by,
-                "downtimeDate":"{!!$initial_date!!}",
+                "downtimeDate":downtime_date_update,
                 "machineDowntime":mcdDetails_update,
                 "expectedDowntime":expDetails_update,
                 "unexpectedDowntime":unexpDetails_update,
@@ -235,6 +238,7 @@
         let job = document.getElementById('job_number').value;
         let lines = document.getElementById('lines').value;
         let created_by = "{!!$user_auth->name!!}";
+        let date = document.getElementById('downtime_date').value;
         let shift_length_create = document.getElementById('shift_length_create').value;
         //MACHINE BODY
         let mcd_desc = document.getElementsByName('mcd_desc[]');
@@ -301,7 +305,7 @@
                 "jobNo": job,
                 "shiftLength": shift_length_create,
                 "createdBy":created_by,
-                "downtimeDate":"{!!$initial_date!!}",
+                "downtimeDate":date,
                 "machineDowntime":mcdDetails,
                 "expectedDowntime":expDetails,
                 "unexpectedDowntime":unexpDetails,

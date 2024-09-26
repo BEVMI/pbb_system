@@ -28,7 +28,7 @@
                                 <input class="form-control" id="shift_length_create" type="number" min="0" value="0" >
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-sm-4 col-6">
                             <div class="form-group">
                                 <label for="job_number">JOB</label>
                                 <select onchange="hideall()" class="form-control" name="job_number" id="job_number">
@@ -38,7 +38,13 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-sm-4 col-6">
+                            <div class="form-group">
+                                <label for="downtime_date">DATE</label>
+                                <input id="downtime_date" class="form-control" type="date" value="{{$initial_date}}">
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-12">
                             <br>
                             <button class="btn btn-success w-100 mt-1" onclick="get_machines()">
                                 CHOOSE

@@ -107,7 +107,7 @@
         </li>
 
         <li class="nav-item">
-          <a class="nav-link " href="{{route('reject.index')}}">
+          <a class="nav-link " href="{{route('downtime.index')}}">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="fa-solid fa-down-long text-sm opacity-10"  style="color:rgb(2, 247, 239);"></i>
             </div>

@@ -13,7 +13,7 @@
                 <input type="hidden" id="update_id">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-4">
+                        <div class="col-6">
                             <div class="form-group">
                                 <label for="lines_update">LINE:</label>
                                 <select class="form-control" name="lines_update" id="lines_update">
@@ -23,13 +23,17 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-4">
+                        <div class="col-6">
                             <div class="form-group">
                                 <label for="shift_length_update">SHIFT LENGTH</label>
                                 <input class="form-control" id="shift_length_update" type="number" min="0" value="0" >
                             </div>
                         </div>
-                        <div class="col-4">
+                        <div class="col-6">
+                            <label for="downtime_date_update">DATE:</label>
+                            <input class="form-control" id="downtime_date_update" type="date" value="{{$initial_date}}">
+                        </div>
+                        <div class="col-6">
                             <div class="form-group">
                                 <label for="job_number_update">JOB</label>
                                 <select class="form-control" name="job_number_update" id="job_number_update">
