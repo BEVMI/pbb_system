@@ -119,6 +119,7 @@
         let user_auth = "{{$user_auth->id}}";
         let details = [];
         let pallet_details = [];
+        let check_count = [];
         for (var i = 0; i <lot_number.length; i++) {
             let coas_post=coas[i].value;
             let lot_number_post = lot_number[i].value;
@@ -139,34 +140,44 @@
                     "cCoaRefNo":coas_post,
                     "palletDetails":pallet_details
                 });   
-                
+                check_count.push(1);
             }
             pallet_details=[];
         }
-        
-        $.ajax({
-            async:false,
-            type:'POST',
-            method:'POST',
-            url:api_url+'/TOS/UpdateTOSPallet',
-            crossDomain: true,
-            dataType: 'json',
-            contentType: 'application/json',
-            data:JSON.stringify({
-                "id": 0,
-                "dTurnOverDate": dTurnOverDate,
-                "iUserId": user_auth,
-                "details":details
-            }),
-            success:function(data){
-                $('#modalCreate').modal('hide');
-                details=[];
-                load();
-            },
-            error: function(e) {
-                console.log(e);
-            }
-        });
+        if(check_count ===0){
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "ONLY 5 MAXIMUM BATCHS",
+                showConfirmButton: false,
+                timer: 2000
+            });
+        }else{
+            $.ajax({
+                async:false,
+                type:'POST',
+                method:'POST',
+                url:api_url+'/TOS/UpdateTOSPallet',
+                crossDomain: true,
+                dataType: 'json',
+                contentType: 'application/json',
+                data:JSON.stringify({
+                    "id": 0,
+                    "dTurnOverDate": dTurnOverDate,
+                    "iUserId": user_auth,
+                    "details":details
+                }),
+                success:function(data){
+                    $('#modalCreate').modal('hide');
+                    details=[];
+                    check_count[];
+                    load();
+                },
+                error: function(e) {
+                    console.log(e);
+                }
+            });
+        }
     }
 
     function updateSaveTos(){
