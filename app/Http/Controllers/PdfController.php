@@ -217,7 +217,7 @@ class PdfController extends Controller
             $mfg_dates[] = Carbon::parse($detail->dMfgDate)->format('y-M-d');
             $exp_dates[] = Carbon::parse($detail->dExpDate)->format('y-M-d');
             $pallet_counts[] = $detail->iPalletCount;
-            $loose_case[] = 0;
+            $loose_case[] = $detail->iLossCase;
             $cases[] = $detail->iCases;
             $references[] = $detail->refNo;
             $coas[] = $detail->cCoaRefNo;
