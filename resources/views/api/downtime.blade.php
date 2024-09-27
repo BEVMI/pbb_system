@@ -29,7 +29,7 @@
                     let hidden_type_id = '<input name="mcd_type_id[]" type="hidden" value="'+item.downtimeTypeId+'">';
 
                     i.innerHTML = item.description+hidden_description+hidden_type_id;
-                    r.innerHTML = '<input class="form-control" name="mcd_minutes[]" type="number" min="0" value="0">';
+                    r.innerHTML = '<input onkeyup="irene()" class="total-create form-control" name="mcd_minutes[]" type="number" min="0" value="0">';
                    
                 });
 
@@ -42,7 +42,7 @@
                     let hidden_type_id = '<input name="exp_type_id[]" type="hidden" value="'+item.downtimeTypeId+'">';
 
                     i.innerHTML = item.description+hidden_description+hidden_type_id;
-                    r.innerHTML = '<input class="form-control" name="exp_minutes[]" type="number" min="0" value="0">';
+                    r.innerHTML = '<input onkeyup="irene()" class="total-create form-control" name="exp_minutes[]" type="number" min="0" value="0">';
                    
                 });
 
@@ -55,11 +55,104 @@
                     let hidden_type_id = '<input name="unexp_type_id[]" type="hidden" value="'+item.downtimeTypeId+'">';
 
                     i.innerHTML = item.description+hidden_description+hidden_type_id;
-                    r.innerHTML = '<input class="form-control" name="unexp_minutes[]" type="number" min="0" value="0">';
+                    r.innerHTML = '<input onkeyup="irene()" class="total-create form-control" name="unexp_minutes[]" type="number" min="0" value="0">';
                    
                 });
             }
         });
+    }
+
+    function irene(){ 
+        let mcd_minutes = document.getElementsByName('mcd_minutes[]');
+        let unexp_minutes = document.getElementsByName('unexp_minutes[]');
+        let exp_minutes = document.getElementsByName('exp_minutes[]');
+        let mctotal = [];
+        let extotal = [];
+        let uextotal = [];
+        let totalSum = [];
+        for (var i = 0; i < mcd_minutes.length; i++) {
+            if(mcd_minutes[i].value == ''){
+                mcd_minutes_post = 0;
+            }else{
+                mcd_minutes_post = parseInt(mcd_minutes[i].value);
+            }
+            mctotal.push(mcd_minutes_post);
+            totalSum.push(mcd_minutes_post);
+        }
+        for (var i = 0; i < exp_minutes.length; i++) {
+            if(exp_minutes[i].value == ''){
+                exp_minutes_post = 0;
+            }else{
+                exp_minutes_post = parseInt(exp_minutes[i].value);
+            }
+            extotal.push(exp_minutes_post);
+            totalSum.push(exp_minutes_post);
+        }
+        for (var i = 0; i < unexp_minutes.length; i++) {
+            if(unexp_minutes[i].value == ''){
+                unexp_minutes_post = 0;
+            }else{
+                unexp_minutes_post = parseInt(unexp_minutes[i].value);
+            }
+            uextotal.push(unexp_minutes_post);
+            totalSum.push(unexp_minutes_post);
+        }
+        let total = sum(totalSum);
+        let mctotal_post = sum(mctotal);
+        let extotal_post = sum(extotal);
+        let uextotal_post = sum(uextotal);
+        
+        document.getElementById('irene2').innerHTML = total; 
+        document.getElementById('mctotal').innerHTML = mctotal_post;
+        document.getElementById('extotal').innerHTML = extotal_post;
+        document.getElementById('uextotal').innerHTML = uextotal_post;
+    }
+
+    function sum(total){
+        const sum = total.reduce((partialSum, a) => partialSum + a, 0);
+        return sum;
+    }
+
+    function irene_update(){ 
+        let mcd_minutes = document.getElementsByName('mcd_minutes_update[]');
+        let unexp_minutes = document.getElementsByName('unexp_minutes_update[]');
+        let exp_minutes = document.getElementsByName('exp_minutes_update[]');
+        let mctotal = [];
+        let extotal = [];
+        let uextotal = [];
+        let totalSum = [];
+        for (var i = 0; i < mcd_minutes.length; i++) {
+            if(mcd_minutes[i].value == ''){
+                mcd_minutes_post = 0;
+            }else{
+                mcd_minutes_post = parseInt(mcd_minutes[i].value);
+            }
+            mctotal.push(mcd_minutes_post);
+            totalSum.push(mcd_minutes_post);
+        }
+        for (var i = 0; i < exp_minutes.length; i++) {
+            if(exp_minutes[i].value == ''){
+                exp_minutes_post = 0;
+            }else{
+                exp_minutes_post = parseInt(exp_minutes[i].value);
+            }
+            extotal.push(exp_minutes_post);
+            totalSum.push(exp_minutes_post);
+        }
+        for (var i = 0; i < unexp_minutes.length; i++) {
+            if(unexp_minutes[i].value == ''){
+                unexp_minutes_post = 0;
+            }else{
+                unexp_minutes_post = parseInt(unexp_minutes[i].value);
+            }
+            uextotal.push(unexp_minutes_post);
+            totalSum.push(unexp_minutes_post);
+        }
+        let total = sum(totalSum);
+        document.getElementById('irene3').innerHTML = total; 
+        document.getElementById('mctotal_update').innerHTML = mctotal_post;
+        document.getElementById('extotal_update').innerHTML = extotal_post;
+        document.getElementById('uextotal_update').innerHTML = uextotal_post;
     }
 
     function updateDowntime(id,line){
@@ -69,9 +162,10 @@
         $('#machine_body_update').empty();
         $('#expected_downtime_body_update').empty();
         $('#unexpected_downtime_body_update').empty();
-
-        
-
+        mcd_total_get = [];
+        exp_total_get = [];
+        uexp_total_get = [];
+        total_update_get = [];
         $.ajax({
             type: 'GET', //THIS NEEDS TO BE GET
             url: api_url+'/Downtime/GetDowntimeDetails?iDowntimeHeaderId='+id+'&iLineId='+line,
@@ -90,8 +184,9 @@
                     let hidden_type_id = '<input name="mcd_type_id_update[]" type="hidden" value="'+item.downtimeTypeId+'">';
 
                     i.innerHTML = item.description+hidden_description+hidden_type_id;
-                    r.innerHTML = '<input class="form-control" name="mcd_minutes_update[]" type="number" min="0" value="'+item.iMinute+'">';
-                   
+                    r.innerHTML = '<input onkeyup="irene_update()" class="form-control" name="mcd_minutes_update[]" type="number" min="0" value="'+item.iMinute+'">';
+                    mcd_total_get.push(item.iMinute);
+                    total_update_get.push(item.iMinute);
                 });
 
                 $.each(irene_parse.expectedDowntime, function(index,item) {
@@ -103,8 +198,9 @@
                     let hidden_type_id = '<input name="exp_type_id_update[]" type="hidden" value="'+item.downtimeTypeId+'">';
 
                     i.innerHTML = item.description+hidden_description+hidden_type_id;
-                    r.innerHTML = '<input class="form-control" name="exp_minutes_update[]" type="number" min="0" value="'+item.iMinute+'">';
-                   
+                    r.innerHTML = '<input onkeyup="irene_update()"  class="form-control" name="exp_minutes_update[]" type="number" min="0" value="'+item.iMinute+'">';
+                    exp_total_get.push(item.iMinute);
+                    total_update_get.push(item.iMinute);
                 });
 
                 $.each(irene_parse.unexpectedDowntime, function(index,item) {
@@ -116,9 +212,19 @@
                     let hidden_type_id = '<input name="unexp_type_id_update[]" type="hidden" value="'+item.downtimeTypeId+'">';
 
                     i.innerHTML = item.description+hidden_description+hidden_type_id;
-                    r.innerHTML = '<input class="form-control" name="unexp_minutes_update[]" type="number" min="0" value="'+item.iMinute+'">';
-                   
+                    r.innerHTML = '<input onkeyup="irene_update()" class="form-control" name="unexp_minutes_update[]" type="number" min="0" value="'+item.iMinute+'">';
+                    uexp_total_get.push(item.iMinute);
+                    total_update_get.push(item.iMinute);
                 });
+
+                let total = sum(total_update_get);
+                let mc_total_post = sum(mcd_total_get);
+                let exp_total_post = sum(exp_total_get);
+                let uexp_total_post = sum(uexp_total_get);
+                document.getElementById('irene3').innerHTML = total;
+                document.getElementById('mctotal_update').innerHTML = mc_total_post;
+                document.getElementById('extotal_update').innerHTML = exp_total_post;
+                document.getElementById('uextotal_update').innerHTML = uexp_total_post; 
             }
         });
 

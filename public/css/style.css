@@ -19,7 +19,11 @@ td a{
 #print_0{
   display: inline;
 }
-
+a.list-group-item.list-group-item-action {
+  font-size: 13px;
+  font-weight: bold;
+  text-align: center;
+}
 @media only screen and (max-width: 1200px) {
   #print_1{
     display: inline;

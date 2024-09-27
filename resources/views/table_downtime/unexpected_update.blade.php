@@ -3,7 +3,7 @@
         <table class="table">
             <thead class="irene_thead text-center">
                 <th class="col">DESCRIPTION</th>
-                <th class="col">MINUTE</th>
+                <th class="col">MINUTES</th>
             </thead>
             <tbody id="unexpected_downtime_body_update" class="text-center">
 

@@ -26,6 +26,11 @@ td a{
 #print_0{
     display: inline;
 }
+a.list-group-item.list-group-item-action {
+    font-size: 13px;
+    font-weight: bold;
+    text-align: center;
+}
 @media only screen and (max-width: 1200px) {
     .irene_hide a{
         display: none;
@@ -53,6 +58,10 @@ td a{
     .fc-toolbar-chunk {
       font-size: 12px !important;
     }
+    a.list-group-item.list-group-item-action {
+        font-size: 12px;
+        font-weight: bold;
+    }
   }
 
 @media only screen and (max-width: 768px) {
@@ -77,6 +86,10 @@ td a{
     }
     .fc .fc-button-group {
         font-size: 14px !important;
+    }
+    a.list-group-item.list-group-item-action {
+        font-size: 9px;
+        font-weight: bold;
     }
 }
 

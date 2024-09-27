@@ -52,16 +52,25 @@
                         </div>
                     </div>
                     <div class="row">
+                        <div class="col-12 text-end">
+                            <hr style="border:1px solid gray;">
+                            <button class="badge bg-secondary">TOTAL MINUTES: <span id='irene2'>0</span></button>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-12 col-xl-12">
                           <div class="list-group" id="myList" role="tablist" style="flex-direction:row;">
                             <a class="list-group-item list-group-item-action active" data-toggle="list" href="#mcd" role="tab">
                                 MACHINE DOWNTIME
+                                <span id="mctotal" class="badge bg-secondary rounded-pill">0</span>
                             </a>
                             <a class="list-group-item list-group-item-action" data-toggle="list" href="#exd" role="tab">
                                 EXPECTED DOWNTIME
+                                <span id="extotal" class="badge bg-secondary rounded-pill">0</span>
                             </a>
                             <a class="list-group-item list-group-item-action" data-toggle="list" href="#uexd" role="tab">
                                 UNEXPECTED DOWNTIME
+                                <span id="uextotal" class="badge bg-secondary rounded-pill">0</span>
                             </a>
                           </div>
                         </div>
