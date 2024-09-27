@@ -31,6 +31,9 @@ a.list-group-item.list-group-item-action {
     font-weight: bold;
     text-align: center;
 }
+.tbody_create td{
+    padding:15px !important;
+  }
 @media only screen and (max-width: 1200px) {
     .irene_hide a{
         display: none;

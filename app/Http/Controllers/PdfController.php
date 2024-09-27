@@ -316,4 +316,10 @@ class PdfController extends Controller
     public function static_report1(){
         return view('pdf.test_report1');
     }
+
+    public function downtime_report($id){
+        $api_url = env('API_URL');
+        $response = Http::post($api_url.'/Pallet/GetPalletByIds',$id);
+        $pallets =  $response->object();
+    }
 }

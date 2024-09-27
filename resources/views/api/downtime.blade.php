@@ -13,6 +13,7 @@
         $('#machine_body').empty();
         $('#expected_downtime_body').empty();
         $('#unexpected_downtime_body').empty();
+        document.getElementById('tbody_create').style.display = "";
         document.getElementById('hidden_button').style.display = "";
         let line = document.getElementById('lines').value;
         $.ajax({
@@ -29,7 +30,7 @@
                     let hidden_type_id = '<input name="mcd_type_id[]" type="hidden" value="'+item.downtimeTypeId+'">';
 
                     i.innerHTML = item.description+hidden_description+hidden_type_id;
-                    r.innerHTML = '<input onkeyup="irene()" class="total-create form-control" name="mcd_minutes[]" type="number" min="0" value="0">';
+                    r.innerHTML = '<input onkeyup="irene()" class="total-create form-control form-control-sm" name="mcd_minutes[]" type="number" min="0" value="0">';
                    
                 });
 
@@ -42,7 +43,7 @@
                     let hidden_type_id = '<input name="exp_type_id[]" type="hidden" value="'+item.downtimeTypeId+'">';
 
                     i.innerHTML = item.description+hidden_description+hidden_type_id;
-                    r.innerHTML = '<input onkeyup="irene()" class="total-create form-control" name="exp_minutes[]" type="number" min="0" value="0">';
+                    r.innerHTML = '<input onkeyup="irene()" class="total-create form-control form-control-sm" name="exp_minutes[]" type="number" min="0" value="0">';
                    
                 });
 
@@ -55,7 +56,7 @@
                     let hidden_type_id = '<input name="unexp_type_id[]" type="hidden" value="'+item.downtimeTypeId+'">';
 
                     i.innerHTML = item.description+hidden_description+hidden_type_id;
-                    r.innerHTML = '<input onkeyup="irene()" class="total-create form-control" name="unexp_minutes[]" type="number" min="0" value="0">';
+                    r.innerHTML = '<input onkeyup="irene()" class="total-create form-control form-control-sm" name="unexp_minutes[]" type="number" min="0" value="0">';
                    
                 });
             }
@@ -66,6 +67,8 @@
         let mcd_minutes = document.getElementsByName('mcd_minutes[]');
         let unexp_minutes = document.getElementsByName('unexp_minutes[]');
         let exp_minutes = document.getElementsByName('exp_minutes[]');
+        let shift_length_create = document.getElementById('shift_length_create').value;
+
         let mctotal = [];
         let extotal = [];
         let uextotal = [];
@@ -106,6 +109,21 @@
         document.getElementById('mctotal').innerHTML = mctotal_post;
         document.getElementById('extotal').innerHTML = extotal_post;
         document.getElementById('uextotal').innerHTML = uextotal_post;
+        
+        // SHIFT LENGTH TO RUNNING TIME
+        document.getElementById('shift_length_create2').innerHTML = shift_length_create;
+        document.getElementById('expected_oprl_create').innerHTML = extotal_post;
+        document.getElementById('unexpected_oprl_create').innerHTML = uextotal_post;
+
+        planned_production_time = shift_length_create-extotal_post;
+        document.getElementById('planned_oprl_create').innerHTML = planned_production_time;
+
+        operating_time_create = planned_production_time - uextotal_post;
+        document.getElementById('operating_time_create').innerHTML = operating_time_create;
+        document.getElementById('machine_declared_create').innerHTML = mctotal_post;
+
+        machine_downtime = (mctotal_post/operating_time_create)*100;
+        document.getElementById('machine_downtime_create').innerHTML = machine_downtime.toFixed(2)+'%';
     }
 
     function sum(total){
@@ -424,6 +442,7 @@
                 $('#machine_body').empty();
                 $('#expected_downtime_body').empty();
                 $('#unexpected_downtime_body').empty();
+                document.getElementById('tbody_create').style.display = "none";
                 document.getElementById('hidden_button').style.display = "none";
                 Swal.fire({
                     position: "center",

@@ -279,7 +279,7 @@
                         @if($turnover_details->received_by !='')
                             <img src="{{asset('images/received_warehouse.png')}}" class="irene_absolute" style="width: 50%;">
                             <div class="irene_absolute font-weight-bold" style="margin-top:-70px; margin-left:4px; color:#c71a1e; font-size:19px;" >
-                                SEPT 19, 2024
+                                {{strtoupper($turnover_details->received_by_date)}}
                             </div>
                         @endif
                     </td>
