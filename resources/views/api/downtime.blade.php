@@ -16,11 +16,26 @@
         document.getElementById('tbody_create').style.display = "";
         document.getElementById('hidden_button').style.display = "";
         let line = document.getElementById('lines').value;
+        let job_date = document.getElementById('job_date').value;
+        let job_number = document.getElementById('job_number').value;
         $.ajax({
             type: 'GET', //THIS NEEDS TO BE GET
-            url: api_url+'/Downtime/GetDowntimeDetails?iDowntimeHeaderId=0&iLineId='+line,
+            url: api_url+'/Downtime/GetDowntimeDetails?iDowntimeHeaderId=0&iLineId='+line+'&dCountDate='+job_date+'&iJobNo='+job_number,
             success: function (data) {
                 irene_parse = data;
+
+                document.getElementById('sku_create').innerHTML = irene_parse.stockCode;
+
+                document.getElementById('sku_cases_create').innerHTML = irene_parse.cases;
+                document.getElementById('total_cases_create').innerHTML = irene_parse.cases;
+                document.getElementById('sku_bottle_create').innerHTML = irene_parse.cases * irene_parse.pcsCase;
+                document.getElementById('total_bottles_create').innerHTML =  irene_parse.cases * irene_parse.pcsCase;
+                document.getElementById('total_pallets_create').innerHTML = irene_parse.palletCount;
+                document.getElementById('sku_pallet_create').innerHTML = irene_parse.palletCount;
+                document.getElementById('machine_cycle_time_create').innerHTML = irene_parse.idealCycleTime;
+                document.getElementById('machine_count').value = irene_parse.machineCount;
+                document.getElementById('pcs_case').value = irene_parse.pcsCase;
+
                 $.each(irene_parse.machineDowntime, function(index,item) {
                     var x = document.getElementById('machine_body').insertRow(-1);
                     var i = x.insertCell(0);
@@ -64,11 +79,20 @@
     }
 
     function irene(){ 
+        let line = document.getElementById('lines').value;
+        let job_date = document.getElementById('job_date').value;
+        let job_number = document.getElementById('job_number').value;
+       
+        let cases = document.getElementById('total_cases_create').innerHTML;
+        let bottles = document.getElementById('total_bottles_create').innerHTML;
+        let pallet_count = document.getElementById('sku_pallet_create').innerHTML;
+        let cycle_time = document.getElementById('machine_cycle_time_create').innerHTML;
+        
         let mcd_minutes = document.getElementsByName('mcd_minutes[]');
         let unexp_minutes = document.getElementsByName('unexp_minutes[]');
         let exp_minutes = document.getElementsByName('exp_minutes[]');
         let shift_length_create = document.getElementById('shift_length_create').value;
-
+        
         let mctotal = [];
         let extotal = [];
         let uextotal = [];
@@ -111,19 +135,100 @@
         document.getElementById('uextotal').innerHTML = uextotal_post;
         
         // SHIFT LENGTH TO RUNNING TIME
+        // Shift Length
         document.getElementById('shift_length_create2').innerHTML = shift_length_create;
+        // Expected Oprl Downtime Mins
         document.getElementById('expected_oprl_create').innerHTML = extotal_post;
+        // UnExpected Oprl Downtime Mins
         document.getElementById('unexpected_oprl_create').innerHTML = uextotal_post;
 
+        // Planned Production Time, mins = Shift Length - Expected Downtime;
         planned_production_time = shift_length_create-extotal_post;
         document.getElementById('planned_oprl_create').innerHTML = planned_production_time;
 
+        // Operating Time, mins = Planned Production Time - Unexpected Downtime;
         operating_time_create = planned_production_time - uextotal_post;
         document.getElementById('operating_time_create').innerHTML = operating_time_create;
+
+        // Machine Downtime
         document.getElementById('machine_declared_create').innerHTML = mctotal_post;
 
+        // % Machine Downtime = (Machine Declated Downtime / Operating time, mins) * 100
         machine_downtime = (mctotal_post/operating_time_create)*100;
-        document.getElementById('machine_downtime_create').innerHTML = machine_downtime.toFixed(2)+'%';
+        document.getElementById('machine_downtime_create').innerHTML = machine_downtime.toFixed(0)+'%';
+
+        // Running Time, mins = FG Bottles / Ideal Cycle Time, btls/min
+        running_time = bottles / cycle_time;
+        if (isNaN(running_time)) {
+            document.getElementById('running_time_create').innerHTML = 0;
+        }else{  
+            document.getElementById('running_time_create').innerHTML = running_time.toFixed(0);
+        }
+       
+        // Total FG, Bottles ,Cases and Pallets
+        // cases,bottles and cases function is below function 
+        // Cycle Time under below function 
+        
+        // Expected Output, Bottles = Operating Time, mins * Ideal Cycle Time, Btls/min
+        expected_output = operating_time_create * cycle_time;
+        document.getElementById('expected_output_create').innerHTML = expected_output;
+
+        // Machine Actual Downtime, mins = (Expected Output - Total FG Bottles) / Cycle Time  
+        machine_actual = (expected_output - bottles) / cycle_time;
+        if (isNaN(machine_actual)) {
+            document.getElementById('machine_actual_downtime_create').innerHTML = 0;
+        }else{
+            document.getElementById('machine_actual_downtime_create').innerHTML = machine_actual.toFixed(0);
+        }
+      
+        // Variance = Machine Declated Downtime, mins - Machine Actual Downtime, mins
+        downtime_variance = mctotal_post - machine_actual;
+        if (isNaN(downtime_variance)) {
+            document.getElementById('downtime_variance_create').innerHTML = 0;
+        }else{
+            document.getElementById('downtime_variance_create').innerHTML = downtime_variance.toFixed(0);
+        }
+        
+        // Machine Count 
+        machineCount = document.getElementById('machine_count').value;
+        pcs_case = document.getElementById('pcs_case').value;
+        
+        // Machine Counter rdg, bottles = Machine Count * pcsCase
+        rdg_machine = machineCount * pcs_case;       
+        document.getElementById('machine_bottles_create').innerHTML = rdg_machine;
+
+        // Availability = Operating Time, mins /  Planned Production Time, mins
+        if (isNaN(downtime_variance)) {
+            availability = 0;
+        }else{
+            availability = (operating_time_create/planned_production_time)*100;
+        }  
+        document.getElementById('availability_create').innerHTML = availability.toFixed(2);
+        
+        // Performance(%) = Running Time,mins / Operating Time, mins
+        performance = (running_time.toFixed(0)/operating_time_create) * 100;
+        if (isNaN(performance)) {
+            document.getElementById('performance_create').innerHTML = 0;
+        }else{
+            document.getElementById('performance_create').innerHTML = performance.toFixed(2)+'%';
+        }
+        
+        // Quality = Total FG, Bottles / Machine Counter rdg, Bottles
+        quality = (bottles/rdg_machine) * 100;
+        if (isNaN(quality)) {
+            document.getElementById('quality_create').innerHTML = 0;
+        }else{
+            document.getElementById('quality_create').innerHTML = quality.toFixed(2)+'%';
+        }
+
+        // OEEE = ((Performance(%)/100) * (Quality(%)/100) * (Availability(%)/100)) * 100  
+        oeee = ((performance.toFixed(2)/100) * (quality.toFixed(2)/100) * (availability.toFixed(2)/100)*100);
+        if (isNaN(oeee)) {
+            document.getElementById('oee_create').innerHTML =0;
+        }{
+            document.getElementById('oee_create').innerHTML = oeee.toFixed(2);
+        }
+        
     }
 
     function sum(total){
@@ -252,6 +357,11 @@
         $('#machine_body').empty();
         $('#expected_downtime_body').empty();
         $('#unexpected_downtime_body').empty();
+        document.getElementById('mctotal').innerHTML = 0;
+        document.getElementById('extotal').innerHTML = 0;
+        document.getElementById('uextotal').innerHTML = 0;
+        
+        document.getElementById('tbody_create').style.display = "none";
         document.getElementById('hidden_button').style.display = "none";
     }
 
@@ -363,6 +473,7 @@
         let lines = document.getElementById('lines').value;
         let created_by = "{!!$user_auth->name!!}";
         let date = document.getElementById('downtime_date').value;
+        
         let shift_length_create = document.getElementById('shift_length_create').value;
         //MACHINE BODY
         let mcd_desc = document.getElementsByName('mcd_desc[]');
@@ -384,7 +495,7 @@
         let exp_desc = document.getElementsByName('exp_desc[]');
         let exp_type_id = document.getElementsByName('exp_type_id[]');
         let exp_minutes = document.getElementsByName('exp_minutes[]');
-        console.log(exp_minutes);
+
         let expDetails = [];
         for (var i = 0; i < exp_desc.length; i++) {
             let exp_type_id_post = exp_type_id[i].value;

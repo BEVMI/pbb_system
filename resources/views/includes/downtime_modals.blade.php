@@ -14,7 +14,7 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="row">
-                                <div class="col-12 col-lg-3 col-xl-3 col-md-6">
+                                <div class="col-12 col-lg-3 col-xl-2 col-md-6">
                                     <div class="form-group">
                                         <label for="lines">LINE:</label>
                                         <select onchange="hideall()" class="form-control" name="lines" id="lines">
@@ -24,7 +24,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-12 col-lg-3 col-xl-3 col-md-6">
+                                <div class="col-12 col-lg-3 col-xl-2 col-md-6">
                                     <div class="form-group">
                                         <label for="job_number">JOB</label>
                                         <select onchange="hideall()" class="form-control" name="job_number" id="job_number">
@@ -34,20 +34,25 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-12 col-lg-3 col-xl-3 col-md-5">
+                                <div class="col-12 col-lg-3 col-xl-2 col-md-6">
                                     <div class="form-group">
                                         <label for="shift_length_search">SHIFT LENGTH</label>
                                         <input class="form-control" id="shift_length_create" onkeyup="irene()" type="number" min="0" value="0" >
                                     </div>
                                 </div>
-                                
-                                <div class="col-12 col-lg-2 col-xl-2 col-md-5">
+                                <div class="col-12 col-lg-2 col-xl-2 col-md-6">
                                     <div class="form-group">
-                                        <label for="downtime_date">DATE</label>
+                                        <label for="job_date">JOB DATE:</label>
+                                        <input onchange="hideall()" id="job_date" class="form-control" type="date" value="{{$initial_date}}">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-2 col-xl-2 col-md-6">
+                                    <div class="form-group">
+                                        <label for="downtime_date">DOWNTIME DATE</label>
                                         <input id="downtime_date" class="form-control" type="date" value="{{$initial_date}}">
                                     </div>
                                 </div>
-                                <div class="col-12 col-lg-1 col-xl-1 col-md-2">
+                                <div class="col-12 col-lg-2 col-xl-2 col-md-6">
                                     <br>
                                     <button class="btn btn-success w-100 mt-1" onclick="get_machines()">
                                         <i class="fa-solid fa-arrow-right-to-bracket"></i>

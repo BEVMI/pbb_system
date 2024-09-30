@@ -22,33 +22,33 @@
                             <tbody id="tbody_create" class="text-center" style="display:none; font-size:12px;">
                                 <tr>
                                     <td>SKU</td>
-                                    <td id="sku_create" style=" border-right:1px solid black;">GBP01</td>
+                                    <td id="sku_create" style=" border-right:1px solid black;">0</td>
                                     <td >Total FG, Bottles</td>
-                                    <td id="total_bottles_create">50112</td>
+                                    <td id="total_bottles_create">0</td>
                                 </tr>
                                 <tr>
                                     <td class="bg-secondary text-white" colspan="2" style=" border-right:1px solid black;">JO TARG. QTY</td>
                                     <td>Total FG, Cases</td>
-                                    <td id="total_cases_create">2088</td>
+                                    <td id="total_cases_create">0</td>
                                 </tr>
                                 <tr>
                                     <td>CASES</td>
-                                    <td id="sku_cases_create" style=" border-right:1px solid black;">4170</td>
+                                    <td id="sku_cases_create" style=" border-right:1px solid black;">0</td>
                                     <td style="border-bottom:1px solid black ;">Total FG, Pallets</td>
-                                    <td style="border-bottom:1px solid black ;" id="total_pallets_create">40</td>
+                                    <td style="border-bottom:1px solid black ;" id="total_pallets_create">0</td>
                                 </tr>
                                 <tr>
                                     <td>BOTTLE</td>
-                                    <td id="sku_bottle_create" style=" border-right:1px solid black;">4170</td>
+                                    <td id="sku_bottle_create" style=" border-right:1px solid black;">0</td>
                                     <td>Mach. Counter rdg, Bottles</td>
-                                    <td id="machine_bottles_create">50365</td>
+                                    <td id="machine_bottles_create">0</td>
                                 </tr>
 
                                 <tr>
                                     <td style="border-bottom:1px solid black ;">PALLET</td>
                                     <td id="sku_pallet_create" style="border-bottom:1px solid black; border-right:1px solid black;">4170</td>
                                     <td>Ideal Cycle TIme, btls/min</td>
-                                    <td id="machine_cycle_time_create">200</td>
+                                    <td id="machine_cycle_time_create">0</td>
                                 </tr>
                                 
                                 <tr>
@@ -57,7 +57,7 @@
                                         0
                                     </td>
                                     <td style="border-bottom:1px solid black ;">Expected Output, bottles</td>
-                                    <td style="border-bottom:1px solid black ;" id="expected_output_create">95000</td>
+                                    <td style="border-bottom:1px solid black ;" id="expected_output_create">0</td>
                                 </tr>
                                 
                                 <tr>
@@ -78,20 +78,20 @@
                                     <td>Planned Oprl Downtime, mins</td>
                                     <td id="planned_oprl_create" style="border-right:1px solid black ;">0</td>
                                     <td>Quality(%)</td>
-                                    <td id="availability_create">99.75%</td>
+                                    <td id="quality_create">0</td>
                                 </tr>
 
                                 <tr>
                                     <td>Operating Time mins</td>
                                     <td id="operating_time_create" style="border-right:1px solid black ;">0</td>
                                     <td style="border-bottom:1px solid black ;">OEE(%)</td>
-                                    <td id="availability_create" style="border-bottom:1px solid black ;">42.62%</td>
+                                    <td id="oee_create" style="border-bottom:1px solid black ;">42.62%</td>
                                 </tr>
 
                                 <tr>
                                     <td>Machine Declared Downtime, mins</td>
                                     <td id="machine_declared_create" style="border-right:1px solid black ;">0</td>
-                                    <td>-</td>
+                                    <td></td>
                                     <td>-</td>
                                 </tr>
 
@@ -104,7 +104,7 @@
                                 <tr>
                                     <td>Machine Actual Downtime, mins</td>
                                     <td id="machine_actual_downtime_create" style="border-right:1px solid black ;">0</td>
-                                    <td>-</td>
+                                    <td>-<input id="machine_count" type="hidden"><input id="pcs_case" type="hidden"></td>
                                     <td>-</td>
                                 </tr>
                                 <tr>
