@@ -104,7 +104,7 @@
                                 <tr>
                                     <td>Machine Actual Downtime, mins</td>
                                     <td id="machine_actual_downtime_create" style="border-right:1px solid black ;">0</td>
-                                    <td>-<input id="machine_count" type="hidden"><input id="pcs_case" type="hidden"></td>
+                                    <td>-<input id="machine_count_create" type="hidden"><input id="pcs_case_create" type="hidden"></td>
                                     <td>-</td>
                                 </tr>
                                 <tr>

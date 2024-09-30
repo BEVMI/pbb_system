@@ -53,7 +53,7 @@
                     var n = x.insertCell(3);
                     var j = x.insertCell(4);
 
-                    let edit = '<button class="btn btn-success" onclick="updateDowntime('+item.id+','+item.iLineId+')" style="margin:0;"><i class="fa-solid fa-pencil"></i></button> &nbsp;';
+                    let edit = "<button class='btn btn-success' onclick='updateDowntime("+item.id+","+item.iLineId+","+item.iJobNo+","+item.dDate+","+item.iShiftLength+")' style='margin:0;'><i class='fa-solid fa-pencil'></i></button> &nbsp;";
 
                     i.innerHTML = item.iJobNo;
                     r.innerHTML = formatDate(item.dDate);

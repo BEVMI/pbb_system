@@ -37,7 +37,7 @@
                                 <div class="col-12 col-lg-3 col-xl-2 col-md-6">
                                     <div class="form-group">
                                         <label for="shift_length_search">SHIFT LENGTH</label>
-                                        <input class="form-control" id="shift_length_create" onkeyup="irene()" type="number" min="0" value="0" >
+                                        <input class="form-control" id="shift_length_create" onkeyup="irene(0)" type="number" min="0" value="0" >
                                     </div>
                                 </div>
                                 <div class="col-12 col-lg-2 col-xl-2 col-md-6">
