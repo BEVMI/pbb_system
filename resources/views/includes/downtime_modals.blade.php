@@ -14,6 +14,12 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="row">
+                                <div class="col-12 col-lg-2 col-xl-2 col-md-6">
+                                    {{-- <div class="form-group">
+                                        <label for="downtime_date">DOWNTIME DATE</label>
+                                        <input id="downtime_date" class="form-control" type="date" value="{{$initial_date}}">
+                                    </div> --}}
+                                </div>
                                 <div class="col-12 col-lg-3 col-xl-2 col-md-6">
                                     <div class="form-group">
                                         <label for="lines">LINE:</label>
@@ -42,16 +48,11 @@
                                 </div>
                                 <div class="col-12 col-lg-2 col-xl-2 col-md-6">
                                     <div class="form-group">
-                                        <label for="job_date">JOB DATE:</label>
+                                        <label for="job_date">DATE:</label>
                                         <input onchange="hideall()" id="job_date" class="form-control" type="date" value="{{$initial_date}}">
                                     </div>
                                 </div>
-                                <div class="col-12 col-lg-2 col-xl-2 col-md-6">
-                                    <div class="form-group">
-                                        <label for="downtime_date">DOWNTIME DATE</label>
-                                        <input id="downtime_date" class="form-control" type="date" value="{{$initial_date}}">
-                                    </div>
-                                </div>
+                               
                                 <div class="col-12 col-lg-2 col-xl-2 col-md-6">
                                     <br>
                                     <button class="btn btn-success w-100 mt-1" onclick="get_machines()">

@@ -17,6 +17,7 @@
         document.getElementById('hidden_button').style.display = "";
         let line = document.getElementById('lines').value;
         let job_date = document.getElementById('job_date').value;
+        
         let job_number = document.getElementById('job_number').value;
         $.ajax({
             type: 'GET', //THIS NEEDS TO BE GET
@@ -84,65 +85,67 @@
             let job_date = document.getElementById('job_date').value;
             let job_number = document.getElementById('job_number').value;
             variable = 'create';
+            variable2 = 'irene2';
 
             mcd_minutes = document.getElementsByName('mcd_minutes[]');
             unexp_minutes = document.getElementsByName('unexp_minutes[]');
             exp_minutes = document.getElementsByName('exp_minutes[]');
-
-            mctotal = [];
-            extotal = [];
-            uextotal = [];
-            totalSum = [];
-            for (var i = 0; i < mcd_minutes.length; i++) {
-                if(mcd_minutes[i].value == ''){
-                    mcd_minutes_post = 0;
-                }else{
-                    mcd_minutes_post = parseInt(mcd_minutes[i].value);
-                }
-                mctotal.push(mcd_minutes_post);
-                totalSum.push(mcd_minutes_post);
-            }
-            for (var i = 0; i < exp_minutes.length; i++) {
-                if(exp_minutes[i].value == ''){
-                    exp_minutes_post = 0;
-                }else{
-                    exp_minutes_post = parseInt(exp_minutes[i].value);
-                }
-                extotal.push(exp_minutes_post);
-                totalSum.push(exp_minutes_post);
-            }
-            for (var i = 0; i < unexp_minutes.length; i++) {
-                if(unexp_minutes[i].value == ''){
-                    unexp_minutes_post = 0;
-                }else{
-                    unexp_minutes_post = parseInt(unexp_minutes[i].value);
-                }
-                uextotal.push(unexp_minutes_post);
-                totalSum.push(unexp_minutes_post);
-            }
-            total = sum(totalSum);
-            mctotal_post = sum(mctotal);
-            extotal_post = sum(extotal);
-            uextotal_post = sum(uextotal);
             
-            document.getElementById('irene2').innerHTML = total; 
-            document.getElementById('mctotal').innerHTML = mctotal_post;
-            document.getElementById('extotal').innerHTML = extotal_post;
-            document.getElementById('uextotal').innerHTML = uextotal_post;
+        }else{
+            variable = 'update';
+            variable2 = 'irene3';
+
+            mcd_minutes = document.getElementsByName('mcd_minutes_update[]');
+            unexp_minutes = document.getElementsByName('unexp_minutes_update[]');
+            exp_minutes = document.getElementsByName('exp_minutes_update[]');
         }
-       
+        
+        mctotal = [];
+        extotal = [];
+        uextotal = [];
+        totalSum = [];
+        for (var i = 0; i < mcd_minutes.length; i++) {
+            if(mcd_minutes[i].value == ''){
+                mcd_minutes_post = 0;
+            }else{
+                mcd_minutes_post = parseInt(mcd_minutes[i].value);
+            }
+            mctotal.push(mcd_minutes_post);
+            totalSum.push(mcd_minutes_post);
+        }
+        for (var i = 0; i < exp_minutes.length; i++) {
+            if(exp_minutes[i].value == ''){
+                exp_minutes_post = 0;
+            }else{
+                exp_minutes_post = parseInt(exp_minutes[i].value);
+            }
+            extotal.push(exp_minutes_post);
+            totalSum.push(exp_minutes_post);
+        }
+        for (var i = 0; i < unexp_minutes.length; i++) {
+            if(unexp_minutes[i].value == ''){
+                unexp_minutes_post = 0;
+            }else{
+                unexp_minutes_post = parseInt(unexp_minutes[i].value);
+            }
+            uextotal.push(unexp_minutes_post);
+            totalSum.push(unexp_minutes_post);
+        }
+        total = sum(totalSum);
+        mctotal_post = sum(mctotal);
+        extotal_post = sum(extotal);
+        uextotal_post = sum(uextotal);
+        
+        document.getElementById(variable2).innerHTML = total; 
+        document.getElementById('mctotal').innerHTML = mctotal_post;
+        document.getElementById('extotal').innerHTML = extotal_post;
+        document.getElementById('uextotal').innerHTML = uextotal_post;
        
         let cases = document.getElementById('total_cases_'+variable).innerHTML;
-        console.log(cases);
         let bottles = document.getElementById('total_bottles_'+variable).innerHTML;
         let pallet_count = document.getElementById('sku_pallet_'+variable).innerHTML;
         let cycle_time = document.getElementById('machine_cycle_time_'+variable).innerHTML;
-        
-       
         let shift_length_create = document.getElementById('shift_length_'+variable).value;
-        
-       console.log(variable);
-        
         // SHIFT LENGTH TO RUNNING TIME
         // Shift Length
         document.getElementById('shift_length_'+variable+'2').innerHTML = shift_length_create;
@@ -179,7 +182,7 @@
         // Cycle Time under below function 
         
         // Expected Output, Bottles = Operating Time, mins * Ideal Cycle Time, Btls/min
-        expected_output = operating_time_create * cycle_time;
+        expected_output = planned_production_time * cycle_time;
         document.getElementById('expected_output_'+variable).innerHTML = expected_output;
 
         // Machine Actual Downtime, mins = (Expected Output - Total FG Bottles) / Cycle Time  
@@ -287,10 +290,16 @@
         document.getElementById('uextotal_update').innerHTML = uextotal_post;
     }
 
-    function updateDowntime(id,line,job,date,shift_length){
+    function updateDowntime(id,line,job,date,shift_length_post){
         $('#modalEdit').modal('show');
         document.getElementById('update_id').value = id;
-
+        document.getElementById('lines_update').value = line;
+        document.getElementById('job_number_update').value = job;
+        document.getElementById('downtime_date_update').value = formatDate(date);
+        let job_date = formatDate(date);
+        let shift_length = shift_length_post;
+        document.getElementById('shift_length_update').value = shift_length;
+        
         $('#machine_body_update').empty();
         $('#expected_downtime_body_update').empty();
         $('#unexpected_downtime_body_update').empty();
@@ -298,67 +307,77 @@
         exp_total_get = [];
         uexp_total_get = [];
         total_update_get = [];
-        // $.ajax({
-        //     type: 'GET', //THIS NEEDS TO BE GET
-        //     url: api_url+'/Downtime/GetDowntimeDetails?iDowntimeHeaderId='+id+'&iLineId='+line,
-        //     success: function (data) {
-        //         irene_parse = data;
-        //         document.getElementById('lines_update').value = irene_parse.lineId;
-        //         document.getElementById('shift_length_update').value = irene_parse.shiftLength;
-        //         document.getElementById('job_number_update').value = irene_parse.jobNo;
-        //         document.getElementById('downtime_date_update').value = formatDate(irene_parse.downtimeDate);
-        //         $.each(irene_parse.machineDowntime, function(index,item) {
-        //             var x = document.getElementById('machine_body_update').insertRow(-1);
-        //             var i = x.insertCell(0);
-        //             var r = x.insertCell(1);
+        $.ajax({
+            type: 'GET', //THIS NEEDS TO BE GET
+            url: api_url+'/Downtime/GetDowntimeDetails?iDowntimeHeaderId='+id+'&iLineId='+line+'&dCountDate='+job_date+'&iJobNo='+job,
+            
+            success: function (data) {
+                irene_parse = data;
+                document.getElementById('sku_update').innerHTML = irene_parse.stockCode;
+
+                document.getElementById('sku_cases_update').innerHTML = irene_parse.cases;
+                document.getElementById('total_cases_update').innerHTML = irene_parse.cases;
+                document.getElementById('sku_bottle_update').innerHTML = irene_parse.cases * irene_parse.pcsCase;
+                document.getElementById('total_bottles_update').innerHTML =  irene_parse.cases * irene_parse.pcsCase;
+                document.getElementById('total_pallets_update').innerHTML = irene_parse.palletCount;
+                document.getElementById('sku_pallet_update').innerHTML = irene_parse.palletCount;
+                document.getElementById('machine_cycle_time_update').innerHTML = irene_parse.idealCycleTime;
+                document.getElementById('machine_count_update').value = irene_parse.machineCount;
+                document.getElementById('pcs_case_update').value = irene_parse.pcsCase;
+                
+                $.each(irene_parse.machineDowntime, function(index,item) {
+                    var x = document.getElementById('machine_body_update').insertRow(-1);
+                    var i = x.insertCell(0);
+                    var r = x.insertCell(1);
                     
-        //             let hidden_description = '<input name="mcd_desc_update[]" type="hidden" value="'+item.description+'">';
-        //             let hidden_type_id = '<input name="mcd_type_id_update[]" type="hidden" value="'+item.downtimeTypeId+'">';
+                    let hidden_description = '<input name="mcd_desc_update[]" type="hidden" value="'+item.description+'">';
+                    let hidden_type_id = '<input name="mcd_type_id_update[]" type="hidden" value="'+item.downtimeTypeId+'">';
 
-        //             i.innerHTML = item.description+hidden_description+hidden_type_id;
-        //             r.innerHTML = '<input onkeyup="irene_update()" class="form-control" name="mcd_minutes_update[]" type="number" min="0" value="'+item.iMinute+'">';
-        //             mcd_total_get.push(item.iMinute);
-        //             total_update_get.push(item.iMinute);
-        //         });
+                    i.innerHTML = item.description+hidden_description+hidden_type_id;
+                    r.innerHTML = '<input onkeyup="irene(1)" class="form-control" name="mcd_minutes_update[]" type="number" min="0" value="'+item.iMinute+'">';
+                    mcd_total_get.push(item.iMinute);
+                    total_update_get.push(item.iMinute);
+                });
 
-        //         $.each(irene_parse.expectedDowntime, function(index,item) {
-        //             var x = document.getElementById('expected_downtime_body_update').insertRow(-1);
-        //             var i = x.insertCell(0);
-        //             var r = x.insertCell(1);
+                $.each(irene_parse.expectedDowntime, function(index,item) {
+                    var x = document.getElementById('expected_downtime_body_update').insertRow(-1);
+                    var i = x.insertCell(0);
+                    var r = x.insertCell(1);
                     
-        //             let hidden_description = '<input name="exp_desc_update[]" type="hidden" value="'+item.description+'">';
-        //             let hidden_type_id = '<input name="exp_type_id_update[]" type="hidden" value="'+item.downtimeTypeId+'">';
+                    let hidden_description = '<input name="exp_desc_update[]" type="hidden" value="'+item.description+'">';
+                    let hidden_type_id = '<input name="exp_type_id_update[]" type="hidden" value="'+item.downtimeTypeId+'">';
 
-        //             i.innerHTML = item.description+hidden_description+hidden_type_id;
-        //             r.innerHTML = '<input onkeyup="irene_update()"  class="form-control" name="exp_minutes_update[]" type="number" min="0" value="'+item.iMinute+'">';
-        //             exp_total_get.push(item.iMinute);
-        //             total_update_get.push(item.iMinute);
-        //         });
+                    i.innerHTML = item.description+hidden_description+hidden_type_id;
+                    r.innerHTML = '<input onkeyup="irene(1)"  class="form-control" name="exp_minutes_update[]" type="number" min="0" value="'+item.iMinute+'">';
+                    exp_total_get.push(item.iMinute);
+                    total_update_get.push(item.iMinute);
+                });
 
-        //         $.each(irene_parse.unexpectedDowntime, function(index,item) {
-        //             var x = document.getElementById('unexpected_downtime_body_update').insertRow(-1);
-        //             var i = x.insertCell(0);
-        //             var r = x.insertCell(1);
+                $.each(irene_parse.unexpectedDowntime, function(index,item) {
+                    var x = document.getElementById('unexpected_downtime_body_update').insertRow(-1);
+                    var i = x.insertCell(0);
+                    var r = x.insertCell(1);
                     
-        //             let hidden_description = '<input name="unexp_desc_update[]" type="hidden" value="'+item.description+'">';
-        //             let hidden_type_id = '<input name="unexp_type_id_update[]" type="hidden" value="'+item.downtimeTypeId+'">';
+                    let hidden_description = '<input name="unexp_desc_update[]" type="hidden" value="'+item.description+'">';
+                    let hidden_type_id = '<input name="unexp_type_id_update[]" type="hidden" value="'+item.downtimeTypeId+'">';
 
-        //             i.innerHTML = item.description+hidden_description+hidden_type_id;
-        //             r.innerHTML = '<input onkeyup="irene_update()" class="form-control" name="unexp_minutes_update[]" type="number" min="0" value="'+item.iMinute+'">';
-        //             uexp_total_get.push(item.iMinute);
-        //             total_update_get.push(item.iMinute);
-        //         });
+                    i.innerHTML = item.description+hidden_description+hidden_type_id;
+                    r.innerHTML = '<input onkeyup="irene(1)" class="form-control" name="unexp_minutes_update[]" type="number" min="0" value="'+item.iMinute+'">';
+                    uexp_total_get.push(item.iMinute);
+                    total_update_get.push(item.iMinute);
+                });
 
-        //         let total = sum(total_update_get);
-        //         let mc_total_post = sum(mcd_total_get);
-        //         let exp_total_post = sum(exp_total_get);
-        //         let uexp_total_post = sum(uexp_total_get);
-        //         document.getElementById('irene3').innerHTML = total;
-        //         document.getElementById('mctotal_update').innerHTML = mc_total_post;
-        //         document.getElementById('extotal_update').innerHTML = exp_total_post;
-        //         document.getElementById('uextotal_update').innerHTML = uexp_total_post; 
-        //     }
-        // });
+                let total = sum(total_update_get);
+                let mc_total_post = sum(mcd_total_get);
+                let exp_total_post = sum(exp_total_get);
+                let uexp_total_post = sum(uexp_total_get);
+                document.getElementById('irene3').innerHTML = total;
+                document.getElementById('mctotal_update').innerHTML = mc_total_post;
+                document.getElementById('extotal_update').innerHTML = exp_total_post;
+                document.getElementById('uextotal_update').innerHTML = uexp_total_post; 
+                irene(1);
+            }
+        });
 
     }
 
@@ -481,7 +500,7 @@
         let job = document.getElementById('job_number').value;
         let lines = document.getElementById('lines').value;
         let created_by = "{!!$user_auth->name!!}";
-        let date = document.getElementById('downtime_date').value;
+        let date = document.getElementById('job_date').value;
         
         let shift_length_create = document.getElementById('shift_length_create').value;
         //MACHINE BODY

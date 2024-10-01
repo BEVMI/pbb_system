@@ -51,9 +51,9 @@
                     var r = x.insertCell(1);
                     var e = x.insertCell(2);
                     var n = x.insertCell(3);
-                    var j = x.insertCell(4);
-
-                    let edit = "<button class='btn btn-success' onclick='updateDowntime("+item.id+","+item.iLineId+","+item.iJobNo+","+item.dDate+","+item.iShiftLength+")' style='margin:0;'><i class='fa-solid fa-pencil'></i></button> &nbsp;";
+                    var j = x.insertCell(4);    
+                    let single_quote = "'";
+                    let edit = "<button class='btn btn-success' onclick='updateDowntime("+item.id+","+item.iLineId+","+item.iJobNo+",\""+item.dDate+"\","+item.iShiftLength+")' style='margin:0;'><i class='fa-solid fa-pencil'></i></button> &nbsp;";
 
                     i.innerHTML = item.iJobNo;
                     r.innerHTML = formatDate(item.dDate);

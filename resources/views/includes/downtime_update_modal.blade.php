@@ -17,7 +17,7 @@
                                 <div class="col-12 col-lg-3 col-xl-2 col-md-6">
                                     <div class="form-group">
                                         <label for="lines_update">LINE:</label>
-                                        <select class="form-control" name="lines_update" id="lines">
+                                        <select class="form-control" name="lines_update" id="lines_update">
                                             @foreach ($lines as $line)
                                                 <option value="{{$line->id}}">{{$line->cDescription}}</option>
                                             @endforeach
@@ -27,7 +27,7 @@
                                 <div class="col-12 col-lg-3 col-xl-2 col-md-6">
                                     <div class="form-group">
                                         <label for="job_number_update">JOB</label>
-                                        <select class="form-control" name="job_number_update" id="job_number_update">
+                                        <select class="form-control" name="job_number_update" id="job_number_update" onmousedown="(function(e){ e.preventDefault(); })(event, this)">
                                             @foreach ($jobs as $job)
                                                 <option value="{{$job}}">{{$job}}</option>
                                             @endforeach
@@ -37,13 +37,8 @@
                                 <div class="col-12 col-lg-3 col-xl-2 col-md-6">
                                     <div class="form-group">
                                         <label for="shift_length_update">SHIFT LENGTH</label>
-                                        <input class="form-control" id="shift_length_update" onkeyup="irene2()" type="number" min="0" value="0" >
-                                    </div>
-                                </div>
-                                <div class="col-12 col-lg-2 col-xl-2 col-md-6">
-                                    <div class="form-group">
-                                        <label for="job_date_update">JOB DATE:</label>
-                                        <input id="job_date_update" class="form-control" type="date_update">
+                                        <input type="hidden" id="update_id">
+                                        <input class="form-control" id="shift_length_update" onkeyup="irene(1)" type="number" min="0" value="0" >
                                     </div>
                                 </div>
                                 <div class="col-12 col-lg-2 col-xl-2 col-md-6">
@@ -53,10 +48,13 @@
                                     </div>
                                 </div>
                                 <div class="col-12 col-lg-2 col-xl-2 col-md-6">
+
+                                </div>
+                                <div class="col-12 col-lg-2 col-xl-2 col-md-6">
                                     <br>
-                                    <button class="btn btn-success w-100 mt-1" onclick="get_machines()">
+                                    {{-- <button class="btn btn-success w-100 mt-1" onclick="get_machines()">
                                         <i class="fa-solid fa-arrow-right-to-bracket"></i>
-                                    </button>
+                                    </button> --}}
                                 </div>
                                 <div class="col-12">
                                     <hr style="border:1px solid gray;">
@@ -64,17 +62,17 @@
                             </div>
                         </div>
                         <div class="col-xl-7 col-lg-7 col-md-7 col-sm-6 col-12">
-                            {{-- @include('downtime_data.data_create_total') --}}
+                            @include('downtime_data.data_update_total')
                         </div>
                         <div class="col-xl-5 col-lg-5 col-md-5 col-sm-6 col-12">
-                            {{-- @include('downtime_data.data_create') --}}
+                            @include('downtime_data.data_update')
                         </div>
                         
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                 <button id="hidden_button" onclick="update()" class="btn btn-success" style="display: none;">
+                 <button id="hidden_button" onclick="update()" class="btn btn-success">
                     UPDATE
                  </button>
                 <button class="btn btn-secondary" type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
