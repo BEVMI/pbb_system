@@ -19,7 +19,7 @@
     }
 
     function getDowntime(month,year,line,job){
-        
+        let base_url = '{{$irene_base_url}}';
         if(!job){
             job_param = '';
         }else{
@@ -54,12 +54,13 @@
                     var j = x.insertCell(4);    
                     let single_quote = "'";
                     let edit = "<button class='btn btn-success' onclick='updateDowntime("+item.id+","+item.iLineId+","+item.iJobNo+",\""+item.dDate+"\","+item.iShiftLength+")' style='margin:0;'><i class='fa-solid fa-pencil'></i></button> &nbsp;";
+                    let print = "<a class='btn btn-primary' target='_blank' href='"+base_url+"/api/downtime_job/"+item.iJobNo+"'><i class='fa-solid fa-print'></i></a>";
 
                     i.innerHTML = item.iJobNo;
                     r.innerHTML = formatDate(item.dDate);
                     e.innerHTML = item.iShiftLength;
                     n.innerHTML = item.cCreatedBy;
-                    j.innerHTML = edit;
+                    j.innerHTML = edit+print;
 
                 }); 
             }

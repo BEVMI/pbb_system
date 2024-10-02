@@ -28,5 +28,6 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/turnover_form/{id}/{flag}',[PdfController::class, 'turnover_form'])->name('turnover_form');
     Route::get('/turnover_form1/{id}/{flag}',[PdfController::class, 'turnover_form1'])->name('turnover_form1');
     Route::get('/downtime_report/{id}',[PdfController::class, 'downtime_report'])->name('downtime_report');
+    Route::get('/downtime_job/{job_id}',[PdfController::class, 'downtime_report_job'])->name('downtime_report_job');
     // END PDF
 });
