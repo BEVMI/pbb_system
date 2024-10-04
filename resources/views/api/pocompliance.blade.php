@@ -3,15 +3,7 @@
 </script>
 <script src="{{asset('js/select2.min.js')}}"></script>
 <script>
-    
-    let current_year = '{!!$year_now!!}';
-    let current_month = '{!!$month_now!!}';
-    let page_number = 1;
-    let status = '';
-   
-    loadPo(api_url,current_year,current_month,page_number,status);
-    
-
+    loadPoFilter();
     function loadPoFilter(){
         let months_filter = document.getElementById('months').value;   
         let year_now_filter = document.getElementById('year_now').value;   
@@ -24,6 +16,7 @@
     function loadPo(api_url,current_year,current_month,page_number,status){
         $('#get_header_po').empty();
         var fd = new FormData();
+
         fd.append('nYear',current_year);
         fd.append('nMonth',current_month);
         fd.append('nPageNum',page_number);

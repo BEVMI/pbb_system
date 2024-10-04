@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\Models\Month;
+use Carbon\Carbon;
 
 class MachineCounter extends Controller
 {
@@ -17,9 +18,13 @@ class MachineCounter extends Controller
         $response_jobs = Http::get($api_url.'/Production/GetJobsOnGoing');
         $job_post = $response_jobs->object();
         foreach($job_post as $job):
-            $jobs_post[] =  $job->iJobNo;
+            $date = Carbon::parse($job->dJobDate)->format('Y-m-d');
+            $jobs[] =  (object)array(
+                'value'=> $job->iJobNo.'_'.$job->id,
+                'text'=>'JOB:'.$job->iJobNo.' - DATE:'.$date.' - ID:'.$job->id
+            );
         endforeach;
-        $jobs = array_unique($jobs_post);
+       
 
         return view('machinecounter.index',compact('months','lines','jobs'));
     }

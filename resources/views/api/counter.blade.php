@@ -135,8 +135,11 @@
     function postCounter(){
         let line = document.getElementById('lines').value;
         let line_name = $("#lines option:selected").text();
-       
-        let job_number = document.getElementById('job_number').value;
+        
+        let value = document.getElementById('job_number').value;
+        let split = value.split("_");
+        let job_number = split[0];
+        let id_now = split[1];
         let sections_post = document.getElementsByName('sections_create[]');
         let section_id_post = document.getElementsByName('section_id[]');
         let ins_post = document.getElementsByName('in_create[]');
@@ -164,7 +167,7 @@
                 "useInOut": flag
             });
         }
-
+        
         $.ajax({
             type:'POST',
             method:'POST',
@@ -179,6 +182,7 @@
                 "lineId": line,
                 "machineCounterHeaderId": 0,
                 "jobNo": job_number,
+                "iJobId":id_now,
                 "cEncodedBy":cEncodedBy,
                 "counterDetails":counterDetails,
                 "countDate":initial_date
@@ -223,7 +227,7 @@
             success: function (data) {
                 irene_parse = data;
                 
-                document.getElementById('job_number_update').value = irene_parse.jobNo;
+                document.getElementById('job_number_update').value = irene_parse.jobNo+'_'+irene_parse.iJobId;
                 document.getElementById('date_update').value = formatDate(irene_parse.countDate); 
                 $.each(irene_parse.counterDetails, function(index,item) {
                     x = document.getElementById('counter_body_update').insertRow(-1);
@@ -248,7 +252,12 @@
         let line = document.getElementById('lines_update').value;
         let line_name = $("#lines_update option:selected").text();
         let header_id = document.getElementById('hidden_header_id').value;
-        let job_number_update = document.getElementById('job_number_update').value;
+
+        let value = document.getElementById('job_number_update').value;
+        let split_update = value.split("_");
+        let job_number_update = split_update[0];
+        let id_now_update = split_update[1];
+
         let sections_update = document.getElementsByName('sections_update[]');
         let section_id_update = document.getElementsByName('section_id_update[]');
         let ins_update = document.getElementsByName('in_update[]');
@@ -290,6 +299,7 @@
             data:  JSON.stringify({
                 "lineId": line,
                 "jobNo": job_number_update,
+                "iJobId":id_now_update,
                 "machineCounterHeaderId": header_id,
                 "counterDetails":counterUpdateDetails,
                 "countDate":initial_date,

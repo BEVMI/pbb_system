@@ -101,7 +101,7 @@
                   <li class="mb-2">
                     <a class="nav-link" href="{{route('plan_line1.index')}}">
                       <i class="fa-solid fa-1 text-sm opacity-10"  style="color:rgb(2, 31, 247);"></i>
-                      <span class="nav-link-text ms-1" style="font-weight:bold; margin-top:8px;">LINE 1</span>
+                      <span class="nav-link-text ms-1" style="font-weight:bold; color:black; margin-top:8px;">LINE 1</span>
                     </a>
                   </li>
                 @endif
@@ -110,7 +110,7 @@
                   <li class="mb-2">
                     <a class="nav-link" href="{{route('plan_line2.index')}}">
                       <i class="fa-solid fa-2 text-sm opacity-10"  style="color:rgb(2, 31, 247);"></i>
-                      <span class="nav-link-text ms-1" style="font-weight:bold; margin-top:8px;">LINE 2</span>
+                      <span class="nav-link-text ms-1" style="font-weight:bold; color:black; margin-top:8px;">LINE 2</span>
                     </a>
                   </li>
                 @endif
@@ -119,7 +119,7 @@
                   <li class="mb-2">
                     <a class="nav-link" href="{{route('injection.index')}}">
                       <i class="fa-solid fa-3 text-sm opacity-10"  style="color:rgb(2, 31, 247);"></i>
-                      <span class="nav-link-text ms-1" style="font-weight:bold; margin-top:8px;">INJECTION</span>
+                      <span class="nav-link-text ms-1" style="font-weight:bold; color:black; margin-top:8px;">INJECTION</span>
                     </a>
                   </li>
                 @endif
@@ -188,14 +188,14 @@
                 <li class="mb-2">
                   <a href="{{route('mrp.index')}}" class="nav-link">
                     <i class="fa-solid fa-file-invoice"  style="color:rgb(2, 31, 247);"></i>
-                    <span class="nav-link-text ms-1" style="margin-top:8px; font-weight:bold;">MRP</span>
+                    <span class="nav-link-text ms-1" style="margin-top:8px; color:black; font-weight:bold;">MRP</span>
                   </a>
                 </li>
     
                 <li class="mb-2">
                   <a href="{{route('pocompliance.index')}}" class="nav-link">
                     <i class="fa-solid fa-file-invoice" style="color:rgb(2, 31, 247);"></i>
-                    <span class="nav-link-text ms-1" style="margin-top:8px; font-weight:bold;">PO. COMPLIANCE</span>
+                    <span class="nav-link-text ms-1" style="margin-top:8px; color:black; font-weight:bold;">PO. COMPLIANCE</span>
                   </a>
                 </li>
     
@@ -226,14 +226,14 @@
                 <li class="mb-2">
                   <a class="nav-link" href="{{route('inventoryfg.index')}}">
                     <i class="fa-regular fa-clipboard text-sm opacity-10"  style="color:rgb(2, 31, 247);"></i>
-                    <span class="nav-link-text ms-1" style="font-weight:bold; margin-top:8px;">INV. FG</span>
+                    <span class="nav-link-text ms-1" style="font-weight:bold; color:black; margin-top:8px;">INV. FG</span>
                   </a>
                 </li>
 
                 <li class="mb-2">
                   <a class="nav-link" href="{{route('inventorymaterials.index')}}">
                     <i class="fa-solid fa-money-bill text-sm opacity-10"  style="color:rgb(2, 31, 247);"></i>
-                    <span class="nav-link-text ms-1" style="font-weight:bold; margin-top:8px;">INV. MATERIALS</span>
+                    <span class="nav-link-text ms-1" style="font-weight:bold; color:black; margin-top:8px;">INV. MATERIALS</span>
                   </a>
                 </li>
               </ul>
