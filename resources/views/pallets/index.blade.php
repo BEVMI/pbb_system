@@ -83,7 +83,11 @@ $user_auth = Auth::user();
     <div class="table-responsive" style="height:60vh; overflow:auto;">
         <table class="table" id="irene_table" style="font-size:14px;">
             <thead class="text-center irene_thead">
-                <th class="col"></th>
+                <th class="col">
+                    <div class="form-check">
+                        <input id="all" class="form-check-input text-center" type="checkbox" checked style="position: absolute;">
+                    </div>
+                </th>
                 <th class="col">
                     <input type="hidden" id="user_name" value="{{$user_auth->name}}">
                     <i style="display: none;" id="qGlobal" onclick="globalFunction('Quarantine')" class="fa-solid fa-q"></i>

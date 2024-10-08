@@ -21,11 +21,11 @@ endif;
 @endsection
 
 @section('title') 
-    INVENTORY MATERIALS MODULE
+    INVENTORY PM MODULE
 @endsection 
 
 @section('subtitle')
-    LIST OF MATERIALS
+    LIST OF PM
 @endsection
 
 @section('breadcrumbs_1')

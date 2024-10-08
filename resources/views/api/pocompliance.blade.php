@@ -58,7 +58,7 @@
                 }
 
                 i.innerHTML = parseInt(item.SalesOrder,10);
-                r.innerHTML = item.Customer;
+                r.innerHTML = item.Customer+'<br>'+item.CustomerName;
                 o.innerHTML = item.Compliance.toFixed(2)+'%';
                 e.innerHTML = item.CustomerPoNumber;
                 n.innerHTML = irene_status;

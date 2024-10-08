@@ -30,7 +30,7 @@
     <li class="list-group-item">
       <a class="nav-link " href="{{route('inventorymaterials.index')}}">
         <i class="fa-solid fa-money-bill text-sm opacity-10"  style="color:rgb(2, 169, 247);"></i>
-        <span class="nav-link-text ms-1" style="margin-left: 4% !IMPORTANT;">INVENTORY MATERIALS</span>
+        <span class="nav-link-text ms-1" style="margin-left: 4% !IMPORTANT;">INVENTORY PM</span>
       </a>
     </li>
     @if($user_auth->is_admin='1')

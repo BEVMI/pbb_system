@@ -16,8 +16,8 @@ class PbbStockCodeResource extends JsonResource
     {
         // static::wrap(null);
         return [
-            'id'=> $this->StockCode,
-            'text' => $this->StockCode,
+            'id'=> $this->cStockCode,
+            'text' => $this->cStockCode,
         ];
     }
 }

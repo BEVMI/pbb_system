@@ -31,6 +31,9 @@ a.list-group-item.list-group-item-action {
     font-weight: bold;
     text-align: center;
 }
+li.nav-item.dropdown.irene_hide.px-2.d-flex.align-items-center {
+    color: black !important;
+}
 .tbody_create td{
     padding:15px !important;
   }

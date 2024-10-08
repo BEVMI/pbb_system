@@ -231,18 +231,32 @@
                                     document.getElementById('custom_update').value = '';
                                     document.getElementById('job_section').style.display = 'none';
                                 }else{
-                                    document.getElementById('job_number').value = '';
-                                    document.getElementById('job_number').style.display = 'block';
-                                    document.getElementById('qty_to_make').value = '';
-                                    document.getElementById('qty_to_make').style.display = 'none';
-                                    document.getElementById('qty_to_make_display').style.display = 'none';
-                                    document.getElementById('createJobDisplay').style.display = 'none';
-                                    document.getElementById('stock_codes_update').value = info.event.extendedProps.stock_code;
-                                    document.getElementById('stock_code_irene').innerHTML = 'JOB CREATE - STKC '+info.event.extendedProps.stock_code;
-                                    document.getElementById('job_stock_code').value = info.event.extendedProps.stock_code;
-                                    document.getElementById('display_update').style.display = 'none';
-                                    document.getElementById('custom_update').value = '';
-                                    document.getElementById('job_section').style.display = '';
+                                    console.log(info.event.extendedProps.pm);
+                                    if(!info.event.extendedProps.pm ){
+                                        document.getElementById('stock_code_irene').innerHTML = 'PM DOES NOT YET APPROVED THIS PLAN';
+                                        document.getElementById('qty_to_make').value = '';
+                                        document.getElementById('qty_to_make').style.display = 'none';
+                                        document.getElementById('qty_to_make_display').style.display = 'none';
+                                        document.getElementById('createJobDisplay').style.display = 'none';
+                                        document.getElementById('job_number').style.display = 'none';
+                                        document.getElementById('display_update').style.display = 'none';
+                                        document.getElementById('custom_update').value = '';
+                                        document.getElementById('job_section').style.display = 'none';
+                                    }
+                                    else{
+                                        document.getElementById('job_number').value = '';
+                                        document.getElementById('job_number').style.display = 'block';
+                                        document.getElementById('qty_to_make').value = '';
+                                        document.getElementById('qty_to_make').style.display = 'none';
+                                        document.getElementById('qty_to_make_display').style.display = 'none';
+                                        document.getElementById('createJobDisplay').style.display = 'none';
+                                        document.getElementById('stock_codes_update').value = info.event.extendedProps.stock_code;
+                                        document.getElementById('stock_code_irene').innerHTML = 'JOB CREATE - STKC '+info.event.extendedProps.stock_code;
+                                        document.getElementById('job_stock_code').value = info.event.extendedProps.stock_code;
+                                        document.getElementById('display_update').style.display = 'none';
+                                        document.getElementById('custom_update').value = '';
+                                        document.getElementById('job_section').style.display = '';
+                                    }
                                 }
                             }
                         }else{

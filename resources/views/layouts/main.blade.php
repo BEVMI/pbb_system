@@ -233,7 +233,7 @@
                 <li class="mb-2">
                   <a class="nav-link" href="{{route('inventorymaterials.index')}}">
                     <i class="fa-solid fa-money-bill text-sm opacity-10"  style="color:rgb(2, 31, 247);"></i>
-                    <span class="nav-link-text ms-1" style="font-weight:bold; color:black; margin-top:8px;">INV. MATERIALS</span>
+                    <span class="nav-link-text ms-1" style="font-weight:bold; color:black; margin-top:8px;">INV. PM</span>
                   </a>
                 </li>
               </ul>

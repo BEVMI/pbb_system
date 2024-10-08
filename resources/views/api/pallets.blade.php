@@ -1,6 +1,21 @@
 <script>
 
+        // Listen for click on toggle checkbox
+        $('#all').click(function(event) {   
+            if(this.checked) {
+                // Iterate each checkbox
+                $(':checkbox').each(function() {
+                    this.checked = true;                        
+                });
+            } else {
+                $(':checkbox').each(function() {
+                    this.checked = false;                       
+                });
+            }
+        }); 
+
     function refresh(){
+        document.getElementById("all").checked = true;
         let reference = document.getElementById('reference').value;
         let status = document.getElementById('status').value;
         let date = document.getElementById('date').value;

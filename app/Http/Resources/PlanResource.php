@@ -57,7 +57,8 @@ class PlanResource extends JsonResource
             'plan_qty'=>$qty,
             'color'=>$color,
             'stock_code'=>$this->cStockCode,
-            'job'=>$post_job
+            'job'=>$post_job,
+            'pm'=>$this->cPmApprovedBy
         ];
     }
 }
