@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuditController;
 use App\Http\Controllers\PalletStatusController;
 use App\Http\Controllers\PdfController;
+use App\Http\Controllers\JobController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -30,4 +31,8 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/downtime_report/{id}',[PdfController::class, 'downtime_report'])->name('downtime_report');
     Route::get('/downtime_job/{job_id}',[PdfController::class, 'downtime_report_job'])->name('downtime_report_job');
     // END PDF
+    
+    // JOB
+    Route::get('/job/{id}',[JobController::class, 'check'])->name('job.check');
+    // END JOB
 });
