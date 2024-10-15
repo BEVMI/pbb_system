@@ -25,7 +25,7 @@
                                 <label for="job_number">JOB</label>
                                 <select onchange="hideJob()" class="form-control" name="job_number" id="job_number">
                                     @foreach ($jobs as $job)
-                                        <option value="{{$job}}">{{$job}}</option>
+                                        <option value="{{$job->value}}">{{$job->text}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -102,7 +102,7 @@
                                 <label for="job_number_update">JOB</label>
                                 <select class="form-control" name="job_number_update" id="job_number_update">
                                     @foreach ($jobs as $job)
-                                        <option value="{{$job}}">{{$job}}</option>
+                                        <option value="{{$job->value}}">{{$job->text}}</option>
                                     @endforeach
                                 </select>
                             </div>
