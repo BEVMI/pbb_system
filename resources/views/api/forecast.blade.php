@@ -122,27 +122,52 @@
         
         var CSRF_TOKEN = document.querySelector('meta[name="csrf-token"]').getAttribute("content");  
         let upload_file_irene =  $('#forecast_upload')[0].files;
-        var fd = new FormData();
-            fd.append('file',upload_file_irene[0]);
-            fd.append('_token',CSRF_TOKEN);
+        var fileType = $('#forecast_upload').val().split('.').pop();
+       
+        var fileType = upload_file_irene[0].name.split('.').pop();
+        
+        if (fileType != 'xlsx'){            
+            setTimeout(function(){
+                $('#finalize').modal('hide');     
+            }, 2000);
 
-            $.ajax({
-            type:'POST',
-            url:"{{ route('forecast.check') }}",
-            contentType: false,
-            processData: false,
-            data: fd,
-            success:function(data){
-                $('#ireneTable2').empty();
-                console.log(data);
-                data.forEach(function(irene, index) {
-                    var x =document.getElementById('ireneTable2').insertRow(-1);
-                    irene.forEach(function(irene2, index2) { 
-                        x.insertCell(index2).innerHTML = irene2
+
+            setTimeout(function(){
+                $('#modalCreate').modal('show');
+            }, 2500);
+          
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Please Upload an Excel file",
+                showConfirmButton: false,
+                timer: 3000
+            });
+
+          
+        }else{
+            var fd = new FormData();
+                fd.append('file',upload_file_irene[0]);
+                fd.append('_token',CSRF_TOKEN);
+
+                $.ajax({
+                type:'POST',
+                url:"{{ route('forecast.check') }}",
+                contentType: false,
+                processData: false,
+                data: fd,
+                success:function(data){
+                    $('#ireneTable2').empty();
+                    console.log(data);
+                    data.forEach(function(irene, index) {
+                        var x =document.getElementById('ireneTable2').insertRow(-1);
+                        irene.forEach(function(irene2, index2) { 
+                            x.insertCell(index2).innerHTML = irene2
+                        });
                     });
-                });
-            }
-        });    
+                }
+            });
+        }    
     }
 
     function ireneUpload(){
