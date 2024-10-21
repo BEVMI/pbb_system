@@ -5,6 +5,7 @@
         let line = document.getElementById('line').value;
         let upload_file_irene =  $('#plan_upload')[0].files;
         
+        document.getElementById("upload").disabled = true;
         var fd = new FormData();
        
         fd.append('file',upload_file_irene[0]);
@@ -562,7 +563,7 @@
         let plan_id = document.getElementById('plan_id').value;
         
         let qty_to_make = document.getElementById('qty_to_make').value;
-
+        document.getElementById("createJobDisplay").disabled = true;
         $.ajax({
             type: 'GET', //THIS NEEDS TO BE GET
             url: api_url+'/Production/GetJobSysproDetails?ijob='+job_number,
@@ -605,6 +606,7 @@
                                 $('#modalDetail').modal('hide');
                             }, "2000");
                         }
+                        document.getElementById("createJobDisplay").disabled = false;
                     }
                 });    
             }

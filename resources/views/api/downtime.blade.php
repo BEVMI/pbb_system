@@ -551,7 +551,7 @@
             });
         }
         //END UNEXPECTED BODY
-       
+        document.getElementById("hidden_button").disabled = true;
         $.ajax({
             type:'POST',
             method:'POST',
@@ -592,6 +592,7 @@
                 });
                 setTimeout(() => {
                    load();
+                   document.getElementById("hidden_button").disabled = false;
                     $('#modalCreate').modal('hide');
                 }, "2000");
             }

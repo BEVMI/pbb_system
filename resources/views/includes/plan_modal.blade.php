@@ -56,7 +56,7 @@
                 
             </div>
             <div class="modal-footer">
-                <button onclick="uploadPlan()" class="btn btn-success mt-2 mt-xl-0"style="width:100%;">
+                <button id="upload" onclick="uploadPlan()" class="btn btn-success mt-2 mt-xl-0"style="width:100%;">
                     UPLOAD
                 </button> 
             </div>

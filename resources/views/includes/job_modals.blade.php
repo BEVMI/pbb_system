@@ -43,7 +43,7 @@
                         <div class="col-4">
                             <div class="form-group">
                                 <br>
-                                <button class="btn btn-success" style="margin-top:3px; width:100%;" onclick="job_creation()">JOB CREATE</button>
+                                <button id="job_button" class="btn btn-success" style="margin-top:3px; width:100%;" onclick="job_creation()">JOB CREATE</button>
                             </div>
                         </div>
                     </div>

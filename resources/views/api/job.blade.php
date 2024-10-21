@@ -97,6 +97,8 @@
         let month_now = document.getElementById('month_now').value;
         let year_now = document.getElementById('year_now').value;   
         let job_number = document.getElementById('job_number').value;
+        
+        document.getElementById("job_button").disabled = true;
         get_job(job_number).done(function(irene_parse){
             $.ajax({
                 type:'POST',
@@ -143,6 +145,7 @@
                                 document.getElementById('job_section_1').style.display = 'none';
                                 document.getElementById('stock_code').value = '';
                                 document.getElementById('qty_to_make').value = '';
+                                document.getElementById("job_button").disabled = false;
                             }, "2000");
                         }
                     }

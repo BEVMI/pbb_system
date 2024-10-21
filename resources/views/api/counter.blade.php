@@ -152,7 +152,7 @@
         let line_start = document.getElementById('line_search').value;
         let month_now_start = document.getElementById('month_now').value;
         let year_now = document.getElementById('year_now').value;
-
+        document.getElementById("post_counter").disabled = true;
         for (var i = 0; i < section_id_post.length; i++) {
             let section_id=section_id_post[i].value;
             let ins=ins_post[i].value;
@@ -198,6 +198,7 @@
                 });
                 setTimeout(() => {
                     getCounter(line_start,year_now,month_now_start);
+                    document.getElementById("post_counter").disabled = false;
                     $('#modalCreate').modal('hide');
                 }, "2000");
             }

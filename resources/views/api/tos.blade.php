@@ -112,6 +112,7 @@
 </script>
 <script>
     function saveTos(){
+        document.getElementById("save_button").disabled = true;
         let coas = document.querySelectorAll("input[name^='coa[']");
         let lot_number = document.querySelectorAll("input[name^='lot_number[']");
         let pallets = document.querySelectorAll("select[name^='iPallet[']");
@@ -169,6 +170,7 @@
                 }),
                 success:function(data){
                     $('#modalCreate').modal('hide');
+                    document.getElementById("save_button").disabled = false;
                     details=[];
                     check_count=[];
                     load();

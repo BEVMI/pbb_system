@@ -121,7 +121,7 @@
         let lost_case = document.getElementById('lost_case').value;
         let initial_date = document.getElementById('date_reject').value;
         let cEncodedBy = "{!!$user_auth->name!!}";
-        
+        document.getElementById("post_reject").disabled = true;
         for (var i = 0; i <materialId.length; i++) {
             let material_id=materialId[i].value;
             let section_id=sectionId[i].value;
@@ -171,6 +171,7 @@
                 });
                 setTimeout(() => {
                     searchRejects();
+                    document.getElementById("post_reject").disabled = false;
                     $('#modalCreate').modal('hide');
                 }, "2000");
             }
