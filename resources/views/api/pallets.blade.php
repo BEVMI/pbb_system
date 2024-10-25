@@ -208,8 +208,8 @@
                     reference2 = irene_parse[0].cPalletRef;
                 }
             });
-           
-            return '<i class="modalView fa-solid fa-q style="color:black;" data-bs-toggle="modal" data-bs-target="#modalView" data-id="'+id+'" data-status="'+cStatus+'" data-reasonnow="'+cReason+'" data-reference="'+reference2+'" data-module="Quarantine" ></i>';
+            
+            return '<i class="modalView fa-solid fa-circle-exclamation" style="color:black;" data-toggle="tooltip" data-placement="top" title="QUARANTINE TAG." data-bs-toggle="modal" data-bs-target="#modalView" data-id="'+id+'" data-status="'+cStatus+'" data-reasonnow="'+cReason+'" data-reference="'+reference2+'" data-module="Quarantine" ></i>';
         }
         else{
             
@@ -230,7 +230,7 @@
                 }
             });
            
-            let tag = '<i class="modalView fa-solid fa-a" style="color:black;" data-bs-toggle="modal" data-bs-target="#modalView" data-id="'+id+'" data-status="'+cStatus+'" data-reasonnow="'+cReason+'" data-reference="'+reference2+'" data-module="Approved" ></i>'
+            let tag = '<i class="modalView fa-solid fa-thumbs-up" style="color:black;" data-toggle="tooltip" data-placement="top" title="APPROVE TAG." style="color:black;" data-bs-toggle="modal" data-bs-target="#modalView" data-id="'+id+'" data-status="'+cStatus+'" data-reasonnow="'+cReason+'" data-reference="'+reference2+'" data-module="Approved" ></i>'
             return tag;
         }else{
             return '';
@@ -250,7 +250,7 @@
                 }
             });
             
-            let tag = '<i class="modalView fa-solid fa-o" style="color:black;" data-bs-toggle="modal" data-bs-target="#modalView" data-id="'+id+'" data-status="'+cStatus+'" data-reasonnow="'+cReason+'" data-reference="'+reference2+'" data-module="On Hold"></i>'
+            let tag = '<i class="modalView fa-solid fa-hand" style="color:black;" data-toggle="tooltip" data-placement="top" title="ONHOLD TAG." style="color:black;" data-bs-toggle="modal" data-bs-target="#modalView" data-id="'+id+'" data-status="'+cStatus+'" data-reasonnow="'+cReason+'" data-reference="'+reference2+'" data-module="On Hold"></i>'
             return tag;
         }else{
            
@@ -271,8 +271,8 @@
                     reference2 = irene_parse[0].cPalletRef;
                 }
             });
-           
-            let tag = '<i class="modalView fa-solid fa-r" style="color:black;" data-bs-toggle="modal" data-bs-target="#modalView" data-id="'+id+'" data-status="'+cStatus+'" data-reasonnow="'+cReason+'" data-reference="'+reference2+'" data-module="Reject"></i>'
+            
+            let tag = '<i class="modalView fa-solid fa-rectangle-xmark" data-toggle="tooltip" data-placement="top" title="REJECT TAG." style="color:black;" data-bs-toggle="modal" data-bs-target="#modalView" data-id="'+id+'" data-status="'+cStatus+'" data-reasonnow="'+cReason+'" data-reference="'+reference2+'" data-module="Reject"></i>'
             return tag;
         }else{
             
@@ -292,7 +292,7 @@
                 }
             });
             
-            let tag = '<i class="modalView fa-solid fa-t" style="color:black;" data-bs-toggle="modal" data-bs-target="#modalView" data-id="'+id+'" data-status="'+cStatus+'" data-reasonnow="'+cReason+'" data-reference="'+reference2+'" data-module="Turnover"></i>'
+            let tag = '<i class="modalView fa-solid fa-arrow-right-to-city" data-placement="top" title="TURNOVER TAG." style="color:black;" data-bs-toggle="modal" data-bs-target="#modalView" data-id="'+id+'" data-status="'+cStatus+'" data-reasonnow="'+cReason+'" data-reference="'+reference2+'" data-module="Turnover"></i>'
             return tag;
         }else{
             

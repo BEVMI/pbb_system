@@ -185,6 +185,11 @@
     };
     // add the responsive classes when navigating with calendar buttons
   </script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+        $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+    });
+  </script>
   @yield('scripts')
 </body>
 

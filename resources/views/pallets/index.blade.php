@@ -90,12 +90,12 @@ $user_auth = Auth::user();
                 </th>
                 <th class="col">
                     <input type="hidden" id="user_name" value="{{$user_auth->name}}">
-                    <i style="display: none;" id="qGlobal" onclick="globalFunction('Quarantine')" class="fa-solid fa-q"></i>
-                    <i id="aGlobal" onclick="globalFunction('Approved')" class="fa-solid fa-a"></i>
-                    <i id="oGlobal" onclick="globalFunction('On Hold')" class="fa-solid fa-o"></i>
-                    <i id="rGlobal" onclick="globalFunction('Reject')" class="fa-solid fa-r"></i>
+                    <i style="display: none;" id="qGlobal" onclick="globalFunction('Quarantine')" class="fa-solid fa-circle-exclamation"  data-toggle="tooltip" data-placement="top" title="GLOBAL QUARANTINE TAG."></i>
+                    <i id="aGlobal" onclick="globalFunction('Approved')" class="fa-solid fa-solid fa-thumbs-up" data-toggle="tooltip" data-placement="top" title="GLOBAL APPROVE TAG."></i>
+                    <i id="oGlobal" onclick="globalFunction('On Hold')" class="fa-solid fa-solid fa-hand" data-toggle="tooltip" data-placement="top" title="GLOBAL ONHOLD TAG."></i>
+                    <i id="rGlobal" onclick="globalFunction('Reject')" class="fa-solid fa-rectangle-xmark" data-toggle="tooltip" data-placement="top" title="GLOBAL REJECT TAG."></i>
                     <i id="tGlobal" onclick="globalFunction('Turnover')" class="fa-solid fa-t"></i>
-                    <i id="pGlobal" onclick="globalFunction('Print')" class="fa-solid fa-p"></i>
+                    <i id="pGlobal" onclick="globalFunction('Print')" class="fa-solid fa-print" data-toggle="tooltip" data-placement="top" title="GLOBAL PRINT TAG."></i>
                 </th>
                 <th class="col">
                     <input  type="text" id="myInput" onkeyup="myFunction()" placeholder="SEARCH">

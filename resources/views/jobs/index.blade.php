@@ -37,7 +37,7 @@ endif;
 @endsection
 
 @section('button')
-<button onclick="resetJobFields()" class="btn btn-primary mt-2 mt-xl-0" data-bs-toggle="modal" data-bs-target="#modalCreate" style="width:100%;">JOB CREATE</button> 
+<button onclick="resetJobFields()" class="btn btn-primary mt-2 mt-xl-0" data-bs-toggle="modal" data-bs-target="#modalCreate" style="width:100%;display:none;">JOB CREATE</button> 
 @endsection
 
 @section('main')
