@@ -50,7 +50,20 @@ $user_auth = Auth::user();
 @section('main')
 <div class="container-fluid">
     <div class="row">
-        <div class="col-xl-4 col-12"></div>
+        <div class="col-xl-4 col-12 text-center">
+            <div class="form-group">
+                <label for="reference">LEGENDS</label><br>
+                <table class="table">
+                    <tr>
+                        <td><i class="fa-solid fa-circle-exclamation" style="color:black;"></i>: QUARANTINE</td>
+                        <td><i class="fa-solid fa-thumbs-up" style="color:black;"></i>: APPROVE</td>
+                        <td><i class="fa-solid fa-hand" style="color:black;"></i>: ON HOLD</td>
+                        <td><i class="fa-solid fa-rectangle-xmark" style="color:black;"></i>: REJECT</td>
+                        <td><i class="fa-solid fa-print" style="color:black;"></i>: PRINT</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
         <div class="col-xl-2 col-lg-3 col-sm-6 col-12">
             <div class="form-group">
                 <label for="reference">REFERENCE</label>
