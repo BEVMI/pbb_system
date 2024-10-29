@@ -62,7 +62,7 @@ endif;
     </div>
     <div class="row">
         <div class="col-sm-12">
-            <div class="table-responsive p-0">
+            <div class="table-responsive p-0" style="height: 550px;">
                 <table class="table align-items-center mb-0">
                     <thead class="text-center">
                         <th style="width:10%;">ACTION</th>
