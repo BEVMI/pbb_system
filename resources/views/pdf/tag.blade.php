@@ -40,7 +40,7 @@
         <?php 
             $count = 1;    
         ?>
-        
+       
             <table cellspacing='0' cellpadding="0" style="width:100%;">
                 <thead>
                     <th style="width:50%;"></th>
@@ -48,6 +48,10 @@
                 </thead>
                 <tbody>
                     @foreach($pallets as $pallet)
+                    <?php 
+                        $exploded_ref = explode("-",$pallet->cPalletRef);
+                    ?>
+                
                         @if($count % 2 != 0)
                             <tr>
                         @endif
@@ -73,7 +77,9 @@
                                             
                                                 <td colspan="2" style="vertical-align: top; text-align:right;">
                                                     <br><br>
-                                                    <span style="font-size: 6px;  margin-top:10px;">
+                                                    <span style="font-size: 6px;  margin-top:2px;">
+                                                        <span style="font-size: 12px; font-weight:bolder;"><?php echo $exploded_ref[2]; ?></span>
+                                                        <br>
                                                         {{$tag->control_no}}
                                                         <br>
                                                         {{$tag->revision_number}}
@@ -160,7 +166,7 @@
                                                 <td></td>
                                                 <td style="font-weight: bold;">Ref No.:</td>
                                                 <td style="border-bottom:1px solid black;">
-                                                    {{$pallet->cPalletRef}}
+                                                    <?php echo $exploded_ref[0]; ?>-<?php echo $exploded_ref[1]; ?>
                                                 </td>
                                             </tr>
 
