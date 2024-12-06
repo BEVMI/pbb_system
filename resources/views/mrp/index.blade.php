@@ -20,6 +20,10 @@ endif;
         background-color: #5e72e4;
         color: white;
     }
+    .red{
+        background-color: red !important;
+        color:white;
+    }
 </style>
 @endsection
 
@@ -44,9 +48,15 @@ endif;
 @endsection
 
 @section('main')
-<div class="container-fluid" style="padding-left: 0px; padding-right: 0px;">
+<div class="container-fluid" style="padding-left: 10px; padding-right: 10px;">
     <div class="row">
         <div class="col-xl-2 col-lg-3 col-sm-6 col-12">
+            <label for="sufficient">-</label>
+            <select class="form-control" id="myInput" onchange="sufficient()">
+                <option value="">ALL</option>
+                <option value="0">SUFFICIENT</option>
+                <option value="1">INSUFFICIENT</option>
+            </select>
         </div>
         
         <div class="col-xl-2 col-lg-3 col-sm-6 col-12">

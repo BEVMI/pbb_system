@@ -10,8 +10,14 @@
             <div class="modal-body">  
                <div class="row" style="padding: 10px;">
                     <input type="hidden" id="plan_id">
+                    <div class="form-group">
+                        <label for="remarks_pm">PM REMARKS</label>
+                        <textarea class="form-control" id="pm_remarks">
+
+                        </textarea>
+                    </div>
                     <button class="btn btn-outline-success" onclick="approvePM()">
-                        APPROVE
+                        SAVE
                     </button>
                     <button class="btn btn-outline-secondary" class="close" data-bs-dismiss="modal" aria-label="Close">
                         CLOSE

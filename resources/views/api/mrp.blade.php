@@ -74,6 +74,13 @@
                 
                     $.each(irene_parse, function(index,item) {
                         var x = document.getElementById('get_header').insertRow(-1);
+                        if(item.nToOrder > 0){
+                            irene1 =  item.nToOrder.toFixed(2);
+                            x.className = "red";
+                        }else{
+                            irene1 = '-';
+                        }
+                        
                         var i = x.insertCell(0);
                         var r = x.insertCell(1);
                         var e = x.insertCell(2);
@@ -88,7 +95,7 @@
                         n.innerHTML = item.nOnHand.toFixed(2);    
                         j.innerHTML = item.nOnOrder.toFixed(2);      
                         o.innerHTML = item.nTotalRequired.toFixed(2);   
-                        y.innerHTML = item.nToOrder.toFixed(2);             
+                        y.innerHTML = irene1;             
                     });
                 }
             });
@@ -97,6 +104,35 @@
             document.getElementById('table-plan').style.display = 'none';
             document.getElementById('table-detail').style.display = 'block';
             document.getElementById("detail_frame").src=base_url+'/mrp_detail/'+get_month+'/'+get_year+'/'+get_source;
+        }
+    }
+</script>
+
+<script>
+    function sufficient(){
+        // Declare variables
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value;
+        table = document.getElementById("get_header");
+        tr = table.getElementsByTagName("tr");
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[6];
+            if(filter == 1){
+                if(td.innerHTML != '-'){
+                    tr[i].style.display = "";
+                }else{
+                    tr[i].style.display = "none";
+                }
+            }else{
+                if(td.innerHTML == '-'){
+                    tr[i].style.display = "";
+                }else{
+                    tr[i].style.display = "none";
+                }
+            }
+
         }
     }
 </script>

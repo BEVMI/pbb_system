@@ -36,7 +36,7 @@
                             <label for="source">SOURCE</label>
                             <select class="form-control" name="source" id="source">
                                 <option value="Plan">PLAN</option>
-                                <option value="Source">FORECAST</option>
+                                <option value="Forecast">FORECAST</option>
                             </select>
                         </div>
                     </div>
