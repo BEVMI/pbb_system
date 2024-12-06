@@ -86,6 +86,11 @@
                                 @endforeach
                             </select> 
                         </div>
+
+                        <div class="form-group">
+                            <label for="pm_remarks_create">PM REMARKS:</label>
+                            <textarea class="form-control" readonly id="pm_remarks_create"></textarea>
+                        </div>
                         
                     </div>
                     <div class="col-xl-4 col-lg-4 col-sm-6 col-12">

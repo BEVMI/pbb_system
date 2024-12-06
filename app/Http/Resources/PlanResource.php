@@ -48,6 +48,12 @@ class PlanResource extends JsonResource
             $qty = $this->nQty;
         endif;
 
+        if($this->cRemarks == null):
+            $c_remarks = ''; 
+        else:
+            $c_remarks = $this->cRemarks;
+        endif;
+
         return [
             'id'=> $this->id,
             'title'=>$this->cStockCode.$post_qty.$post_job,
@@ -58,7 +64,8 @@ class PlanResource extends JsonResource
             'color'=>$color,
             'stock_code'=>$this->cStockCode,
             'job'=>$post_job,
-            'pm'=>$this->cPmApprovedBy
+            'pm'=>$this->cPmApprovedBy,
+            'cRemarks'=>$c_remarks
         ];
     }
 }

@@ -213,6 +213,7 @@
                             document.getElementById('job_plan_id').value = info.event.id;
                             document.getElementById('planTitle').innerHTML = info.event.title;
                             document.getElementById('qty_update').value = info.event.extendedProps.plan_qty;
+                            document.getElementById('pm_remarks_create').value = info.event.extendedProps.cRemarks;
                             if(info.event.extendedProps.plan_qty === 0){
                                 document.getElementById('stock_codes_update').value = 'NO_STOCK_CODE';
                                 document.getElementById('display_update').style.display = 'block';
@@ -262,6 +263,7 @@
                             }
                         }else{
                             document.getElementById('plan_id').value = info.event.id;
+                            document.getElementById('pm_remarks').value = info.event.extendedProps.cRemarks;
                         }
                         $('#modalDetail').modal('show');
                     }
@@ -429,11 +431,11 @@
     function approvePM(){
         let user = '{!!$user_name!!}';
         let plan_id = document.getElementById('plan_id').value;
-        
+        let pm_remarks = document.getElementById('pm_remarks').value;
 
         $.ajax({
             type: 'POST', //THIS NEEDS TO BE GET
-            url: api_url+'/MonthlyPlan/ApprovedPmMonthlyPlan?iPlanId='+plan_id+'&cPmApprovedBy='+user,
+            url: api_url+'/MonthlyPlan/ApprovedPmMonthlyPlan?iPlanId='+plan_id+'&cPmApprovedBy='+user+'&cRemarks='+pm_remarks,
             success: function (data) {
                 Swal.fire({
                     position: "center",
