@@ -137,6 +137,8 @@
         let line_name = $("#lines option:selected").text();
         
         let value = document.getElementById('job_number').value;
+        let iLossPallet = document.getElementById('iLossPallet').value;
+
         let split = value.split("_");
         let job_number = split[0];
         let id_now = split[1];
@@ -182,10 +184,11 @@
                 "lineId": line,
                 "machineCounterHeaderId": 0,
                 "jobNo": job_number,
+                "iLossPallet":iLossPallet,
                 "iJobId":id_now,
                 "cEncodedBy":cEncodedBy,
                 "counterDetails":counterDetails,
-                "countDate":initial_date
+                "countDate":initial_date,
             }),
             success:function(data){
                 counterDetails = [];
@@ -230,6 +233,7 @@
                 
                 document.getElementById('job_number_update').value = irene_parse.jobNo+'_'+irene_parse.iJobId;
                 document.getElementById('date_update').value = formatDate(irene_parse.countDate); 
+                document.getElementById('iLossPalletUpdate').value = irene_parse.iLossPallet;
                 $.each(irene_parse.counterDetails, function(index,item) {
                     x = document.getElementById('counter_body_update').insertRow(-1);
                     var i = x.insertCell(0);
@@ -253,6 +257,7 @@
         let line = document.getElementById('lines_update').value;
         let line_name = $("#lines_update option:selected").text();
         let header_id = document.getElementById('hidden_header_id').value;
+        let iLossPalletUpdate = document.getElementById('iLossPalletUpdate').value;
 
         let value = document.getElementById('job_number_update').value;
         let split_update = value.split("_");
@@ -300,6 +305,7 @@
             data:  JSON.stringify({
                 "lineId": line,
                 "jobNo": job_number_update,
+                "iLossPallet":iLossPalletUpdate,
                 "iJobId":id_now_update,
                 "machineCounterHeaderId": header_id,
                 "counterDetails":counterUpdateDetails,

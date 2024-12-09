@@ -10,7 +10,7 @@
             <div class="modal-body">  
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-4">
                             <div class="form-group">
                                 <label for="lines">LINE:</label>
                                 <select onchange="hideFields()" class="form-control" name="lines" id="lines">
@@ -20,7 +20,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-4">
                             <div class="form-group">
                                 <label for="job_number">JOB</label>
                                 <select onchange="hideFields()" class="form-control" name="job_number" id="job_number">
@@ -28,6 +28,12 @@
                                         <option value="{{$job->value}}">{{$job->text}}</option>
                                     @endforeach
                                 </select>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="iLossPallet">LOSS CASE</label>
+                                <input type="number" value="0" min="0" max="99999" class="form-control" name="iLossPallet" id="iLossPallet">
                             </div>
                         </div>
                         <div class="col-6">
@@ -107,7 +113,7 @@
                 <input id="date_update" type="hidden">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-4">
                             <div class="form-group">
                                 <label for="lines_update">LINE:</label>
                                 <select class="form-control" name="lines_update" id="lines_update">
@@ -117,7 +123,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-4">
                             <div class="form-group">
                                 <label for="job_number_update">JOB</label>
                                 <select class="form-control" name="job_number_update" id="job_number_update">
@@ -125,6 +131,13 @@
                                         <option value="{{$job->value}}">{{$job->text}}</option>
                                     @endforeach
                                 </select>
+                            </div>
+                        </div>
+
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="iLossPalletUpdate">LOSS CASE</label>
+                                <input type="number" value="0" min="0" max="99999" class="form-control" name="iLossPalletUpdate" id="iLossPalletUpdate">
                             </div>
                         </div>
                     </div>
