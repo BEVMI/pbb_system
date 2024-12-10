@@ -80,6 +80,18 @@
                         }else{
                             irene1 = '-';
                         }
+
+                        if(item.dDeliveryDate == null){
+                            irene2 = '';
+                        }else{
+                            irene2 = formatDate(item.dDeliveryDate);
+                        }
+                        
+                        if(item.cRemarks == null){
+                            irene3 = '';
+                        }else{
+                            irene3 = item.cRemarks;
+                        }
                         
                         var i = x.insertCell(0);
                         var r = x.insertCell(1);
@@ -88,6 +100,10 @@
                         var j = x.insertCell(4);
                         var o = x.insertCell(5);
                         var y = x.insertCell(6);
+                        var l = x.insertCell(7);
+                        var a = x.insertCell(8);
+                        var b = x.insertCell(9);
+
 
                         i.innerHTML = item.cStockCodeComponent;
                         r.innerHTML = item.cDescriptionComponent;  
@@ -95,7 +111,10 @@
                         n.innerHTML = item.nOnHand.toFixed(2);    
                         j.innerHTML = item.nOnOrder.toFixed(2);      
                         o.innerHTML = item.nTotalRequired.toFixed(2);   
-                        y.innerHTML = irene1;             
+                        y.innerHTML = irene1;
+                        l.innerHTML = irene2;                                    
+                        a.innerHTML = irene3;      
+                        b.innerHTML = '<a href="#" class="btn btn-success mt-2 mt-xl-0 view_data" data-bs-toggle="modal" data-bs-target="#modalView" data-ddeliverydate="'+irene2+'" data-cremarks="'+irene3+'" data-stockcode="'+item.cStockCodeComponent+'"><span><i class="fas fa-eye"></i></span></a>';   
                     });
                 }
             });
@@ -134,5 +153,57 @@
             }
 
         }
+    }
+</script>
+
+<script>
+    $(document).ready(function(){
+        $(document).on('click', '.view_data', function (e) {
+            let dDeliveryDate = $(this).data('ddeliverydate');
+            let cRemarks = $(this).data('cremarks');
+            let stockCode = $(this).data('stockcode');
+            if(cRemarks === undefined){
+                post_remarks = '';
+            }else{
+                post_remarks = cRemarks;
+            }
+            document.getElementById('post_stockcode').value = stockCode;
+            document.getElementById('post_dDeliveryDate').value = dDeliveryDate;
+            document.getElementById('post_cRemarks').value = post_remarks;
+
+        });            
+    });
+</script>
+<script>
+    function updateMrp(){
+        let get_month = document.getElementById('get_month').value;
+        let get_year = document.getElementById('get_year').value;
+        let get_source = document.getElementById('get_source').value;
+        let type = 'Summary';
+
+        let delivery = document.getElementById('post_dDeliveryDate').value;
+        let remarks =  document.getElementById('post_cRemarks').value;
+        let stockcode = document.getElementById('post_stockcode').value;
+        $.ajax({
+            type:'POST',
+            method:'POST',
+            url:api_url+'/Mrp/updateComputedMaterials?nYear='+get_year+'&nMonth='+get_month+'&cSource='+get_source+'&cStockcode='+stockcode+'&dDeliveryDate='+delivery+'&cRemarks='+remarks,
+            contentType: false,
+            processData: false,
+            success:function(data){
+                Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "REMARKS SUCCESSFULLY UPDATED",
+                showConfirmButton: false,
+                timer: 2500
+            });
+
+            setTimeout(function(){
+                getMaterials(get_month,get_year,get_source,type);
+                $('#modalView').modal('hide')
+            }, 2500);
+            }
+        });    
     }
 </script>

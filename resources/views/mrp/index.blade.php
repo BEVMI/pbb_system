@@ -107,6 +107,10 @@ endif;
                     <th>OnOrder</th>
                     <th>Total Required</th>
                     <th>To Order</th>
+                    <th>Del. Date</th>
+                    <th>Remarks</th>
+                   
+                    <th>Action</th>
                 </thead>
                 <tbody id="get_header">
                     

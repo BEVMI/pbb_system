@@ -190,7 +190,7 @@
                 <td class="irene-td w-10 border-right">{{round(array_sum($data_headers->performances),0)}}</td>
             </tr>
             <tr>
-                <td class="w-30 border-left border-right">Performance(%)</td>
+                <td class="w-30 border-left border-right">Quality(%)</td>
                 @foreach ($data_headers->qualities as $quality)
                     <td class="irene-td w-10 border-right">{{round($quality,0)}}%</td>
                 @endforeach
