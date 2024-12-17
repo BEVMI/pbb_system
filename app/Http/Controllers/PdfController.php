@@ -52,6 +52,29 @@ class PdfController extends Controller
 
     }
 
+    public function print_pdf_advance($job_id,$pallet_count,$date){
+        $id =$job_id;
+        $pallet_count = $pallet_count;
+        $date = $date;
+        $tag = QcTag::where('id',1)->first();
+        $api_url = env('API_URL');
+        $response = Http::get($api_url.'/Pallet/PalletAdvancePrinting?iJobNo='.$id.'&iPalletCount='.$pallet_count.'&dDate='.$date);
+        $pallets =  $response->object();
+
+        $user = Auth::user();
+        $user_name = $user->name;
+
+        $print = 'pdf.tag2';
+        $font = 'arial';
+        $position = 'portrait';
+
+        $pdf = Pdf::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true,'defaultMediaType'=> 'all','isFontSubsettingEnabled'=>true,'defaultFont'=>$font])
+        ->loadView($print,compact('tag','pallets','user_name'))->setPaper('LETTER', $position);
+        $pdf->getDomPDF()->set_option("enable_php", true);
+        
+        return base64_encode($pdf->output());
+    }
+
     public function test_tos(){
         $print = 'pdf.test_tos';
         $font = 'arial';

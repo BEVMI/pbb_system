@@ -34,6 +34,11 @@ $user_auth = Auth::user();
 
 @section('subtitle')
     LIST OF PALLETS 
+    <p style="position: absolute; right:10px; top:30px;">
+        <button  data-bs-toggle="modal" data-bs-target="#modalAdvance" class="btn btn-primary">
+            ADVANCE PRINT
+        </button>
+    </p>
 @endsection
 
 @section('breadcrumbs_1')

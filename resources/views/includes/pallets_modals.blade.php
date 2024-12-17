@@ -95,3 +95,44 @@
         </div>
     </div>
 </div>
+
+
+<div class="modal fade" data-bs-backdrop='static' id="modalAdvance" tabindex="-1" role="dialog" aria-labelledby="modalViewCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title font-weight-bold badge bg-primary" id="modalViewLongTitle" style="font-size:16px;">PRINT ADVANCE PALLET</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">  
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="job_id">JOB:</label>
+                                <input class="form-control" type="number" id="job_id">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="pallet_count">PALLET COUNT:</label>
+                                <input class="form-control" type="number" id="pallet_count" min="1" value="1">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="date_advance">DATE</label>
+                                <input class="form-control" type="date" id="date_advance" value="{{$initial_date}}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="update_pallet" onclick="modalAdvance()" class="btn btn-success mt-2 mt-xl-0">
+                    PRINT
+                </button> 
+            </div>
+        </div>
+    </div>
+</div>

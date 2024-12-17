@@ -218,6 +218,8 @@
        
     }
 
+
+
     function approved(id,cStatus,cReason,cPalletRef,boolean){
         if(boolean == true){
             $.ajax({
@@ -590,4 +592,42 @@
       }
     }
 </script>
-    
+
+<script>
+    function modalAdvance(){
+        let job_id = document.getElementById('job_id').value;
+        let pallet_count = document.getElementById('pallet_count').value;
+        let date_advance = document.getElementById('date_advance').value;
+        if(job_id == ''){
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "JOB IS EMPTY",
+                showConfirmButton: false,
+                timer: 4000
+            });
+            
+        }else{
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "RENDERING PDF",
+                showConfirmButton: false,
+                timer: 4000
+            });
+            
+            
+            $.ajax({
+                async: false,
+                type: 'GET', //THIS NEEDS TO BE GET
+                url: irene_api_base_url+'/print_pdf_advance/'+job_id+'/'+pallet_count+'/'+date_advance+'',
+                success: function (data) {
+                    $('#modalAdvance').modal('hide');
+                    $('#modalPrint').modal('show');
+                    $( "#display_dialog").html('<iframe width="100%" height="600px" src="data:application/pdf;base64,' + data + '"></object>');
+                }
+            });
+        }
+       
+    }
+</script>

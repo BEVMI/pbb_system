@@ -30,6 +30,8 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/turnover_form1/{id}/{flag}',[PdfController::class, 'turnover_form1'])->name('turnover_form1');
     Route::get('/downtime_report/{id}',[PdfController::class, 'downtime_report'])->name('downtime_report');
     Route::get('/downtime_job/{job_id}',[PdfController::class, 'downtime_report_job'])->name('downtime_report_job');
+
+    Route::get('/print_pdf_advance/{job_id}/{pallet_count}/{date}',[PdfController::class, 'print_pdf_advance'])->name('pallet_status.print_pdf_advance');
     // END PDF
     
     // JOB
