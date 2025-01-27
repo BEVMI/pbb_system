@@ -48,14 +48,19 @@
                                     </div>
                                 </div>
                                 <div class="col-12 col-lg-2 col-xl-2 col-md-6">
+                                    <div class="form-group">
+                                        <label for="job_date">FBO:</label>
+                                        <input class="form-control" type="time" id="FBO_update" name="appt">
+                                    </div>
+                                </div>
 
-                                </div>
                                 <div class="col-12 col-lg-2 col-xl-2 col-md-6">
-                                    <br>
-                                    {{-- <button class="btn btn-success w-100 mt-1" onclick="get_machines()">
-                                        <i class="fa-solid fa-arrow-right-to-bracket"></i>
-                                    </button> --}}
+                                    <div class="form-group">
+                                        <label for="job_date">LBO:</label>
+                                        <input class="form-control" type="time" id="LBO_update" name="appt">
+                                    </div>
                                 </div>
+
                                 <div class="col-12">
                                     <hr style="border:1px solid gray;">
                                 </div>

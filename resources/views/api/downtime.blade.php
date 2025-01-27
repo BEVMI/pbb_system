@@ -1,4 +1,10 @@
 <script>
+
+    const now = new Date(); 
+    const currentDateTime = now.toLocaleTimeString([], {timeZone: 'Asia/Manila',hour: '2-digit', minute:'2-digit',hour12: false});
+    const currentDate = now.toISOString();
+    document.getElementById('FBO').value = currentDateTime;
+    document.getElementById('LBO').value = currentDateTime;
     $('#myList a').on('click', function (e) {
         e.preventDefault()
         $(this).tab('show')
@@ -290,12 +296,20 @@
         document.getElementById('uextotal_update').innerHTML = uextotal_post;
     }
 
-    function updateDowntime(id,line,job,date,shift_length_post){
+    function updateDowntime(id,line,job,date,shift_length_post,dFBO,dLBO){
         $('#modalEdit').modal('show');
         document.getElementById('update_id').value = id;
         document.getElementById('lines_update').value = line;
         document.getElementById('job_number_update').value = job;
         document.getElementById('downtime_date_update').value = formatDate(date);
+        
+        let timedFBO = new Date(dFBO);
+        let timedLBO = new Date(dLBO);
+        
+       
+        document.getElementById('FBO_update').value = timedFBO.toISOString().substring(11,16);
+        document.getElementById('LBO_update').value = timedLBO.toISOString().substring(11,16);
+        
         let job_date = formatDate(date);
         let shift_length = shift_length_post;
         document.getElementById('shift_length_update').value = shift_length;
@@ -405,6 +419,21 @@
         let mcd_desc = document.getElementsByName('mcd_desc_update[]');
         let mcd_type_id = document.getElementsByName('mcd_type_id_update[]');
         let mcd_minutes = document.getElementsByName('mcd_minutes_update[]');
+        
+       
+        const date_now = new Date('en-US', { timeZone: 'Asia/Manila' }); 
+        const currentYear = date_now.getFullYear();
+        const currentMonth = date_now.getMonth()+1;
+        const getDate = date_now.getDate();
+        if(currentMonth == '11' || currentMonth == '12' || currentMonth == '10'){
+            zero = '';
+        }else{
+            zero = '0';
+        }
+        let fbo_update = currentYear+'-'+zero+currentMonth+'-'+getDate+'T'+document.getElementById('FBO_update').value;
+        let lbo_update = currentYear+'-'+zero+currentMonth+'-'+getDate+'T'+document.getElementById('LBO_update').value;
+        // console.log(fbo_update);
+        
         let mcdDetails_update = [];
         for (var i = 0; i < mcd_desc.length; i++) {
             let mcd_type_id_post = mcd_type_id[i].value;
@@ -470,6 +499,8 @@
                 "machineDowntime":mcdDetails_update,
                 "expectedDowntime":expDetails_update,
                 "unexpectedDowntime":unexpDetails_update,
+                "fbo":fbo_update,
+                "lbo":lbo_update
             }),
             success:function(data){
                 expDetails_update = [];
@@ -501,6 +532,19 @@
         let lines = document.getElementById('lines').value;
         let created_by = "{!!$user_auth->name!!}";
         let date = document.getElementById('job_date').value;
+
+        const date_now = new Date(); 
+
+        const currentYear = date_now.getFullYear('en-US', { timeZone: 'Asia/Manila' });
+        const currentMonth = date_now.getMonth('en-US', { timeZone: 'Asia/Manila' })+1;
+        const getDate = date_now.getDate('en-US', { timeZone: 'Asia/Manila' });
+        if(currentMonth == '11' || currentMonth == '12' || currentMonth == '10'){
+            zero = '';
+        }else{
+            zero = '0';
+        }
+        let fbo = currentYear+'-'+zero+currentMonth+'-'+getDate+'T'+document.getElementById('FBO').value;
+        let lbo = currentYear+'-'+zero+currentMonth+'-'+getDate+'T'+document.getElementById('LBO').value;
         
         let shift_length_create = document.getElementById('shift_length_create').value;
         //MACHINE BODY
@@ -572,6 +616,8 @@
                 "machineDowntime":mcdDetails,
                 "expectedDowntime":expDetails,
                 "unexpectedDowntime":unexpDetails,
+                "fbo":fbo,
+                "lbo":lbo,
             }),
             success:function(data){
                 expDetails = [];

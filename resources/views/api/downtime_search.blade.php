@@ -52,8 +52,11 @@
                     var e = x.insertCell(2);
                     var n = x.insertCell(3);
                     var j = x.insertCell(4);    
+
+                    console.log(item);
+
                     let single_quote = "'";
-                    let edit = "<button class='btn btn-success' onclick='updateDowntime("+item.id+","+item.iLineId+","+item.iJobNo+",\""+item.dDate+"\","+item.iShiftLength+")' style='margin:0;'><i class='fa-solid fa-pencil'></i></button> &nbsp;";
+                    let edit = "<button class='btn btn-success' onclick='updateDowntime("+item.id+","+item.iLineId+","+item.iJobNo+",\""+item.dDate+"\","+item.iShiftLength+",\""+item.dFBO+"\",\""+item.dLBO+"\")' style='margin:0;'><i class='fa-solid fa-pencil'></i></button> &nbsp;";
                     let print = "<a class='btn btn-primary' target='_blank' href='"+base_url+"/api/downtime_job/"+item.iJobNo+"'><i class='fa-solid fa-print'></i></a>";
 
                     i.innerHTML = item.iJobNo;
