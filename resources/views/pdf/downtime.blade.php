@@ -51,13 +51,28 @@
                 @foreach ($data_headers->dates as $date)
                     <td class="irene-td border-top border-left border-right border-bottom w-10">{{$date}}</td>
                 @endforeach
-                <td class="irene-td w-10 border-top border-left border-right border-bottom" rowspan="2" style="vertical-align: middle;">JOB - {{$job}}</td>
+                <td class="irene-td w-10 border-top border-left border-right border-bottom" rowspan="4" style="vertical-align: middle;">JOB - {{$job}}</td>
             </tr>
             <tr>
                 <?php $count = count($data_headers->dates);?>
                 <td class="w-30 border-left border-bottom">SKU</td>
                 <td class="irene-td-center w-10  border-left border-bottom" colspan="{{$count}}">{{$data_headers->stock_code}}</td>
             </tr>
+
+            <tr>
+                <td class="w-30 border-left border-bottom">FBO</td>
+                @foreach ($data_headers->fbo as $fbo_row)
+                    <td class="irene-td-center w-10  border-left border-bottom" colspan="{{$count}}">{{$fbo_row}}</td>
+                @endforeach
+            </tr>
+
+            <tr>
+                <td class="w-30 border-left border-bottom">LBO</td>
+                @foreach ($data_headers->lbo as $lbo_row)
+                    <td class="irene-td-center w-10  border-left border-bottom" colspan="{{$count}}">{{$lbo_row}}</td>
+                @endforeach
+            </tr>
+
             <tr>
                 <td class="w-30 border-left border-right">Shift Length</td>
                 @foreach ($data_headers->shift_lengths as $shift_length)

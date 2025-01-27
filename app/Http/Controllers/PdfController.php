@@ -373,6 +373,9 @@ class PdfController extends Controller
             $iLineId = $header->iLineId;
             $iDowntimeHeaderId = $header->id;
             $dCountDate = $header->dDate;
+          
+            $fbo[] =Carbon::parse($header->dFBO)->format('H:ia');
+            $lbo[] =Carbon::parse($header->dLBO)->format('H:ia');
 
             $date[] = Carbon::parse($header->dDate)->format('d-M');
             $iShiftLength[] = $header->iShiftLength;
@@ -579,9 +582,11 @@ class PdfController extends Controller
             'availabilities'=>$availability,
             'performances'=>$performance,
             'qualities'=>$quality,
-            'oeees'=>$oeee
+            'oeees'=>$oeee,
+            'fbo'=>$fbo,
+            'lbo'=>$lbo,
         );
-
+     
         $pdf = Pdf::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true,'defaultMediaType'=> 'all','isFontSubsettingEnabled'=>true,'defaultFont'=>'Arial'])
         ->loadView('pdf.downtime',compact('data_headers','md','ed','ued','job'))->setPaper('LETTER', 'portrait');
         $pdf->getDomPDF()->set_option("enable_php", true);
