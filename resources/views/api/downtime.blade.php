@@ -303,12 +303,17 @@
         document.getElementById('job_number_update').value = job;
         document.getElementById('downtime_date_update').value = formatDate(date);
         
-        let timedFBO = new Date(dFBO);
-        let timedLBO = new Date(dLBO);
+        var d = new Date(dFBO),
+            h = (d.getHours()<10?'0':'') + d.getHours(),
+            m = (d.getMinutes()<10?'0':'') + d.getMinutes();
         
-       
-        document.getElementById('FBO_update').value = timedFBO.toISOString().substring(11,16);
-        document.getElementById('LBO_update').value = timedLBO.toISOString().substring(11,16);
+        var d2 = new Date(dLBO),
+            h2 = (d2.getHours()<10?'0':'') + d2.getHours(),
+            m2 = (d2.getMinutes()<10?'0':'') + d2.getMinutes();
+   
+    
+        document.getElementById('FBO_update').value = dFBO.value = h + ':' + m;
+        document.getElementById('LBO_update').value =  dLBO.value = h2 + ':' + m2;
         
         let job_date = formatDate(date);
         let shift_length = shift_length_post;
@@ -421,17 +426,25 @@
         let mcd_minutes = document.getElementsByName('mcd_minutes_update[]');
         
        
-        const date_now = new Date('en-US', { timeZone: 'Asia/Manila' }); 
-        const currentYear = date_now.getFullYear();
-        const currentMonth = date_now.getMonth()+1;
-        const getDate = date_now.getDate();
+        const date_now = new Date(); 
+
+        const currentYear = date_now.getFullYear('en-US', { timeZone: 'Asia/Manila' });
+        const currentMonth = date_now.getMonth('en-US', { timeZone: 'Asia/Manila' })+1;
+        const getDate = date_now.getDate('en-US', { timeZone: 'Asia/Manila' });
+
         if(currentMonth == '11' || currentMonth == '12' || currentMonth == '10'){
             zero = '';
         }else{
             zero = '0';
         }
-        let fbo_update = currentYear+'-'+zero+currentMonth+'-'+getDate+'T'+document.getElementById('FBO_update').value;
-        let lbo_update = currentYear+'-'+zero+currentMonth+'-'+getDate+'T'+document.getElementById('LBO_update').value;
+        if(getDate == '1' || getDate == '2' || getDate == '3' || getDate == '4' || getDate == '5' || getDate == '6' || getDate == '7' || getDate == '8' || getDate == '9'){
+            zeroday = '0';
+        }else{
+            zeroday = '';
+        }
+      
+        let fbo_update = currentYear+'-'+zero+currentMonth+'-'+zeroday+getDate+'T'+document.getElementById('FBO_update').value;
+        let lbo_update = currentYear+'-'+zero+currentMonth+'-'+zeroday+getDate+'T'+document.getElementById('LBO_update').value;
         // console.log(fbo_update);
         
         let mcdDetails_update = [];
@@ -538,13 +551,20 @@
         const currentYear = date_now.getFullYear('en-US', { timeZone: 'Asia/Manila' });
         const currentMonth = date_now.getMonth('en-US', { timeZone: 'Asia/Manila' })+1;
         const getDate = date_now.getDate('en-US', { timeZone: 'Asia/Manila' });
+        
         if(currentMonth == '11' || currentMonth == '12' || currentMonth == '10'){
             zero = '';
         }else{
             zero = '0';
         }
-        let fbo = currentYear+'-'+zero+currentMonth+'-'+getDate+'T'+document.getElementById('FBO').value;
-        let lbo = currentYear+'-'+zero+currentMonth+'-'+getDate+'T'+document.getElementById('LBO').value;
+
+        if(getDate == '1' || getDate == '2' || getDate == '3' || getDate == '4' || getDate == '5' || getDate == '6' || getDate == '7' || getDate == '8' || getDate == '9'){
+            zeroday = '0';
+        }else{
+            zeroday = '';
+        }
+        let fbo = currentYear+'-'+zero+currentMonth+'-'+zeroday+getDate+'T'+document.getElementById('FBO').value;
+        let lbo = currentYear+'-'+zero+currentMonth+'-'+zeroday+getDate+'T'+document.getElementById('LBO').value;
         
         let shift_length_create = document.getElementById('shift_length_create').value;
         //MACHINE BODY

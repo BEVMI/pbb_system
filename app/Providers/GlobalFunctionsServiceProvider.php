@@ -31,6 +31,6 @@ class GlobalFunctionsServiceProvider extends ServiceProvider
         View::share('irene_base_url',URL::to('/'));
         View::share('irene_api_base_url',URL::to('/').'/api');
         View::share('idletime', 600);
-        View::share('url_history', 'http://192.168.0.240:81/history2');
+        View::share('url_history', 'http://192.168.0.4:81/online-test-result/public/history2');
     }
 }
