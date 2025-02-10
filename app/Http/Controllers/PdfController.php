@@ -283,10 +283,15 @@ class PdfController extends Controller
         $stock_code_post = array_filter($stock_codes);
         $long_desc_post = array_filter($long_desc);
         // TURNOVER DETAILS
+        if($fields->dReceivedDate == null):
+            $received_date = $fields->dReceivedDate = '';
+        else:
+            $received_date = Carbon::parse($fields->dReceivedDate)->format('h:i a');
+        endif;
         $turnover_details = (object)array(
             'id'=>$fields->id,
             'date'=>Carbon::parse($fields->dCreatedDate)->format('M d, Y'),
-            'time'=>Carbon::parse($fields->dCreatedDate)->format('h:i a'),
+            'time'=>$received_date,
             'location'=>'Holding Area',
             'pallet_count'=>array_sum($pallet_counts),
             'created_by'=>$fields->cCreatedBy,

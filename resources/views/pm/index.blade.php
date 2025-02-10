@@ -50,7 +50,7 @@ endif;
     <div class="row">
         <div class="col-xl-2">
             <br>
-            <button class="btn btn-primary mt-2 mt-xl-0" data-bs-toggle="modal" data-bs-target="#modalMassPm" style="width:100%;">CREATE</button>
+            <button class="btn btn-primary mt-2 mt-xl-0" data-bs-toggle="modal" data-bs-target="#modalMassPm" style="width:100%;">MASS APPROVE</button>
         </div>
         <div class="col-xl-5">
             
