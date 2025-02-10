@@ -31,4 +31,27 @@ class PmController extends Controller
         $lines = $response_line->object();
         return view('pm.index',compact('months','line','stock_codes','pm_flag','lines'));
     }
+
+    public function mass_date($from_date,$to_date,$remarks,$year,$month,$line){
+        $from_date = $from_date.'T00:00:00';
+        $to_date = $to_date.'T00:00:00';
+        $remarks = $remarks;
+        $api_url = env('API_URL');
+        $year = $year;
+        $month = $month+1;
+        $line = $line;
+        
+        $user_auth = Auth::user();
+
+        $response_line = Http::get($api_url.'/MonthlyPlan/GetMonthlyPlan?nYear='.$year.'&nMonth='.$month.'&nLineNo='.$line);
+        $monthly_plans = $response_line->object();
+        foreach($monthly_plans as $monthly_plan):
+            if(($monthly_plan->dPlanDate>= $from_date) && ($monthly_plan->dPlanDate<=$to_date)):
+                Http::post($api_url.'/MonthlyPlan/ApprovedPmMonthlyPlan?iPlanId='.$monthly_plan->id.'&cPmApprovedBy='.$user_auth->name.'&cRemarks='.$remarks);
+            endif;
+        endforeach;
+
+        return 'irene';
+        
+    }
 }

@@ -48,8 +48,12 @@ endif;
 {!! html()->closeModelForm() !!}
 <div class="container-fluid">
     <div class="row">
-        <div class="col-xl-7">
-
+        <div class="col-xl-2">
+            <br>
+            <button class="btn btn-primary mt-2 mt-xl-0" data-bs-toggle="modal" data-bs-target="#modalMassPm" style="width:100%;">CREATE</button>
+        </div>
+        <div class="col-xl-5">
+            
         </div>
 
         <div class="col-xl-3">

@@ -146,8 +146,8 @@
 
                                             <tr>
                                                 <td style="font-weight: bold;">Mfg. Date:</td>
-                                                <td style="border-bottom:1px solid black;">
-                                                    <?php $manu_date = \Carbon\Carbon::parse($pallet->dMfgDate)->format('Y-m-d');?>
+                                                <td style="border-bottom:1px solid black; font-weight:bold; text-transform: uppercase;">
+                                                    <?php $manu_date = \Carbon\Carbon::parse($pallet->dMfgDate)->format('d M Y');?>
                                                     {{$manu_date}}
                                                 </td>
                                                 <td></td>
@@ -159,8 +159,8 @@
 
                                             <tr>
                                                 <td style="font-weight: bold;">Expiry Date:</td>
-                                                <td style="border-bottom:1px solid black;">
-                                                    <?php $dExpDate = \Carbon\Carbon::parse($pallet->dExpDate)->format('Y-m-d');?>
+                                                <td style="border-bottom:1px solid black; font-weight:bold; text-transform: uppercase;">
+                                                    <?php $dExpDate = \Carbon\Carbon::parse($pallet->dExpDate)->format('d M Y');?>
                                                     {{$dExpDate}}
                                                 </td>
                                                 <td></td>
@@ -177,8 +177,8 @@
                                                 </td>
                                                 <td></td>
                                                 <td style="font-weight: bold;">Date:</td>
-                                                <td style="border-bottom:1px solid black;">
-                                                    {{\Carbon\Carbon::now()->format('Y-m-d')}}
+                                                <td style="border-bottom:1px solid black; font-weight:bold; text-transform: uppercase;">
+                                                    {{\Carbon\Carbon::now()->format('d M Y')}}
                                                 </td>
                                             </tr>
                                         </tbody>

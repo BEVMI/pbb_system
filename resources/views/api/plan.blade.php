@@ -428,6 +428,72 @@
 </script>
 
 <script>
+    function approveMassPM(){
+        let user = '{!!$user_name!!}';
+        let mass_date_from = document.getElementById('mass_date_from').value;
+        let mass_date_to = document.getElementById('mass_date_to').value;
+        let pm_mass_remarks = document.getElementById('pm_mass_remarks').value;
+        line_search = document.getElementById('line').value;
+        
+        if(mass_date_from == '' || mass_date_to == '' || pm_mass_remarks == ''){
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "PLEASE FILL ALL THE FIELDS",
+                showConfirmButton: false,
+                timer: 2000
+            });
+
+        }else{
+            let from_date_post = new Date(mass_date_from);
+            let from_date_to_post = new Date(mass_date_to);
+           
+            if(from_date_post.getMonth() > from_date_to_post.getMonth()){
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "FROM DATE IS GREATER THAN TO DATE",
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+            }else if(from_date_post.getFullYear()!= from_date_to_post.getFullYear()){
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "FROM DATE AND TO DATE SHOULD BE THE SAME YEAR",
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+
+            }else{
+                line_search = document.getElementById('line').value;
+                $.ajax({
+                    type: 'GET', //THIS NEEDS TO BE GET
+                    url: irene_api_base_url+'/pm_mass_date/'+mass_date_from+'/'+mass_date_to+'/'+pm_mass_remarks+'/'+from_date_post.getFullYear()+'/'+from_date_post.getMonth()+'/'+line_search,
+                    success: function (data) {
+                        Swal.fire({
+                            position: "center",
+                            icon: "success",
+                            title: "SUCCESSFULLY SAVED",
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                        setTimeout(() => {
+                            refresh();
+                            setTimeout(() => {
+                                $('#modalMassPm').modal('hide');
+                            }, 2000)
+                        }, "2000");
+                    }
+                });
+            }
+           
+        
+        }
+    }
+</script>
+
+<script>
     function approvePM(){
         let user = '{!!$user_name!!}';
         let plan_id = document.getElementById('plan_id').value;

@@ -6,6 +6,7 @@ use App\Http\Controllers\AuditController;
 use App\Http\Controllers\PalletStatusController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\JobController;
+use App\Http\Controllers\PmController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -37,4 +38,6 @@ Route::group(['middleware' => ['web']], function () {
     // JOB
     Route::get('/job/{id}',[JobController::class, 'check'])->name('job.check');
     // END JOB
+    Route::get('/pm_mass_date/{from_date}/{to_date}/{remarks}/{year}/{month}/{line}',[PmController::class, 'mass_date'])->name('pm.mass_date');
+    
 });

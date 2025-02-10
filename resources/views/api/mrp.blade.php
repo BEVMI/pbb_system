@@ -101,20 +101,15 @@
                         var o = x.insertCell(5);
                         var y = x.insertCell(6);
                         var l = x.insertCell(7);
-                        var a = x.insertCell(8);
-                        var b = x.insertCell(9);
-
-
-                        i.innerHTML = item.cStockCodeComponent;
-                        r.innerHTML = item.cDescriptionComponent;  
-                        e.innerHTML = item.cLongDescComponent;
-                        n.innerHTML = item.nOnHand.toFixed(2);    
-                        j.innerHTML = item.nOnOrder.toFixed(2);      
-                        o.innerHTML = item.nTotalRequired.toFixed(2);   
-                        y.innerHTML = irene1;
-                        l.innerHTML = irene2;                                    
-                        a.innerHTML = irene3;      
-                        b.innerHTML = '<a href="#" class="btn btn-success mt-2 mt-xl-0 view_data" data-bs-toggle="modal" data-bs-target="#modalView" data-ddeliverydate="'+irene2+'" data-cremarks="'+irene3+'" data-stockcode="'+item.cStockCodeComponent+'"><span><i class="fas fa-eye"></i></span></a>';   
+                     
+                        i.innerHTML = item.cAlternateKey1;  
+                        r.innerHTML = item.nOnHand.toFixed(2);    
+                        e.innerHTML = item.nOnOrder.toFixed(2);      
+                        n.innerHTML = item.nTotalRequired.toFixed(2);   
+                        j.innerHTML = irene1;
+                        o.innerHTML = irene2;                                    
+                        y.innerHTML = irene3;      
+                        l.innerHTML = '<a href="#" class="btn btn-success mt-2 mt-xl-0 view_data" data-bs-toggle="modal" data-bs-target="#modalView" data-ddeliverydate="'+irene2+'" data-cremarks="'+irene3+'" data-stockcode="'+item.cAlternateKey1+'"><span><i class="fas fa-eye"></i></span></a>';   
                     });
                 }
             });

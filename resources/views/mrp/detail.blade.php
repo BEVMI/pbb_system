@@ -29,10 +29,10 @@
                                 </tr>
                                 @foreach ($mrp->children as $row)
                                     <tr class="text-center" style="font-size:14px;" data-pnode="treetable-parent-{{$mrp->id}}">
-                                        <td>{{$row->stockCode}}</td>
-                                        <td>{{$row->description}}</td>
-                                        <td>{{$row->longDesc}}</td>
-                                        <td></td>
+                                        <td>-</td>
+                                        <td>{{$row->cAlternateKey1}}</td>
+                                        <td>-</td>
+                                        <td>-</td>
                                         <td>{{$row->unitRequired}}</td>
                                         <td>{{$row->onHand}}</td>
                                     </tr>

@@ -100,9 +100,7 @@ endif;
         <div class="table-responsive" style="height:600px; overflow-x: scroll;">
             <table class="table text-center">
                 <thead class="irene_thead">
-                    <th>StockCode</th>
                     <th>Description</th>
-                    <th>LongDesc</th>
                     <th>OnHand</th>
                     <th>OnOrder</th>
                     <th>Total Required</th>
