@@ -269,7 +269,7 @@
                                         {{$remark->cases}}
                                     </td>
                                     <td class="irene-25 bypass-no-border text-center irene-font-size">
-                                        {{$total_remark->coa}}
+                                        {{$remark->coa}}
                                     </td>
                                 </tr>
                             @endforeach

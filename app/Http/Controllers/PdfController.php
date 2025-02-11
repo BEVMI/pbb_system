@@ -221,7 +221,7 @@ class PdfController extends Controller
         $fields =  $response->object();
         $tos_ref = $fields->cTOSRefNo;
         $user_auth = Auth::user();
-       
+   
         // DETAILS
         $jobs[] = 'Job No(s)';
         $skus[] = 'SKU';
@@ -232,7 +232,7 @@ class PdfController extends Controller
         $loose_case[] = 'Loose Case Quantity';
         $cases[] = 'Total Quantity (Cases)';
         $references[] = 'QA/QC Reference';
-        $coas = []; 
+        $coas []= 'COAS'; 
         $stock_codes = [];
         $long_desc = [];
 
@@ -250,6 +250,7 @@ class PdfController extends Controller
             $stock_codes[] = $detail->cStockCode;
             $long_desc[] = $detail->cLongDesc;
         endforeach;
+        
 
         for($x = count($jobs); $x <= 5; $x++):
             $jobs[] = '';
@@ -334,7 +335,7 @@ class PdfController extends Controller
             );
         endfor;
         // END REMARKS
-
+       
         $print = 'pdf.tos';
         $font = 'arial';
         $position = 'portrait';

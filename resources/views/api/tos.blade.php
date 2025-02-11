@@ -465,6 +465,7 @@
             success: function (data) {
                 item2 = data;
                 details = item2.details;
+               
                 $.each(details, function(index,item) {
                     var x = document.getElementById('tosUpdateTable').insertRow(-1);
                     var i = x.insertCell(0);
@@ -481,7 +482,7 @@
                     n.innerHTML = item.cLotNumber;
                     j.innerHTML = item.iCases;    
                     o.innerHTML = "<div class='container'><div class='row'><div class='col-9' style='margin:auto;'><select id='UP-"+item.refNo+"' name='iPalletUpdate[]' class='form-control ireneajax2' multiple></select></div><div class='col-3' style='margin:auto;'><button onclick=palletsUpdate('"+item.refNo+"') class='btn btn-warning' style='margin:auto;'><i class='fa-solid fa-arrows-spin'></i></button></div></div></div>";      
-                    y.innerHTML = '<input name="lot_number_update[]" type="hidden" value="'+item.cLotNumber+'"><input name="coaUpdate[]" class="form-control" type="text"> <input name="iCasesCheckUpdate[]" type="hidden" value="'+item.iCases+'" >';   
+                    y.innerHTML = '<input name="lot_number_update[]" type="hidden" value="'+item.cLotNumber+'"><input name="coaUpdate[]" class="form-control" type="text" value="'+item.cCoaRefNo+'"> <input name="iCasesCheckUpdate[]" type="hidden" value="'+item.iCases+'" >';   
                     
                     $( ".ireneajax2" ).select2({});
                     $(".ireneajax2").prop("disabled", true);
