@@ -90,7 +90,7 @@
             </li>
           </ul>
           <ul class="navbar-nav irene-nav justify-content-end">
-            @if($user_auth->line_1 =='1' || $user_auth->line_2 =='1' || $user_auth->injection =='1')
+            @if($user_auth->is_production == 1)
             <li class="nav-item dropdown irene_hide px-2 d-flex align-items-center">
               <a href="javascript:;" class="nav-link text-white p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="fa-solid fa-table-columns"></i>
@@ -127,7 +127,7 @@
             </li>
             @endif
             
-            @if($user_auth->is_pm='1')
+            @if($user_auth->is_pm==1)
               <li class="nav-item dropdown irene_hide px-2 d-flex align-items-center">
                 <a href="{{route('pm.index')}}" class="nav-link text-white p-0">
                   <i class="fa-solid fa-sheet-plastic"></i>
@@ -135,20 +135,24 @@
                 </a>
               </li>
             @endif
+            
+            @if($user_auth->is_production=='1')
+              <li class="nav-item dropdown irene_hide px-2 d-flex align-items-center">
+                <a href="{{route('job.index')}}" class="nav-link text-white p-0">
+                  <i class="fa-solid fa-bars-progress"></i>
+                  <span class="nav-link-text ms-1" style="margin-top:8px; font-weight:bold;">JOB</span>
+                </a>
+              </li>
+            @endif
 
-            <li class="nav-item dropdown irene_hide px-2 d-flex align-items-center">
-              <a href="{{route('job.index')}}" class="nav-link text-white p-0">
-                <i class="fa-solid fa-bars-progress"></i>
-                <span class="nav-link-text ms-1" style="margin-top:8px; font-weight:bold;">JOB</span>
-              </a>
-            </li>
-
-            <li class="nav-item dropdown irene_hide px-2 d-flex align-items-center">
-              <a href="{{route('machine_counter.index')}}" class="nav-link text-white p-0">
-                <i class="fa-solid fa-arrow-down-wide-short"></i>
-                <span class="nav-link-text ms-1" style="margin-top:8px; font-weight:bold;">MACH. COUNTER</span>
-              </a>
-            </li>
+            @if($user_auth->is_production=='1')
+              <li class="nav-item dropdown irene_hide px-2 d-flex align-items-center">
+                <a href="{{route('machine_counter.index')}}" class="nav-link text-white p-0">
+                  <i class="fa-solid fa-arrow-down-wide-short"></i>
+                  <span class="nav-link-text ms-1" style="margin-top:8px; font-weight:bold;">MACH. COUNTER</span>
+                </a>
+              </li>
+            @endif
 
             <li class="nav-item dropdown irene_hide px-2 d-flex align-items-center">
               <a href="{{route('tos.index')}}" class="nav-link text-white p-0">
@@ -157,66 +161,76 @@
               </a>
             </li>
 
-            <li class="nav-item dropdown irene_hide px-2 d-flex align-items-center">
-              <a href="{{route('pallets.index')}}" class="nav-link text-white p-0">
-                <i class="fa-solid fa-box-archive"></i>
-                <span class="nav-link-text ms-1" style="margin-top:8px; font-weight:bold;">PALLETS</span>
-              </a>
-            </li>
 
-            <li class="nav-item dropdown irene_hide px-2 d-flex align-items-center">
-              <a href="{{route('reject.index')}}" class="nav-link text-white p-0">
-                <i class="fa-solid fa-eject"></i>
-                <span class="nav-link-text ms-1" style="margin-top:8px; font-weight:bold;">REJECTS</span>
-              </a>
-            </li>
+            @if($user_auth->is_qc=='1')
+              <li class="nav-item dropdown irene_hide px-2 d-flex align-items-center">
+                <a href="{{route('pallets.index')}}" class="nav-link text-white p-0">
+                  <i class="fa-solid fa-box-archive"></i>
+                  <span class="nav-link-text ms-1" style="margin-top:8px; font-weight:bold;">PALLETS</span>
+                </a>
+              </li>
+            @endif
 
-            <li class="nav-item dropdown irene_hide px-2 d-flex align-items-center">
-              <a href="{{route('downtime.index')}}" class="nav-link text-white p-0">
-                <i class="fa-solid fa-down-long"></i>
-                <span class="nav-link-text ms-1" style="margin-top:8px; font-weight:bold;">DOWNTIME</span>
-              </a>
-            </li>
-
-            <li class="nav-item dropdown irene_hide px-2 d-flex align-items-center">
-              <a href="javascript:;" class="nav-link text-white p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="fa-solid fa-swatchbook"></i>
-                <span class="d-sm-inline d-none" style="font-weight: bold;">OTHERS</span>
-              </a>
-             
-              <ul class="dropdown-menu  dropdown-menu-end  px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
-                <li class="mb-2">
-                  <a href="{{route('mrp.index')}}" class="nav-link">
-                    <i class="fa-solid fa-file-invoice"  style="color:rgb(2, 31, 247);"></i>
-                    <span class="nav-link-text ms-1" style="margin-top:8px; color:black; font-weight:bold;">MRP</span>
-                  </a>
-                </li>
-    
-                <li class="mb-2">
-                  <a href="{{route('pocompliance.index')}}" class="nav-link">
-                    <i class="fa-solid fa-file-invoice" style="color:rgb(2, 31, 247);"></i>
-                    <span class="nav-link-text ms-1" style="margin-top:8px; color:black; font-weight:bold;">PO. COMPLIANCE</span>
-                  </a>
-                </li>
-    
-                <li class="mb-2">
-                  <a href="{{route('forecast.index')}}" class="nav-link">
-                    <i class="fa-solid fa-file-invoice" style="color:rgb(2, 31, 247);"></i>
-                    <span class="nav-link-text ms-1" style="margin-top:8px; font-weight:bold;">FORECAST</span>
-                  </a>
-                </li>
-    
-                @if($user_auth->is_admin='1')
+            @if($user_auth->is_production=='1')
+              <li class="nav-item dropdown irene_hide px-2 d-flex align-items-center">
+                <a href="{{route('reject.index')}}" class="nav-link text-white p-0">
+                  <i class="fa-solid fa-eject"></i>
+                  <span class="nav-link-text ms-1" style="margin-top:8px; font-weight:bold;">REJECTS</span>
+                </a>
+              </li>
+            @endif
+            
+            @if($user_auth->is_production=='1')
+              <li class="nav-item dropdown irene_hide px-2 d-flex align-items-center">
+                <a href="{{route('downtime.index')}}" class="nav-link text-white p-0">
+                  <i class="fa-solid fa-down-long"></i>
+                  <span class="nav-link-text ms-1" style="margin-top:8px; font-weight:bold;">DOWNTIME</span>
+                </a>
+              </li>
+            @endif
+            
+            @if($user_auth->is_manager=='1')
+              <li class="nav-item dropdown irene_hide px-2 d-flex align-items-center">
+                <a href="javascript:;" class="nav-link text-white p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="fa-solid fa-swatchbook"></i>
+                  <span class="d-sm-inline d-none" style="font-weight: bold;">OTHERS</span>
+                </a>
+              
+                <ul class="dropdown-menu  dropdown-menu-end  px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
                   <li class="mb-2">
-                    <a href="{{route('users.index')}}" class="nav-link">
-                      <i class="fa-solid fa-user" style="color:rgb(2, 31, 247);"></i>
-                      <span class="nav-link-text ms-1" style="margin-top:8px; font-weight:bold;">USERS</span>
+                    <a href="{{route('mrp.index')}}" class="nav-link">
+                      <i class="fa-solid fa-file-invoice"  style="color:rgb(2, 31, 247);"></i>
+                      <span class="nav-link-text ms-1" style="margin-top:8px; color:black; font-weight:bold;">MRP</span>
                     </a>
                   </li>
-                @endif
-              </ul>
-            </li>
-
+      
+                  <li class="mb-2">
+                    <a href="{{route('pocompliance.index')}}" class="nav-link">
+                      <i class="fa-solid fa-file-invoice" style="color:rgb(2, 31, 247);"></i>
+                      <span class="nav-link-text ms-1" style="margin-top:8px; color:black; font-weight:bold;">PO. COMPLIANCE</span>
+                    </a>
+                  </li>
+      
+                  <li class="mb-2">
+                    <a href="{{route('forecast.index')}}" class="nav-link">
+                      <i class="fa-solid fa-file-invoice" style="color:rgb(2, 31, 247);"></i>
+                      <span class="nav-link-text ms-1" style="margin-top:8px; font-weight:bold;">FORECAST</span>
+                    </a>
+                  </li>
+      
+                  @if($user_auth->is_admin=='1')
+                    <li class="mb-2">
+                      <a href="{{route('users.index')}}" class="nav-link">
+                        <i class="fa-solid fa-user" style="color:rgb(2, 31, 247);"></i>
+                        <span class="nav-link-text ms-1" style="margin-top:8px; font-weight:bold;">USERS</span>
+                      </a>
+                    </li>
+                  @endif
+                </ul>
+              </li>
+            @endif
+            
+            @if($user_auth->is_manager=='1')
             <li class="nav-item dropdown irene_hide px-2 d-flex align-items-center">
               <a href="javascript:;" class="nav-link text-white p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="fa-solid fa-warehouse"></i>
@@ -238,9 +252,8 @@
                 </li>
               </ul>
             </li>
+            @endif
             
-            
-
             <li class="nav-item dropdown irene_hide px-2 d-flex align-items-center">
               <a href="{{route('logout')}}" class="nav-link text-white p-0">
                 <i class="fa-solid fa-right-from-bracket"></i>

@@ -18,6 +18,6 @@ class IsActive
         if(Auth::user()->is_active()){
             return $next($request);
         }
-        return redirect('/login')->with('danger','YOU ACCOUNT IS ALREADY INACTIVE');
+        return redirect('/tos')->with('danger','YOU ACCOUNT IS ALREADY INACTIVE');
     }
 }

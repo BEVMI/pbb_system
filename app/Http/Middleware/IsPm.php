@@ -19,6 +19,6 @@ class IsPm
         if(Auth::user()->is_pm()){
             return $next($request);
         }
-        return redirect('/login')->with('danger','YOU CANNOT ACCESS THIS MODULE PLEASE ASK THE IT DEPT TO ACCESS PM');
+        return redirect('/tos')->with('danger','YOU CANNOT ACCESS THIS MODULE PLEASE ASK THE IT DEPT TO ACCESS PM');
     }
 }

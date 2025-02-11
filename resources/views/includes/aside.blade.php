@@ -50,7 +50,7 @@
           </li>
         @endif
 
-        @if($user_auth->is_pm='1')
+        @if($user_auth->is_pm=='1')
           <li class="nav-item">
             <a class="nav-link " href="{{route('pm.index')}}">
               <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -60,33 +60,39 @@
             </a>
           </li>
         @endif
+        
+        @if($user_auth->is_production=='1')
+          <li class="nav-item">
+            <a class="nav-link " href="{{route('job.index')}}">
+              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="fa-solid fa-bars-progress text-sm opacity-10"  style="color:rgb(218, 2, 247);"></i>
+              </div>
+              <span class="nav-link-text ms-1" style="margin-top:8px;">JOB</span>
+            </a>
+          </li>
+        @endif
 
-        <li class="nav-item">
-          <a class="nav-link " href="{{route('job.index')}}">
-            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="fa-solid fa-bars-progress text-sm opacity-10"  style="color:rgb(218, 2, 247);"></i>
-            </div>
-            <span class="nav-link-text ms-1" style="margin-top:8px;">JOB</span>
-          </a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link " href="{{route('machine_counter.index')}}">
-            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="fa-solid fa-arrow-down-wide-short text-sm opacity-10"  style="color:rgb(247, 2, 116);"></i>
-            </div>
-            <span class="nav-link-text ms-1" style="margin-top:8px;">MACH. COUNTER</span>
-          </a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link " href="{{route('pallets.index')}}">
-            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="fa-solid fa-box-archive text-sm opacity-10"  style="color:rgb(145, 2, 247);"></i>
-            </div>
-            <span class="nav-link-text ms-1" style="margin-top:8px;">PALLETS</span>
-          </a>
-        </li>
+        @if($user_auth->is_production=='1')
+          <li class="nav-item">
+            <a class="nav-link " href="{{route('machine_counter.index')}}">
+              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="fa-solid fa-arrow-down-wide-short text-sm opacity-10"  style="color:rgb(247, 2, 116);"></i>
+              </div>
+              <span class="nav-link-text ms-1" style="margin-top:8px;">MACH. COUNTER</span>
+            </a>
+          </li>
+        @endif
+        
+        @if($user_auth->is_qc=='1')
+          <li class="nav-item">
+            <a class="nav-link " href="{{route('pallets.index')}}">
+              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="fa-solid fa-box-archive text-sm opacity-10"  style="color:rgb(145, 2, 247);"></i>
+              </div>
+              <span class="nav-link-text ms-1" style="margin-top:8px;">PALLETS</span>
+            </a>
+          </li>
+        @endif
 
         <li class="nav-item">
           <a class="nav-link " href="{{route('tos.index')}}">
@@ -97,23 +103,27 @@
           </a>
         </li>
 
-        <li class="nav-item">
-          <a class="nav-link " href="{{route('reject.index')}}">
-            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="fa-solid fa-eject text-sm opacity-10"  style="color:rgb(247, 227, 2);"></i>
-            </div>
-            <span class="nav-link-text ms-1" style="margin-top:8px;">REJECTS</span>
-          </a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link " href="{{route('downtime.index')}}">
-            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="fa-solid fa-down-long text-sm opacity-10"  style="color:rgb(2, 247, 239);"></i>
-            </div>
-            <span class="nav-link-text ms-1" style="margin-top:8px;">DOWNTIME</span>
-          </a>
-        </li>
+        @if($user_auth->is_production=='1')
+          <li class="nav-item">
+            <a class="nav-link " href="{{route('reject.index')}}">
+              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="fa-solid fa-eject text-sm opacity-10"  style="color:rgb(247, 227, 2);"></i>
+              </div>
+              <span class="nav-link-text ms-1" style="margin-top:8px;">REJECTS</span>
+            </a>
+          </li>
+        @endif
+        
+        @if($user_auth->is_production=='1')
+          <li class="nav-item">
+            <a class="nav-link " href="{{route('downtime.index')}}">
+              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="fa-solid fa-down-long text-sm opacity-10"  style="color:rgb(2, 247, 239);"></i>
+              </div>
+              <span class="nav-link-text ms-1" style="margin-top:8px;">DOWNTIME</span>
+            </a>
+          </li>
+        @endif
 
         <li class="nav-item">
           <a class="nav-link " href="{{route('logout')}}">

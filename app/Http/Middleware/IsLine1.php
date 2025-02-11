@@ -18,6 +18,6 @@ class IsLine1
         if(Auth::user()->line_1()){
             return $next($request);
         }
-        return redirect('/login')->with('danger','YOU CANNOT ACCESS THIS MODULE PLEASE ASK THE IT DEPT TO ACCESS LINE 1');
+        return redirect('/tos')->with('danger','YOU CANNOT ACCESS THIS MODULE PLEASE ASK THE IT DEPT TO ACCESS LINE 1');
     }
 }

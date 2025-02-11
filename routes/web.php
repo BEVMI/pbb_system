@@ -38,16 +38,33 @@ Auth::routes([
 ]);
     
     Route::group(['middleware' => 'auth',IsActive::class], function () {
-        // FORECAST ROUTES
-        Route::get('/forecast',[ForecastController::class, 'index'])->name('forecast.index');
-        Route::post('/forecast_post',[ForecastController::class, 'store'])->name('forecast.store');
-        Route::post('/forecast_check',[ForecastController::class, 'check'])->name('forecast.check');
-        Route::post('/pbb_stockcode',[ForecastController::class, 'pbb_stockcode'])->name('pbb.stockcode');
-        // END FORECAST ROUTES
+        
+        Route::group(['middleware' => 'IsManager'], function () {
+            // FORECAST ROUTES
+            Route::get('/forecast',[ForecastController::class, 'index'])->name('forecast.index');
+            Route::post('/forecast_post',[ForecastController::class, 'store'])->name('forecast.store');
+            Route::post('/forecast_check',[ForecastController::class, 'check'])->name('forecast.check');
+            Route::post('/pbb_stockcode',[ForecastController::class, 'pbb_stockcode'])->name('pbb.stockcode');
+            // END FORECAST ROUTES
 
-        // PO COMPLIANCE ROUTES
-        Route::get('/pocompliance',[PoComplianceController::class, 'index'])->name('pocompliance.index');
-        // END PO COMPLIANCE ROUTES
+            // PO COMPLIANCE ROUTES
+            Route::get('/pocompliance',[PoComplianceController::class, 'index'])->name('pocompliance.index');
+            // END PO COMPLIANCE ROUTES
+
+             // INVENTORY MATERIALS
+            Route::get('/inventorymaterials',[InventoryMaterials::class, 'index'])->name('inventorymaterials.index');
+            // END INVENTORY MATERIALS
+
+            // INVENTORY MATERIALS
+            Route::get('/inventoryfg',[InventoriesFGController::class, 'index'])->name('inventoryfg.index');
+            // END INVENTORY MATERIALS
+
+            // MRP
+            Route::get('/mrp',[MrpController::class, 'index'])->name('mrp.index');
+            Route::get('/mrp_detail/{month}/{year}/{source}',[MrpController::class, 'detail'])->name('mrp.detail');
+            // END MRP
+
+        });
         
         Route::group(['middleware' => 'IsAdmin'], function () {
             // USER ROUTES
@@ -61,14 +78,7 @@ Auth::routes([
             });
             // END USER ROUTES
         });
-        // INVENTORY MATERIALS
-        Route::get('/inventorymaterials',[InventoryMaterials::class, 'index'])->name('inventorymaterials.index');
-        // END INVENTORY MATERIALS
-
-        // INVENTORY MATERIALS
-        Route::get('/inventoryfg',[InventoriesFGController::class, 'index'])->name('inventoryfg.index');
-        // END INVENTORY MATERIALS
-
+       
         // PLAN
         Route::group(['middleware' => 'IsLine1'], function () {
             Route::get('/plan_line_1',[PlanController::class, 'index'])->name('plan_line1.index');
@@ -87,36 +97,42 @@ Auth::routes([
         Route::get('/plan_ajax/{year}/{month}/{line}',[PlanController::class, 'plan_ajax'])->name('plan.ajax');
         // END PLAN
 
-        // MRP
-        Route::get('/mrp',[MrpController::class, 'index'])->name('mrp.index');
-        Route::get('/mrp_detail/{month}/{year}/{source}',[MrpController::class, 'detail'])->name('mrp.detail');
-        // END MRP
+        Route::group(['middleware' => 'IsProduction'], function () {
+            // JOB
+            Route::get('/job',[JobController::class, 'index'])->name('job.index');
+            // END JOB
 
-        // JOB
-        Route::get('/job',[JobController::class, 'index'])->name('job.index');
-        // END JOB
+            // REJECT
+            Route::get('/reject',[RejectController::class, 'index'])->name('reject.index');
+            // END REJECT
 
-        // REJECT
-        Route::get('/reject',[RejectController::class, 'index'])->name('reject.index');
-        // END REJECT
+            // EMAIL
+            Route::post('/email_post',[PlanController::class, 'email_post'])->name('email.post');
+            // END EMAIL
 
-        // EMAIL
-        Route::post('/email_post',[PlanController::class, 'email_post'])->name('email.post');
-        // END EMAIL
+            // EMAIL
+            Route::get('/machine_counter',[MachineCounter::class, 'index'])->name('machine_counter.index');
+            // END EMAIL
 
-        // EMAIL
-        Route::get('/machine_counter',[MachineCounter::class, 'index'])->name('machine_counter.index');
-        // END EMAIL
+            
+            // DOWNTIME
+            Route::get('/downtime',[DowntimeController::class, 'index'])->name('downtime.index');
+            // ENDDOWNTIME
 
-        // PDF TEST
-        Route::get('/test_quarantine',[PdfController::class, 'test_quarantine'])->name('pdf.test_quarantine');
-        Route::get('/test_tos',[PdfController::class, 'test_tos'])->name('pdf.test_tos');
-        Route::get('/test_report1',[PdfController::class, 'static_report1'])->name('pdf.static_report1');
-        // END PDF
+            // PDF TEST
+            Route::get('/test_quarantine',[PdfController::class, 'test_quarantine'])->name('pdf.test_quarantine');
+            Route::get('/test_tos',[PdfController::class, 'test_tos'])->name('pdf.test_tos');
+            Route::get('/test_report1',[PdfController::class, 'static_report1'])->name('pdf.static_report1');
+            // END PDF
+        });
 
-        // PALLETS
-        Route::get('/pallets',[PalletsController::class, 'index'])->name('pallets.index');
-        // END PALLETS
+        Route::group(['middleware' => 'IsQc'], function () {
+            // PALLETS
+            Route::get('/pallets',[PalletsController::class, 'index'])->name('pallets.index');
+            // END PALLETS
+        });
+
+     
 
         // PALLETS
         Route::get('/tos',[TosController::class, 'index'])->name('tos.index');
@@ -127,9 +143,6 @@ Auth::routes([
         Route::post('/approver_post',[ApprovalLevelConntroller::class, 'update'])->name('approver_level.update');
         // END APPROVER LEVEL
 
-        // DOWNTIME
-        Route::get('/downtime',[DowntimeController::class, 'index'])->name('downtime.index');
-        // ENDDOWNTIME
 
     });
 

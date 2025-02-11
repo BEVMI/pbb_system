@@ -45,7 +45,7 @@ class LoginController extends Controller
     public function login(Request $request)
     {   
         if (Auth::check()):
-            return redirect('/forecast')->with('danger','YOUR ARE ALREADY LOG IN');
+            return redirect('/tos')->with('danger','YOUR ARE ALREADY LOG IN');
         else:
             $design = $request->design;
             $user = User::where('email', $request->email)
@@ -55,7 +55,7 @@ class LoginController extends Controller
                 if($user->is_active=='1'):
                     Auth::login($user, $remember = false);
                     Session::put('pms_pbb_design', $design);
-                    return redirect('/forecast')->with('success','SUCCESSFULLY LOGIN');
+                    return redirect('/tos')->with('success','SUCCESSFULLY LOGIN');
                 else:
                     return redirect('/login')->with('danger','YOUR ACCOUNT IS ALREADY INACTIVE!');
                 endif;

@@ -1,4 +1,5 @@
 <ul class="list-group list-group-flush">
+  @if($user_auth->is_manager=='1')
     <li class="list-group-item">
       <a class="nav-link " href="{{route('mrp.index')}}">
         <i class="fa-solid fa-file-invoice text-primary text-sm opacity-10" style="color:rgb(247, 2, 247);"></i>
@@ -33,7 +34,8 @@
         <span class="nav-link-text ms-1" style="margin-left: 4% !IMPORTANT;">INVENTORY PM</span>
       </a>
     </li>
-    @if($user_auth->is_admin='1')
+  @endif
+    @if($user_auth->is_admin=='1')
       <li class="list-group-item">
         <a class="nav-link " href="{{route('users.index')}}">
           <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>

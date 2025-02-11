@@ -19,6 +19,6 @@ class IsLine2
         if(Auth::user()->line_2()){
             return $next($request);
         }
-        return redirect('/login')->with('danger','YOU CANNOT ACCESS THIS MODULE PLEASE ASK THE IT DEPT TO ACCESS LINE 2');
+        return redirect('/tos')->with('danger','YOU CANNOT ACCESS THIS MODULE PLEASE ASK THE IT DEPT TO ACCESS LINE 2');
     }
 }

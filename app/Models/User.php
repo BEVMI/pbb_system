@@ -113,4 +113,32 @@ class User extends Authenticatable
         }
         return false;
     }
+
+    public function is_production(){
+        if($this->is_production== "1" ){
+            return true;
+        }
+        return false;
+    }
+
+    public function is_warehouse(){
+        if($this->is_warehouse== "1" ){
+            return true;
+        }
+        return false;
+    }
+
+    public function is_manager(){
+        if($this->is_manager== "1" ){
+            return true;
+        }
+        return false;
+    }
+
+    public function is_qc(){
+        if($this->is_qc== "1" ){
+            return true;
+        }
+        return false;
+    }
 }

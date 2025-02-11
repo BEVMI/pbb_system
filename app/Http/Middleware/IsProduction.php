@@ -6,7 +6,8 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Auth;
-class IsAdmin
+
+class IsProduction
 {
     /**
      * Handle an incoming request.
@@ -15,9 +16,9 @@ class IsAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::user()->is_admin()){
+        if(Auth::user()->is_production()){
             return $next($request);
         }
-        return redirect('/tos')->with('danger','YOU CANNOT ACCESS THIS MODULE');
+        return redirect('/tos')->with('danger','YOU CANNOT ACCESS THIS MODULE PLEASE ASK THE IT DEPT TO ACCESS PRODUCTION');
     }
 }
