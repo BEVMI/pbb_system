@@ -62,14 +62,14 @@
             <tr>
                 <td class="w-30 border-left border-bottom">FBO</td>
                 @foreach ($data_headers->fbo as $fbo_row)
-                    <td class="irene-td-center w-10  border-left border-bottom" colspan="{{$count}}">{{$fbo_row}}</td>
+                    <td class="irene-td-center w-10 border-left border-bottom" style="text-align: right;" >{{$fbo_row}}</td>
                 @endforeach
             </tr>
 
             <tr>
                 <td class="w-30 border-left border-bottom">LBO</td>
                 @foreach ($data_headers->lbo as $lbo_row)
-                    <td class="irene-td-center w-10  border-left border-bottom" colspan="{{$count}}">{{$lbo_row}}</td>
+                    <td class="irene-td-center w-10 border-left border-bottom" style="text-align: right;" >{{$lbo_row}}</td>
                 @endforeach
             </tr>
 
