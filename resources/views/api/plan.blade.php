@@ -233,19 +233,19 @@
                                     document.getElementById('custom_update').value = '';
                                     document.getElementById('job_section').style.display = 'none';
                                 }else{
-                                    console.log(info.event.extendedProps.pm);
-                                    if(!info.event.extendedProps.pm ){
-                                        document.getElementById('stock_code_irene').innerHTML = 'PM DOES NOT YET APPROVED THIS PLAN';
-                                        document.getElementById('qty_to_make').value = '';
-                                        document.getElementById('qty_to_make').style.display = 'none';
-                                        document.getElementById('qty_to_make_display').style.display = 'none';
-                                        document.getElementById('createJobDisplay').style.display = 'none';
-                                        document.getElementById('job_number').style.display = 'none';
-                                        document.getElementById('display_update').style.display = 'none';
-                                        document.getElementById('custom_update').value = '';
-                                        document.getElementById('job_section').style.display = 'none';
-                                    }
-                                    else{
+                                    // console.log(info.event.extendedProps.pm);
+                                    // if(!info.event.extendedProps.pm ){
+                                    //     document.getElementById('stock_code_irene').innerHTML = 'PM DOES NOT YET APPROVED THIS PLAN';
+                                    //     document.getElementById('qty_to_make').value = '';
+                                    //     document.getElementById('qty_to_make').style.display = 'none';
+                                    //     document.getElementById('qty_to_make_display').style.display = 'none';
+                                    //     document.getElementById('createJobDisplay').style.display = 'none';
+                                    //     document.getElementById('job_number').style.display = 'none';
+                                    //     document.getElementById('display_update').style.display = 'none';
+                                    //     document.getElementById('custom_update').value = '';
+                                    //     document.getElementById('job_section').style.display = 'none';
+                                    // }
+                                    // else{
                                         document.getElementById('job_number').value = '';
                                         document.getElementById('job_number').style.display = 'block';
                                         document.getElementById('qty_to_make').value = '';
@@ -258,7 +258,7 @@
                                         document.getElementById('display_update').style.display = 'none';
                                         document.getElementById('custom_update').value = '';
                                         document.getElementById('job_section').style.display = '';
-                                    }
+                                    // }
                                 }
                             }
                         }else{
@@ -569,52 +569,63 @@
             url: api_url+'/Production/GetJobSysproDetails?ijob='+job_number,
             success: function (data) {
                 irene_parse = JSON.parse(data);
-                if(irene_parse[0].cStockCode === job_stock_code){
+                if(irene_parse.length > 0){
+                    if(irene_parse[0].cStockCode === job_stock_code){
 
-                    if(flag === 0){
-                        document.getElementById('qty_to_make').value = irene_parse[0].nQtyToMake; 
-                        document.getElementById('qty_to_make_display').style.display = 'block';
-                        document.getElementById('qty_to_make').style.display = 'block';
-                        document.getElementById('createJobDisplay').style.display = 'block'; 
-                    }
-                    else{
+                        if(flag === 0){
+                            document.getElementById('qty_to_make').value = irene_parse[0].nQtyToMake; 
+                            document.getElementById('qty_to_make_display').style.display = 'block';
+                            document.getElementById('qty_to_make').style.display = 'block';
+                            document.getElementById('createJobDisplay').style.display = 'block'; 
+                        }
+                        else{
+                            document.getElementById('qty_to_make_display').style.display = 'none';
+                            document.getElementById('qty_to_make').style.display = 'none';
+                            document.getElementById('createJobDisplay').style.display = 'none'; 
+                            Swal.fire({
+                                position: "center",
+                                icon: "error",
+                                title:'JOB '+job_number,
+                                text: "ALREADY CREATED",
+                                showConfirmButton: false,
+                                timer: 3000
+                            });
+                        }
+                    
+                    }else{
                         document.getElementById('qty_to_make_display').style.display = 'none';
                         document.getElementById('qty_to_make').style.display = 'none';
                         document.getElementById('createJobDisplay').style.display = 'none'; 
-                        Swal.fire({
-                            position: "center",
-                            icon: "error",
-                            title:'JOB '+job_number,
-                            text: "ALREADY CREATED",
-                            showConfirmButton: false,
-                            timer: 3000
-                        });
+                        if(flag === 0){
+                            Swal.fire({
+                                position: "center",
+                                icon: "error",
+                                title:"STOCK DOES NOT MATCH",
+                                text: "STOCK CODE "+job_stock_code+" TO JOB STOCK CODE "+irene_parse[0].cStockCode,
+                                showConfirmButton: false,
+                                timer: 3000
+                            });
+                        }else{
+                            Swal.fire({
+                                position: "center",
+                                icon: "error",
+                                title:'JOB '+job_number,
+                                text: "ALREADY CREATED",
+                                showConfirmButton: false,
+                                timer: 3000
+                            });
+                        }
+                        
                     }
-                
                 }else{
-                    document.getElementById('qty_to_make_display').style.display = 'none';
-                    document.getElementById('qty_to_make').style.display = 'none';
-                    document.getElementById('createJobDisplay').style.display = 'none'; 
-                    if(flag === 0){
-                        Swal.fire({
-                            position: "center",
-                            icon: "error",
-                            title:"STOCK DOES NOT MATCH",
-                            text: "STOCK CODE "+job_stock_code+" TO JOB STOCK CODE "+irene_parse[0].cStockCode,
-                            showConfirmButton: false,
-                            timer: 3000
-                        });
-                    }else{
-                        Swal.fire({
-                            position: "center",
-                            icon: "error",
-                            title:'JOB '+job_number,
-                            text: "ALREADY CREATED",
-                            showConfirmButton: false,
-                            timer: 3000
-                        });
-                    }
-                    
+                    Swal.fire({
+                                position: "center",
+                                icon: "error",
+                                title:"JOB DOES NOT EXIST",
+                                text: "JOB "+job_number,
+                                showConfirmButton: false,
+                                timer: 3000
+                            });
                 }
             }
         });

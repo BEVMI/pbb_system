@@ -28,7 +28,9 @@ class PlanResource extends JsonResource
             endif;
         else:
             if($this->iSysproJob == NULL):
-                $color = '#D10000';
+                // $color = '#D10000';
+                // D10000
+                $color = '#5C4033';
             else:
                 $color = '#5C4033';
             endif;
