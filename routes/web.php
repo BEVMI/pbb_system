@@ -142,8 +142,7 @@ Auth::routes([
         Route::get('/approver_level',[ApprovalLevelConntroller::class, 'index'])->name('approver_level.index');
         Route::post('/approver_post',[ApprovalLevelConntroller::class, 'update'])->name('approver_level.update');
         // END APPROVER LEVEL
-
-
+       
     });
 
 

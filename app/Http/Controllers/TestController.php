@@ -8,6 +8,7 @@ ini_set('pdo_sqlsrv.client_buffer_max_kb_size','1000000');
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\EmailView;
+use App\Models\Email;
 use Auth;
 class TestController extends Controller
 {
@@ -33,4 +34,34 @@ class TestController extends Controller
         ];
         Mail::to('cefrian.trinchera@bevmi.com')->send(new EmailView($email_details));
     }
+
+    public function emailSend($title,$content,$department){
+        date_default_timezone_set('Asia/Manila');
+        $datetoday = date('Y-m-d H:i');
+        if($department == 'production1'):
+            $email = Email::where('department','production')->first();
+        else:
+            $email = Email::where('department',$department)->first();
+        endif;
+        
+        $user_auth = Auth::user();
+        if($department == 'production'):
+            $url = route('machine_counter.index');
+            $email_to = Email::where('department','production')->first();
+        elseif($department == 'production1'):
+            $url = route('pallets.index');
+            $email_to = Email::where('department','qc')->first();
+        endif;
+        $email_details = [
+            'title' => $title,
+            'email'=>$email->email,
+            'body' =>$content ,
+            'date' =>$datetoday,
+            'from' => 'notify@bevi.com.ph',
+            'url'=>$url,
+            'user_name'=> $user_auth->name
+        ];
+        Mail::to($email_to)->send(new EmailView($email_details));
+    }
+    
 }

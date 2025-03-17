@@ -648,7 +648,7 @@
             url: api_url+'/Production/GetJobSysproDetails?ijob='+job_number,
             success: function (data) {
                 irene_parse = JSON.parse(data);
-               
+                $('#modalDetail').modal('show');
                 $.ajax({
                     type:'POST',
                     method:'POST',
@@ -671,6 +671,7 @@
                         'nQtyProduce':0
                     }),
                     success:function(data){
+                       
                         if(data.indexOf("Column1") > -1){
                             Swal.fire({
                                 position: "center",
@@ -680,10 +681,23 @@
                                 timer: 2000
                             });
                         }else{
+                            var base_url =  '{{ url("/")}}';
+                            let title = 'JOB '+job_number+' CREATED';
+                            let content = 'PLEASE CREATE A MACHINE JOB FOR JOB '+job_number;
+                            let department = 'production';
                             setTimeout(() => {
-                                refresh();
-                                $('#modalDetail').modal('hide');
-                            }, "2000");
+                                $.ajax({
+                                type: 'GET', //THIS NEEDS TO BE GET
+                                url: base_url+'/api/emailSend/'+title+'/'+content+'/'+department,
+                                success: function (data) { 
+                                    setTimeout(() => {
+                                        refresh();
+                                        $('#modalDetail').modal('hide');
+                                    }, "5000");
+                                }
+                            });
+                            }, "1000");
+                           
                         }
                         document.getElementById("createJobDisplay").disabled = false;
                     }

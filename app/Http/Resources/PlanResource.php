@@ -32,7 +32,7 @@ class PlanResource extends JsonResource
                 // D10000
                 $color = '#5C4033';
             else:
-                $color = '#5C4033';
+                $color = '#32de84';
             endif;
         endif;
 

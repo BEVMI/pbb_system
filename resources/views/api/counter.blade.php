@@ -197,8 +197,25 @@
                     icon: "success",
                     title: "SUCCESSFULLY SAVED",
                     showConfirmButton: false,
-                    timer: 2000
+                    timer: 5000
                 });
+               
+                let check_pallet = outs_post[5].value;
+                if(check_pallet>0){
+                    var base_url =  '{{ url("/")}}';
+                    let title = 'JOB '+job_number+' MACHINE COUNTER IS CREATED';
+                    let content = 'PLEASE CREATE A PALLET FOR JOB '+job_number;
+                    let department = 'production1';
+                    setTimeout(() => {
+                        $.ajax({
+                        type: 'GET', //THIS NEEDS TO BE GET
+                        url: base_url+'/api/emailSend/'+title+'/'+content+'/'+department,
+                        success: function (data) { 
+                        }
+                    });
+                    }, "1000");
+                }
+               
                 setTimeout(() => {
                     getCounter(line_start,year_now,month_now_start);
                     document.getElementById("post_counter").disabled = false;
@@ -319,8 +336,27 @@
                     icon: "success",
                     title: "SUCCESSFULLY UPDATE",
                     showConfirmButton: false,
-                    timer: 2000
+                    timer: 5000
                 });
+
+               
+                let check_pallet = outs_update[5].value;
+                if(check_pallet>0){
+                    var base_url =  '{{ url("/")}}';
+                    let title = 'JOB '+job_number_update+' MACHINE COUNTER IS CREATED';
+                    let content = 'PLEASE CREATE A PALLET FOR JOB '+job_number_update;
+                    let department = 'production1';
+                    setTimeout(() => {
+                        $.ajax({
+                        type: 'GET', //THIS NEEDS TO BE GET
+                        url: base_url+'/api/emailSend/'+title+'/'+content+'/'+department,
+                        success: function (data) { 
+                        }
+                    });
+                    }, "1000");
+                }
+                
+
                 setTimeout(() => {
                     getCounter(line_start,year_now,month_now_start);
                     $('#modalView').modal('hide');
