@@ -344,7 +344,7 @@
                 <td class="border-bottom border-right"></td>
             </tr>
             <tr>
-                <td class="w-30 border-left border-right border-bottom" style="border-right: 1px solid black;">Blowing</td>
+                <td class="w-30 border-left border-right border-bottom" style="border-right: 1px solid black;">Start Up CIP</td>
                 @foreach ($ed->ed_1 as $ed_1)
                     <td class="irene-td w-10 border-right border-bottom blue_background" style="border-right: 1px solid black;">{{$ed_1}}</td>
                 @endforeach
@@ -352,7 +352,7 @@
             </tr>
 
             <tr>
-                <td class="w-30 border-left border-right border-bottom" style="border-right: 1px solid black;">Filer/capper</td>
+                <td class="w-30 border-left border-right border-bottom" style="border-right: 1px solid black;">Start Up Envi</td>
                 @foreach ($ed->ed_2 as $ed_2)
                     <td class="irene-td w-10 border-right border-bottom blue_background" style="border-right: 1px solid black;">{{$ed_2}}</td>
                 @endforeach
@@ -360,7 +360,7 @@
             </tr>
 
             <tr>
-                <td class="w-30 border-left border-right border-bottom" style="border-right: 1px solid black;">FT System</td>
+                <td class="w-30 border-left border-right border-bottom" style="border-right: 1px solid black;">Short Break time</td>
                 @foreach ($ed->ed_3 as $ed_3)
                     <td class="irene-td w-10 border-right border-bottom blue_background" style="border-right: 1px solid black;">{{$ed_3}}</td>
                 @endforeach
@@ -368,7 +368,7 @@
             </tr>
 
             <tr>
-                <td class="w-30 border-left border-right border-bottom" style="border-right: 1px solid black;">Labeler</td>
+                <td class="w-30 border-left border-right border-bottom" style="border-right: 1px solid black;">Long Break time</td>
                 @foreach ($ed->ed_4 as $ed_4)
                     <td class="irene-td w-10 border-right border-bottom blue_background" style="border-right: 1px solid black;">{{$ed_4}}</td>
                 @endforeach
@@ -376,7 +376,7 @@
             </tr>
 
             <tr>
-                <td class="w-30 border-left border-right border-bottom" style="border-right: 1px solid black;">Conveyor</td>
+                <td class="w-30 border-left border-right border-bottom" style="border-right: 1px solid black;">Packaging Materials</td>
                 @foreach ($ed->ed_5 as $ed_5)
                     <td class="irene-td w-10 border-right border-bottom blue_background" style="border-right: 1px solid black;">{{$ed_5}}</td>
                 @endforeach
@@ -384,7 +384,7 @@
             </tr>
 
             <tr>
-                <td class="w-30 border-left border-right border-bottom" style="border-right: 1px solid black;">Shrinkwrapper</td>
+                <td class="w-30 border-left border-right border-bottom" style="border-right: 1px solid black;">Change Over / Start Up</td>
                 @foreach ($ed->ed_6 as $ed_6)
                     <td class="irene-td w-10 border-right border-bottom blue_background" style="border-right: 1px solid black;">{{$ed_6}}</td>
                 @endforeach
@@ -392,7 +392,7 @@
             </tr>
 
             <tr>
-                <td class="w-30 border-left border-right border-bottom" style="border-right: 1px solid black;">Packs Coder</td>
+                <td class="w-30 border-left border-right border-bottom" style="border-right: 1px solid black;">End of Shift / Shut Down Procedure</td>
                 @foreach ($ed->ed_7 as $ed_7)
                     <td class="irene-td w-10 border-right border-bottom blue_background" style="border-right: 1px solid black;">{{$ed_7}}</td>
                 @endforeach
@@ -400,7 +400,7 @@
             </tr>
 
             <tr>
-                <td class="w-30 border-left border-right border-bottom" style="border-right: 1px solid black;">Total</td>
+                <td class="w-30 border-left border-right border-bottom" style="border-right: 1px solid black;">Total Operational Downtime</td>
                 @foreach ($data_headers->expecteds as $expected)
                     <td class="irene-td w-10 border-right border-bottom" style="border-right: 1px solid black;">{{$expected}}</td>
                 @endforeach
@@ -419,7 +419,7 @@
             </tr>
 
             <tr>
-                <td class="w-30 border-left border-right border-bottom" style="border-right: 1px solid black;">Blowing</td>
+                <td class="w-30 border-left border-right border-bottom" style="border-right: 1px solid black;">Start Up CIP</td>
                 @foreach ($ued->ued_1 as $ued_1)
                     <td class="irene-td w-10 border-right border-bottom blue_background" style="border-right: 1px solid black;">{{$ued_1}}</td>
                 @endforeach
@@ -427,7 +427,7 @@
             </tr>
 
             <tr>
-                <td class="w-30 border-left border-right border-bottom" style="border-right: 1px solid black;">Filer/capper</td>
+                <td class="w-30 border-left border-right border-bottom" style="border-right: 1px solid black;">Start Up Envi</td>
                 @foreach ($ued->ued_2 as $ued_2)
                     <td class="irene-td w-10 border-right border-bottom blue_background" style="border-right: 1px solid black;">{{$ued_2}}</td>
                 @endforeach
@@ -435,7 +435,7 @@
             </tr>
 
             <tr>
-                <td class="w-30 border-left border-right border-bottom" style="border-right: 1px solid black;">FT System</td>
+                <td class="w-30 border-left border-right border-bottom" style="border-right: 1px solid black;">Short Break time</td>
                 @foreach ($ued->ued_3 as $ued_3)
                     <td class="irene-td w-10 border-right border-bottom blue_background" style="border-right: 1px solid black;">{{$ued_3}}</td>
                 @endforeach
@@ -443,7 +443,7 @@
             </tr>
 
             <tr>
-                <td class="w-30 border-left border-right border-bottom" style="border-right: 1px solid black;">Labeler</td>
+                <td class="w-30 border-left border-right border-bottom" style="border-right: 1px solid black;">Long Break time</td>
                 @foreach ($ued->ued_4 as $ued_4)
                     <td class="irene-td w-10 border-right border-bottom blue_background" style="border-right: 1px solid black;">{{$ued_4}}</td>
                 @endforeach
@@ -451,7 +451,7 @@
             </tr>
 
             <tr>
-                <td class="w-30 border-left border-right border-bottom" style="border-right: 1px solid black;">Conveyor</td>
+                <td class="w-30 border-left border-right border-bottom" style="border-right: 1px solid black;">Packaging Materials</td>
                 @foreach ($ued->ued_5 as $ued_5)
                     <td class="irene-td w-10 border-right border-bottom blue_background" style="border-right: 1px solid black;">{{$ued_5}}</td>
                 @endforeach
@@ -459,7 +459,7 @@
             </tr>
 
             <tr>
-                <td class="w-30 border-left border-right border-bottom" style="border-right: 1px solid black;">Shrinkwrapper</td>
+                <td class="w-30 border-left border-right border-bottom" style="border-right: 1px solid black;">Change Over / Start Up</td>
                 @foreach ($ued->ued_6 as $ued_6)
                     <td class="irene-td w-10 border-right border-bottom blue_background" style="border-right: 1px solid black;">{{$ued_6}}</td>
                 @endforeach
@@ -467,7 +467,7 @@
             </tr>
 
             <tr>
-                <td class="w-30 border-left border-right border-bottom" style="border-right: 1px solid black;">Packs Coder</td>
+                <td class="w-30 border-left border-right border-bottom" style="border-right: 1px solid black;">End of Shift / Shut Down Procedure</td>
                 @foreach ($ued->ued_7 as $ued_7)
                     <td class="irene-td w-10 border-right border-bottom blue_background" style="border-right: 1px solid black;">{{$ued_7}}</td>
                 @endforeach
@@ -475,7 +475,7 @@
             </tr>
 
             <tr>
-                <td class="w-30 border-left border-right border-bottom" style="border-right: 1px solid black;">Total</td>
+                <td class="w-30 border-left border-right border-bottom" style="border-right: 1px solid black;">Total Operational Downtime</td>
                 @foreach ($data_headers->unexpecteds as $unexpected)
                     <td class="irene-td w-10 border-right border-bottom" style="border-right: 1px solid black;">{{$unexpected}}</td>
                 @endforeach
