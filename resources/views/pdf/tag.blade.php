@@ -173,7 +173,24 @@
                                             <tr>
                                                 <td style="font-weight: bold;">QA/QC:</td>
                                                 <td style="border-bottom:1px solid black;">
-                                                    {{$user_name}}
+                                                    @if(!empty($qc_user_1_row))
+                                                        {{$qc_user_1_row->abbrv}}
+                                                        @if($qc_user_1_row->signature != null)
+                                                            <span style="position: absolute; margin-left:-5px; margin-top:-10px;">
+                                                                <img style="width:60px; height:25px;" src="{{asset('qc_users')}}/{{$qc_user_1_row->signature}}" alt="">
+                                                            </span>
+                                                        @endif
+                                                    @endif
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    @if(!empty($qc_user_2_row))
+                                                        {{$qc_user_2_row->abbrv}}
+                                                        @if($qc_user_2_row->signature != null)
+                                                            <span style="position: absolute; margin-left:-5px; margin-top:-10px;">
+                                                                <img style="width:60px; height:25px;" src="{{asset('qc_users')}}/{{$qc_user_2_row->signature}}" alt="">
+                                                            </span>
+                                                        @endif
+                                                    @endif
                                                 </td>
                                                 <td></td>
                                                 <td style="font-weight: bold;">Date:</td>

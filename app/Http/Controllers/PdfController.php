@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use PDF; 
 use Auth;
 use App\Models\QcTag;
+use App\Models\QcUser;
 use Illuminate\Support\Facades\Http;
 use Carbon\Carbon;
 
@@ -37,11 +38,17 @@ class PdfController extends Controller
         $position = 'portrait';
         $tag = QcTag::where('title',strtoupper($status))->first();
 
+        $qc_user_1 = $request->input('qc_user_1');
+        $qc_user_2 = $request->input('qc_user_2');
+
+        $qc_user_1_row = QcUser::where('id',$qc_user_1)->first();
+        $qc_user_2_row = QcUser::where('id',$qc_user_2)->first();
+       
         $api_url = env('API_URL');
         $response = Http::post($api_url.'/Pallet/GetPalletByIds',$ids);
         $pallets =  $response->object();
         $pdf = Pdf::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true,'defaultMediaType'=> 'all','isFontSubsettingEnabled'=>true,'defaultFont'=>$font])
-        ->loadView($print,compact('tag','pallets','user_name'))->setPaper('LETTER', $position);
+        ->loadView($print,compact('tag','pallets','user_name','qc_user_1_row','qc_user_2_row'))->setPaper('LETTER', $position);
         $pdf->getDomPDF()->set_option("enable_php", true);
         
         return base64_encode($pdf->output());

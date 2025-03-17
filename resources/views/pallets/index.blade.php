@@ -34,11 +34,7 @@ $user_auth = Auth::user();
 
 @section('subtitle')
     LIST OF PALLETS 
-    <p style="position: absolute; right:10px; top:30px;">
-        <button  data-bs-toggle="modal" data-bs-target="#modalAdvance" class="btn btn-primary">
-            ADVANCE PRINT
-        </button>
-    </p>
+    
 @endsection
 
 @section('breadcrumbs_1')
@@ -53,6 +49,40 @@ $user_auth = Auth::user();
 @endsection
 
 @section('main')
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-6"></div>
+        <div class="col-sm-2">
+            <label for="select_one">
+                SELECT FIRST QC USER 
+            </label>
+            <select id='qc_user_1' class="form-control">
+                <option value="0">NONE</option>
+                @foreach($qc_users as $qc_user):
+                    <option value="{{$qc_user->id}}">{{$qc_user->name}}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="col-sm-2">
+            <label for="select_one">
+                SELECT SECOND QC USER 
+            </label>
+            <select id='qc_user_2' class="form-control">
+                <option value="0">NONE</option>
+                @foreach($qc_users as $qc_user):
+                    <option value="{{$qc_user->id}}">{{$qc_user->name}}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="col-sm-2">
+            <br>
+            <button  data-bs-toggle="modal" data-bs-target="#modalAdvance" class="btn btn-primary" style="margin-top:3px; width:100%;">
+                ADVANCE PRINT
+            </button>
+        </div>
+    </div>
+</div>
+<hr style="border: 1px solid rgb(138, 138, 138);">
 <div class="container-fluid">
     <div class="row">
         <div class="col-xl-4 col-12 text-center">

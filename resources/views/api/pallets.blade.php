@@ -521,6 +521,8 @@
             let checked = document.querySelectorAll('input.checkbox_print:checked');
             let global_status = document.getElementById('status').value;
             let user_name = document.getElementById('user_name').value;
+            let qc_user_1 = document.getElementById('qc_user_1').value;
+            let qc_user_2 = document.getElementById('qc_user_2').value;
             let ids = [];
             for(var x = 0, l = checked.length; x < l;  x++)
             {
@@ -550,7 +552,9 @@
                 data:{
                     "ids":ids,
                     "tag":global_status,
-                    'user_name':user_name
+                    'user_name':user_name,
+                    'qc_user_1':qc_user_1,
+                    'qc_user_2':qc_user_2
                 },
                 success: function (data) {
                     $( "#display_dialog").html('<iframe width="100%" height="600px" src="data:application/pdf;base64,' + data + '"></object>');
