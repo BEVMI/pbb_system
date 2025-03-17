@@ -462,43 +462,63 @@
                 if(module1 === 'QC'){
                     status = 'QA/QC Validated';
                     post = 'VALIDATED SUCCESSFULLY';
+                    modulenow = 'allqc';
+                   
                 }
 
                 if(module1 === 'APPROVE'){
                     status = 'Approved';
                     post = 'APPROVE SUCCESSFULLY';
+                    modulenow = 'allsuper';
+                   
                 }
 
                 if(module1 === 'RECEIVED'){
                     status = 'Turnover/Received';
                     post = 'TUNOVER & RECEIVED SUCCESSFULLY';
+                    modulenow = 'allwarehouse';
                 }
 
                 if(module1 === 'TURNOVER'){
                     status = 'For Turnover';
                     post = 'TUNOVER SUCCESSFULLY';
+                    modulenow = 'allmanager';
                 }
                 // location.reload();
-                $.ajax({
-                    type:'POST',
-                    method:'POST',
-                    url:api_url+'/TOS/UpdateTOSStatus?iTosId='+id+'&cStatus='+status+'&iUserId={{$user->id}}',
-                    contentType: false,
-                    processData: false,
-                    success:function(data){
-                        Swal.fire({
-                        position: "center",
-                        icon: "success",
-                        title: post,
-                        showConfirmButton: false,
-                        timer: 2500
-                    });
+                console.log(modulenow);
+                    var base_url =  '{{ url("/")}}';
+                    let title = 'TOS';
+                    let content = 'TOS IS SUCCESSFULLY VALIDATED';
+                    let department = modulenow;
+                    setTimeout(() => {
+                        $.ajax({
+                        type: 'GET', //THIS NEEDS TO BE GET
+                        url: base_url+'/api/emailSend/'+title+'/'+content+'/'+department,
+                        success: function (data) { 
+                            $.ajax({
+                                type:'POST',
+                                method:'POST',
+                                url:api_url+'/TOS/UpdateTOSStatus?iTosId='+id+'&cStatus='+status+'&iUserId={{$user->id}}',
+                                contentType: false,
+                                processData: false,
+                                success:function(data){
+                                    Swal.fire({
+                                    position: "center",
+                                    icon: "success",
+                                    title: post,
+                                    showConfirmButton: false,
+                                    timer: 2500
+                                });
 
-                    setTimeout(function(){
-                            location.reload();
-                        }, 2500);
-                    }
-                });    
+                                setTimeout(function(){
+                                        location.reload();
+                                    }, 3500);
+                                }
+                            });   
+                        }
+                    });
+                    }, "100");
+                    
             }
             function irene(){
                 printJS({

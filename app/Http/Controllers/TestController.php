@@ -40,6 +40,14 @@ class TestController extends Controller
         $datetoday = date('Y-m-d H:i');
         if($department == 'production1'):
             $email = Email::where('department','production')->first();
+        elseif($department == 'allqc'):
+            $email = Email::where('department','qc')->first();
+        elseif($department == 'qc'):
+            $email = Email::where('department','qc')->first();
+        elseif($department == 'production2'):
+            $email = Email::where('department','production')->first();
+        elseif($department == 'manager'):
+            $email = Email::where('department','manager')->first();
         else:
             $email = Email::where('department',$department)->first();
         endif;
@@ -48,20 +56,34 @@ class TestController extends Controller
         if($department == 'production'):
             $url = route('machine_counter.index');
             $email_to = Email::where('department','production')->first();
+        elseif($department == 'production2'):
+            $url = route('tos.index');
+            $email_to = Email::where('department','production')->first();
         elseif($department == 'production1'):
             $url = route('pallets.index');
             $email_to = Email::where('department','qc')->first();
+        elseif($department == 'allsuper'):
+            $url = route('tos.index');
+            $email_to = Email::where('department','qc')->first();
+        elseif($department == 'allqc'):
+            $url = route('tos.index');
+            $email_to = Email::where('department','manager')->first();
+        elseif($department == 'allmanager'):
+            $url = route('tos.index');
+            $email_to = Email::where('department','warehouse')->first();
         endif;
-        $email_details = [
-            'title' => $title,
-            'email'=>$email->email,
-            'body' =>$content ,
-            'date' =>$datetoday,
-            'from' => 'notify@bevi.com.ph',
-            'url'=>$url,
-            'user_name'=> $user_auth->name
-        ];
-        Mail::to($email_to)->send(new EmailView($email_details));
+        if($department != 'allwarehouse'):
+            $email_details = [
+                'title' => $title,
+                'email'=>$email->email,
+                'body' =>$content ,
+                'date' =>$datetoday,
+                'from' => 'notify@bevi.com.ph',
+                'url'=>$url,
+                'user_name'=> $user_auth->name
+            ];
+            Mail::to($email_to)->send(new EmailView($email_details));
+        endif;
     }
     
 }

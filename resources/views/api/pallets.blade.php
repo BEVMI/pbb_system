@@ -459,12 +459,17 @@
         let checked = document.querySelectorAll('input.checkbox_print:checked');
         let cStatus = document.getElementById('status_global').value;
         let cReason = document.getElementById('global_reason').value;
+        let cCoaRef = document.getElementById('global_approve').value;
         let cUpdatedBy = "{!!$user_auth->name!!}";
 
         let reference = document.getElementById('reference').value;
         let status = document.getElementById('status').value;
         let date = document.getElementById('date').value;
-        
+        if(cCoaRef){
+            coa_post_now = cCoaRef;
+        }else{
+            coa_post_now = '';
+        }
         var ids = [];
         for(var x = 0, l = checked.length; x < l;  x++)
         {
@@ -485,6 +490,7 @@
                 "cStatus": cStatus,
                 "cUpdatedBy": cUpdatedBy,
                 "cReason": cReason,
+                "cCoaRef":coa_post_now,
                 "ids": ids,
             }),
             success:function(data){;
@@ -492,13 +498,26 @@
             }
         });
 
+        
            Swal.fire({
                 position: "center",
                 icon: "success",
                 title: "SUCCESSFULLY UPDATE",
                 showConfirmButton: false,
-                timer: 2000
+                timer: 5000
             });
+            var base_url =  '{{ url("/")}}';
+            let title = 'PALLET IS CREATED';
+            let content = 'PLEASE CREATE A A TOS';
+            let department = 'production2';
+            setTimeout(() => {
+                $.ajax({
+                type: 'GET', //THIS NEEDS TO BE GET
+                url: base_url+'/api/emailSend/'+title+'/'+content+'/'+department,
+                success: function (data) { 
+                }
+            });
+            }, "1000");
             setTimeout(() => {
                 $('#modalGlobal').modal('hide');
                 getPallets(reference,status,date)
@@ -565,11 +584,21 @@
             document.getElementById('modalGlobalLongTitle').innerHTML = module1+' STATUS';
             document.getElementById('status_global').value = module1;
             document.getElementById('global_reason').value = '';
-
+            document.getElementById('global_approve').value = '';
             if(module1 == 'On Hold' || module1 == 'Reject'){
                 document.getElementById('global_reason_display').style.display = '';
-            }else{
+                document.getElementById('global_approve_display').style.display = 'none';
+                document.getElementById('coa_create').style.display = 'none';
+            }
+            if(module1 == 'Approved'){
+                document.getElementById('global_approve_display').style.display = '';
                 document.getElementById('global_reason_display').style.display = 'none';
+                document.getElementById('coa_create').style.display = '';
+            }
+            else{
+                document.getElementById('global_reason_display').style.display = 'none';
+                document.getElementById('global_approve_display').style.display = 'none';
+                document.getElementById('coa_create').style.display = 'none';
             }
         }
         
@@ -633,5 +662,18 @@
             });
         }
        
+    }
+</script>
+
+<script>
+    function checkRFA(flag){
+        let history_url = '{!!$url_history!!}';
+        if(flag == 0){
+            coa = document.getElementById('coa_check').value;
+            $( "#coa_create").html('<iframe  frameBorder="0" width="100%" height="1000px" src="'+history_url+'/'+coa+'"></object>');
+        }else{
+            coa = document.getElementById('coa_check_update').value;
+            $( "#coa_update").html('<iframe  frameBorder="0" width="100%" height="1000px" src="'+history_url+'/'+coa+'"></object>');
+        }  
     }
 </script>

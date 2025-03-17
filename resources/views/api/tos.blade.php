@@ -96,7 +96,7 @@
                         n.innerHTML = item.cLotNumber;
                         j.innerHTML = item.iCases;    
                         o.innerHTML = "<div class='container'><div class='row'><div class='col-9' style='margin:auto;'><select id='P-"+item.RefNo+"' name='iPallet[]' class='form-control ireneajax' multiple></select></div><div class='col-3' style='margin:auto;'><button onclick=pallets('"+item.RefNo+"') class='btn btn-warning' style='margin:auto;'><i class='fa-solid fa-arrows-spin'></i></button></div></div></div>";      
-                        y.innerHTML = '<input name="lot_number[]" type="hidden" value="'+item.cLotNumber+'"><input name="coa[]" class="form-control" type="text"> <input name="iCasesCheck[]" type="hidden" value="'+item.iCases+'" >';   
+                        y.innerHTML = '<input name="lot_number[]" type="hidden" value="'+item.cLotNumber+'"><input name="coaUpdate[]" class="form-control" type="hidden" value="'+item.cCoaRefNo+'"> <input name="iCasesCheck[]" type="hidden" value="'+item.iCases+'" >';   
                         
                         $( ".ireneajax" ).select2({
                             
@@ -122,7 +122,7 @@
         let pallet_details = [];
         let check_count = [];
         for (var i = 0; i <lot_number.length; i++) {
-            let coas_post=coas[i].value;
+          
             let lot_number_post = lot_number[i].value;
             let pallets_check = pallets[i]; 
             if(pallets_check.length !== 0){
@@ -138,7 +138,7 @@
                     "nQty":0,
                     "iCases": 0,
                     "cLotNumber":lot_number_post,
-                    "cCoaRefNo":coas_post,
+                    "cCoaRefNo":'',
                     "palletDetails":pallet_details
                 });   
                 check_count.push(1);
@@ -194,7 +194,7 @@
         let id = document.getElementById('tos_id_update').value;
 
         for (var i = 0; i <lot_number.length; i++) {
-            let coas_post=coas[i].value;
+           
             let lot_number_post = lot_number[i].value;
             let pallets_check = pallets[i]; 
             if(pallets_check.length !== 0){
@@ -210,7 +210,7 @@
                     "nQty":0,
                     "iCases": 0,
                     "cLotNumber":lot_number_post,
-                    "cCoaRefNo":coas_post,
+                  
                     "palletDetails":pallet_details_update
                 });   
                 
@@ -482,7 +482,7 @@
                     n.innerHTML = item.cLotNumber;
                     j.innerHTML = item.iCases;    
                     o.innerHTML = "<div class='container'><div class='row'><div class='col-9' style='margin:auto;'><select id='UP-"+item.refNo+"' name='iPalletUpdate[]' class='form-control ireneajax2' multiple></select></div><div class='col-3' style='margin:auto;'><button onclick=palletsUpdate('"+item.refNo+"') class='btn btn-warning' style='margin:auto;'><i class='fa-solid fa-arrows-spin'></i></button></div></div></div>";      
-                    y.innerHTML = '<input name="lot_number_update[]" type="hidden" value="'+item.cLotNumber+'"><input name="coaUpdate[]" class="form-control" type="text" value="'+item.cCoaRefNo+'"> <input name="iCasesCheckUpdate[]" type="hidden" value="'+item.iCases+'" >';   
+                    y.innerHTML = '<input name="lot_number_update[]" type="hidden" value="'+item.cLotNumber+'"><input name="iCasesCheckUpdate[]" type="hidden" value="'+item.iCases+'" >';   
                     
                     $( ".ireneajax2" ).select2({});
                     $(".ireneajax2").prop("disabled", true);

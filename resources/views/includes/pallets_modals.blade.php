@@ -36,7 +36,7 @@
 
 
 <div class="modal fade" data-bs-backdrop='static' id="modalGlobal" tabindex="-1" role="dialog" aria-labelledby="modalGlobalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 800px;">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title font-weight-bold badge bg-primary" id="modalGlobalLongTitle" style="font-size:16px;">TO BE CHANGE</h5>
@@ -58,13 +58,31 @@
                                 <textarea  class="form-control" id="global_reason"></textarea>
                             </div>
                         </div>
+                        <div id="global_approve_display" class="col-sm-12" style="display:none;">
+                            <hr>
+                            <div class="form-group">
+                                <label for="global_approve">COA SEQUENCE:</label>
+                                <input input='text' class="form-control" id="global_approve">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label for="check_rfa">CHECK RFA</label>
+                            <input id="coa_check" class="form-control" type="text">
+                        </div>
+                        <div class="col-sm-12">
+                            <div id="coa_create"></div>
+                        </div>
                     </div>
                 </div>
             </div>
+            
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     CLOSE
                 </button>
+                <button class="btn btn-info" onclick='checkRFA(0)'>CHECK RFA</button>
                 <button onclick="updateList()" class="btn btn-success">SAVE</button>
             </div>
         </div>
