@@ -59,6 +59,7 @@ endif;
 @endsection
 
 @section('button')
+
 <button class="btn btn-primary mt-2 mt-xl-0" data-bs-toggle="modal" data-bs-target="#modalCreate" style="width:100%;">UPLOAD LINE 
     @if($line == '3') 
         INJECTION 
@@ -80,6 +81,7 @@ endif;
 </div>
 @if($pm_flag==0)
     @include('includes.plan_modal')
+    @include('includes.plan_creation')
 @else
     @include('includes.pm_modal')
 @endif

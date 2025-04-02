@@ -12,7 +12,10 @@ use App\Models\QcTag;
 use App\Models\QcUser;
 use Illuminate\Support\Facades\Http;
 use Carbon\Carbon;
-
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
 class PdfController extends Controller
 {   
 
@@ -364,246 +367,571 @@ class PdfController extends Controller
 
     public function downtime_report_job($job){
         $api_url = env('API_URL');
-        $response = Http::get($api_url.'/Downtime/GetDowntimeHeaders?iJobNo='.$job);
-        $headers =  $response->object();    
-     
-        // JO TARGET QUANTITY
-        $response = Http::get($api_url.'/Production/GetJobSysproDetails?ijob='.$job);
-        $jobs = $response->object();
-        foreach($jobs as $job_row):
-            $long_desc_remove  = $job_row->cLongDesc;
-            $part = explode("X", $long_desc_remove);
-            $conv_factor = trim($part[1]);
-            $stock_code=$job_row->cStockCode;
-            $jo_details = array(
-                'cases' => $job_row->nQtyToMake,
-                'bottle'=> $job_row->nQtyToMake * $conv_factor,
-                'stock_code'=>$job_row->cStockCode
-            ); 
-        endforeach;
-        // END JO TARGET QUANTITY
-        foreach($headers as $header):
-            $iLineId = $header->iLineId;
-            $iDowntimeHeaderId = $header->id;
-            $dCountDate = $header->dDate;
-          
-            $fbo[] =Carbon::parse($header->dFBO)->format('H:ia');
-            $lbo[] =Carbon::parse($header->dLBO)->format('H:ia');
+        $response = Http::get($api_url.'/Downtime/DowntimeReports?iJobNo='.$job);
+        $datas =  $response->object();    
+        $data = (object) array(
+            'id' => 'Id',
+            'lineId' => 'Line Id',
+            'line' => 'Line',
+            'shiftLength' => 'Shift Length, mins',
+            'downtimeDate' => 'Date',
+            'createdBy' => 'Created By',
+            'createdDate' => 'Created Date',
+            'jobNo' => 'Job No',
+            'stockCode' => 'SKU',
+            'description' => 'Description',
+            'longDesc' => 'Long Description',
+            'cases' => 'Total FG, cases',
+            'palletCount' => 'Total FG, Pallets',
+            'machineCount'=>'Machine Counter rdg. Bottles',
+            'idealCycleTime' => 'Ideal Cycle Time',
+            'pcsCase' => 'Pcs/Case',
+            'fbo' => 'FBO',
+            'lbo' => 'LBO',
+            'totalMachineDowntime' => 'Machine Declared Downtime, mins',
+            'totalExpectedDowntime' => 'Expected Oprl Downtime, mins',
+            'totalUnExpectedDowntime' => 'Unexpected Oprl Downtime, mins',
+            'planedProductionTime' => 'Planned Production Time, mins',
+            'operatingTime' => 'Operating Time, mins',
+            'machineDowntimeTime' => '% Machine Downtime',
+            'expectedOutput' => 'Expected Output Bottles',
+            'bottlesCheck'=> 'Total FG Bottles',
+            'machineActual'=> 'Machine Actual Downtime',
+            'variance'=> 'Downtime Variance',
+            'runningTime'=> 'Running Time, mins',
+            'machineCounterRdg'=> 'Machine Counter rdg, Bottles',
+            'availability' => 'Availability(%)',
+            'performance' => 'Performance(%)',
+            'quality' => 'Quality(%)',
+            'oeee' => 'OEE(%)',
+            'machineDowntime' => array(),
+            'expectedDowntime' => array(),
+            'unexpectedDowntime' => array(),
+            'jobCases' => 'Cases',
+            'jobPallets' => 'Pallets',
+            'jobBottles' => 'Bottles',
+            'monthlyCases' => 'Cases',
+            'monthlyBottles' => 'Bottles',
+            'monthlyPallets' => 'Pallets',
 
-            $date[] = Carbon::parse($header->dDate)->format('d-M');
-            $iShiftLength[] = $header->iShiftLength;
-            
-            $response_details = Http::get($api_url.'/Downtime/GetDowntimeDetails?iDowntimeHeaderId='.$iDowntimeHeaderId.'&iLineId='.$iLineId.'&dCountDate='.$dCountDate.'&iJobNo='.$job);
-            $details = $response_details->object();   
-
-            $total_machine_downtime = 0;
-            $total_expected_downtime = 0;
-            $total_unexpected_downtime = 0;
-            
-            // MACHINE DOWNTIME
-            foreach($details->machineDowntime as $machineDowntime):
-                $total_machine_downtime += $machineDowntime->iMinute;
-                if($machineDowntime->downtimeTypeId == '1'):
-                    $md_1[] = $machineDowntime->iMinute;
-                elseif($machineDowntime->downtimeTypeId == '2'):
-                    $md_2[] = $machineDowntime->iMinute;
-                elseif($machineDowntime->downtimeTypeId == '3'):
-                    $md_3[] = $machineDowntime->iMinute;
-                elseif($machineDowntime->downtimeTypeId == '4'):
-                    $md_4[] = $machineDowntime->iMinute;
-                elseif($machineDowntime->downtimeTypeId == '5'):
-                    $md_5[] = $machineDowntime->iMinute;
-                elseif($machineDowntime->downtimeTypeId == '6'):
-                    $md_6[] = $machineDowntime->iMinute;
-                elseif($machineDowntime->downtimeTypeId == '7'):
-                    $md_7[] = $machineDowntime->iMinute;
-                elseif($machineDowntime->downtimeTypeId == '8'):
-                    $md_8[] = $machineDowntime->iMinute;
-                elseif($machineDowntime->downtimeTypeId == '9'):
-                    $md_9[] = $machineDowntime->iMinute;
-                elseif($machineDowntime->downtimeTypeId == '10'):
-                    $md_10[] = $machineDowntime->iMinute;
-                elseif($machineDowntime->downtimeTypeId == '11'):
-                    $md_11[] = $machineDowntime->iMinute;
-                elseif($machineDowntime->downtimeTypeId == '12'):
-                    $md_12[] = $machineDowntime->iMinute;
-                endif;
-            endforeach;
-            $md = (object)array(
-                'md_1'=>$md_1,
-                'md_2'=>$md_2,
-                'md_3'=>$md_3,
-                'md_4'=>$md_4,
-                'md_5'=>$md_5,
-                'md_6'=>$md_6,
-                'md_7'=>$md_7,
-                'md_8'=>$md_8,
-                'md_9'=>$md_9,
-                'md_10'=>$md_10,
-                'md_11'=>$md_11,
-                'md_12'=>$md_12,
-            );
-            // END MACHINE DOWNTIME
-        
-            // EXPECTED DOWNTIME
-            foreach($details->expectedDowntime as $expectedDowntime):
-                $total_expected_downtime += $expectedDowntime->iMinute;
-                if($expectedDowntime->downtimeTypeId == '13'):
-                    $ed_1[] = $expectedDowntime->iMinute;
-                elseif($expectedDowntime->downtimeTypeId == '14'):
-                    $ed_2[] = $expectedDowntime->iMinute;
-                elseif($expectedDowntime->downtimeTypeId == '15'):
-                    $ed_3[] = $expectedDowntime->iMinute;
-                elseif($expectedDowntime->downtimeTypeId == '16'):
-                    $ed_4[] = $expectedDowntime->iMinute;
-                elseif($expectedDowntime->downtimeTypeId == '17'):
-                    $ed_5[] = $expectedDowntime->iMinute;
-                elseif($expectedDowntime->downtimeTypeId == '18'):
-                    $ed_6[] = $expectedDowntime->iMinute;
-                elseif($expectedDowntime->downtimeTypeId == '19'):
-                    $ed_7[] = $expectedDowntime->iMinute;
-                endif;
-            endforeach;
-            $ed = (object)array(
-                'ed_1'=>$ed_1,
-                'ed_2'=>$ed_2,
-                'ed_3'=>$ed_3,
-                'ed_4'=>$ed_4,
-                'ed_5'=>$ed_5,
-                'ed_6'=>$ed_6,
-                'ed_7'=>$ed_7,
-            );
-            // END EXPECTED DOWNTIME
-
-            // EXPECTED DOWNTIME
-            foreach($details->unexpectedDowntime as $unexpectedDowntime):
-                $total_unexpected_downtime += $unexpectedDowntime->iMinute;
-                if($unexpectedDowntime->downtimeTypeId == '20'):
-                    $ued_1[] = $unexpectedDowntime->iMinute;
-                elseif($unexpectedDowntime->downtimeTypeId == '21'):
-                    $ued_2[] = $unexpectedDowntime->iMinute;
-                elseif($unexpectedDowntime->downtimeTypeId == '22'):
-                    $ued_3[] = $unexpectedDowntime->iMinute;
-                elseif($unexpectedDowntime->downtimeTypeId == '23'):
-                    $ued_4[] = $unexpectedDowntime->iMinute;
-                elseif($unexpectedDowntime->downtimeTypeId == '24'):
-                    $ued_5[] = $unexpectedDowntime->iMinute;
-                elseif($unexpectedDowntime->downtimeTypeId == '25'):
-                    $ued_6[] = $unexpectedDowntime->iMinute;
-                elseif($unexpectedDowntime->downtimeTypeId == '26'):
-                    $ued_7[] = $unexpectedDowntime->iMinute;
-                endif;
-            endforeach;
-
-            $ued = (object)array(
-                'ued_1'=>$ued_1,
-                'ued_2'=>$ued_2,
-                'ued_3'=>$ued_3,
-                'ued_4'=>$ued_4,
-                'ued_5'=>$ued_5,
-                'ued_6'=>$ued_6,
-                'ued_7'=>$ued_7,
-            );
-
-            $total_machine_downtime_post[] = $total_machine_downtime;
-            $total_expected_downtime_post[] = $total_expected_downtime;
-            $total_unexpected_downtime_post[] = $total_unexpected_downtime;
-
-            // DETAILS
-            $cases_check = $details->cases;
-            $pallets_check = $details->palletCount;
-            $cycle_time_check = $details->idealCycleTime;
-            $machine_count_check = $details->machineCount;
-            $pcs_case_check = $details->pcsCase;
-            $bottles_check = $details->pcsCase * $details->cases;
-
-            $total_cases[] = $cases_check;
-            $total_pallets[] = $pallets_check;
-            $total_cycle_time[] = $cycle_time_check;
-            $total_machine_count[] = $machine_count_check;
-            $total_pcs_case[] = $pcs_case_check;
-            $total_bottles[] = $bottles_check;
-           
-            // Planned Production Time, mins = Shift Length - Expected Downtime;
-            $planned_production_time_check = $header->iShiftLength-$total_expected_downtime;
-            $planned_production_time[] = $planned_production_time_check;
-            
-            // Operating Time, mins = Planned Production Time - Unexpected Downtime;
-            $operating_time_create = $planned_production_time_check - $total_unexpected_downtime;
-            $operating_time[] = $operating_time_create;
-
-            // % Machine Downtime = (Machine Declated Downtime / Operating time, mins) * 100
-            $machine_downtime_check = ($total_machine_downtime/$operating_time_create)*100;
-            $machine_downtime[] = $machine_downtime_check;
-
-            // Expected Output, Bottles = Operating Time, mins * Ideal Cycle Time, Btls/min
-            $expected_output_check = $planned_production_time_check * $cycle_time_check;
-            $expected_output[] = $expected_output_check;
-
-            // Machine Actual Downtime, mins = (Expected Output - Total FG Bottles) / Cycle Time  
-            $machine_actual_check = ($expected_output_check - $bottles_check) / $cycle_time_check;
-            $machine_actual[] = $machine_actual_check;
-
-            // Variance = Machine Declated Downtime, mins - Machine Actual Downtime, mins
-            $downtime_variance_check = $total_machine_downtime - $machine_actual_check;
-            $downtime_variance[] = $downtime_variance_check;
-
-            // Running Time, mins = FG Bottles / Ideal Cycle Time, btls/min
-            $running_time_check = $bottles_check / $cycle_time_check;
-            $running_time[] = $running_time_check;
-            
-            // Machine Counter rdg, bottles = Machine Count * pcsCase
-            $rdg_machine_check = $machine_count_check * $pcs_case_check;  
-            $rdg_machine[] = $rdg_machine_check;
-
-            //Availability = Operating Time, mins /  Planned Production Time, mins
-            $availability_check = ($operating_time_create/$planned_production_time_check)*100;
-            $availability[] =  $availability_check;
-
-            // Performance(%) = Running Time,mins / Operating Time, mins
-            $performance_check = (round($running_time_check,0)/$operating_time_create) * 100;
-            $performance[] = $performance_check;
-
-            // Quality = Total FG, Bottles / Machine Counter rdg, Bottles
-            $quality_check = ($bottles_check/$rdg_machine_check) * 100;
-            $quality[] = $quality_check;
-
-            // OEEE = ((Performance(%)/100) * (Quality(%)/100) * (Availability(%)/100)) * 100  
-            $oeee_check = ((round($performance_check,2)/100) * (round($quality_check,2)/100) * (round($availability_check,2)/100))*100;
-            $oeee[] = round($oeee_check,2);
-        endforeach;
-        
-        $data_headers = (object)array(
-            'dates'=>$date,
-            'stock_code'=>$stock_code,
-            'shift_lengths'=>$iShiftLength,
-            'expecteds'=>$total_expected_downtime_post,
-            'unexpecteds'=>$total_unexpected_downtime_post,
-            'planned_production_times'=>$planned_production_time,
-            'operating_times'=> $operating_time,
-            'machines_declared'=>$total_machine_downtime_post,
-            'machine_downtimes'=>$machine_downtime,
-            'machine_actuals'=>$machine_actual,
-            'downtime_variances'=>$downtime_variance,
-            'running_times'=>$running_time,
-            'total_bottles'=>$total_bottles,
-            'total_cases'=>$total_cases,
-            'total_pallets'=>$total_pallets,
-            'rdg_machines'=>$rdg_machine,
-            'cycle_times'=>$total_cycle_time,
-            'expected_outputs'=>$expected_output,
-            'availabilities'=>$availability,
-            'performances'=>$performance,
-            'qualities'=>$quality,
-            'oeees'=>$oeee,
-            'fbo'=>$fbo,
-            'lbo'=>$lbo,
         );
+        array_unshift($datas, $data);
+        
+        $spreadsheet = new Spreadsheet();
+
+        $sheet = 0;
+        $count_now = 2;
+        $spreadsheet->createSheet();
+        $spreadsheet->setActiveSheetIndex($sheet);
+        $spreadsheet->getActiveSheet()->setTitle('PBB DOWNTIME REPORTS');
+        $active = $spreadsheet->getActiveSheet('PBB DOWNTIME REPORTS');
+        
+        $styleArray = [
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN//fine border
+                ],
+                ],
+            'alignment' => [
+                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_RIGHT,
+            ],
+
+        ];
+
+        $styleCenterArray = [
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN//fine border
+                ],
+                ],
+            'alignment' => [
+                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+            ],
+
+        ];
+
+
+        $styleArrayAlignmentLeft = [
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN//fine border
+                ],
+            ],
+        ];
+
+        $styleArrayNoDownLeft= [
+            'borders' => [
+                'top'=> [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN//fine border
+                ],
+                'left'=> [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN//fine border
+                ],
+                'right'=> [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN//fine border
+                ],
+            ],
+            'alignment' => [
+                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT,
+            ],
+
+        ];
+
+        $styleArrayNoUpLeft= [
+            'borders' => [
+                'bottom'=> [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN//fine border
+                ],
+                'left'=> [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN//fine border
+                ],
+                'right'=> [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN//fine border
+                ],
+            ],
+            'alignment' => [
+                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT,
+            ],
+
+        ];
+
+        $styleArrayNoDownRight= [
+            'borders' => [
+                'top'=> [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN//fine border
+                ],
+                'left'=> [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN//fine border
+                ],
+                'right'=> [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN//fine border
+                ],
+            ],
+            'alignment' => [
+                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_RIGHT,
+            ],
+
+        ];
+
+        $styleArrayNoUpRight= [
+            'borders' => [
+                'bottom'=> [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN//fine border
+                ],
+                'left'=> [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN//fine border
+                ],
+                'right'=> [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN//fine border
+                ],
+            ],
+            'alignment' => [
+                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_RIGHT,
+            ],
+
+        ];
+
+        $styleArrayNoTopDownRight= [
+            'borders' => [
+                'left'=> [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN//fine border
+                ],
+                'right'=> [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN//fine border
+                ],
+            ],
+            'alignment' => [
+                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_RIGHT,
+            ],
+
+        ];
+
+        $styleArrayNoTopDownLeft= [
+            'borders' => [
+                'left'=> [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN//fine border
+                ],
+                'right'=> [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN//fine border
+                ],
+            ],
+            'alignment' => [
+                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
+            ],
+
+        ];
+
+        $start = Coordinate::stringFromColumnIndex($count_now+1); 
+        $end =  Coordinate::stringFromColumnIndex($count_now+count($datas)-1); 
+        $end2 =  Coordinate::stringFromColumnIndex($count_now+count($datas));
+        // echo $start.'---'.$end;
+        // $spreadsheet->mergeCells($start.'2:'.$end.'2');
+        $active->getStyle('B29:'.$end2.'29')->applyFromArray($styleArray);
+        $active->setCellValue('B29', '');
+        $active->mergeCells('B29:'.$end2.'29');
+
+        $active->getStyle('B30:'.$end2.'30')->applyFromArray($styleCenterArray);
+        $active->setCellValue('B30', 'MACHINE DOWNTIME, mins.');
+        $active->mergeCells('B30:'.$end2.'30');
+
+        $count_second = 31;
+        $count_third = 31;
+        $count_machine = 2;
+        
+        $data_machine = array();
+        $count_array = array();
+        foreach($datas as $header):
+            $count_check = Coordinate::stringFromColumnIndex($count_now); 
+            $count_array[] = $count_check ;
+            if($count_now == 2):
+                $active->getColumnDimension($count_check)->setWidth(35);
+                $active->getStyle($count_check.'1')->applyFromArray($styleArrayAlignmentLeft);
+                $active->getStyle($count_check.'2')->applyFromArray($styleArrayAlignmentLeft);
+
+                $active->getStyle($count_check.'3')->applyFromArray($styleArrayAlignmentLeft);
+                $active->getStyle($count_check.'4')->applyFromArray($styleArrayNoTopDownLeft);
+                $active->getStyle($count_check.'5')->applyFromArray($styleArrayNoTopDownLeft);
+                $active->getStyle($count_check.'6')->applyFromArray($styleArrayNoUpLeft);
+
+                $active->getStyle($count_check.'7')->applyFromArray($styleArrayNoDownLeft);
+                $active->getStyle($count_check.'8')->applyFromArray($styleArrayNoUpLeft);
+                $active->getStyle($count_check.'9')->applyFromArray($styleArrayNoDownLeft);
+                $active->getStyle($count_check.'10')->applyFromArray($styleArrayNoTopDownLeft);
+                $active->getStyle($count_check.'11')->applyFromArray($styleArrayNoTopDownLeft);
+                $active->getStyle($count_check.'12')->applyFromArray($styleArrayNoTopDownLeft);
+                $active->getStyle($count_check.'13')->applyFromArray($styleArrayNoTopDownLeft);
+                $active->getStyle($count_check.'14')->applyFromArray($styleArrayNoTopDownLeft);
+                $active->getStyle($count_check.'15')->applyFromArray($styleArrayNoTopDownLeft);
+                $active->getStyle($count_check.'16')->applyFromArray($styleArrayNoTopDownLeft);
+                $active->getStyle($count_check.'17')->applyFromArray($styleArrayNoTopDownLeft);
+                $active->getStyle($count_check.'18')->applyFromArray($styleArrayNoUpLeft);
+                $active->getStyle($count_check.'19')->applyFromArray($styleArrayNoTopDownLeft);
+                $active->getStyle($count_check.'20')->applyFromArray($styleArrayNoTopDownLeft);
+                $active->getStyle($count_check.'21')->applyFromArray($styleArrayNoUpLeft);
+                $active->getStyle($count_check.'22')->applyFromArray($styleArrayNoTopDownLeft);
+                $active->getStyle($count_check.'23')->applyFromArray($styleArrayNoTopDownLeft);
+                $active->getStyle($count_check.'24')->applyFromArray($styleArrayNoUpLeft);
+                $active->getStyle($count_check.'25')->applyFromArray($styleArrayNoTopDownLeft);
+                $active->getStyle($count_check.'26')->applyFromArray($styleArrayNoTopDownLeft);
+                $active->getStyle($count_check.'27')->applyFromArray($styleArrayNoTopDownLeft);
+                $active->getStyle($count_check.'28')->applyFromArray($styleArrayNoUpLeft);
+                
+
+                $active->setCellValue($count_check.'2', $header->stockCode);
+                $active->setCellValue($count_check.'3', 'JO Target Quantity');
+             
+
+                $active->setCellValue($count_check.'7',$header->fbo); 
+                $active->setCellValue($count_check.'8',$header->lbo); 
+                $active->setCellValue($count_check.'9',$header->shiftLength); 
+                $active->setCellValue($count_check.'10',$header->totalExpectedDowntime); 
+                $active->setCellValue($count_check.'11',$header->totalUnExpectedDowntime); 
+                $active->setCellValue($count_check.'12',$header->planedProductionTime); 
+                $active->setCellValue($count_check.'13',$header->operatingTime); 
+                $active->setCellValue($count_check.'14',$header->totalMachineDowntime); 
+                $active->setCellValue($count_check.'15',$header->machineDowntimeTime);
+                $active->setCellValue($count_check.'16',$header->machineActual);  
+                $active->setCellValue($count_check.'17',$header->variance);  
+                $active->setCellValue($count_check.'18',$header->runningTime);  
+                $active->setCellValue($count_check.'19',$header->bottlesCheck);
+                $active->setCellValue($count_check.'20',$header->cases);
+                $active->setCellValue($count_check.'21',$header->palletCount);
+                $active->setCellValue($count_check.'22',$header->machineCount);
+                $active->setCellValue($count_check.'23',$header->idealCycleTime);
+                $active->setCellValue($count_check.'24',$header->expectedOutput);
+                $active->setCellValue($count_check.'25',$header->availability);
+                $active->setCellValue($count_check.'26',$header->performance);
+                $active->setCellValue($count_check.'27',$header->quality);
+                $active->setCellValue($count_check.'28',$header->oeee);
+            else:
+                $job_no = $header->jobNo;
+                $active->getColumnDimension($count_check)->setWidth(20);
+                $active->getStyle($count_check.'1')->applyFromArray($styleArray);
+
+                $active->getStyle($count_check.'4')->applyFromArray($styleArrayNoTopDownRight);
+                $active->getStyle($count_check.'5')->applyFromArray($styleArrayNoTopDownRight);
+                $active->getStyle($count_check.'6')->applyFromArray($styleArrayNoUpRight);
+
+                $active->getStyle($count_check.'7')->applyFromArray($styleArrayNoDownRight);
+                $active->getStyle($count_check.'8')->applyFromArray($styleArrayNoUpRight);
+                $active->getStyle($count_check.'9')->applyFromArray($styleArrayNoDownRight);
+                $active->getStyle($count_check.'10')->applyFromArray($styleArrayNoTopDownRight);
+                $active->getStyle($count_check.'11')->applyFromArray($styleArrayNoTopDownRight);
+                $active->getStyle($count_check.'12')->applyFromArray($styleArrayNoTopDownRight);
+                $active->getStyle($count_check.'13')->applyFromArray($styleArrayNoTopDownRight);
+                $active->getStyle($count_check.'14')->applyFromArray($styleArrayNoTopDownRight);
+                $active->getStyle($count_check.'15')->applyFromArray($styleArrayNoTopDownRight);
+                $active->getStyle($count_check.'16')->applyFromArray($styleArrayNoTopDownRight);
+                $active->getStyle($count_check.'17')->applyFromArray($styleArrayNoTopDownRight);
+                $active->getStyle($count_check.'18')->applyFromArray($styleArrayNoUpRight);
+                $active->getStyle($count_check.'19')->applyFromArray($styleArrayNoTopDownRight);
+                $active->getStyle($count_check.'20')->applyFromArray($styleArrayNoTopDownRight);
+                $active->getStyle($count_check.'21')->applyFromArray($styleArrayNoUpRight);
+                $active->getStyle($count_check.'22')->applyFromArray($styleArrayNoTopDownRight);
+                $active->getStyle($count_check.'23')->applyFromArray($styleArrayNoTopDownRight);
+                $active->getStyle($count_check.'24')->applyFromArray($styleArrayNoUpRight);
+                $active->getStyle($count_check.'25')->applyFromArray($styleArrayNoTopDownRight);
+                $active->getStyle($count_check.'26')->applyFromArray($styleArrayNoTopDownRight);
+                $active->getStyle($count_check.'27')->applyFromArray($styleArrayNoTopDownRight);
+                $active->getStyle($count_check.'28')->applyFromArray($styleArrayNoUpRight);
+
+                $active->setCellValue($count_check.'4',$header->monthlyCases); 
+                $active->setCellValue($count_check.'5',$header->monthlyBottles); 
+                $active->setCellValue($count_check.'6',$header->monthlyPallets);
+
+                $date_fbo = explode("T",$header->fbo);
+                $active->setCellValue($count_check.'7', $date_fbo[1]);
+
+                $date_lbo = explode("T",$header->lbo);
+                $active->setCellValue($count_check.'8', $date_lbo[1]);
+
+                $active->setCellValue($count_check.'9',$header->shiftLength); 
+                $active->setCellValue($count_check.'10',$header->totalExpectedDowntime); 
+                $active->setCellValue($count_check.'11',$header->totalUnExpectedDowntime); 
+                $active->setCellValue($count_check.'12',$header->planedProductionTime); 
+                $active->setCellValue($count_check.'13',$header->operatingTime); 
+                $active->setCellValue($count_check.'14',$header->totalMachineDowntime); 
+                $active->setCellValue($count_check.'15',$header->machineDowntimeTime); 
+                $active->setCellValue($count_check.'16',$header->machineActual);
+                $active->setCellValue($count_check.'17',$header->variance);
+                $active->setCellValue($count_check.'18',$header->runningTime);
+                $active->setCellValue($count_check.'19',$header->bottlesCheck);
+                $active->setCellValue($count_check.'20',$header->cases);
+                $active->setCellValue($count_check.'21',$header->palletCount);
+                $active->setCellValue($count_check.'22',$header->machineCount);
+                $active->setCellValue($count_check.'23',$header->idealCycleTime);
+                $active->setCellValue($count_check.'24',$header->expectedOutput);
+                $active->setCellValue($count_check.'25',$header->availability);
+                $active->setCellValue($count_check.'26',$header->performance);
+                $active->setCellValue($count_check.'27',$header->quality);
+                $active->setCellValue($count_check.'28',$header->oeee);
+            endif;
+
+            if($count_now == 3):
+                $active->setCellValue('B4', 'CASES          '.$header->jobCases);
+                $active->setCellValue('B5', 'BOTTLES        '.$header->monthlyBottles);
+                $active->setCellValue('B6', 'PALLETS        '.$header->monthlyPallets); 
+
+                $active->getStyle($start.'2:'.$end.'2')->applyFromArray($styleArray);
+                $active->setCellValue($count_check.'2', $header->stockCode);
+                $active->mergeCells($start.'2:'.$end.'2');
+            endif;
+
+            if($count_now == 4):
+                $active->getStyle($start.'3:'.$end.'3')->applyFromArray($styleArray);
+                $active->setCellValue($count_check.'3', '');
+                $active->mergeCells($start.'3:'.$end.'3');
+            endif;
+            // $date = Carbon::createFromFormat('Y-m-d',$header->downtimeDate);
+            
+            $date = explode("T",$header->downtimeDate);
+          
+            $active->setCellValue($count_check.'1', $date[0]); 
+          
+            $count_now++;
+           
+            foreach($header->machineDowntime as $machine):   
+                $active->getStyle('B'.$count_second)->applyFromArray($styleCenterArray);
+                $active->setCellValue('B'.$count_second, $machine->description);
+
+                $active->getStyle($count_check.$count_second)->applyFromArray($styleCenterArray);
+                $active->setCellValue($count_check.$count_second, $machine->iMinute);
+               
+                $count_second++;
+                $data_machine[] = 'M'.$machine->downtimeTypeId;
+            endforeach;
+            $count_last_machine = 49;
+            // echo $count_last_machine;
+            foreach($header->expectedDowntime as $expectedMachine):  
+                $active->getStyle('B'.$count_last_machine)->applyFromArray($styleCenterArray);
+                $active->setCellValue('B'.$count_last_machine, $expectedMachine->description);
+
+                $active->getStyle($count_check.$count_last_machine)->applyFromArray($styleCenterArray);
+                $active->setCellValue($count_check.$count_last_machine, $expectedMachine->iMinute);
+               
+                $count_last_machine++;
+             
+                $data_exmachine[] = 'N'.$expectedMachine->downtimeTypeId;
+             
+            endforeach;
+            
+            $count_last_exmachine = $count_last_machine+3;
+
+            foreach($header->unexpectedDowntime as $unexpectedMachine):  
+                $active->getStyle('B'.$count_last_exmachine)->applyFromArray($styleCenterArray);
+                $active->setCellValue('B'.$count_last_exmachine, $unexpectedMachine->description);
+
+                $active->getStyle($count_check.$count_last_exmachine)->applyFromArray($styleCenterArray);
+                $active->setCellValue($count_check.$count_last_exmachine, $unexpectedMachine->iMinute);
+               
+                $count_last_exmachine++;
+                $data_unmachine[] = 'M'.$unexpectedMachine->downtimeTypeId;
+            endforeach;
+
+            $count_second = 31;
+        endforeach;
+        
+        $active->getStyle($end2.'1:'.$end2.'9')->applyFromArray($styleCenterArray);
+        $active->setCellValue($end2.'1','JOB NO. '.$job_no);
+        $active->mergeCells($end2.'1:'.$end2.'9');
+      
+
+        // TOTAL
+        $shift_length_sum = 'B9:'.$end2.'9';
+        $total_expected_downtime = 'B10:'.$end2.'10';
+        $total_unexpected_downtime = 'B11:'.$end2.'11';
+        $planed_production_time = 'B12:'.$end2.'12';
+        $operating_time = 'B13:'.$end2.'13';
+        $total_machine_downtime = 'B14:'.$end2.'14';
+        $machine_downtime_time = 'B15:'.$end2.'15';
+        $machine_actual = 'B16:'.$end2.'16';
+        $variance = 'B17:'.$end2.'17';
+        $running_time = 'B18:'.$end2.'18';
+        $bottles_check = 'B19:'.$end2.'19';
+        $cases = 'B20:'.$end2.'20';
+        $palletCount = 'B21:'.$end2.'21';
+        $machineCount = 'B22:'.$end2.'22';
+        $ideal_cycle_time = 'B23:'.$end2.'23';
+        $expected_output = 'B24:'.$end2.'24';
+        $availability = 'B25:'.$end2.'25';
+        $performance = 'B26:'.$end2.'26';
+        $quality = 'B27:'.$end2.'27';
+        $oeee = 'B28:'.$end2.'28'; 
+
+        $active->setCellValue($end2.'9', '=SUM('.$shift_length_sum.')');
+        $active->setCellValue($end2.'10', '=SUM('.$total_expected_downtime.')');
+        $active->setCellValue($end2.'11', '=SUM('.$total_unexpected_downtime.')');
+        $active->setCellValue($end2.'12', '=SUM('.$planed_production_time.')');
+        $active->setCellValue($end2.'13', '=SUM('.$operating_time.')');
+        $active->setCellValue($end2.'14', '=SUM('.$total_machine_downtime.')');
+        $active->setCellValue($end2.'15', '=SUM('.$machine_downtime_time.')');
+        $active->setCellValue($end2.'16', '=SUM('.$machine_actual.')');
+        $active->setCellValue($end2.'17', '=SUM('.$variance.')');
+        $active->setCellValue($end2.'18', '=SUM('.$running_time.')');
+        $active->setCellValue($end2.'19', '=SUM('.$bottles_check.')');
+        $active->setCellValue($end2.'20', '=SUM('.$cases.')');
+        $active->setCellValue($end2.'21', '=SUM('.$palletCount.')');
+        $active->setCellValue($end2.'22', '=SUM('.$machineCount.')');
+        $active->setCellValue($end2.'23', '=SUM('.$ideal_cycle_time.')');
+        $active->setCellValue($end2.'24', '=SUM('.$expected_output.')');
+        $active->setCellValue($end2.'25', '=AVERAGE('.$availability.')');
+        $active->setCellValue($end2.'26', '=AVERAGE('.$performance.')');
+        $active->setCellValue($end2.'27', '=AVERAGE('.$quality.')');
+        $active->setCellValue($end2.'28', '=AVERAGE('.$oeee.')');
      
-        $pdf = Pdf::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true,'defaultMediaType'=> 'all','isFontSubsettingEnabled'=>true,'defaultFont'=>'Arial'])
-        ->loadView('pdf.downtime',compact('data_headers','md','ed','ued','job'))->setPaper('LETTER', 'portrait');
-        $pdf->getDomPDF()->set_option("enable_php", true);
-        return $pdf->stream('job-'.$job.'.pdf',array('Attachment' => false));
+        $active->getColumnDimension($end2)->setWidth(30);
+        $machine_count = 31;
+        foreach(array_unique($data_machine) as $machine):
+            $machine_sum = 'B'.$machine_count.':'.$end2.$machine_count;
+            $active->setCellValue($end2.$machine_count, '=SUM('.$machine_sum.')');
+            $machine_count++;
+        endforeach;
+        
+        $count_last_machine = $machine_count+3;
+        $expected_machine_count = $count_last_machine;
+        foreach(array_unique($data_exmachine) as $exmachine):
+            $exmachine_sum = 'B'.$expected_machine_count.':'.$end2.$expected_machine_count;
+            $active->setCellValue($end2.$expected_machine_count, '=SUM('.$exmachine_sum.')');
+            $expected_machine_count++;
+        endforeach;
+
+        $unmachine_count = $expected_machine_count+3;
+        foreach(array_unique($data_unmachine) as $unmachine):
+            $unmachine_sum = 'B'.$unmachine_count.':'.$end2.$unmachine_count;
+            $active->setCellValue($end2.$unmachine_count, '=SUM('.$unmachine_sum.')');
+            $unmachine_count++;
+        endforeach;
+        
+
+        $last_machine_count = $machine_count;
+        $total_machine_downtime = array();
+        $expected_count_blank = $machine_count+1;
+
+        $active->getStyle('B'.$expected_count_blank.':'.$end2.$expected_count_blank)->applyFromArray($styleArray);
+        $active->setCellValue('B'.$expected_count_blank, '');
+        $active->mergeCells('B'.$expected_count_blank.':'.$end2.$expected_count_blank);
+
+        $expected_count_title = $expected_count_blank+1;
+        $active->getStyle('B'.$expected_count_title.':'.$end2.$expected_count_title)->applyFromArray($styleCenterArray);
+        $active->setCellValue('B'.$expected_count_title, 'EXPECTED OPERATIONAL DOWNTIME,mins.');
+        $active->mergeCells('B'.$expected_count_title.':'.$end2.$expected_count_title);
+        
+        $active->getStyle('B'.$expected_count_blank.':'.$end2.$expected_count_blank)->applyFromArray($styleArray);
+        $active->setCellValue('B'.$expected_count_blank, '');
+        $active->mergeCells('B'.$expected_count_blank.':'.$end2.$expected_count_blank);
+        
+        $total_machine_count = $expected_machine_count;
+        $expected_count_first_count = $total_machine_count;
+        $unexpected_count_first_count = $unmachine_count;
+
+        $unexpected_count_blank = $total_machine_count+1;
+        $active->getStyle('B'.$unexpected_count_blank.':'.$end2.$unexpected_count_blank)->applyFromArray($styleArray);
+        $active->setCellValue('B'.$unexpected_count_blank, '');
+        $active->mergeCells('B'.$unexpected_count_blank.':'.$end2.$unexpected_count_blank);
+
+        $unexpected_count_title = $total_machine_count+2;
+        $active->getStyle('B'.$unexpected_count_title.':'.$end2.$unexpected_count_title)->applyFromArray($styleCenterArray);
+        $active->setCellValue('B'.$unexpected_count_title, 'UNEXPECTED OPERATIONAL DOWNTIME,mins.');
+        $active->mergeCells('B'.$unexpected_count_title.':'.$end2.$unexpected_count_title);
+        
+        $count_last_machine_ex = $expected_count_first_count;
+        $first_row_ex = $last_machine_count+3;
+        $first_row_un = $expected_machine_count+3;
+        foreach($count_array as $count_array_now):
+            if($count_array_now == 'B'):
+                $total = $count_array_now.$last_machine_count;
+                $active->setCellValue($count_array_now.$last_machine_count,'TOTAL MACHINE DOWNTIME');
+                $active->getStyle($count_array_now.$last_machine_count)->applyFromArray($styleCenterArray);
+
+                $total = $count_array_now.$count_last_machine_ex;
+                $active->setCellValue($count_array_now.$count_last_machine_ex,'TOTAL OPERATIONAL DOWNTIME');
+                $active->getStyle($count_array_now.$count_last_machine_ex)->applyFromArray($styleCenterArray);
+
+                $total = $count_array_now.$unexpected_count_first_count;
+                $active->setCellValue($count_array_now.$unexpected_count_first_count,'TOTAL OPERATIONAL DOWNTIME');
+                $active->getStyle($count_array_now.$unexpected_count_first_count)->applyFromArray($styleCenterArray);
+            else:
+                $total = $count_array_now.'31'.':'.$count_array_now.$last_machine_count;
+                $active->setCellValue($count_array_now.$last_machine_count, '=SUM('.$total.')');
+                $active->getStyle($count_array_now.$last_machine_count)->applyFromArray($styleCenterArray);
+              
+                $total_ex = $count_array_now.$first_row_ex.':'.$count_array_now.$total_machine_count-1;
+                $active->setCellValue($count_array_now.$total_machine_count, '=SUM('.$total_ex.')');
+                $active->getStyle($count_array_now.$total_machine_count)->applyFromArray($styleCenterArray);
+
+                $total_un = $count_array_now.$first_row_un.':'.$count_array_now.$unexpected_count_first_count;
+               
+                $active->setCellValue($count_array_now.$unexpected_count_first_count, '=SUM('.$total_un.')');
+                $active->getStyle($count_array_now.$unexpected_count_first_count)->applyFromArray($styleCenterArray);
+            endif;
+        endforeach;
+        
+        $last_letter = end($count_array);
+        $total_machine_last = 'C'.$machine_count.':'.$last_letter.$last_machine_count;
+        $total_machine_last2 = 'C'.$expected_machine_count.':'.$last_letter.$expected_machine_count;
+        $total_machine_last3 = 'C'.$unmachine_count.':'.$last_letter.$unmachine_count;
+       
+        $active->setCellValue($end2.$last_machine_count, '=SUM('.$total_machine_last.')');
+        $active->getStyle($end2.$last_machine_count)->applyFromArray($styleCenterArray);
+
+        $active->setCellValue($end2.$expected_machine_count, '=SUM('.$total_machine_last2.')');
+        $active->getStyle($end2.$expected_machine_count)->applyFromArray($styleCenterArray);
+
+        $active->setCellValue($end2.$unmachine_count, '=SUM('.$total_machine_last3.')');
+        $active->getStyle($end2.$unmachine_count)->applyFromArray($styleCenterArray);
+
+        
+        $active->getStyle($end2.'9:'.$end2.$unmachine_count)->applyFromArray($styleCenterArray);
+        $writer = new Xlsx($spreadsheet);
+        $writer->save('downtime.xlsx');
+       
        
     }
 

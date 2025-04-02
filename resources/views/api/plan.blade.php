@@ -188,10 +188,18 @@
                                 calendar.refetchEvents();
                             }, "1");
                             }
+                        },
+                        plan: {
+                        text: 'ADD PLAN',
+                        click: async function() {
+                            // var date2 = calendar.getDate();
+                            // let irene4 = irene3(date2);
+                            $('#modalCreate2').modal('show');
+                            }
                         }
                     },
                     headerToolbar: {
-                        left: 'prevButton,nextButton,prevYearButton,nextYearButton,refresh',
+                        left: 'prevButton,nextButton,prevYearButton,nextYearButton,refresh,plan',
                         center:'title' ,
                         right: 'dayGridMonth,listWeek'
                     },
@@ -572,25 +580,12 @@
                 if(irene_parse.length > 0){
                     if(irene_parse[0].cStockCode === job_stock_code){
 
-                        if(flag === 0){
-                            document.getElementById('qty_to_make').value = irene_parse[0].nQtyToMake; 
-                            document.getElementById('qty_to_make_display').style.display = 'block';
-                            document.getElementById('qty_to_make').style.display = 'block';
-                            document.getElementById('createJobDisplay').style.display = 'block'; 
-                        }
-                        else{
-                            document.getElementById('qty_to_make_display').style.display = 'none';
-                            document.getElementById('qty_to_make').style.display = 'none';
-                            document.getElementById('createJobDisplay').style.display = 'none'; 
-                            Swal.fire({
-                                position: "center",
-                                icon: "error",
-                                title:'JOB '+job_number,
-                                text: "ALREADY CREATED",
-                                showConfirmButton: false,
-                                timer: 3000
-                            });
-                        }
+                    
+                        document.getElementById('qty_to_make').value = irene_parse[0].nQtyToMake; 
+                        document.getElementById('qty_to_make_display').style.display = 'block';
+                        document.getElementById('qty_to_make').style.display = 'block';
+                        document.getElementById('createJobDisplay').style.display = 'block'; 
+                    
                     
                     }else{
                         document.getElementById('qty_to_make_display').style.display = 'none';
@@ -704,5 +699,61 @@
                 });    
             }
         });
+    }
+
+    function insertPlan(){
+        let stock_code = document.getElementById('stock_codes_create_plan').value;
+        let date_plan = document.getElementById('date_plan').value;
+        
+        let line_plan = document.getElementById('line_plan').value;
+        let qty_plan = document.getElementById('qty_plan').value;
+
+        if(stock_code === 'NO_STOCK_CODE' || date_plan === '' || line_plan === '' || qty_plan === ''){
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "PLEASE FILL UP ALL FIELDS",
+                showConfirmButton: false,
+                timer: 2000
+            });
+        }else{
+            let date_plan_2 = new Date();
+            let month_plan = date_plan_2.getMonth()+1;
+            let year_plan = date_plan_2.getFullYear();
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "PLAN SUCCESSFULLY CREATED",
+                showConfirmButton: false,
+                timer: 3000
+            });
+            $.ajax({
+                type:'POST',
+                method:'POST',
+                url:api_url+'/MonthlyPlan/PostPlanByDay',
+                crossDomain: true,
+                dataType: 'json',
+                headers: { 
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json' 
+                },
+                data: JSON.stringify({
+                    "nYear":year_plan,
+                    "nMonth":month_plan,
+                    "dPlanDate":date_plan,
+                    "cStockCode":stock_code,
+                    "cQty":qty_plan,
+                    "nLineNo":line_plan
+                }),
+                success:function(data){
+                   
+                }
+            });    
+
+            setTimeout(() => {
+                refresh();
+                $('#modalCreate2').modal('hide');
+            }, "2000");
+        }
     }
 </script>
