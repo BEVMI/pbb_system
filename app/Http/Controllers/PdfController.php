@@ -824,10 +824,10 @@ class PdfController extends Controller
         $machineCount = 'B22:'.$end2.'22';
         $ideal_cycle_time = 'B23:'.$end2.'23';
         $expected_output = 'B24:'.$end2.'24';
-        $availability = 'B25:'.$end2.'25';
-        $performance = 'B26:'.$end2.'26';
-        $quality = 'B27:'.$end2.'27';
-        $oeee = 'B28:'.$end2.'28'; 
+        $availability = 'B25:'.$end.'25';
+        $performance = 'B26:'.$end.'26';
+        $quality = 'B27:'.$end.'27';
+        $oeee = 'B28:'.$end.'28'; 
 
         $active->setCellValue($end2.'9', '=SUM('.$shift_length_sum.')');
         $active->setCellValue($end2.'10', '=SUM('.$total_expected_downtime.')');
