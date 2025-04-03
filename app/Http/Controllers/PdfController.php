@@ -16,6 +16,8 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat\Wizard\Percentage;
+
 class PdfController extends Controller
 {   
 
@@ -552,6 +554,7 @@ class PdfController extends Controller
             ],
 
         ];
+        
 
         $styleArrayNoTopDownLeft= [
             'borders' => [
@@ -618,10 +621,10 @@ class PdfController extends Controller
                 $active->getStyle($count_check.'22')->applyFromArray($styleArrayNoTopDownLeft);
                 $active->getStyle($count_check.'23')->applyFromArray($styleArrayNoTopDownLeft);
                 $active->getStyle($count_check.'24')->applyFromArray($styleArrayNoUpLeft);
-                $active->getStyle($count_check.'25')->applyFromArray($styleArrayNoTopDownLeft);
-                $active->getStyle($count_check.'26')->applyFromArray($styleArrayNoTopDownLeft);
-                $active->getStyle($count_check.'27')->applyFromArray($styleArrayNoTopDownLeft);
-                $active->getStyle($count_check.'28')->applyFromArray($styleArrayNoUpLeft);
+                $active->getStyle($count_check.'25')->applyFromArray($styleArrayNoTopDownLeft)->getNumberFormat()->setFormatCode('0.00%');
+                $active->getStyle($count_check.'26')->applyFromArray($styleArrayNoTopDownLeft)->getNumberFormat()->setFormatCode('0.00%');
+                $active->getStyle($count_check.'27')->applyFromArray($styleArrayNoTopDownLeft)->getNumberFormat()->setFormatCode('0.00%');
+                $active->getStyle($count_check.'28')->applyFromArray($styleArrayNoUpLeft)->getNumberFormat()->setFormatCode('0.00%');
                 
 
                 $active->setCellValue($count_check.'2', $header->stockCode);
@@ -646,6 +649,7 @@ class PdfController extends Controller
                 $active->setCellValue($count_check.'22',$header->machineCount);
                 $active->setCellValue($count_check.'23',$header->idealCycleTime);
                 $active->setCellValue($count_check.'24',$header->expectedOutput);
+                
                 $active->setCellValue($count_check.'25',$header->availability);
                 $active->setCellValue($count_check.'26',$header->performance);
                 $active->setCellValue($count_check.'27',$header->quality);
@@ -708,10 +712,30 @@ class PdfController extends Controller
                 $active->setCellValue($count_check.'22',$header->machineCount);
                 $active->setCellValue($count_check.'23',$header->idealCycleTime);
                 $active->setCellValue($count_check.'24',$header->expectedOutput);
-                $active->setCellValue($count_check.'25',$header->availability);
-                $active->setCellValue($count_check.'26',$header->performance);
-                $active->setCellValue($count_check.'27',$header->quality);
-                $active->setCellValue($count_check.'28',$header->oeee);
+
+                $localeCurrencyMask = new Percentage(
+                    locale: 'tr_TR'
+                );
+               
+                $active->setCellValue($count_check.'25',round($header->availability/100,2));
+                $active->getCell($count_check.'25',round($header->availability,2))
+                ->getStyle()->getNumberFormat()
+                ->setFormatCode($localeCurrencyMask);
+
+                $active->setCellValue($count_check.'26',round($header->performance/100,2));
+                $active->getCell($count_check.'26',round($header->performance,2))
+                ->getStyle()->getNumberFormat()
+                ->setFormatCode($localeCurrencyMask);
+
+                $active->setCellValue($count_check.'27',round($header->quality/100,2));
+                $active->getCell($count_check.'27',round($header->quality,2))
+                ->getStyle()->getNumberFormat()
+                ->setFormatCode($localeCurrencyMask);
+
+                $active->setCellValue($count_check.'28',round($header->oeee/100,2));
+                $active->getCell($count_check.'28',round($header->oeee,2))
+                ->getStyle()->getNumberFormat()
+                ->setFormatCode($localeCurrencyMask);
             endif;
 
             if($count_now == 3):
@@ -821,11 +845,28 @@ class PdfController extends Controller
         $active->setCellValue($end2.'22', '=SUM('.$machineCount.')');
         $active->setCellValue($end2.'23', '=SUM('.$ideal_cycle_time.')');
         $active->setCellValue($end2.'24', '=SUM('.$expected_output.')');
+        
+        $active->getCell($end2.'25', '=AVERAGE('.$availability.')')
+        ->getStyle()->getNumberFormat()
+        ->setFormatCode($localeCurrencyMask);
+        $active->getCell($end2.'26', '=AVERAGE('.$performance.')')
+        ->getStyle()->getNumberFormat()
+        ->setFormatCode($localeCurrencyMask);
+        $active->getCell($end2.'27', '=AVERAGE('.$quality.')')
+        ->getStyle()->getNumberFormat()
+        ->setFormatCode($localeCurrencyMask);
+        $active->getCell($end2.'28', '=AVERAGE('.$oeee.')')
+        ->getStyle()->getNumberFormat()
+        ->setFormatCode($localeCurrencyMask);
+        
+
         $active->setCellValue($end2.'25', '=AVERAGE('.$availability.')');
         $active->setCellValue($end2.'26', '=AVERAGE('.$performance.')');
         $active->setCellValue($end2.'27', '=AVERAGE('.$quality.')');
         $active->setCellValue($end2.'28', '=AVERAGE('.$oeee.')');
-     
+        
+
+
         $active->getColumnDimension($end2)->setWidth(30);
         $machine_count = 31;
         foreach(array_unique($data_machine) as $machine):
@@ -930,8 +971,11 @@ class PdfController extends Controller
         
         $active->getStyle($end2.'9:'.$end2.$unmachine_count)->applyFromArray($styleCenterArray);
         $writer = new Xlsx($spreadsheet);
-        $writer->save('downtime.xlsx');
-       
+        // $writer->save('downtime.xlsx');
+        $fileName = 'downtime_report_'.date('Y-m-d').'.xlsx';
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="'. urlencode($fileName).'"');
+        $writer->save('php://output');
        
     }
 
