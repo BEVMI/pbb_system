@@ -1,4 +1,9 @@
 <script>
+    const now = new Date(); 
+    const currentDateTime = now.toLocaleTimeString([], {timeZone: 'Asia/Manila',hour: '2-digit', minute:'2-digit',hour12: false});
+    const currentDate = now.toISOString();
+    document.getElementById('FBO').value = currentDateTime;
+    document.getElementById('LBO').value = currentDateTime;
     $('#job_number_update').css('pointer-events','none');
     $(document).ready(function(){
         let line_start = document.getElementById('line_search').value;
@@ -86,7 +91,7 @@
 
                     i.innerHTML = item.section+'<input type="hidden" name="section_id[]" value='+item.sectionId+'><input type="hidden" name="sections_create[]" value="'+item.section+'">';
                     if(item.useInOut ==1){
-                        r.innerHTML = '<input class="form-control" name="in_create[]" type="number" min="0"  value="0">';
+                        r.innerHTML = '<input class="form-control " name="in_create[]" type="number" min="0"  value="0">';
                     }else{
                         r.innerHTML = '<input name="in_create[]" type="hidden" min="0" value="0">';
                     }
@@ -109,6 +114,10 @@
             let line = document.getElementById('lines').value;
             let job_number = document.getElementById('job_number').value;
             let date_counter = document.getElementById('date_counter').value;
+            $('#machine_body').empty();
+            $('#expected_downtime_body').empty();
+            $('#unexpected_downtime_body').empty();
+            let myArray = job_number.split("_");
             if(!job_number || !date_counter){
                 Swal.fire({
                     position: "center",
@@ -118,6 +127,70 @@
                     timer: 2500
                 });
             }else{
+                $.ajax({
+                    type: 'GET', //THIS NEEDS TO BE GET
+                    url: api_url+'/Downtime/GetDowntimeDetails?iDowntimeHeaderId=0&iLineId='+line+'&dCountDate='+date_counter+'&iJobNo='+myArray[0],
+                    success: function (data) {
+                        irene_parse = data;
+
+                        $.each(irene_parse.machineDowntime, function(index,item) {
+                            var x = document.getElementById('machine_body').insertRow(-1);
+                            var i = x.insertCell(0);
+                            var r = x.insertCell(1);
+                            
+                            let hidden_description = '<input name="mcd_desc[]" type="hidden" value="'+item.description+'">';
+                            let hidden_type_id = '<input name="mcd_type_id[]" type="hidden" value="'+item.downtimeTypeId+'">';
+
+                            i.innerHTML = item.description+hidden_description+hidden_type_id;
+                            r.innerHTML = '<input onkeyup="irene(0)" class="total-create form-control" name="mcd_minutes[]" type="number" min="0" value="0">';
+                        
+                        });
+
+                        $.each(irene_parse.expectedDowntime, function(index,item) {
+                            var x = document.getElementById('expected_downtime_body').insertRow(-1);
+                            var i = x.insertCell(0);
+                            var r = x.insertCell(1);
+                            
+                            let hidden_description = '<input name="exp_desc[]" type="hidden" value="'+item.description+'">';
+                            let hidden_type_id = '<input name="exp_type_id[]" type="hidden" value="'+item.downtimeTypeId+'">';
+
+                            i.innerHTML = item.description+hidden_description+hidden_type_id;
+                            r.innerHTML = '<input onkeyup="irene(0)" class="total-create form-control" name="exp_minutes[]" type="number" min="0" value="0">';
+                        
+                        });
+
+                        $.each(irene_parse.unexpectedDowntime, function(index,item) {
+                            var x = document.getElementById('unexpected_downtime_body').insertRow(-1);
+                            var i = x.insertCell(0);
+                            var r = x.insertCell(1);
+                            
+                            let hidden_description = '<input name="unexp_desc[]" type="hidden" value="'+item.description+'">';
+                            let hidden_type_id = '<input name="unexp_type_id[]" type="hidden" value="'+item.downtimeTypeId+'">';
+
+                            i.innerHTML = item.description+hidden_description+hidden_type_id;
+                            r.innerHTML = '<input onkeyup="irene(0)" class="total-create form-control" name="unexp_minutes[]" type="number" min="0" value="0">';
+                        
+                        });
+                    }
+                });
+
+                get_rejects(0,line).done(function(irene_parse){
+                let details = irene_parse.rejectDetails;
+               
+                $('#reject_body').empty();
+                    $.each(details, function(index,item) {
+                        var x = document.getElementById('reject_body').insertRow(-1);
+                        var i = x.insertCell(0);
+                        var r = x.insertCell(1);
+                        var e = x.insertCell(2);
+
+                        i.innerHTML = item.section+'<input name="materialId[]" value="'+item.materialId+'" type="hidden">';
+                        r.innerHTML = item.materials+'<input name="sectionId[]" value="'+item.sectionId+'" type="hidden">';  
+                        e.innerHTML = '<input name="section[]" value="'+item.section+'" type="hidden"><input name="materials[]" value="'+item.materials+'" type="hidden"><input type="number" value="0" name="qty[]" class="form-control">';
+                
+                    });
+                });
+
                 getSections(line);
                     Swal.fire({
                     position: "center",
@@ -140,7 +213,7 @@
         let iLossPallet = document.getElementById('iLossPallet').value;
 
         let split = value.split("_");
-        let job_number = split[0];
+        let job = split[0];
         let id_now = split[1];
         let sections_post = document.getElementsByName('sections_create[]');
         let section_id_post = document.getElementsByName('section_id[]');
@@ -154,6 +227,26 @@
         let line_start = document.getElementById('line_search').value;
         let month_now_start = document.getElementById('month_now').value;
         let year_now = document.getElementById('year_now').value;
+        const date_now = new Date(); 
+        const currentYear = date_now.getFullYear('en-US', { timeZone: 'Asia/Manila' });
+        const currentMonth = date_now.getMonth('en-US', { timeZone: 'Asia/Manila' })+1;
+        const getDate = date_now.getDate('en-US', { timeZone: 'Asia/Manila' });
+
+        if(currentMonth == '11' || currentMonth == '12' || currentMonth == '10'){
+            zero = '';
+        }else{
+            zero = '0';
+        }
+
+        if(getDate == '1' || getDate == '2' || getDate == '3' || getDate == '4' || getDate == '5' || getDate == '6' || getDate == '7' || getDate == '8' || getDate == '9'){
+            zeroday = '0';
+        }else{
+            zeroday = '';
+        }
+
+        let fbo_update = currentYear+'-'+zero+currentMonth+'-'+zeroday+getDate+'T'+document.getElementById('FBO').value;
+        let lbo_update = currentYear+'-'+zero+currentMonth+'-'+zeroday+getDate+'T'+document.getElementById('LBO').value;
+       
         document.getElementById("post_counter").disabled = true;
         for (var i = 0; i < section_id_post.length; i++) {
             let section_id=section_id_post[i].value;
@@ -182,13 +275,15 @@
             },
             data:  JSON.stringify({
                 "lineId": line,
-                "machineCounterHeaderId": 0,
-                "jobNo": job_number,
+                "MachineCounterHeaderId": 0,
+                "jobNo": job,
                 "iLossPallet":iLossPallet,
                 "iJobId":id_now,
                 "cEncodedBy":cEncodedBy,
                 "counterDetails":counterDetails,
                 "countDate":initial_date,
+                "fbo":fbo_update,
+                "lbo":lbo_update,
             }),
             success:function(data){
                 counterDetails = [];
@@ -199,31 +294,29 @@
                     showConfirmButton: false,
                     timer: 5000
                 });
-               
+                
                 let check_pallet = outs_post[5].value;
-                if(check_pallet>0){
-                    var base_url =  '{{ url("/")}}';
-                    let title = 'JOB '+job_number+' MACHINE COUNTER IS CREATED';
-                    let content = 'PLEASE CREATE A PALLET FOR JOB '+job_number;
-                    let department = 'production1';
-                    setTimeout(() => {
-                        $.ajax({
-                        type: 'GET', //THIS NEEDS TO BE GET
-                        url: base_url+'/api/emailSend/'+title+'/'+content+'/'+department,
-                        success: function (data) { 
-                        }
-                    });
-                    }, "1000");
-                }
+               
                
                 setTimeout(() => {
                     getCounter(line_start,year_now,month_now_start);
                     document.getElementById("post_counter").disabled = false;
                     $('#modalCreate').modal('hide');
-                }, "2000");
+                }, "5000");
             }
         });
-   
+        
+        setTimeout(() => {
+                    $.ajax({
+                type: 'GET', //THIS NEEDS TO BE GET
+                url: api_url+'/MachineCounter/GetLastHeader',
+                success: function (data2) { 
+                
+                    irene_parse_2 = JSON.parse(data2);
+                    create_downtime(irene_parse_2[0].id);
+                }
+            });
+        }, "2000");
     }
     
 </script>
@@ -362,6 +455,14 @@
                     $('#modalView').modal('hide');
                 }, "2000");
             }
+        });
+    }
+
+    function get_rejects(id,line_number){
+        return $.ajax({
+            type: 'GET', //THIS NEEDS TO BE GET
+            url: api_url+'/Reject/GetRejectDetails?iRejectHeaderId='+id+'&iLineNo='+line_number,
+            dataType:'json'
         });
     }
 </script>

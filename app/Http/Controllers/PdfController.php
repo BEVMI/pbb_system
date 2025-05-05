@@ -247,15 +247,61 @@ class PdfController extends Controller
         $coas []= 'COAS'; 
         $stock_codes = [];
         $long_desc = [];
-
+        $count_job = 0;
         foreach($fields->details as $detail):
+            if($detail->cStockCode == 'AQL01'):
+                $post_cases = floor(($detail->iCases/63));
+                $loose_case_now = $detail->iCases - ($post_cases * 63);
+            elseif($detail->cStockCode == 'AQL02'):
+                $post_cases = floor(($detail->iCases/72));
+                $loose_case_now = $detail->iCases - ($post_cases * 72);
+            elseif($detail->cStockCode == 'AQL03'):
+                $post_cases = floor(($detail->iCases/75));
+                $loose_case_now = $detail->iCases - ($post_cases * 75);
+            elseif($detail->cStockCode == 'BSP01'):
+                $post_cases = floor(($detail->iCases/105));
+                $loose_case_now = $detail->iCases - ($post_cases * 105);
+            elseif($detail->cStockCode == 'BSP02'):
+                $post_cases = floor(($detail->iCases/72));
+                $loose_case_now = $detail->iCases - ($post_cases * 72);
+            elseif($detail->cStockCode == 'BSP03'):
+                $post_cases = floor(($detail->iCases/75));
+                $loose_case_now = $detail->iCases - ($post_cases * 75);
+            elseif($detail->cStockCode == 'CSP01'):
+                $post_cases = floor(($detail->iCases/105));
+                $loose_case_now = $detail->iCases - ($post_cases * 105);
+            elseif($detail->cStockCode == 'CSP02'):
+                $post_cases = floor(($detail->iCases/72));
+                $loose_case_now = $detail->iCases - ($post_cases * 72);
+            elseif($detail->cStockCode == 'CSP03'):
+                $post_cases = floor(($detail->iCases/75));
+                $loose_case_now = $detail->iCases - ($post_cases * 75);
+            elseif($detail->cStockCode == 'GBP01'):
+                $post_cases = floor(($detail->iCases/105));
+                $loose_case_now = $detail->iCases - ($post_cases * 105);
+            elseif($detail->cStockCode == 'GBP02'):
+                $post_cases = floor(($detail->iCases/72));
+                $loose_case_now = $detail->iCases - ($post_cases * 72);
+            elseif($detail->cStockCode == 'GBP03'):
+                $post_cases = floor(($detail->iCases/75));
+                $loose_case_now = $detail->iCases - ($post_cases * 75);
+            elseif($detail->cStockCode == 'PRP01'):
+                $post_cases = floor(($detail->iCases/60));
+                $loose_case_now = $detail->iCases - ($post_cases * 60);
+            elseif($detail->cStockCode == 'PRP02'):
+                $post_cases = floor(($detail->iCases/56));
+                $loose_case_now = $detail->iCases - ($post_cases * 56);
+            elseif($detail->cStockCode == 'PRP03'):
+                $post_cases = floor(($detail->iCases/60));
+                $loose_case_now = $detail->iCases - ($post_cases * 60);
+            endif;
             $jobs[] = $detail->iJobNo;
             $skus[] = $detail->cStockCode;
             $batchs[] = $detail->cLotNumber;
             $mfg_dates[] = Carbon::parse($detail->dMfgDate)->format('y-M-d');
             $exp_dates[] = Carbon::parse($detail->dExpDate)->format('y-M-d');
-            $pallet_counts[] = $detail->iPalletCount;
-            $loose_case[] = $detail->iLossCase;
+            $pallet_counts[] = $post_cases;
+            $loose_case[] = $loose_case_now;
             $cases[] = $detail->iCases;
             $references[] = $detail->refNo;
             $coas[] = $detail->cCoaRefNo;

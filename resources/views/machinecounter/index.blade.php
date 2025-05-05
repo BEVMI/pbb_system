@@ -12,7 +12,18 @@ endif;
 
 @section('styles')
 <meta name="csrf-token" content="{{ csrf_token() }}">
+
 <style>
+   
+    td{
+        vertical-align: middle;
+    }
+    .list-group-item.active {
+        z-index: 2;
+        color: white;
+        background-color: #212529;
+        border-color: #212529;
+    }
     .irene_thead {
         font-weight: bold;
         background-color: #5e72e4;
@@ -20,6 +31,23 @@ endif;
     }
     td{
         vertical-align: middle;
+    }
+    .irene_modal{
+        min-width:1620px; 
+    }
+    .input[type=text],input[type=number],input[type=time],input[type=date]{
+        height: 30px;
+    }
+    .modal-dialog {
+        height: 100%; /* = 90% of the .modal-backdrop block = %90 of the screen */
+    }
+    .modal-content {
+        height: 100%; /* = 100% of the .modal-dialog block */
+    }
+    @media (max-width: 1320px) {
+        .irene_modal{
+            min-width:100%;
+        }
     }
 </style>
 @endsection
@@ -101,4 +129,16 @@ endif;
 
 @section('scripts')
 @include('api.counter')
+@include('api.counter2')
+<script>
+    var triggerTabList = [].slice.call(document.querySelectorAll('#myList a'))
+triggerTabList.forEach(function (triggerEl) {
+  var tabTrigger = new bootstrap.Tab(triggerEl)
+
+  triggerEl.addEventListener('click', function (event) {
+    event.preventDefault()
+    tabTrigger.show()
+  })
+})
+</script>
 @endsection

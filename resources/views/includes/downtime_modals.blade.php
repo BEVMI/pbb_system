@@ -48,20 +48,6 @@
                                     </div>
                                 </div>
 
-                                <div class="col-12 col-lg-2 col-xl-2 col-md-6">
-                                    <div class="form-group">
-                                        <label for="job_date">FBO:</label>
-                                        <input class="form-control" type="time" id="FBO" name="appt">
-                                    </div>
-                                </div>
-
-                                <div class="col-12 col-lg-2 col-xl-2 col-md-6">
-                                    <div class="form-group">
-                                        <label for="job_date">LBO:</label>
-                                        <input class="form-control" type="time" id="LBO" name="appt">
-                                    </div>
-                                </div>
-                               
                                 <div class="col-12 col-lg-2 col-xl-1 col-md-6">
                                     <br>
                                     <button class="btn btn-success w-100 mt-1" onclick="get_machines()">

@@ -20,6 +20,7 @@ class MachineCounter extends Controller
 
         $response_jobs = Http::get($api_url.'/Production/GetJobsOnGoing');
         $job_post = $response_jobs->object();
+        
         foreach($job_post as $job):
             $date = Carbon::parse($job->dJobDate)->format('Y-m-d');
             $jobs[] =  (object)array(
@@ -28,7 +29,6 @@ class MachineCounter extends Controller
             );
         endforeach;
        
-
         return view('machinecounter.index',compact('months','lines','jobs'));
     }
 }
