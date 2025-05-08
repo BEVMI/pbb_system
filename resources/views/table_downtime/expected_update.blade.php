@@ -5,7 +5,7 @@
                 <th class="col">DESCRIPTION</th>
                 <th class="col">MINUTES</th>
             </thead>
-            <tbody id="expected_downtime_body_update" class="text-center">
+            <tbody id="expected_downtime_body_update" class="text-center" style="font-size: 12px;">
 
             </tbody>
         </table>

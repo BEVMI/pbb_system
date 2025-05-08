@@ -44,6 +44,7 @@
             url: api_url+'/MachineCounter/GetMachineCounterHeaders?iMachineCountHeaderId=0&iLineId='+line+'&nYear='+year+'&nMonth='+month,
             success: function (data) {
                 irene_parse = JSON.parse(data);
+                console.log(irene_parse);
                 $.each(irene_parse, function(index,item) {
                     var x = document.getElementById('machine_body_table').insertRow(-1);
                     var i = x.insertCell(0);
@@ -300,23 +301,21 @@
                
                 setTimeout(() => {
                     getCounter(line_start,year_now,month_now_start);
+                    $.ajax({
+                        type: 'GET', //THIS NEEDS TO BE GET
+                        url: api_url+'/MachineCounter/GetLastHeader',
+                        success: function (data2) { 
+                            irene_parse_3 = JSON.parse(data2);
+                            create_downtime(irene_parse_3[0].id);
+                            postReject(irene_parse_3[0].id);
+                        }
+                    });
                     document.getElementById("post_counter").disabled = false;
                     $('#modalCreate').modal('hide');
                 }, "5000");
             }
         });
         
-        setTimeout(() => {
-                    $.ajax({
-                type: 'GET', //THIS NEEDS TO BE GET
-                url: api_url+'/MachineCounter/GetLastHeader',
-                success: function (data2) { 
-                
-                    irene_parse_2 = JSON.parse(data2);
-                    create_downtime(irene_parse_2[0].id);
-                }
-            });
-        }, "2000");
     }
     
 </script>
@@ -329,9 +328,107 @@
             
             document.getElementById('hidden_header_id').value = id;
             load_detail(id,line);
+            load_downtime(id);
+            load_rejects(id);
         });            
     });
+    
+    
+    function load_downtime(machineId){
+         $.ajax({
+            type: 'GET', //THIS NEEDS TO BE GET
+            url: api_url+'/Downtime/GetDowntimeDetailsByMachineId?iMachineCounterId='+machineId,
+            success: function (data) {
+                console.log(data);
+                $('#machine_body_update').empty();
+                $('#expected_downtime_body_update').empty();
+                $('#unexpected_downtime_body_update').empty();
+                mcd_total_get = [];
+                exp_total_get = [];
+                uexp_total_get = [];
+                total_update_get = [];
+                if(data.id ===null){
+                    document.getElementById('shiftLength_update').value = 0;
+                    document.getElementById('dFgCases_update').value = 0;
+                }else{
+                    document.getElementById('shiftLength_update').value = data.shiftLength;
+                    document.getElementById('dFgCases_update').value = data.dFgCases;
+                    irene_parse = data;
+                    $.each(irene_parse.machineDowntime, function(index,item) {
+                        var x = document.getElementById('machine_body_update').insertRow(-1);
+                        var i = x.insertCell(0);
+                        var r = x.insertCell(1);
+                        
+                        let hidden_description = '<input name="mcd_desc_update[]" type="hidden" value="'+item.description+'">';
+                        let hidden_type_id = '<input name="mcd_type_id_update[]" type="hidden" value="'+item.downtimeTypeId+'">';
 
+                        i.innerHTML = item.description+hidden_description+hidden_type_id;
+                        r.innerHTML = '<input class="form-control" name="mcd_minutes_update[]" type="number" min="0" value="'+item.iMinute+'">';
+                        mcd_total_get.push(item.iMinute);
+                        total_update_get.push(item.iMinute);
+                    });
+
+                    $.each(irene_parse.expectedDowntime, function(index,item) {
+                        var x = document.getElementById('expected_downtime_body_update').insertRow(-1);
+                        var i = x.insertCell(0);
+                        var r = x.insertCell(1);
+                        
+                        let hidden_description = '<input name="exp_desc_update[]" type="hidden" value="'+item.description+'">';
+                        let hidden_type_id = '<input name="exp_type_id_update[]" type="hidden" value="'+item.downtimeTypeId+'">';
+
+                        i.innerHTML = item.description+hidden_description+hidden_type_id;
+                        r.innerHTML = '<input class="form-control" name="exp_minutes_update[]" type="number" min="0" value="'+item.iMinute+'">';
+                        exp_total_get.push(item.iMinute);
+                        total_update_get.push(item.iMinute);
+                    });
+
+                    $.each(irene_parse.unexpectedDowntime, function(index,item) {
+                        var x = document.getElementById('unexpected_downtime_body_update').insertRow(-1);
+                        var i = x.insertCell(0);
+                        var r = x.insertCell(1);
+                        
+                        let hidden_description = '<input name="unexp_desc_update[]" type="hidden" value="'+item.description+'">';
+                        let hidden_type_id = '<input name="unexp_type_id_update[]" type="hidden" value="'+item.downtimeTypeId+'">';
+
+                        i.innerHTML = item.description+hidden_description+hidden_type_id;
+                        r.innerHTML = '<input class="form-control" name="unexp_minutes_update[]" type="number" min="0" value="'+item.iMinute+'">';
+                        uexp_total_get.push(item.iMinute);
+                        total_update_get.push(item.iMinute);
+                    });
+
+                        let total = sum(total_update_get);
+                        let mc_total_post = sum(mcd_total_get);
+                        let exp_total_post = sum(exp_total_get);
+                        let uexp_total_post = sum(uexp_total_get);
+                        document.getElementById('irene3').innerHTML = total;
+                        document.getElementById('mctotal_update').innerHTML = mc_total_post;
+                        document.getElementById('extotal_update').innerHTML = exp_total_post;
+                        document.getElementById('uextotal_update').innerHTML = uexp_total_post; 
+                    }
+                }
+        });
+    }
+    function load_rejects(machineId){
+        $('#reject_body_update').empty();
+        get_reject(machineId).done(function(irene_parse){
+            document.getElementById('iLossPalletReject_update').value = irene_parse[0].iLossCase;
+            get_rejects(irene_parse[0].id,irene_parse[0].iLineId).done(function(irene_parse_2){
+                let details = irene_parse_2.rejectDetails;
+                console.log(details);
+                $.each(details, function(index,item) {
+                    var x = document.getElementById('reject_body_update').insertRow(-1);
+                    var i = x.insertCell(0);
+                    var r = x.insertCell(1);
+                    var e = x.insertCell(2);
+
+                    i.innerHTML = item.section+'<input name="materialIdUpdate[]" value="'+item.materialId+'" type="hidden">';
+                    r.innerHTML = item.materials+'<input name="sectionIdUpdate[]" value="'+item.sectionId+'" type="hidden">';  
+                    e.innerHTML = '<input name="sectionUpdate[]" value="'+item.section+'" type="hidden"><input name="materialsUpdate[]" value="'+item.materials+'" type="hidden"><input type="number" value="'+item.qty+'" name="qtyUpdate[]" class="form-control">';
+                    
+                });
+            });
+        });
+    }
     function load_detail(id,line){
         $('#counter_body_update').empty();
         document.getElementById('lines_update').value = line;
@@ -340,7 +437,21 @@
             url: api_url+'/MachineCounter/GetMachineCounterDetails?iMachineCounterHeaderId='+id+'&iLineNo='+line,
             success: function (data) {
                 irene_parse = data;
+                dFBO = irene_parse.fbo;
+                dLBO = irene_parse.lbo;
+
+                var d = new Date(dFBO),
+                    h = (d.getHours()<10?'0':'') + d.getHours(),
+                    m = (d.getMinutes()<10?'0':'') + d.getMinutes();
                 
+                var d2 = new Date(dLBO),
+                    h2 = (d2.getHours()<10?'0':'') + d2.getHours(),
+                    m2 = (d2.getMinutes()<10?'0':'') + d2.getMinutes();
+        
+            
+                document.getElementById('FBO_update').value = dFBO.value = h + ':' + m;
+                document.getElementById('LBO_update').value =  dLBO.value = h2 + ':' + m2;
+
                 document.getElementById('job_number_update').value = irene_parse.jobNo+'_'+irene_parse.iJobId;
                 document.getElementById('date_update').value = formatDate(irene_parse.countDate); 
                 document.getElementById('iLossPalletUpdate').value = irene_parse.iLossPallet;
@@ -455,6 +566,14 @@
                     $('#modalView').modal('hide');
                 }, "2000");
             }
+        });
+    }
+
+    function get_reject(machineId){
+        return $.ajax({
+            type: 'GET', //THIS NEEDS TO BE GET
+            url: api_url+'/Reject/GetRejectHeaderByMachineId?iMachineCounterId='+machineId,
+            dataType:'json'
         });
     }
 

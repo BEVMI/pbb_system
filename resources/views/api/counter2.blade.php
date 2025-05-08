@@ -248,6 +248,7 @@
         let created_by = "{!!$user_auth->name!!}";
         let date = document.getElementById('date_counter').value;
         let dFgCases = document.getElementById('dFgCases').value;
+        
         const date_now = new Date(); 
 
         const currentYear = date_now.getFullYear('en-US', { timeZone: 'Asia/Manila' });
@@ -352,5 +353,92 @@
                 $('#unexpected_downtime_body').empty();
             }
         });
+    }
+</script>
+
+<script>
+    function postReject(machine_id){
+        let value = document.getElementById('job_number').value;
+        let split = value.split("_");
+        let job_number = split[0];
+        let id_now = split[1];
+
+        let materialId = document.getElementsByName('materialId[]');
+        let sectionId = document.getElementsByName('sectionId[]');
+        let section = document.getElementsByName('section[]');
+        let materials = document.getElementsByName('materials[]');
+        let qty = document.getElementsByName('qty[]');
+        let rejectDetails = [];
+        let lines = document.getElementById('lines').value;
+      
+        let lost_case = document.getElementById('iLossPalletReject').value;
+        let initial_date = document.getElementById('date_counter').value;
+        let cEncodedBy = "{!!$user_auth->name!!}";
+
+        for (var i = 0; i <materialId.length; i++) {
+            let material_id=materialId[i].value;
+            let section_id=sectionId[i].value;
+            let section_post=section[i].value;
+            let materials_post=materials[i].value;
+            let qty_post=qty[i].value;
+            
+            rejectDetails.push({
+                "materialId": material_id,
+                "sectionId": section_id,
+                "section": section_post,
+                "materials": materials_post,
+                "qty": qty_post
+            });
+        }
+
+        const date_now = new Date(); 
+
+        const currentYear = date_now.getFullYear('en-US', { timeZone: 'Asia/Manila' });
+        const currentMonth = date_now.getMonth('en-US', { timeZone: 'Asia/Manila' })+1;
+        const getDate = date_now.getDate('en-US', { timeZone: 'Asia/Manila' });
+        
+        if(currentMonth == '11' || currentMonth == '12' || currentMonth == '10'){
+            zero = '';
+        }else{
+            zero = '0';
+        }
+
+        if(getDate == '1' || getDate == '2' || getDate == '3' || getDate == '4' || getDate == '5' || getDate == '6' || getDate == '7' || getDate == '8' || getDate == '9'){
+            zeroday = '0';
+        }else{
+            zeroday = '';
+        }
+        let fbo = currentYear+'-'+zero+currentMonth+'-'+zeroday+getDate+'T'+document.getElementById('FBO').value;
+        let lbo = currentYear+'-'+zero+currentMonth+'-'+zeroday+getDate+'T'+document.getElementById('LBO').value;
+
+        $.ajax({
+            type:'POST',
+            method:'POST',
+            url:api_url+'/Reject/UpdateRejectHeader',
+            crossDomain: true,
+            dataType: 'json',
+            headers: { 
+                'Accept': 'application/json',
+                'Content-Type': 'application/json' 
+            },
+            data:  JSON.stringify({
+                "lineId": lines,
+                "line": "",
+                "rejectHeaderId": 0,
+                "iMachineCounterId":machine_id,
+                "jobNo": job_number,
+                "lossCase": lost_case,
+                "isValidated": 0,
+                "validatedBy": "",
+                "rejectDetails":rejectDetails,
+                "rejectDate": initial_date,
+                "cEncodedBy":cEncodedBy,
+                "fbo":fbo,
+                "lbo":lbo,
+            }),
+            success:function(data){
+                rejectDetails = [];
+            }
+        }); 
     }
 </script>

@@ -125,17 +125,28 @@ endif;
     </div>
 </div>
 @include('includes.counter_modals')
+@include('includes.counter_update_modals')
 @endsection
 
 @section('scripts')
 @include('api.counter')
 @include('api.counter2')
 <script>
-    var triggerTabList = [].slice.call(document.querySelectorAll('#myList a'))
+var triggerTabList = [].slice.call(document.querySelectorAll('#myList a'))
 triggerTabList.forEach(function (triggerEl) {
   var tabTrigger = new bootstrap.Tab(triggerEl)
 
   triggerEl.addEventListener('click', function (event) {
+    event.preventDefault()
+    tabTrigger.show()
+  })
+})
+
+var triggerTabList1 = [].slice.call(document.querySelectorAll('#myList1 a'))
+triggerTabList1.forEach(function (triggerEl1) {
+  var tabTrigger = new bootstrap.Tab(triggerEl1)
+
+  triggerEl1.addEventListener('click', function (event) {
     event.preventDefault()
     tabTrigger.show()
   })

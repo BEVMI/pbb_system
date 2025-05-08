@@ -1,16 +1,16 @@
-<div class="modal fade" data-bs-backdrop='static' id="modalCreate" tabindex="-1" role="dialog" aria-labelledby="modalCreateCenterTitle" aria-hidden="true">
+<div class="modal fade" data-bs-backdrop='static' id="modalView" tabindex="-1" role="dialog" aria-labelledby="modalViewCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-centered irene_modal"  role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title font-weight-bold badge bg-primary" id="modalCreateLongTitle" style="font-size:16px;">COUNTER CREATION</h5>
+                <h5 class="modal-title font-weight-bold badge bg-primary" id="modalCreateLongTitle" style="font-size:16px;">COUNTER UPDATE</h5>
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-xl-8">
 
                         </div>
                         <div class="col-xl-2">
-                            <button id="post_counter" onclick="postCounter()" class="btn btn-success mt-2 mt-xl-0" style="width:100%; display:none;">
-                                SAVE
+                            <button id="post_counter" onclick="updateCounter()" class="btn btn-success mt-2 mt-xl-0" style="width:100%;">
+                                UPDATE
                             </button> 
                         </div>
                         <div class="col-xl-2">
@@ -34,8 +34,9 @@
                                         <div class="row">
                                             <div class="col-6">
                                                 <div class="form-group">
-                                                    <label for="lines">LINE:</label>
-                                                    <select onchange="hideFields()" class="form-control" name="lines" id="lines">
+                                                    <input type="hidden" id="hidden_header_id">
+                                                    <label for="lines_update">LINE:</label>
+                                                    <select class="form-control" name="lines_update" id="lines_update">
                                                         @foreach ($lines as $line)
                                                             <option value="{{$line->id}}">{{$line->cDescription}}</option>
                                                         @endforeach
@@ -44,8 +45,8 @@
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
-                                                    <label for="job_number">JOB</label>
-                                                    <select onchange="hideFields()" class="form-control" name="job_number" id="job_number">
+                                                    <label for="job_number_update">JOB</label>
+                                                    <select class="form-control" name="job_number_update" id="job_number_update">
                                                         @foreach ($jobs as $job)
                                                             <option value="{{$job->value}}">{{$job->text}}</option>
                                                         @endforeach
@@ -54,29 +55,26 @@
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
-                                                    <label for="iLossPallet">LOSS CASE</label>
-                                                    <input type="number" value="0" min="0" max="99999" class="form-control" name="iLossPallet" id="iLossPallet">
+                                                    <label for="iLossPalletUpdate">LOSS CASE</label>
+                                                    <input type="number" value="0" min="0" max="99999" class="form-control" name="iLossPalletUpdate" id="iLossPalletUpdate">
                                                 </div>
                                             </div>
                                             <div class="col-6">
                                                 <label for="lines">COUNTER DATE:</label>
-                                                <input class="form-control" id="date_counter" type="date" value="{{$initial_date}}">
+                                                <input class="form-control" id="date_update" type="date">
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
                                                     <label for="job_date">FBO:</label>
-                                                    <input class="form-control" type="time" id="FBO" name="appt">
+                                                    <input class="form-control" type="time" id="FBO_update" name="appt">
                                                 </div>
                                             </div>
                     
                                             <div class="col-6">
                                                 <div class="form-group">
                                                     <label for="job_date">LBO:</label>
-                                                    <input class="form-control" type="time" id="LBO" name="appt">
+                                                    <input class="form-control" type="time" id="LBO_update" name="appt">
                                                 </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <button onclick="choose_line()" class="btn btn-outline-success" style="margin-top:3px; width:100%;">CHOOSE</button>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -88,7 +86,7 @@
                                                             <th class="col" style="width:25%;">IN</th>
                                                             <th class="col" style="width:25%;">OUT</th>
                                                         </thead>
-                                                        <tbody id="counter_body" class="text-center" style="font-size: 11px;">
+                                                        <tbody id="counter_body_update" class="text-center" style="font-size: 11px;">
                     
                                                         </tbody>
                                                     </table>
@@ -110,20 +108,20 @@
                                             <div class="col-6">
                                                 <div class="form-group">
                                                     <label for="shift_length">SHIFT LENGTH</label>
-                                                    <input type="number" value="0" min="0" max="99999" class="form-control" name="shiftLength" id="shiftLength">
+                                                    <input type="number" value="0" min="0" max="99999" class="form-control" name="shiftLength" id="shiftLength_update">
                                                 </div>
                                             </div>
 
                                             <div class="col-6">
                                                 <div class="form-group">
                                                     <label for="shift_length">FG CASES</label>
-                                                    <input type="number" value="0" min="0" max="99999" class="form-control" name="dFgCases" id="dFgCases">
+                                                    <input type="number" value="0" min="0" max="99999" class="form-control" name="dFgCases" id="dFgCases_update">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-12">
-                                                @include('downtime_data.data_create')
+                                                @include('downtime_data.data_update')
                                             </div>
                                         </div>
                                     </div>
@@ -141,7 +139,7 @@
                                             <div class="col-12">
                                                 <div class="form-group">
                                                     <label for="iLossPalletReject">LOSS CASE</label>
-                                                    <input type="number" value="0" min="0" max="99999" class="form-control" name="iLossPalletReject" id="iLossPalletReject">
+                                                    <input type="number" value="0" min="0" max="99999" class="form-control" name="iLossPalletReject_update" id="iLossPalletReject_update">
                                                 </div>
                                             </div>
                                             <div class="col-12">
@@ -154,7 +152,7 @@
                                                                     <th class="col">MATERIALS</th>
                                                                     <th class="col">QTY</th>
                                                                 </thead>
-                                                                <tbody id="reject_body" class="text-center" style="font-size: 11px;">
+                                                                <tbody id="reject_body_update" class="text-center" style="font-size: 11px;">
                             
                                                                 </tbody>
                                                             </table>
@@ -171,31 +169,5 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
-
-<div class="modal fade" data-bs-backdrop='static' id="finalize" aria-hidden="true" aria-labelledby="finalizeModalToggleLabel2" tabindex="-1">
-    <div class="modal-dialog modal-xl modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="finalizeModalToggleLabel2">FINALIZE FORECAST</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <div class="table-responsive">
-                <table class="table" id="table">
-                    <tbody id="ireneTable2" class="text-center font-weight-bold">
-                        
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" data-bs-target="#modalCreate" data-bs-toggle="modal" data-bs-dismiss="modal">GO BACK</button>
-          <button onclick="ireneUpload()" class="btn btn-success mt-2 mt-xl-0 loading_button">
-                UPLOAD
-           </button> 
-        </div>
-      </div>
     </div>
 </div>
