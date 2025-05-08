@@ -131,6 +131,7 @@ endif;
 @section('scripts')
 @include('api.counter')
 @include('api.counter2')
+@include('api.counterupdate')
 <script>
 var triggerTabList = [].slice.call(document.querySelectorAll('#myList a'))
 triggerTabList.forEach(function (triggerEl) {

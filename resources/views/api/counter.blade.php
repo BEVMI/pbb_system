@@ -44,7 +44,7 @@
             url: api_url+'/MachineCounter/GetMachineCounterHeaders?iMachineCountHeaderId=0&iLineId='+line+'&nYear='+year+'&nMonth='+month,
             success: function (data) {
                 irene_parse = JSON.parse(data);
-                console.log(irene_parse);
+                // console.log(irene_parse);
                 $.each(irene_parse, function(index,item) {
                     var x = document.getElementById('machine_body_table').insertRow(-1);
                     var i = x.insertCell(0);
@@ -339,7 +339,7 @@
             type: 'GET', //THIS NEEDS TO BE GET
             url: api_url+'/Downtime/GetDowntimeDetailsByMachineId?iMachineCounterId='+machineId,
             success: function (data) {
-                console.log(data);
+                // console.log(data);
                 $('#machine_body_update').empty();
                 $('#expected_downtime_body_update').empty();
                 $('#unexpected_downtime_body_update').empty();
@@ -414,7 +414,7 @@
             document.getElementById('iLossPalletReject_update').value = irene_parse[0].iLossCase;
             get_rejects(irene_parse[0].id,irene_parse[0].iLineId).done(function(irene_parse_2){
                 let details = irene_parse_2.rejectDetails;
-                console.log(details);
+                // console.log(details);
                 $.each(details, function(index,item) {
                     var x = document.getElementById('reject_body_update').insertRow(-1);
                     var i = x.insertCell(0);
@@ -468,107 +468,13 @@
                         r.innerHTML = '<input name="in_update[]" type="hidden" min="0" value="0">';
                     }
                    
-                    e.innerHTML = '<input type="hidden" name="flag_update[]" value='+item.useInOut+'><input class="form-control" name="out_create[]" type="number" min="0"  value="'+item.end+'">';     
+                    e.innerHTML = '<input type="hidden" name="flag_update[]" value='+item.useInOut+'><input class="form-control" name="out_update[]" type="number" min="0"  value="'+item.end+'">';     
                 });
             }
         });
     }
 
-    function updateCounter(){
-        let line = document.getElementById('lines_update').value;
-        let line_name = $("#lines_update option:selected").text();
-        let header_id = document.getElementById('hidden_header_id').value;
-        let iLossPalletUpdate = document.getElementById('iLossPalletUpdate').value;
-
-        let value = document.getElementById('job_number_update').value;
-        let split_update = value.split("_");
-        let job_number_update = split_update[0];
-        let id_now_update = split_update[1];
-
-        let sections_update = document.getElementsByName('sections_update[]');
-        let section_id_update = document.getElementsByName('section_id_update[]');
-        let ins_update = document.getElementsByName('in_update[]');
-        let outs_update = document.getElementsByName('out_create[]');
-        let flag_update = document.getElementsByName('flag_update[]');
-        let counterUpdateDetails = [];
-        
-        let line_start = document.getElementById('line_search').value;
-        let month_now_start = document.getElementById('month_now').value;
-        let year_now = document.getElementById('year_now').value;
-        let initial_date = document.getElementById('date_update').value;
-        let cEncodedBy = "{!!$user_auth->name!!}";
-        // getCounter(line_start,year_now,month_now_start);
-        for (var i = 0; i < section_id_update.length; i++) {
-            let section_id=section_id_update[i].value;
-            let ins=ins_update[i].value;
-            let outs=outs_update[i].value;
-            let sections = sections_update[i].value;
-            let flag = flag_update[i].value;
-            counterUpdateDetails.push({
-                "sectionId": section_id,
-                "section": sections,
-                "start": ins,
-                "end": outs,
-                "useInOut": flag
-            });
-        }
-        
-        $.ajax({
-            type:'POST',
-            method:'POST',
-            url:api_url+'/MachineCounter/UpdateMachineCounterHeader',
-            crossDomain: true,
-            dataType: 'json',
-            headers: { 
-                'Accept': 'application/json',
-                'Content-Type': 'application/json' 
-            },
-            data:  JSON.stringify({
-                "lineId": line,
-                "jobNo": job_number_update,
-                "iLossPallet":iLossPalletUpdate,
-                "iJobId":id_now_update,
-                "machineCounterHeaderId": header_id,
-                "counterDetails":counterUpdateDetails,
-                "countDate":initial_date,
-                "cEncodedBy":cEncodedBy,
-            }),
-            success:function(data){
-                counterUpdateDetails = [];
-                Swal.fire({
-                    position: "center",
-                    icon: "success",
-                    title: "SUCCESSFULLY UPDATE",
-                    showConfirmButton: false,
-                    timer: 5000
-                });
-
-               
-                let check_pallet = outs_update[5].value;
-                if(check_pallet>0){
-                    var base_url =  '{{ url("/")}}';
-                    let title = 'JOB '+job_number_update+' MACHINE COUNTER IS CREATED';
-                    let content = 'PLEASE CREATE A PALLET FOR JOB '+job_number_update;
-                    let department = 'production1';
-                    setTimeout(() => {
-                        $.ajax({
-                        type: 'GET', //THIS NEEDS TO BE GET
-                        url: base_url+'/api/emailSend/'+title+'/'+content+'/'+department,
-                        success: function (data) { 
-                        }
-                    });
-                    }, "1000");
-                }
-                
-
-                setTimeout(() => {
-                    getCounter(line_start,year_now,month_now_start);
-                    $('#modalView').modal('hide');
-                }, "2000");
-            }
-        });
-    }
-
+    
     function get_reject(machineId){
         return $.ajax({
             type: 'GET', //THIS NEEDS TO BE GET

@@ -9,7 +9,7 @@
 
                         </div>
                         <div class="col-xl-2">
-                            <button id="post_counter" onclick="updateCounter()" class="btn btn-success mt-2 mt-xl-0" style="width:100%;">
+                            <button id="post_counter" onclick="updateAll()" class="btn btn-success mt-2 mt-xl-0" style="width:100%;">
                                 UPDATE
                             </button> 
                         </div>
