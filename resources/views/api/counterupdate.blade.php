@@ -137,126 +137,149 @@
 
     function updateDowntime(header_id){
         //MAIN
+        let id;
+        let job;
         get_downtime_header(header_id).done(function(irene_parse){
             console.log(irene_parse);
-            let id = irene_parse.id;
-            let job = irene_parse.jobNo;
-            let lines = document.getElementById('lines_update').value;
-            let created_by = "{!!$user_auth->name!!}";
-            let shift_length_create = document.getElementById('shiftLength_update').value;
-            let downtime_date_update = document.getElementById('date_update').value;
-            //MACHINE BODY
-            let mcd_desc = document.getElementsByName('mcd_desc_update[]');
-            let mcd_type_id = document.getElementsByName('mcd_type_id_update[]');
-            let mcd_minutes = document.getElementsByName('mcd_minutes_update[]');
-            
-            const date_now = new Date(); 
-
-            const currentYear = date_now.getFullYear('en-US', { timeZone: 'Asia/Manila' });
-            const currentMonth = date_now.getMonth('en-US', { timeZone: 'Asia/Manila' })+1;
-            const getDate = date_now.getDate('en-US', { timeZone: 'Asia/Manila' });
-
-            if(currentMonth == '11' || currentMonth == '12' || currentMonth == '10'){
-                zero = '';
+           
+            if(irene_parse.id === null){
+                id = 0;
+                get_machine_id(header_id).done(function(irene_parse_2){
+                    console.log(irene_parse_2[0].iJobNo);
+                    job = irene_parse_2[0].iJobNo;
+                });
             }else{
-                zero = '0';
+                id = irene_parse.id;
+                job = irene_parse.jobNo;
             }
-            if(getDate == '1' || getDate == '2' || getDate == '3' || getDate == '4' || getDate == '5' || getDate == '6' || getDate == '7' || getDate == '8' || getDate == '9'){
-                zeroday = '0';
-            }else{
-                zeroday = '';
-            }
-        
-            let fbo_update = currentYear+'-'+zero+currentMonth+'-'+zeroday+getDate+'T'+document.getElementById('FBO_update').value;
-            let lbo_update = currentYear+'-'+zero+currentMonth+'-'+zeroday+getDate+'T'+document.getElementById('LBO_update').value;
-            // console.log(fbo_update);
-            
-            let mcdDetails_update = [];
-            for (var i = 0; i < mcd_desc.length; i++) {
-                let mcd_type_id_post = mcd_type_id[i].value;
-                let mcd_minutes_post = mcd_minutes[i].value;
+            setTimeout(() => {
+                // console.log('irene');
+                // console.log(id);
+                // console.log(job);
+                let lines = document.getElementById('lines_update').value;
+                let created_by = "{!!$user_auth->name!!}";
+                let shift_length_create = document.getElementById('shiftLength_update').value;
+                let downtime_date_update = document.getElementById('date_update').value;
+                let dFgCases_update = document.getElementById('dFgCases_update').value;
+                //MACHINE BODY
+                let mcd_desc = document.getElementsByName('mcd_desc_update[]');
+                let mcd_type_id = document.getElementsByName('mcd_type_id_update[]');
+                let mcd_minutes = document.getElementsByName('mcd_minutes_update[]');
                 
-                mcdDetails_update.push({
-                    "iMinute": mcd_minutes_post,
-                    "downtimeTypeId": mcd_type_id_post
-                });
-            }
-            //END MACHINE BODY
-            
-            //EXPECTED BODY
-            let exp_desc = document.getElementsByName('exp_desc_update[]');
-            let exp_type_id = document.getElementsByName('exp_type_id_update[]');
-            let exp_minutes = document.getElementsByName('exp_minutes_update[]');
-            
-            let expDetails_update = [];
-            for (var i = 0; i < exp_desc.length; i++) {
-                let exp_type_id_post = exp_type_id[i].value;
-                let exp_minutes_post = exp_minutes[i].value;
-                
-                expDetails_update.push({
-                    "iMinute": exp_minutes_post,
-                    "downtimeTypeId": exp_type_id_post
-                });
-            }
-            //END EXPECTED BODY
+                const date_now = new Date(); 
 
-            //UNEXPECTED BODY
-            let unexp_desc = document.getElementsByName('unexp_desc_update[]');
-            let unexp_type_id = document.getElementsByName('unexp_type_id_update[]');
-            let unexp_minutes = document.getElementsByName('unexp_minutes_update[]');
-            let unexpDetails_update = [];
-            for (var i = 0; i < unexp_desc.length; i++) {
-                let unexp_type_id_post = unexp_type_id[i].value;
-                let unexp_minutes_post = unexp_minutes[i].value;
-                
-                unexpDetails_update.push({
-                    "iMinute": unexp_minutes_post,
-                    "downtimeTypeId": unexp_type_id_post
-                });
-            }
-            //END UNEXPECTED BODY
-        
-            $.ajax({
-                type:'POST',
-                method:'POST',
-                url:api_url+'/Downtime/UpdateDowntimeHeader',
-                crossDomain: true,
-                dataType: 'json',
-                headers: { 
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json' 
-                },
-                data:  JSON.stringify({
-                    "id": id,
-                    "lineId": lines,
-                    "jobNo": job,
-                    "shiftLength": shift_length_create,
-                    "createdBy":created_by,
-                    "downtimeDate":downtime_date_update,
-                    "machineDowntime":mcdDetails_update,
-                    "expectedDowntime":expDetails_update,
-                    "unexpectedDowntime":unexpDetails_update,
-                    "fbo":fbo_update,
-                    "lbo":lbo_update
-                }),
-                success:function(data){
-                    expDetails_update = [];
-                    unexpDetails_update = [];
-                    mcdDetails_update = [];
-                    
-                    $('#machine_body_update').empty();
-                    $('#expected_downtime_body_update').empty();
-                    $('#unexpected_downtime_body_update').empty();
+                const currentYear = date_now.getFullYear('en-US', { timeZone: 'Asia/Manila' });
+                const currentMonth = date_now.getMonth('en-US', { timeZone: 'Asia/Manila' })+1;
+                const getDate = date_now.getDate('en-US', { timeZone: 'Asia/Manila' });
+
+                if(currentMonth == '11' || currentMonth == '12' || currentMonth == '10'){
+                    zero = '';
+                }else{
+                    zero = '0';
                 }
-            });
+                if(getDate == '1' || getDate == '2' || getDate == '3' || getDate == '4' || getDate == '5' || getDate == '6' || getDate == '7' || getDate == '8' || getDate == '9'){
+                    zeroday = '0';
+                }else{
+                    zeroday = '';
+                }
+            
+                let fbo_update = currentYear+'-'+zero+currentMonth+'-'+zeroday+getDate+'T'+document.getElementById('FBO_update').value;
+                let lbo_update = currentYear+'-'+zero+currentMonth+'-'+zeroday+getDate+'T'+document.getElementById('LBO_update').value;
+                // console.log(fbo_update);
+                
+                let mcdDetails_update = [];
+                for (var i = 0; i < mcd_desc.length; i++) {
+                    let mcd_type_id_post = mcd_type_id[i].value;
+                    let mcd_minutes_post = mcd_minutes[i].value;
+                    
+                    mcdDetails_update.push({
+                        "iMinute": mcd_minutes_post,
+                        "downtimeTypeId": mcd_type_id_post
+                    });
+                }
+                //END MACHINE BODY
+                
+                //EXPECTED BODY
+                let exp_desc = document.getElementsByName('exp_desc_update[]');
+                let exp_type_id = document.getElementsByName('exp_type_id_update[]');
+                let exp_minutes = document.getElementsByName('exp_minutes_update[]');
+                
+                let expDetails_update = [];
+                for (var i = 0; i < exp_desc.length; i++) {
+                    let exp_type_id_post = exp_type_id[i].value;
+                    let exp_minutes_post = exp_minutes[i].value;
+                    
+                    expDetails_update.push({
+                        "iMinute": exp_minutes_post,
+                        "downtimeTypeId": exp_type_id_post
+                    });
+                }
+                //END EXPECTED BODY
+
+                //UNEXPECTED BODY
+                let unexp_desc = document.getElementsByName('unexp_desc_update[]');
+                let unexp_type_id = document.getElementsByName('unexp_type_id_update[]');
+                let unexp_minutes = document.getElementsByName('unexp_minutes_update[]');
+                let unexpDetails_update = [];
+                for (var i = 0; i < unexp_desc.length; i++) {
+                    let unexp_type_id_post = unexp_type_id[i].value;
+                    let unexp_minutes_post = unexp_minutes[i].value;
+                    
+                    unexpDetails_update.push({
+                        "iMinute": unexp_minutes_post,
+                        "downtimeTypeId": unexp_type_id_post
+                    });
+                }
+                //END UNEXPECTED BODY
+            
+                $.ajax({
+                    type:'POST',
+                    method:'POST',
+                    url:api_url+'/Downtime/UpdateDowntimeHeader',
+                    crossDomain: true,
+                    dataType: 'json',
+                    headers: { 
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json' 
+                    },
+                    data:  JSON.stringify({
+                        "id": id,
+                        "lineId": lines,
+                        "jobNo": job,
+                        "shiftLength": shift_length_create,
+                        "createdBy":created_by,
+                        "downtimeDate":downtime_date_update,
+                        "machineDowntime":mcdDetails_update,
+                        "expectedDowntime":expDetails_update,
+                        "unexpectedDowntime":unexpDetails_update,
+                        "iMachineCounterId": header_id,
+                        "fbo":fbo_update,
+                        "lbo":lbo_update,
+                        'dFgCases': dFgCases_update
+                    }),
+                    success:function(data){
+                        expDetails_update = [];
+                        unexpDetails_update = [];
+                        mcdDetails_update = [];
+                        
+                        $('#machine_body_update').empty();
+                        $('#expected_downtime_body_update').empty();
+                        $('#unexpected_downtime_body_update').empty();
+                    }
+                });
+            }, "2000");
+        
         });
         
     }
 
 
     function updateReject(machine_id){
+        let lines;
+        let job_number;
+        let header_id;
         get_reject(machine_id).done(function(irene_parse){
-            console.log(irene_parse);
+            
             let materialId = document.getElementsByName('materialIdUpdate[]');
             let sectionId = document.getElementsByName('sectionIdUpdate[]');
             let section = document.getElementsByName('sectionUpdate[]');
@@ -264,77 +287,90 @@
             let qty = document.getElementsByName('qtyUpdate[]');
             let rejectDetailsUpdate = [];
 
-            let lines = irene_parse[0].iLineId;
-            let job_number = irene_parse[0].iJobNo;
-            let lost_case = document.getElementById('iLossPalletReject_update').value;
-            let initial_date = document.getElementById('date_update').value;
-            let header_id = irene_parse[0].id
-            
-            let cEncodedBy = "{!!$user_auth->name!!}"
-            for (var i = 0; i <materialId.length; i++) {
-                let material_id=materialId[i].value;
-                let section_id=sectionId[i].value;
-                let section_post=section[i].value;
-                let materials_post=materials[i].value;
-                let qty_post=qty[i].value;
-                
-                rejectDetailsUpdate.push({
-                    "materialId": material_id,
-                    "sectionId": section_id,
-                    "section": section_post,
-                    "materials": materials_post,
-                    "qty": qty_post
+          
+            if(irene_parse.length == 0){
+                get_machine_id(machine_id).done(function(irene_parse_2){
+                    console.log(irene_parse_2);
+                    header_id = 0;
+                    job_number = irene_parse_2[0].iJobNo;
+                    lines = irene_parse_2[0].iLineId;
                 });
             }
-
-            const date_now = new Date(); 
-
-            const currentYear = date_now.getFullYear('en-US', { timeZone: 'Asia/Manila' });
-            const currentMonth = date_now.getMonth('en-US', { timeZone: 'Asia/Manila' })+1;
-            const getDate = date_now.getDate('en-US', { timeZone: 'Asia/Manila' });
-
-            if(currentMonth == '11' || currentMonth == '12' || currentMonth == '10'){
-                zero = '';
-            }else{
-                zero = '0';
+            else{
+                lines = irene_parse[0].iLineId;
+                job_number = irene_parse[0].iJobNo;
+                header_id = irene_parse[0].id
             }
-            if(getDate == '1' || getDate == '2' || getDate == '3' || getDate == '4' || getDate == '5' || getDate == '6' || getDate == '7' || getDate == '8' || getDate == '9'){
-                zeroday = '0';
-            }else{
-                zeroday = '';
-            }
-        
-            let fbo_update = currentYear+'-'+zero+currentMonth+'-'+zeroday+getDate+'T'+document.getElementById('FBO_update').value;
-            let lbo_update = currentYear+'-'+zero+currentMonth+'-'+zeroday+getDate+'T'+document.getElementById('LBO_update').value;
-
-            $.ajax({
-                type:'POST',
-                method:'POST',
-                url:api_url+'/Reject/UpdateRejectHeader',
-                crossDomain: true,
-                dataType: 'json',
-                headers: { 
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json' 
-                },
-                data:  JSON.stringify({
-                    "lossCase": lost_case,
-                    "lineId": lines,
-                    "rejectHeaderId": header_id,
-                    "jobNo": job_number,
-                    "lossCase": lost_case,
-                    "rejectDetails":rejectDetailsUpdate,
-                    "rejectDate":initial_date,
-                    "cEncodedBy":cEncodedBy,
-                    "fbo":fbo_update,
-                    "lbo":lbo_update,
-                    "iMachineCounterId": machine_id
-                }),
-                success:function(data){
-                    rejectDetailsUpdate = [];
+            setTimeout(() => {
+                // let job_number = document.getElementById('job_number_update').value;
+                let lost_case = document.getElementById('iLossPalletReject_update').value;
+                let initial_date = document.getElementById('date_update').value;
+                
+                let cEncodedBy = "{!!$user_auth->name!!}"
+                for (var i = 0; i <materialId.length; i++) {
+                    let material_id=materialId[i].value;
+                    let section_id=sectionId[i].value;
+                    let section_post=section[i].value;
+                    let materials_post=materials[i].value;
+                    let qty_post=qty[i].value;
+                    
+                    rejectDetailsUpdate.push({
+                        "materialId": material_id,
+                        "sectionId": section_id,
+                        "section": section_post,
+                        "materials": materials_post,
+                        "qty": qty_post
+                    });
                 }
-            });
+
+                const date_now = new Date(); 
+
+                const currentYear = date_now.getFullYear('en-US', { timeZone: 'Asia/Manila' });
+                const currentMonth = date_now.getMonth('en-US', { timeZone: 'Asia/Manila' })+1;
+                const getDate = date_now.getDate('en-US', { timeZone: 'Asia/Manila' });
+
+                if(currentMonth == '11' || currentMonth == '12' || currentMonth == '10'){
+                    zero = '';
+                }else{
+                    zero = '0';
+                }
+                if(getDate == '1' || getDate == '2' || getDate == '3' || getDate == '4' || getDate == '5' || getDate == '6' || getDate == '7' || getDate == '8' || getDate == '9'){
+                    zeroday = '0';
+                }else{
+                    zeroday = '';
+                }
+            
+                let fbo_update = currentYear+'-'+zero+currentMonth+'-'+zeroday+getDate+'T'+document.getElementById('FBO_update').value;
+                let lbo_update = currentYear+'-'+zero+currentMonth+'-'+zeroday+getDate+'T'+document.getElementById('LBO_update').value;
+
+                $.ajax({
+                    type:'POST',
+                    method:'POST',
+                    url:api_url+'/Reject/UpdateRejectHeader',
+                    crossDomain: true,
+                    dataType: 'json',
+                    headers: { 
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json' 
+                    },
+                    data:  JSON.stringify({
+                        "lossCase": lost_case,
+                        "lineId": lines,
+                        "rejectHeaderId": header_id,
+                        "jobNo": job_number,
+                        "lossCase": lost_case,
+                        "rejectDetails":rejectDetailsUpdate,
+                        "rejectDate":initial_date,
+                        "cEncodedBy":cEncodedBy,
+                        "fbo":fbo_update,
+                        "lbo":lbo_update,
+                        "iMachineCounterId": machine_id
+                    }),
+                    success:function(data){
+                        rejectDetailsUpdate = [];
+                    }
+                });
+            }, "2000");
         });
-        
     }
 </script>

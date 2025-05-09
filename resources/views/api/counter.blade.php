@@ -347,7 +347,58 @@
                 exp_total_get = [];
                 uexp_total_get = [];
                 total_update_get = [];
-                if(data.id ===null){
+                if(data.id ===null){ 
+                    get_machine_id(machineId).done(function(irene_parse){
+                        $.ajax({
+                        type: 'GET', //THIS NEEDS TO BE GET
+                        url: api_url+'/Downtime/GetDowntimeDetails?iDowntimeHeaderId=0&iLineId='+irene_parse[0].iLineId+'&dCountDate='+irene_parse[0].dDate+'&iJobNo='+irene_parse[0].iJobId,
+                            success: function (data){
+                                // console.log(data);
+                                $.each(data.machineDowntime, function(index,item) {
+                                    var x = document.getElementById('machine_body_update').insertRow(-1);
+                                    var i = x.insertCell(0);
+                                    var r = x.insertCell(1);
+                                    
+                                    let hidden_description = '<input name="mcd_desc_update[]" type="hidden" value="'+item.description+'">';
+                                    let hidden_type_id = '<input name="mcd_type_id_update[]" type="hidden" value="'+item.downtimeTypeId+'">';
+
+                                    i.innerHTML = item.description+hidden_description+hidden_type_id;
+                                    r.innerHTML = '<input onkeyup="irene(0)" class="total-create form-control" name="mcd_minutes_update[]" type="number" min="0" value="0">';
+                                    mcd_total_get.push(item.iMinute);
+                                    total_update_get.push(item.iMinute);
+                                });
+
+                                $.each(data.expectedDowntime, function(index,item) {
+                                    var x = document.getElementById('expected_downtime_body_update').insertRow(-1);
+                                    var i = x.insertCell(0);
+                                    var r = x.insertCell(1);
+                                    
+                                    let hidden_description = '<input name="exp_desc_update[]" type="hidden" value="'+item.description+'">';
+                                    let hidden_type_id = '<input name="exp_type_id_update[]" type="hidden" value="'+item.downtimeTypeId+'">';
+
+                                    i.innerHTML = item.description+hidden_description+hidden_type_id;
+                                    r.innerHTML = '<input class="form-control" name="exp_minutes_update[]" type="number" min="0" value="0">';
+                                    exp_total_get.push(item.iMinute);
+                                    total_update_get.push(item.iMinute);
+                                });
+
+                                $.each(data.unexpectedDowntime, function(index,item) {
+                                    var x = document.getElementById('unexpected_downtime_body_update').insertRow(-1);
+                                    var i = x.insertCell(0);
+                                    var r = x.insertCell(1);
+                                    
+                                    let hidden_description = '<input name="unexp_desc_update[]" type="hidden" value="'+item.description+'">';
+                                    let hidden_type_id = '<input name="unexp_type_id_update[]" type="hidden" value="'+item.downtimeTypeId+'">';
+
+                                    i.innerHTML = item.description+hidden_description+hidden_type_id;
+                                    r.innerHTML = '<input class="form-control" name="unexp_minutes_update[]" type="number" min="0" value="0">';
+                                    uexp_total_get.push(item.iMinute);
+                                    total_update_get.push(item.iMinute);
+                                });
+                            }
+                        });
+                    });
+
                     document.getElementById('shiftLength_update').value = 0;
                     document.getElementById('dFgCases_update').value = 0;
                 }else{
@@ -409,24 +460,47 @@
         });
     }
     function load_rejects(machineId){
+
         $('#reject_body_update').empty();
         get_reject(machineId).done(function(irene_parse){
-            document.getElementById('iLossPalletReject_update').value = irene_parse[0].iLossCase;
-            get_rejects(irene_parse[0].id,irene_parse[0].iLineId).done(function(irene_parse_2){
-                let details = irene_parse_2.rejectDetails;
-                // console.log(details);
-                $.each(details, function(index,item) {
-                    var x = document.getElementById('reject_body_update').insertRow(-1);
-                    var i = x.insertCell(0);
-                    var r = x.insertCell(1);
-                    var e = x.insertCell(2);
+            // console.log(irene_parse);
+            if(irene_parse.length ===0){
+                document.getElementById('iLossPalletReject_update').value = 0;
+                get_machine_id(machineId).done(function(irene_parse_2){
+                    get_rejects(0,irene_parse_2[0].iLineId).done(function(irene_parse){
+                    let details = irene_parse.rejectDetails;
+                        $.each(details, function(index,item) {
+                            var x = document.getElementById('reject_body_update').insertRow(-1);
+                            var i = x.insertCell(0);
+                            var r = x.insertCell(1);
+                            var e = x.insertCell(2);
 
-                    i.innerHTML = item.section+'<input name="materialIdUpdate[]" value="'+item.materialId+'" type="hidden">';
-                    r.innerHTML = item.materials+'<input name="sectionIdUpdate[]" value="'+item.sectionId+'" type="hidden">';  
-                    e.innerHTML = '<input name="sectionUpdate[]" value="'+item.section+'" type="hidden"><input name="materialsUpdate[]" value="'+item.materials+'" type="hidden"><input type="number" value="'+item.qty+'" name="qtyUpdate[]" class="form-control">';
+                            i.innerHTML = item.section+'<input name="materialIdUpdate[]" value="'+item.materialId+'" type="hidden">';
+                            r.innerHTML = item.materials+'<input name="sectionIdUpdate[]" value="'+item.sectionId+'" type="hidden">';  
+                            e.innerHTML = '<input name="sectionUpdate[]" value="'+item.section+'" type="hidden"><input name="materialsUpdate[]" value="'+item.materials+'" type="hidden"><input type="number" value="0" name="qtyUpdate[]" class="form-control">';
                     
+                        });
+                    });
                 });
-            });
+            }else{
+               
+                document.getElementById('iLossPalletReject_update').value = irene_parse[0].iLossCase;
+                get_rejects(irene_parse[0].id,irene_parse[0].iLineId).done(function(irene_parse_2){
+                    let details = irene_parse_2.rejectDetails;
+                    // console.log(details);
+                    $.each(details, function(index,item) {
+                        var x = document.getElementById('reject_body_update').insertRow(-1);
+                        var i = x.insertCell(0);
+                        var r = x.insertCell(1);
+                        var e = x.insertCell(2);
+
+                        i.innerHTML = item.section+'<input name="materialIdUpdate[]" value="'+item.materialId+'" type="hidden">';
+                        r.innerHTML = item.materials+'<input name="sectionIdUpdate[]" value="'+item.sectionId+'" type="hidden">';  
+                        e.innerHTML = '<input name="sectionUpdate[]" value="'+item.section+'" type="hidden"><input name="materialsUpdate[]" value="'+item.materials+'" type="hidden"><input type="number" value="'+item.qty+'" name="qtyUpdate[]" class="form-control">';
+                        
+                    });
+                });
+            }
         });
     }
     function load_detail(id,line){
@@ -479,6 +553,14 @@
         return $.ajax({
             type: 'GET', //THIS NEEDS TO BE GET
             url: api_url+'/Reject/GetRejectHeaderByMachineId?iMachineCounterId='+machineId,
+            dataType:'json'
+        });
+    }
+
+    function get_machine_id(id){
+        return $.ajax({
+            type: 'GET', //THIS NEEDS TO BE GET
+            url: api_url+'/MachineCounter/GetMachineCounterHeaders?iMachineCountHeaderId='+id,
             dataType:'json'
         });
     }
