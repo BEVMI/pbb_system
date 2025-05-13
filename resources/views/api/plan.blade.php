@@ -614,13 +614,13 @@
                     }
                 }else{
                     Swal.fire({
-                                position: "center",
-                                icon: "error",
-                                title:"JOB DOES NOT EXIST",
-                                text: "JOB "+job_number,
-                                showConfirmButton: false,
-                                timer: 3000
-                            });
+                        position: "center",
+                        icon: "error",
+                        title:"JOB DOES NOT EXIST",
+                        text: "JOB "+job_number,
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
                 }
             }
         });

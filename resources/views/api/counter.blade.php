@@ -38,7 +38,9 @@
         });
     }
     function getCounter(line,year,month){
+        let base_url = '{{$irene_base_url}}';
         $('#machine_body_table').empty();
+        let flag;
         $.ajax({
             type: 'GET', //THIS NEEDS TO BE GET
             url: api_url+'/MachineCounter/GetMachineCounterHeaders?iMachineCountHeaderId=0&iLineId='+line+'&nYear='+year+'&nMonth='+month,
@@ -52,13 +54,27 @@
                     var e = x.insertCell(2);
                     var n = x.insertCell(3);
                     var j = x.insertCell(4);
-               
+                    
+                    get_downtime_header(item.id).done(function(irene_parse_2){
+                        i.innerHTML = item.iLineId;
+                        r.innerHTML = item.iJobNo;  
+                        e.innerHTML = formatDate(item.dDate);
+                        n.innerHTML = item.cEncodedBy;    
+                        console.log(irene_parse_2.id);
 
-                    i.innerHTML = item.iLineId;
-                    r.innerHTML = item.iJobNo;  
-                    e.innerHTML = formatDate(item.dDate);
-                    n.innerHTML = item.cEncodedBy;    
-                    j.innerHTML = '<a href="#" class="btn btn-success mt-2 mt-xl-0 view_data" data-bs-toggle="modal" data-bs-target="#modalView" data-id="'+item.id+'" data-line="'+item.iLineId+'"> <i class="fas fa-eye"></i></a>';      
+                        if(irene_parse_2.id === null){
+                            j.innerHTML = '<a href="#" class="btn btn-success mt-2 mt-xl-0 view_data" data-bs-toggle="modal" data-bs-target="#modalView" data-id="'+item.id+'" data-line="'+item.iLineId+'"> <i class="fas fa-eye"></i></a>';      
+                        }else{
+                            let print = "<a class='btn btn-primary' target='_blank' href='"+base_url+"/api/downtime_job/"+item.iJobNo+"'><i class='fa-solid fa-print'></i></a>";
+                            j.innerHTML = '<a href="#" class="btn btn-success mt-2 mt-xl-0 view_data" data-bs-toggle="modal" data-bs-target="#modalView" data-id="'+item.id+'" data-line="'+item.iLineId+'"> <i class="fas fa-eye"></i></a> &nbsp;'+print;      
+                        }
+
+                       
+                      
+                    });
+                  
+                  
+                    
                       
               
                 });

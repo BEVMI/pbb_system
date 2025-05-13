@@ -20,6 +20,7 @@ class PlanController extends Controller
         $response = Http::get($api_url.'/Inventory/GetFGStockCodes');
      
         $stockcodes_resource = $response->object();
+        
         $stock_codes[] = 'NO_STOCK_CODE';
         foreach($stockcodes_resource as $row):
             $stock_codes[] =$row->cStockCode;

@@ -692,7 +692,7 @@ class PdfController extends Controller
                 $active->setCellValue($count_check.'19',$header->bottlesCheck);
                 $active->setCellValue($count_check.'20',$header->cases);
                 $active->setCellValue($count_check.'21',$header->palletCount);
-                $active->setCellValue($count_check.'22',$header->machineCount);
+                $active->setCellValue($count_check.'22',$header->machineCounterRdg);
                 $active->setCellValue($count_check.'23',$header->idealCycleTime);
                 $active->setCellValue($count_check.'24',$header->expectedOutput);
                 
@@ -817,17 +817,18 @@ class PdfController extends Controller
                 $count_second++;
                 $data_machine[] = 'M'.$machine->downtimeTypeId;
             endforeach;
-            $count_last_machine = 49;
+            $count_last_machine = 46;
             // echo $count_last_machine;
             foreach($header->expectedDowntime as $expectedMachine):  
-                $active->getStyle('B'.$count_last_machine)->applyFromArray($styleCenterArray);
+                $active->getStyle('B'.$count_last_machine)->applyFromArray($styleCenterArray)->getNumberFormat();
                 $active->setCellValue('B'.$count_last_machine, $expectedMachine->description);
 
                 $active->getStyle($count_check.$count_last_machine)->applyFromArray($styleCenterArray);
                 $active->setCellValue($count_check.$count_last_machine, $expectedMachine->iMinute);
-               
+                
                 $count_last_machine++;
-             
+                // echo $count_last_machine.'---'.$expectedMachine->iMinute;
+                // echo '<br>';
                 $data_exmachine[] = 'N'.$expectedMachine->downtimeTypeId;
              
             endforeach;
@@ -835,14 +836,14 @@ class PdfController extends Controller
             $count_last_exmachine = $count_last_machine+3;
 
             foreach($header->unexpectedDowntime as $unexpectedMachine):  
-                $active->getStyle('B'.$count_last_exmachine)->applyFromArray($styleCenterArray);
+                $active->getStyle('B'.$count_last_exmachine)->applyFromArray($styleCenterArray)->getNumberFormat();
                 $active->setCellValue('B'.$count_last_exmachine, $unexpectedMachine->description);
 
                 $active->getStyle($count_check.$count_last_exmachine)->applyFromArray($styleCenterArray);
                 $active->setCellValue($count_check.$count_last_exmachine, $unexpectedMachine->iMinute);
                
                 $count_last_exmachine++;
-                $data_unmachine[] = 'M'.$unexpectedMachine->downtimeTypeId;
+                $data_unmachine[] = 'O'.$unexpectedMachine->downtimeTypeId;
             endforeach;
 
             $count_second = 31;
@@ -915,6 +916,7 @@ class PdfController extends Controller
 
         $active->getColumnDimension($end2)->setWidth(30);
         $machine_count = 31;
+        
         foreach(array_unique($data_machine) as $machine):
             $machine_sum = 'B'.$machine_count.':'.$end2.$machine_count;
             $active->setCellValue($end2.$machine_count, '=SUM('.$machine_sum.')');
@@ -971,6 +973,7 @@ class PdfController extends Controller
         $count_last_machine_ex = $expected_count_first_count;
         $first_row_ex = $last_machine_count+3;
         $first_row_un = $expected_machine_count+3;
+
         foreach($count_array as $count_array_now):
             if($count_array_now == 'B'):
                 $total = $count_array_now.$last_machine_count;
