@@ -136,7 +136,7 @@
                                 <div class="card-body">
                                     <div class="container-fluid">
                                         <div class="row">
-                                            <div class="col-12">
+                                            <div class="col-12" style="display: none;">
                                                 <div class="form-group">
                                                     <label for="iLossPalletReject">LOSS CASE</label>
                                                     <input type="number" value="0" min="0" max="99999" class="form-control" name="iLossPalletReject_update" id="iLossPalletReject_update">
