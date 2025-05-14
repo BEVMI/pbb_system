@@ -849,9 +849,9 @@ class PdfController extends Controller
             $count_second = 31;
         endforeach;
         
-        $active->getStyle($end2.'1:'.$end2.'9')->applyFromArray($styleCenterArray);
+        $active->getStyle($end2.'1:'.$end2.'8')->applyFromArray($styleCenterArray);
         $active->setCellValue($end2.'1','JOB NO. '.$job_no);
-        $active->mergeCells($end2.'1:'.$end2.'9');
+        $active->mergeCells($end2.'1:'.$end2.'8');
       
 
         // TOTAL
