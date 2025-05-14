@@ -669,7 +669,7 @@
     function checkRFA(flag){
         let history_url = '{!!$url_history!!}';
         if(flag == 0){
-            coa = document.getElementById('coa_check').value;
+            coa = document.getElementById('global_approve').value;
             $( "#coa_create").html('<iframe  frameBorder="0" width="100%" height="1000px" src="'+history_url+'/'+coa+'"></object>');
         }else{
             coa = document.getElementById('coa_check_update').value;

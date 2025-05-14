@@ -68,10 +68,6 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-12">
-                            <label for="check_rfa">CHECK RFA</label>
-                            <input id="coa_check" class="form-control" type="text">
-                        </div>
-                        <div class="col-sm-12">
                             <div id="coa_create"></div>
                         </div>
                     </div>
