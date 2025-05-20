@@ -37,6 +37,7 @@ endif;
     }
     .input[type=text],input[type=number],input[type=time],input[type=date]{
         height: 30px;
+        font-size: 12px;
     }
     .modal-dialog {
         height: 100%; /* = 90% of the .modal-backdrop block = %90 of the screen */

@@ -645,9 +645,9 @@ class PdfController extends Controller
                 $active->getStyle($count_check.'2')->applyFromArray($styleArrayAlignmentLeft);
 
                 $active->getStyle($count_check.'3')->applyFromArray($styleArrayAlignmentLeft);
-                $active->getStyle($count_check.'4')->applyFromArray($styleArrayNoTopDownLeft);
-                $active->getStyle($count_check.'5')->applyFromArray($styleArrayNoTopDownLeft);
-                $active->getStyle($count_check.'6')->applyFromArray($styleArrayNoUpLeft);
+                $active->getStyle($count_check.'4')->applyFromArray($styleArrayNoTopDownRight);
+                $active->getStyle($count_check.'5')->applyFromArray($styleArrayNoTopDownRight);
+                $active->getStyle($count_check.'6')->applyFromArray($styleArrayNoUpRight);
 
                 $active->getStyle($count_check.'7')->applyFromArray($styleArrayNoDownLeft);
                 $active->getStyle($count_check.'8')->applyFromArray($styleArrayNoUpLeft);
@@ -676,7 +676,7 @@ class PdfController extends Controller
                 $active->setCellValue($count_check.'2', $header->stockCode);
                 $active->setCellValue($count_check.'3', 'JO Target Quantity');
              
-
+                
                 $active->setCellValue($count_check.'7',$header->fbo); 
                 $active->setCellValue($count_check.'8',$header->lbo); 
                 $active->setCellValue($count_check.'9',$header->shiftLength); 
@@ -732,9 +732,9 @@ class PdfController extends Controller
                 $active->getStyle($count_check.'27')->applyFromArray($styleArrayNoTopDownRight);
                 $active->getStyle($count_check.'28')->applyFromArray($styleArrayNoUpRight);
 
-                $active->setCellValue($count_check.'4',$header->monthlyCases); 
-                $active->setCellValue($count_check.'5',$header->monthlyBottles); 
-                $active->setCellValue($count_check.'6',$header->monthlyPallets);
+                $active->setCellValue($count_check.'4',$header->singleCases); 
+                $active->setCellValue($count_check.'5',$header->singleBottles); 
+                $active->setCellValue($count_check.'6',$header->singlePallet);
 
                 $date_fbo = explode("T",$header->fbo);
                 $active->setCellValue($count_check.'7', $date_fbo[1]);
@@ -748,14 +748,14 @@ class PdfController extends Controller
                 $active->setCellValue($count_check.'12',$header->planedProductionTime); 
                 $active->setCellValue($count_check.'13',$header->operatingTime); 
                 $active->setCellValue($count_check.'14',$header->totalMachineDowntime); 
-                $active->setCellValue($count_check.'15',$header->machineDowntimeTime); 
+                $active->setCellValue($count_check.'15',round($header->machineDowntimeTime,2)); 
                 $active->setCellValue($count_check.'16',$header->machineActual);
                 $active->setCellValue($count_check.'17',$header->variance);
                 $active->setCellValue($count_check.'18',$header->runningTime);
-                $active->setCellValue($count_check.'19',$header->bottlesCheck);
-                $active->setCellValue($count_check.'20',$header->cases);
-                $active->setCellValue($count_check.'21',$header->palletCount);
-                $active->setCellValue($count_check.'22',$header->machineCount);
+                $active->setCellValue($count_check.'19',$header->dFgBottles);
+                $active->setCellValue($count_check.'20',$header->dFgCases);
+                $active->setCellValue($count_check.'21',$header->dFgPallets);
+                $active->setCellValue($count_check.'22',$header->machineCounterRdg);
                 $active->setCellValue($count_check.'23',$header->idealCycleTime);
                 $active->setCellValue($count_check.'24',$header->expectedOutput);
 
@@ -768,26 +768,26 @@ class PdfController extends Controller
                 ->getStyle()->getNumberFormat()
                 ->setFormatCode($localeCurrencyMask);
 
-                $active->setCellValue($count_check.'26',round($header->performance/100,2));
-                $active->getCell($count_check.'26',round($header->performance,2))
+                $active->setCellValue($count_check.'26',round($header->runningTime/$header->operatingTime,5));
+                $active->getCell($count_check.'26',round($header->runningTime/$header->operatingTime,5))
                 ->getStyle()->getNumberFormat()
                 ->setFormatCode($localeCurrencyMask);
 
-                $active->setCellValue($count_check.'27',round($header->quality/100,2));
-                $active->getCell($count_check.'27',round($header->quality,2))
+                $active->setCellValue($count_check.'27',round($header->dFgBottles/$header->machineCounterRdg,5));
+                $active->getCell($count_check.'27',round($header->dFgBottles/$header->machineCounterRdg,5))
                 ->getStyle()->getNumberFormat()
                 ->setFormatCode($localeCurrencyMask);
-
-                $active->setCellValue($count_check.'28',round($header->oeee/100,2));
-                $active->getCell($count_check.'28',round($header->oeee,2))
+                $oeee = round($header->availability/100,5) * round($header->runningTime/$header->operatingTime,5) * round($header->dFgBottles/$header->machineCounterRdg,5);
+                $active->setCellValue($count_check.'28',round($oeee,4));
+                $active->getCell($count_check.'28',round($oeee,4))
                 ->getStyle()->getNumberFormat()
                 ->setFormatCode($localeCurrencyMask);
             endif;
 
             if($count_now == 3):
-                $active->setCellValue('B4', 'CASES          '.$header->jobCases);
-                $active->setCellValue('B5', 'BOTTLES        '.$header->monthlyBottles);
-                $active->setCellValue('B6', 'PALLETS        '.$header->monthlyPallets); 
+                $active->setCellValue('B4', 'CASES               '.$header->jobCases);
+                $active->setCellValue('B5', 'BOTTLES        '.$header->jobBottles);
+                $active->setCellValue('B6', 'PALLETS                '.ceil($header->jobPallets)); 
 
                 $active->getStyle($start.'2:'.$end.'2')->applyFromArray($styleArray);
                 $active->setCellValue($count_check.'2', $header->stockCode);
@@ -817,7 +817,7 @@ class PdfController extends Controller
                 $count_second++;
                 $data_machine[] = 'M'.$machine->downtimeTypeId;
             endforeach;
-            $count_last_machine = 46;
+            $count_last_machine = 50;
             // echo $count_last_machine;
             foreach($header->expectedDowntime as $expectedMachine):  
                 $active->getStyle('B'.$count_last_machine)->applyFromArray($styleCenterArray)->getNumberFormat();

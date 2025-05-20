@@ -62,20 +62,21 @@
                                                 <label for="lines">COUNTER DATE:</label>
                                                 <input class="form-control" id="date_counter" type="date" value="{{$initial_date}}">
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-4">
                                                 <div class="form-group">
                                                     <label for="job_date">FBO:</label>
                                                     <input class="form-control" type="time" id="FBO" name="appt">
                                                 </div>
                                             </div>
                     
-                                            <div class="col-6">
+                                            <div class="col-4">
                                                 <div class="form-group">
                                                     <label for="job_date">LBO:</label>
                                                     <input class="form-control" type="time" id="LBO" name="appt">
                                                 </div>
                                             </div>
-                                            <div class="col-12">
+                                            <div class="col-4">
+                                                <br>
                                                 <button onclick="choose_line()" class="btn btn-outline-success" style="margin-top:3px; width:100%;">CHOOSE</button>
                                             </div>
                                         </div>
