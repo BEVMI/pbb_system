@@ -533,14 +533,15 @@
                 var d = new Date(dFBO),
                     h = (d.getHours()<10?'0':'') + d.getHours(),
                     m = (d.getMinutes()<10?'0':'') + d.getMinutes();
+                    s = (d.getSeconds()<10?'0':'') + d.getSeconds();
                 
                 var d2 = new Date(dLBO),
                     h2 = (d2.getHours()<10?'0':'') + d2.getHours(),
                     m2 = (d2.getMinutes()<10?'0':'') + d2.getMinutes();
-        
-            
-                document.getElementById('FBO_update').value = dFBO.value = h + ':' + m;
-                document.getElementById('LBO_update').value =  dLBO.value = h2 + ':' + m2;
+                    s2 = (d2.getSeconds()<10?'0':'') + d2.getSeconds();
+
+                document.getElementById('FBO_update').value = dFBO.value = h + ':' + m + ':' + s;
+                document.getElementById('LBO_update').value =  dLBO.value = h2 + ':' + m2 + ':' + s2;
 
                 document.getElementById('job_number_update').value = irene_parse.jobNo+'_'+irene_parse.iJobId;
                 document.getElementById('date_update').value = formatDate(irene_parse.countDate); 

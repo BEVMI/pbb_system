@@ -38,7 +38,7 @@ class PdfController extends Controller
         $ids = $request->input('ids');
         $irene = $this->print_now($ids);
         $status = $request->input('tag');
-        $print = 'pdf.tag';
+        $print = 'pdf.tag2';
         $font = 'arial';
         $position = 'portrait';
         $tag = QcTag::where('title',strtoupper($status))->first();
@@ -48,12 +48,12 @@ class PdfController extends Controller
 
         $qc_user_1_row = QcUser::where('id',$qc_user_1)->first();
         $qc_user_2_row = QcUser::where('id',$qc_user_2)->first();
-       
+        $user = Auth::user();
         $api_url = env('API_URL');
         $response = Http::post($api_url.'/Pallet/GetPalletByIds',$ids);
         $pallets =  $response->object();
         $pdf = Pdf::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true,'defaultMediaType'=> 'all','isFontSubsettingEnabled'=>true,'defaultFont'=>$font])
-        ->loadView($print,compact('tag','pallets','user_name','qc_user_1_row','qc_user_2_row'))->setPaper('LETTER', $position);
+        ->loadView($print,compact('tag','pallets','user_name','qc_user_1_row','qc_user_2_row','user'))->setPaper('LETTER', $position);
         $pdf->getDomPDF()->set_option("enable_php", true);
         
         return base64_encode($pdf->output());
@@ -64,7 +64,7 @@ class PdfController extends Controller
 
     }
 
-    public function print_pdf_advance($job_id,$pallet_count,$date){
+    public function print_pdf_advance($job_id,$pallet_count,$date,$qc_user_1,$qc_user_2){
         $id =$job_id;
         $pallet_count = $pallet_count;
         $date = $date;
@@ -73,15 +73,18 @@ class PdfController extends Controller
         $response = Http::get($api_url.'/Pallet/PalletAdvancePrinting?iJobNo='.$id.'&iPalletCount='.$pallet_count.'&dDate='.$date);
         $pallets =  $response->object();
 
+        $qc_user_1_row = QcUser::where('id',$qc_user_1)->first();
+        $qc_user_2_row = QcUser::where('id',$qc_user_2)->first();
+
         $user = Auth::user();
         $user_name = $user->name;
 
-        $print = 'pdf.tag2';
+        $print = 'pdf.tag';
         $font = 'arial';
         $position = 'portrait';
 
         $pdf = Pdf::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true,'defaultMediaType'=> 'all','isFontSubsettingEnabled'=>true,'defaultFont'=>$font])
-        ->loadView($print,compact('tag','pallets','user_name'))->setPaper('LETTER', $position);
+        ->loadView($print,compact('tag','pallets','user_name','qc_user_1_row','qc_user_2_row'))->setPaper('LETTER', $position);
         $pdf->getDomPDF()->set_option("enable_php", true);
         
         return base64_encode($pdf->output());

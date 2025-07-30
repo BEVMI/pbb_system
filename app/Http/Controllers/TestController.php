@@ -42,6 +42,8 @@ class TestController extends Controller
             $email = Email::where('department','production')->first();
         elseif($department == 'allqc'):
             $email = Email::where('department','qc')->first();
+        elseif($department == 'allsuper'):
+            $email = Email::where('department','production')->first();
         elseif($department == 'qc'):
             $email = Email::where('department','qc')->first();
         elseif($department == 'production2'):
@@ -72,18 +74,18 @@ class TestController extends Controller
             $url = route('tos.index');
             $email_to = Email::where('department','warehouse')->first();
         endif;
-        if($department != 'allwarehouse'):
-            $email_details = [
-                'title' => $title,
-                'email'=>$email->email,
-                'body' =>$content ,
-                'date' =>$datetoday,
-                'from' => 'notify@bevi.com.ph',
-                'url'=>$url,
-                'user_name'=> $user_auth->name
-            ];
-            Mail::to($email_to)->send(new EmailView($email_details));
-        endif;
+        // if($department != 'allwarehouse'):
+        //     $email_details = [
+        //         'title' => $title,
+        //         'email'=>$email->email,
+        //         'body' =>$content ,
+        //         'date' =>$datetoday,
+        //         'from' => 'notify@bevi.com.ph',
+        //         'url'=>$url,
+        //         'user_name'=> $user_auth->name
+        //     ];
+        //     Mail::to($email_to)->send(new EmailView($email_details));
+        // endif;
     }
     
 }

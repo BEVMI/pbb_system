@@ -65,14 +65,14 @@
                                             <div class="col-4">
                                                 <div class="form-group">
                                                     <label for="job_date">FBO:</label>
-                                                    <input class="form-control" type="time" id="FBO" name="appt">
+                                                    <input class="form-control" type="time" id="FBO" name="appt" step="2">
                                                 </div>
                                             </div>
                     
                                             <div class="col-4">
                                                 <div class="form-group">
                                                     <label for="job_date">LBO:</label>
-                                                    <input class="form-control" type="time" id="LBO" name="appt">
+                                                    <input class="form-control" type="time" id="LBO" name="appt" step="2">
                                                 </div>
                                             </div>
                                             <div class="col-4">

@@ -631,6 +631,8 @@
         let job_id = document.getElementById('job_id').value;
         let pallet_count = document.getElementById('pallet_count').value;
         let date_advance = document.getElementById('date_advance').value;
+        let qc_user_1 = document.getElementById('qc_user_1').value;
+        let qc_user_2 = document.getElementById('qc_user_2').value;
         if(job_id == ''){
             Swal.fire({
                 position: "center",
@@ -653,7 +655,7 @@
             $.ajax({
                 async: false,
                 type: 'GET', //THIS NEEDS TO BE GET
-                url: irene_api_base_url+'/print_pdf_advance/'+job_id+'/'+pallet_count+'/'+date_advance+'',
+                url: irene_api_base_url+'/print_pdf_advance/'+job_id+'/'+pallet_count+'/'+date_advance+'/'+qc_user_1+'/'+qc_user_2,
                 success: function (data) {
                     $('#modalAdvance').modal('hide');
                     $('#modalPrint').modal('show');
