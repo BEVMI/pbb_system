@@ -151,7 +151,7 @@
                                                 <td></td>
                                                 <td style="font-weight: bold;">Quantity:</td>
                                                 <td style="border-bottom:1px solid black;">
-                                                    {{$pallet->iCases}}
+                                                    {{$pallet->iCases}} CS
                                                 </td>
                                             </tr>
 
