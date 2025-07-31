@@ -79,6 +79,8 @@ class PdfController extends Controller
         $user = Auth::user();
         $user_name = $user->name;
 
+        
+
         $print = 'pdf.tag';
         $font = 'arial';
         $position = 'portrait';
