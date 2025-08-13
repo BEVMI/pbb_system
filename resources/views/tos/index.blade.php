@@ -146,6 +146,7 @@ $user_auth = Auth::user();
                 </th>
                 <th class="col">DATE</th>
                 <th class="col">CREATED BY</th>
+                <th class="col">STATUS</th>
                 <th class="col">ACTION</th>
             </thead>
             <tbody class="text-center" id="tos_body_table">

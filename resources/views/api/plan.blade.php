@@ -718,7 +718,8 @@
             });
         }else{
             let date_plan_2 = new Date();
-            let month_plan = date_plan_2.getMonth()+1;
+            let date_plan_converted = new Date(date_plan);
+            let month_plan = date_plan_converted.getMonth()+1;
             let year_plan = date_plan_2.getFullYear();
             Swal.fire({
                 position: "center",

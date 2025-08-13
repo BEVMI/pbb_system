@@ -45,6 +45,7 @@
                     var r = x.insertCell(1);
                     var e = x.insertCell(2);
                     var n = x.insertCell(3);
+                    var a = x.insertCell(4);
                     let print = '<button class="btn btn-primary" onclick="printTos('+item.id+')" style="margin:0;"><i class="fa-solid fa-print"></i></button> &nbsp;';
                     let edit = '<button class="btn btn-success" onclick="updateTos('+item.id+')" style="margin:0;"><i class="fa-solid fa-pencil"></i></button> &nbsp;';
                     let remove = '<button class="btn btn-danger" onclick="confirmDeleteTos('+item.id+')" style="margin:0;"><i class="fa-solid fa-trash"></i></button>';
@@ -52,7 +53,25 @@
                     i.innerHTML = item.cTOSRefNo;
                     r.innerHTML = formatDate(item.dDate);
                     e.innerHTML = item.cCreatedBy;
-                    n.innerHTML = print+edit+remove;
+                    if(item.cApprovedBy === null){
+                        n.innerHTML = '<span class="badge bg-danger">FOR SUPERVISOR APPROVAL</span>';
+                    }else{
+                        if(item.cValidatedBy === null){
+                            n.innerHTML = '<span class="badge bg-danger">FOR QC APPROVAL</span>';
+                        }else{
+                            if(item.cForTurnover === null){
+                               n.innerHTML = '<span class="badge bg-danger">FOR MANAGER APPROVAL</span>';
+                            }else{
+                               if(item.cReceivedBy === null){
+                                    n.innerHTML = '<span class="badge bg-danger">TO RECEIVE BY WH</span>';
+                                }else{
+                                    n.innerHTML = '<span class="badge bg-success">COMPLETED</span>';
+                                }
+                            }
+                        }
+                    }
+
+                    a.innerHTML = print+edit+remove;
 
                 }); 
             }
@@ -523,7 +542,7 @@
         //         $( "#display_dialog").html('<iframe width="100%" height="600px" src="data:application/pdf;base64,' + data + '"></object>');
         //     }
         // });
-        $( "#display_dialog").html('<iframe  frameBorder="0" width="100%" height="1000px" src="'+irene_api_base_url+'/turnover_form1/'+id+'/0"></object>');
+        $( "#display_dialog").html('<iframe  frameBorder="0" width="100%" height="1040px" src="'+irene_api_base_url+'/turnover_form1/'+id+'/0"></object>');
     }
 </script>
 

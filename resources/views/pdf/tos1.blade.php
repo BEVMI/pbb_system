@@ -389,26 +389,36 @@
                     <tr class="text-center"> 
                         <td class="irene-50-mobile font-weight-bold" style="border-top:1px solid white;">
                             @if($turnover_details->created_by!='')
+                                <span style="font-size: 12px;">{{ $turnover_details->created_date}}</span><br>
+                                <hr>
                                 {{$turnover_details->created_by}}
                             @endif
                         </td>
                         <td class="irene-50-mobile font-weight-bold" style="border-top:1px solid white;" onclick="confirmApproved({{$turnover_details->id}},'QC')">
                             @if($turnover_details->validated_by!='')
+                                <span style="font-size: 12px;">{{ $turnover_details->validated_by_date_2}}</span><br>
+                                <hr>
                                 {{$turnover_details->validated_by}}
                             @endif
                         </td>
                         <td class="irene-50-mobile font-weight-bold" style="border-top:1px solid white;" onclick="confirmApproved({{$turnover_details->id}},'APPROVE')">
                             @if($turnover_details->approved_by!='')
+                                <span style="font-size: 12px;">{{ $turnover_details->approved_date_2}}</span><br>
+                                <hr>
                                 {{$turnover_details->approved_by}}
                             @endif
                         </td>
                         <td class="irene-50-mobile font-weight-bold" style="border-top:1px solid white;" onclick="confirmApproved({{$turnover_details->id}},'RECEIVED')">
                             @if($turnover_details->received_by!='')
+                                <span style="font-size: 12px;">{{ $turnover_details->received_by_date_2}}</span><br>
+                                <hr>
                                 {{$turnover_details->received_by}}
                             @endif
                         </td>
                         <td class="irene-50-mobile font-weight-bold" style="border-top:1px solid white;" onclick="confirmApproved({{$turnover_details->id}},'TURNOVER')"> 
                             @if($turnover_details->for_turnover!='')
+                                <span style="font-size: 12px;">{{ $turnover_details->for_turnover_date_2}}</span><br>
+                                <hr>
                                 {{$turnover_details->for_turnover}}
                             @endif
                         </td>

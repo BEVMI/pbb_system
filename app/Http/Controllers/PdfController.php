@@ -46,7 +46,7 @@ class PdfController extends Controller
         $qc_user_1 = $request->input('qc_user_1');
         $qc_user_2 = $request->input('qc_user_2');
 
-        $qc_user_1_row = QcUser::where('id',$qc_user_1)->first();
+        $qc_user_1_row = QcUser::where('name',$user_name)->first();
         $qc_user_2_row = QcUser::where('id',$qc_user_2)->first();
         $user = Auth::user();
         $api_url = env('API_URL');
@@ -78,8 +78,6 @@ class PdfController extends Controller
 
         $user = Auth::user();
         $user_name = $user->name;
-
-        
 
         $print = 'pdf.tag';
         $font = 'arial';
@@ -184,6 +182,7 @@ class PdfController extends Controller
             'for_turnover_date'=>Carbon::parse($fields->dForTurnoverDate)->format('M d, Y'),
             'validated_by'=>$fields->cValidatedBy,
             'validated_by_date'=>Carbon::parse($fields->dValidatedDate)->format('M d, Y'),
+            'validated_by_date_2'=>Carbon::parse($fields->dValidatedDate)->format('M d, Y'),
             'received_by'=>$fields->cReceivedBy,
             'received_by_date'=>Carbon::parse($fields->dReceivedBy)->format('M d, Y'),
             'is_warehouse'=>$user_auth->is_warehouse,
@@ -303,8 +302,8 @@ class PdfController extends Controller
             $jobs[] = $detail->iJobNo;
             $skus[] = $detail->cStockCode;
             $batchs[] = $detail->cLotNumber;
-            $mfg_dates[] = Carbon::parse($detail->dMfgDate)->format('y-M-d');
-            $exp_dates[] = Carbon::parse($detail->dExpDate)->format('y-M-d');
+            $mfg_dates[] = Carbon::parse($detail->dMfgDate)->format('d-M-y');
+            $exp_dates[] = Carbon::parse($detail->dExpDate)->format('d-M-y');
             $pallet_counts[] = $post_cases;
             $loose_case[] = $loose_case_now;
             $cases[] = $detail->iCases;
@@ -347,10 +346,10 @@ class PdfController extends Controller
         $stock_code_post = array_filter($stock_codes);
         $long_desc_post = array_filter($long_desc);
         // TURNOVER DETAILS
-        if($fields->dReceivedDate == null):
-            $received_date = $fields->dReceivedDate = '';
+        if($fields->dCreatedDate == null):
+            $received_date = $fields->dCreatedDate = '';
         else:
-            $received_date = Carbon::parse($fields->dReceivedDate)->format('h:i a');
+            $received_date = Carbon::parse($fields->dCreatedDate)->format('h:i a');
         endif;
         $turnover_details = (object)array(
             'id'=>$fields->id,
@@ -360,17 +359,22 @@ class PdfController extends Controller
             'pallet_count'=>array_sum($pallet_counts),
             'created_by'=>$fields->cCreatedBy,
             'created_by_signature'=> $fields->cCreatedSig,
+            'created_date'=>Carbon::parse($fields->dCreatedDate)->format('d-M-Y'),
             'approved_by'=>$fields->cApprovedBy,
             'approved_date'=>Carbon::parse($fields->dApprovedDate)->format('M d, Y'),
+            'approved_date_2'=>Carbon::parse($fields->dApprovedDate)->format('d-M-Y'),
             'approved_by_signature'=> $fields->cApprovedSig,
             'for_turnover'=>$fields->cForTurnover,
             'for_turnover_date'=>Carbon::parse($fields->dForTurnoverDate)->format('M d, Y'),
+            'for_turnover_date_2'=>Carbon::parse($fields->dForTurnoverDate)->format('d-M-Y'),
             'for_turnover_by_signature'=> $fields->cForTurnoverSig,
             'validated_by'=>$fields->cValidatedBy,
             'validated_by_date'=>Carbon::parse($fields->dValidatedDate)->format('M d, Y'),
+            'validated_by_date_2'=>Carbon::parse($fields->dValidatedDate)->format('d-M-Y'),
             'validated_by_signature'=>$fields->cValidatedSig,
             'received_by'=>$fields->cReceivedBy,
             'received_by_date'=>Carbon::parse($fields->dReceivedDate)->format('M d, Y'),
+            'received_by_date_2'=>Carbon::parse($fields->dReceivedDate)->format('d-M-Y'),
             'received_signature'=>$fields->cReceivedSig,
             'is_warehouse'=>$user_auth->is_warehouse,
             'tos_ref'=>$tos_ref,
