@@ -1,5 +1,6 @@
 <script>
- 
+    let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');   
+    let irene2 = null;
 </script>
 <script>
     load();
@@ -18,7 +19,15 @@
             getTosHeader(month,year);
         });
     }
-   
+    
+    function get_flag(tos){
+        return   $.ajax({
+            type: 'GET',
+            url: "{!!url('/api/coa_view')!!}/"+tos,
+            
+        });
+    }
+
     function getTosHeader(month,year){
         Swal.fire({
             position: "center",
@@ -37,42 +46,60 @@
             url: api_url+'/TOS/GetTOSHeader?nYear='+year+'&nMonth='+month,
             success: function (data) {
                 irene_parse = JSON.parse(data);
-              
-                console.log(irene_parse);
+                let user_qc  = '{!!$user_auth->is_qc!!}';
+                let user_warehouse  = '{!!$user_auth->is_warehouse!!}';
+                let single_quote = "'";
                 $.each(irene_parse, function(index,item) {
-                    var x = document.getElementById('tos_body_table').insertRow(-1);
-                    var i = x.insertCell(0);
-                    var r = x.insertCell(1);
-                    var e = x.insertCell(2);
-                    var n = x.insertCell(3);
-                    var a = x.insertCell(4);
-                    let print = '<button class="btn btn-primary" onclick="printTos('+item.id+')" style="margin:0;"><i class="fa-solid fa-print"></i></button> &nbsp;';
-                    let edit = '<button class="btn btn-success" onclick="updateTos('+item.id+')" style="margin:0;"><i class="fa-solid fa-pencil"></i></button> &nbsp;';
-                    let remove = '<button class="btn btn-danger" onclick="confirmDeleteTos('+item.id+')" style="margin:0;"><i class="fa-solid fa-trash"></i></button>';
 
-                    i.innerHTML = item.cTOSRefNo;
-                    r.innerHTML = formatDate(item.dDate);
-                    e.innerHTML = item.cCreatedBy;
-                    if(item.cApprovedBy === null){
-                        n.innerHTML = '<span class="badge bg-danger">FOR SUPERVISOR APPROVAL</span>';
-                    }else{
-                        if(item.cValidatedBy === null){
-                            n.innerHTML = '<span class="badge bg-danger">FOR QC APPROVAL</span>';
+                    const request = get_flag(item.id);
+                    request.done(function(data) {
+                      irene2 = data;
+                      
+                    });
+
+                    var x = document.getElementById('tos_body_table').insertRow(-1);
+                        var i = x.insertCell(0);
+                        var r = x.insertCell(1);
+                        var e = x.insertCell(2);
+                        var n = x.insertCell(3);
+                        var a = x.insertCell(4);
+                        let print = '<button class="btn btn-primary" onclick="printTos('+item.id+')" style="margin:0;"><i class="fa-solid fa-print"></i></button> &nbsp;';
+                        let edit = '<button class="btn btn-success" onclick="updateTos('+item.id+')" style="margin:0;"><i class="fa-solid fa-pencil"></i></button> &nbsp;';
+                        let remove = '<button class="btn btn-danger" onclick="confirmDeleteTos('+item.id+')" style="margin:0;"><i class="fa-solid fa-trash"></i></button>';
+                        let coa = '';
+                        if(user_qc == 1 || user_warehouse == 1){
+                            coa = '<button class="btn btn-info" onclick="viewCoa('+item.id+','+user_qc+','+user_warehouse+','+single_quote+item.cTOSRefNo.toString()+single_quote+')" style="margin:0;"><i class="fa-solid fa-flask"></i></button> &nbsp;';
                         }else{
-                            if(item.cForTurnover === null){
-                               n.innerHTML = '<span class="badge bg-danger">FOR MANAGER APPROVAL</span>';
+                            coa = '';
+                        }
+                        i.innerHTML = item.cTOSRefNo;
+                        r.innerHTML = formatDate(item.dDate);
+                        e.innerHTML = item.cCreatedBy;
+
+                        if(irene2==1){
+                            flag_now = '<br><span class="badge bg-success">COA UPLOADED</span>'
+                        }else{
+                            flag_now = '<br><span class="badge bg-danger">NO COA UPLOADED</span>'
+                        }
+                        if(item.cApprovedBy === null){
+                            n.innerHTML = '<span class="badge bg-danger">FOR SUPERVISOR APPROVAL</span>'+flag_now;
+                        }else{
+                            if(item.cValidatedBy === null){
+                                n.innerHTML = '<span class="badge bg-danger">FOR QC APPROVAL</span>'+flag_now;
                             }else{
-                               if(item.cReceivedBy === null){
-                                    n.innerHTML = '<span class="badge bg-danger">TO RECEIVE BY WH</span>';
+                                if(item.cForTurnover === null){
+                                n.innerHTML = '<span class="badge bg-danger">FOR MANAGER APPROVAL</span>'+flag_now;
                                 }else{
-                                    n.innerHTML = '<span class="badge bg-success">COMPLETED</span>';
+                                if(item.cReceivedBy === null){
+                                        n.innerHTML = '<span class="badge bg-danger">TO RECEIVE BY WH</span>'+flag_now;
+                                    }else{
+                                        n.innerHTML = '<span class="badge bg-success">COMPLETED</span>'+flag_now;
+                                    }
                                 }
                             }
                         }
-                    }
 
-                    a.innerHTML = print+edit+remove;
-
+                        a.innerHTML = print+edit+coa+remove;
                 }); 
             }
         });
@@ -115,7 +142,7 @@
                         n.innerHTML = item.cLotNumber;
                         j.innerHTML = item.iCases;    
                         o.innerHTML = "<div class='container'><div class='row'><div class='col-9' style='margin:auto;'><select id='P-"+item.RefNo+"' name='iPallet[]' class='form-control ireneajax' multiple></select></div><div class='col-3' style='margin:auto;'><button onclick=pallets('"+item.RefNo+"') class='btn btn-warning' style='margin:auto;'><i class='fa-solid fa-arrows-spin'></i></button></div></div></div>";      
-                        y.innerHTML = '<input name="lot_number[]" type="hidden" value="'+item.cLotNumber+'"><input name="coaUpdate[]" class="form-control" type="hidden" value="'+item.cCoaRefNo+'"> <input name="iCasesCheck[]" type="hidden" value="'+item.iCases+'" >';   
+                        y.innerHTML = '<input name="lot_number[]" type="hidden" value="'+item.cLotNumber+'"> <input name="iCasesCheck[]" type="hidden" value="'+item.iCases+'" >';   
                         
                         $( ".ireneajax" ).select2({
                             
@@ -207,36 +234,34 @@
         let pallets = document.querySelectorAll("select[name^='iPalletUpdate[']");
         let dTurnOverDate = "{{$initial_date}}";
         let user_auth = "{{$user_auth->id}}";
-        console.log(user_auth);
+       
         let details_update = [];
         let pallet_details_update = [];
         let id = document.getElementById('tos_id_update').value;
-
+        
         for (var i = 0; i <lot_number.length; i++) {
            
             let lot_number_post = lot_number[i].value;
             let pallets_check = pallets[i]; 
+            let coa_check = coas[i];
             if(pallets_check.length !== 0){
                 for (var v = 0; v <pallets_check.length; v++) {
                         pallet_details_update.push({
                             "id":pallets_check[v].value,
-                            "cPalletRef":pallets_check[v].innerHTML
+                            "cPalletRef":pallets_check[v].innerHTML,
+                           
                         }
                     );
                 }
-                
-                details.push({
-                    "nQty":0,
-                    "iCases": 0,
+                details_update.push({
                     "cLotNumber":lot_number_post,
-                  
-                    "palletDetails":pallet_details_update
-                });   
-                
+                    "palletDetails":pallet_details_update,
+                     "cCoaRefNo":coa_check.value
+                });
             }
             pallet_details_update=[];
         }
-        
+      
         $.ajax({
             async:false,
             type:'POST',
@@ -249,7 +274,7 @@
                 "id": id,
                 "dTurnOverDate": dTurnOverDate,
                 "iUserId": user_auth,
-                "details":details
+                "details":details_update
             }),
             success:function(data){
                 $('#modalEdit').modal('hide');
@@ -469,6 +494,90 @@
 
         load();
     }
+
+    function viewCoa(id,qc,warehouse,tos){
+
+        const request = get_flag(id);
+        request.done(function(data) {
+           $('#viewCoa').modal('show');
+       
+            document.getElementById('tos_id_coa').value = id;
+            document.getElementById('viewCoaLongTitle').innerHTML = 'COA MODULE - TOS REF: '+tos;   
+            if(qc==0){
+                document.getElementById('coa_upload').style.display = 'none';
+                document.getElementById('upload').style.display = 'none';
+                document.getElementById('label-coa').style.display = 'none';
+            } else {
+                document.getElementById('coa_upload').style.display = '';   
+                document.getElementById('upload').style.display = '';
+                document.getElementById('label-coa').style.display = '';
+            }
+            if(data == 1){
+                document.getElementById('alert').style.display = 'none';
+                document.getElementById('success').style.display = '';
+                document.getElementById('print').style.display = '';
+            }else{
+                document.getElementById('alert').style.display = '';
+                document.getElementById('success').style.display = 'none';
+                document.getElementById('print').style.display = 'none';
+            }
+            document.getElementById('print').href = "{{url('api/preview_coa')}}/" + id;
+            
+        });
+
+        
+    }
+
+    function uploadCoa(){
+        let upload_file_irene =  $('#coa_upload')[0].files;
+        
+        if(upload_file_irene.length === 0){
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "PLEASE SELECT A FILE",
+                showConfirmButton: false,
+                timer: 2000
+            });
+            return;
+        }
+        
+        document.getElementById("upload").disabled = true;
+        var fd = new FormData();
+       
+        fd.append('file',upload_file_irene[0]);
+        fd.append('tosId',document.getElementById('tos_id_coa').value);
+        fd.append('_token',CSRF_TOKEN);
+        console.log(fd);
+        $.ajax({
+            url: '{!!route("coa.upload")!!}',
+            type: 'POST',
+            data: fd,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "PLEASE WAIT... UPLOADING",
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+                $('#viewCoa').modal('hide');
+                document.getElementById('coa_upload').value = '';
+                document.getElementById("upload").disabled = false;
+                location.reload();
+
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            }
+        });
+    }
+
+    function reset(){
+        location.reload();
+    }
 </script>
 
 <script>
@@ -501,7 +610,7 @@
                     n.innerHTML = item.cLotNumber;
                     j.innerHTML = item.iCases;    
                     o.innerHTML = "<div class='container'><div class='row'><div class='col-9' style='margin:auto;'><select id='UP-"+item.refNo+"' name='iPalletUpdate[]' class='form-control ireneajax2' multiple></select></div><div class='col-3' style='margin:auto;'><button onclick=palletsUpdate('"+item.refNo+"') class='btn btn-warning' style='margin:auto;'><i class='fa-solid fa-arrows-spin'></i></button></div></div></div>";      
-                    y.innerHTML = '<input name="lot_number_update[]" type="hidden" value="'+item.cLotNumber+'"><input name="iCasesCheckUpdate[]" type="hidden" value="'+item.iCases+'" >';   
+                    y.innerHTML = '<input name="lot_number_update[]" type="hidden" value="'+item.cLotNumber+'"><input name="iCasesCheckUpdate[]" type="hidden" value="'+item.iCases+'" ><input name="coaUpdate[]" class="form-control" type="hidden" value="'+item.cCoaRefNo+'">';   
                     
                     $( ".ireneajax2" ).select2({});
                     $(".ireneajax2").prop("disabled", true);

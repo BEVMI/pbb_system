@@ -8,6 +8,7 @@ use App\Http\Controllers\PdfController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\PmController;
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\CoaController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -42,4 +43,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/pm_mass_date/{from_date}/{to_date}/{remarks}/{year}/{month}/{line}',[PmController::class, 'mass_date'])->name('pm.mass_date');
     Route::get('/emailSend/{title}/{content}/{department}',[TestController::class, 'emailSend'])->name('test.emailSend');
 
+    Route::post('/upload_coa',[CoaController::class, 'upload_coa'])->name('coa.upload');
+    Route::get('/preview_coa/{id}',[CoaController::class, 'preview_coa'])->name('coa.preview');
+    Route::get('/coa_view/{id}',[CoaController::class, 'coa_view'])->name('coa.view');
 });

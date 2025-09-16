@@ -102,7 +102,9 @@ $user_auth = Auth::user();
 @endsection
 
 @section('button')
-<button class="btn btn-primary mt-2 mt-xl-0" onclick="loadForTos()" data-bs-toggle="modal" data-bs-target="#modalCreate" style="width:100%;">CREATE TOS</button>
+
+    <button class="btn btn-primary mt-2 mt-xl-0" onclick="loadForTos()" data-bs-toggle="modal" data-bs-target="#modalCreate" style="width:100%;">CREATE TOS</button>
+
 @endsection
 
 @section('main')
@@ -156,6 +158,7 @@ $user_auth = Auth::user();
     </div>
 </div>
 @include('includes.tos_modals')
+@include('includes.coa_modals')
 @endsection
 
 @section('scripts')

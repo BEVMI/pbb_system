@@ -60,21 +60,27 @@ class TestController extends Controller
         if($department == 'production'):
             $url = route('machine_counter.index');
             $email_to = Email::where('department','production')->first();
+            $recipients = [$email_to->email];
         elseif($department == 'production2'):
             $url = route('tos.index');
             $email_to = Email::where('department','production')->first();
+            $recipients = [$email_to->email];
         elseif($department == 'production1'):
             $url = route('pallets.index');
             $email_to = Email::where('department','qc')->first();
+            $recipients = [$email_to->email];
         elseif($department == 'allsuper'):
             $url = route('tos.index');
             $email_to = Email::where('department','qc')->first();
+            $recipients = [$email_to->email];
         elseif($department == 'allqc'):
             $url = route('tos.index');
             $email_to = Email::where('department','manager')->first();
+            $recipients = [$email_to->email];
         elseif($department == 'allmanager'):
             $url = route('tos.index');
             $email_to = Email::where('department','warehouse')->first();
+            $recipients = [$email_to->email,'aileakathleen.ilan@bevmi.com'];
         endif;
         if($department != 'allwarehouse'):
             $email_details = [
@@ -86,7 +92,7 @@ class TestController extends Controller
                 'url'=>$url,
                 'user_name'=> $user_auth->name
             ];
-            Mail::to($email_to)->send(new EmailView($email_details));
+            Mail::to($recipients)->send(new EmailView($email_details));
         endif;
     }
     
