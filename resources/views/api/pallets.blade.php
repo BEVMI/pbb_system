@@ -101,7 +101,7 @@
                 }
                 else{
                     let status_post = document.getElementById('status').value;
-                    if(status_post == 'Quarantine' || status_post == 'Approved' ){
+                    if(status_post == 'Quarantine' || status_post == 'Approved' || status_post == 'Turnover'){
                         document.getElementById('pGlobal').style.display = '';
                     }else{
                         document.getElementById('pGlobal').style.display = 'none';
@@ -529,16 +529,15 @@
 <script>
     function globalFunction(module1){
         if(module1 === 'Print'){
-            Swal.fire({
-                position: "center",
-                icon: "success",
-                title: "RENDERING PDF",
-                showConfirmButton: false,
-                timer: 4000
-            });
+           
             $('#modalPrint').modal('show');
             let checked = document.querySelectorAll('input.checkbox_print:checked');
             let global_status = document.getElementById('status').value;
+            if(global_status == 'Turnover'){
+                global_status = 'Approved';
+            }else{
+                global_status = global_status;
+            }
             let user_name = document.getElementById('user_name').value;
             let qc_user_1 = document.getElementById('qc_user_1').value;
             let qc_user_2 = document.getElementById('qc_user_2').value;
@@ -547,7 +546,23 @@
             {
                 ids.push(checked[x].value);
             }
-            
+            if(ids.length <= 50){
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "RENDERING PDF",
+                    showConfirmButton: false,
+                    timer: 4000
+                });
+            }else{
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "RENDERING PDF MAY TAKE A WHILE",
+                    showConfirmButton: false,
+                    timer: 10000
+                });
+            }
             $.ajax({
                 async:false,
                 type:'POST',
@@ -564,11 +579,12 @@
                     console.log(e);
                 }
             });
-
+            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
             $.ajax({
-                type: 'GET', //THIS NEEDS TO BE GET
+                type: 'POST', //THIS NEEDS TO BE GET
                 url: irene_api_base_url+'/print_pdf',
                 data:{
+                    "_token": CSRF_TOKEN,
                     "ids":ids,
                     "tag":global_status,
                     'user_name':user_name,
