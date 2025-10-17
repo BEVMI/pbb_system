@@ -10,6 +10,8 @@ use PDF;
 use Auth;
 use App\Models\QcTag;
 use App\Models\QcUser;
+use App\Models\Pallet;
+use App\Models\Tos;
 use Illuminate\Support\Facades\Http;
 use Carbon\Carbon;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -1037,4 +1039,16 @@ class PdfController extends Controller
        
     }
 
+    public function pallet_id($tos_id){
+        $pallets = Pallet::where('iTosId',$tos_id)->get();
+        $date_today = Carbon::now()->format('Y-m-d');
+        $tos = Tos::where('id',$tos_id)->first();
+        $pdf = Pdf::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true,'defaultMediaType'=> 'all','isFontSubsettingEnabled'=>true,'defaultFont'=>'Calibri Light'])
+        ->loadView('pdf.pallets',compact('pallets','date_today','tos'))
+        ->setPaper('A4', 'portrait');
+
+        $pdf->getDomPDF()->set_option("enable_php", true);
+      
+        return $pdf->stream($tos->cTOSRefNo.'.pdf',array('Attachment' => false));
+    }
 }

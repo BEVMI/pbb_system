@@ -67,6 +67,14 @@
                         let edit = '<button class="btn btn-success" onclick="updateTos('+item.id+')" style="margin:0;"><i class="fa-solid fa-pencil"></i></button> &nbsp;';
                         let remove = '<button class="btn btn-danger" onclick="confirmDeleteTos('+item.id+')" style="margin:0;"><i class="fa-solid fa-trash"></i></button>';
                         let coa = '';
+                        let pallet_id = '';
+
+                        if(user_warehouse == 1){
+                            pallet_id = '<a href={{url("api/pallet_id")}}/'+item.id+' target="_blank"><button class="btn btn-warning" style="margin:0;"><i class="fa-solid fa-boxes-packing"></i></button> &nbsp;</a>';
+                        }else{
+                            pallet_id = '';
+                        }
+
                         if(user_qc == 1 || user_warehouse == 1){
                             coa = '<button class="btn btn-info" onclick="viewCoa('+item.id+','+user_qc+','+user_warehouse+','+single_quote+item.cTOSRefNo.toString()+single_quote+')" style="margin:0;"><i class="fa-solid fa-flask"></i></button> &nbsp;';
                         }else{
@@ -99,7 +107,7 @@
                             }
                         }
 
-                        a.innerHTML = print+edit+coa+remove;
+                        a.innerHTML = pallet_id+print+edit+coa+remove;
                 }); 
             }
         });
