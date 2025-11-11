@@ -20,6 +20,9 @@ use App\Http\Controllers\PalletsController;
 use App\Http\Controllers\TosController;
 use App\Http\Controllers\ApprovalLevelConntroller;
 use App\Http\Controllers\DowntimeController;
+use App\Http\Controllers\QcRejectController;
+use App\Http\Controllers\QcDataRejectController;
+use App\Http\Controllers\HolidayController;
 
 Route::get('/', ['middleware' => 'guest', function()
 {
@@ -114,7 +117,6 @@ Auth::routes([
             Route::get('/machine_counter',[MachineCounter::class, 'index'])->name('machine_counter.index');
             // END EMAIL
 
-            
             // DOWNTIME
             Route::get('/downtime',[DowntimeController::class, 'index'])->name('downtime.index');
             // ENDDOWNTIME
@@ -130,9 +132,17 @@ Auth::routes([
             // PALLETS
             Route::get('/pallets',[PalletsController::class, 'index'])->name('pallets.index');
             // END PALLETS
+            // REJECTS
+            Route::get('/qc_rejects',[QcRejectController::class, 'index'])->name('qc.rejects');
+            Route::get('/qc_data_rejects',[QcDataRejectController::class, 'index'])->name('qc.data.rejects');
+            Route::get('/get_edited_rejects/{jobId}/{dbatch}/{categoryId}/{dYearDate}/{dMonthDate}',[QcDataRejectController::class, 'getEditedData'])->name('qc.data.rejects.edited');
+            Route::get('/get_category_data',[QcDataRejectController::class, 'getCategoryData'])->name('qc.data.rejects.category');
+            // END REJECTS
         });
 
-     
+        // HOLIDAY
+            Route::get('/holidays',[HolidayController::class, 'index'])->name('holidays.index');
+            // END HOLIDAY
 
         // PALLETS
         Route::get('/tos',[TosController::class, 'index'])->name('tos.index');

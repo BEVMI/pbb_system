@@ -92,7 +92,34 @@
               <span class="nav-link-text ms-1" style="margin-top:8px;">PALLETS</span>
             </a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link " href="{{route('qc.rejects')}}">
+              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="fa-solid fa-cloud text-sm opacity-10"  style="color:rgb(145, 2, 247);"></i>
+              </div>
+              <span class="nav-link-text ms-1" style="margin-top:8px;">REJECTS TYPE</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link " href="{{route('qc.data.rejects')}}">
+              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="fa-solid fa-ban text-sm opacity-10"  style="color:rgb(145, 2, 247);"></i>
+              </div>
+              <span class="nav-link-text ms-1" style="margin-top:8px;">QC REJECT</span>
+            </a>
+          </li>
+          
         @endif
+
+        <li class="nav-item">
+          <a class="nav-link " href="{{route('holidays.index')}}">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="fa-solid fa-calendar text-sm opacity-10"  style="color:rgb(2, 247, 59);"></i>
+            </div>
+            <span class="nav-link-text ms-1" style="margin-top:8px;">HOLIDAY</span>
+          </a>
+        </li>
 
         <li class="nav-item">
           <a class="nav-link " href="{{route('tos.index')}}">

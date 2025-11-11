@@ -69,8 +69,27 @@ class PlanController extends Controller
 
     public function plan_ajax($year,$month,$line){
         $api_url = env('API_URL');
-        $response = Http::get($api_url.'/MonthlyPlan/GetMonthlyPlan?nYear='.$year.'&nMonth='.$month.'&nLineNo='.$line);
-        return PlanResource::collection($response->object());
+        $responses = Http::get($api_url.'/MonthlyPlan/GetMonthlyPlan?nYear='.$year.'&nMonth='.$month.'&nLineNo='.$line);
+        $responses_holiday = Http::get($api_url.'/Holiday/month/'.$year.'/'.$month);
+        $plan = $responses->object();
+      
+        if($responses_holiday->ok()):
+            $holidays = $responses_holiday->object();
+            foreach($holidays as $holiday):
+                $plan[] = (object)[
+                    'id'=>'H-'.$holiday->id,
+                    'cStockCode'=>'HOLIDAY - '.$holiday->holidayName,
+                    'dPlanDate'=>$holiday->date,
+                    'nQty'=>null,
+                    'iSysproJob'=>null,
+                    'bPmApproved'=>1,
+                    'cPmApprovedBy'=>null,
+                    'cRemarks'=>null
+                ];
+            endforeach;
+        endif;
+
+        return PlanResource::collection($plan);
     }
 
     public function upload(Request $request){

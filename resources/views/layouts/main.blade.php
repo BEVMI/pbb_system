@@ -154,6 +154,7 @@
               </li>
             @endif
 
+       
             <li class="nav-item dropdown irene_hide px-2 d-flex align-items-center">
               <a href="{{route('tos.index')}}" class="nav-link text-white p-0">
                 <i class="fa-solid fa-book"></i>
@@ -167,6 +168,13 @@
                 <a href="{{route('pallets.index')}}" class="nav-link text-white p-0">
                   <i class="fa-solid fa-box-archive"></i>
                   <span class="nav-link-text ms-1" style="margin-top:8px; font-weight:bold;">PALLETS</span>
+                </a>
+              </li>
+
+              <li class="nav-item dropdown irene_hide px-2 d-flex align-items-center">
+                <a href="{{route('qc.data.rejects')}}" class="nav-link text-white p-0">
+                  <i class="fa-solid fa-ban"></i>
+                  <span class="nav-link-text ms-1" style="margin-top:8px; font-weight:bold;">QC REJECT</span>
                 </a>
               </li>
             @endif
@@ -217,7 +225,21 @@
                       <span class="nav-link-text ms-1" style="margin-top:8px; font-weight:bold;">FORECAST</span>
                     </a>
                   </li>
-      
+
+                  <li class="mb-2">
+                    <a href="{{route('holidays.index')}}"class="nav-link">
+                      <i class="fa-solid fa-calendar"  style="color:rgb(2, 31, 247);"></i>
+                      <span class="nav-link-text ms-1" style="margin-top:8px; font-weight:bold;">HOLIDAY</span>
+                    </a>
+                  </li>
+
+                  <li class="mb-2">
+                    <a href="{{route('qc.rejects')}}" class="nav-link">
+                      <i class="fa-solid fa-cloud" style="color:rgb(2, 31, 247);"></i>
+                      <span class="nav-link-text ms-1" style="margin-top:8px; font-weight:bold;">REJECTS TYPE</span>
+                    </a>
+                  </li>
+
                   @if($user_auth->is_admin=='1')
                     <li class="mb-2">
                       <a href="{{route('users.index')}}" class="nav-link">

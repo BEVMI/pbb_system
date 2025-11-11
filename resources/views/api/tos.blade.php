@@ -21,10 +21,9 @@
     }
     
     function get_flag(tos){
-        return   $.ajax({
+        return  $.ajax({
             type: 'GET',
             url: "{!!url('/api/coa_view')!!}/"+tos,
-            
         });
     }
 
@@ -50,14 +49,16 @@
                 let user_warehouse  = '{!!$user_auth->is_warehouse!!}';
                 let single_quote = "'";
                 $.each(irene_parse, function(index,item) {
-
                     const request = get_flag(item.id);
-                    request.done(function(data) {
-                      irene2 = data;
-                      
-                    });
-
-                    var x = document.getElementById('tos_body_table').insertRow(-1);
+                    setTimeout(() => {
+                        request.done(function(data) {
+                            irene2 = data;
+                        });
+                    }, 1000);
+                    
+                
+                    setTimeout(() => {
+                       var x = document.getElementById('tos_body_table').insertRow(-1);
                         var i = x.insertCell(0);
                         var r = x.insertCell(1);
                         var e = x.insertCell(2);
@@ -108,6 +109,7 @@
                         }
 
                         a.innerHTML = pallet_id+print+edit+coa+remove;
+                    }, 1500);
                 }); 
             }
         });
