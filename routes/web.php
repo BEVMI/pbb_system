@@ -23,6 +23,7 @@ use App\Http\Controllers\DowntimeController;
 use App\Http\Controllers\QcRejectController;
 use App\Http\Controllers\QcDataRejectController;
 use App\Http\Controllers\HolidayController;
+use App\Http\Controllers\LoadSheetController;
 
 Route::get('/', ['middleware' => 'guest', function()
 {
@@ -138,6 +139,10 @@ Auth::routes([
             Route::get('/get_edited_rejects/{jobId}/{dbatch}/{categoryId}/{dYearDate}/{dMonthDate}',[QcDataRejectController::class, 'getEditedData'])->name('qc.data.rejects.edited');
             Route::get('/get_category_data',[QcDataRejectController::class, 'getCategoryData'])->name('qc.data.rejects.category');
             // END REJECTS
+        });
+
+        Route::group(['middleware' => 'IsWarehouse'], function () {
+            Route::get('/loadsheet',[LoadSheetController::class, 'index'])->name('loadsheet.index');
         });
 
         // HOLIDAY

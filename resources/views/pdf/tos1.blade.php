@@ -30,7 +30,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="text-align: center; padding:12px;" colspan="6">
+                        <td style="text-align: center; padding:5px;" colspan="6">
                             @if($turnover_details->is_warehouse =='1')
                                 <b>(Warehouse Copy)</b>
                             @else
@@ -40,7 +40,7 @@
                     </tr>
 
                     <tr>
-                        <td style="text-align: center; padding:12px;" colspan="4">
+                        <td style="text-align: center; " colspan="4">
                         </td>
                         <td style="text-align: center;">
                             Reference No:
