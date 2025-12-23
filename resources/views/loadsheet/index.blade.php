@@ -150,7 +150,7 @@ $user_auth = Auth::user();
                                             @if($detailHeader->status == '0')
                                                 <span class="badge bg-danger">PENDING</span>
                                             @elseif($detailHeader->status == '1')
-                                                <span class="badge bg-secondary">APPROVED</span>
+                                                <span class="badge bg-success">APPROVED</span>
                                             @else
                                                 <span class="badge bg-warning">CANCELLED</span>
                                             @endif
@@ -288,26 +288,32 @@ $user_auth = Auth::user();
                                 <div class="row">
                                     <div class="col-lg-12">
                                           <div class="form-group">
+                                            <div id="alert-dialog" class="alert alert-info" style="display:none; color:white; text-align:center;"></div>
                                             <label for="PLATE NUMBER">PLATE NUMBER:</label>
                                             <input type="text" class="form-control" id="editPlateNumber">
+                                            <input type="hidden" id="headerDetailId">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <p id="alert-dialog" style="display:none;"></p>
-                                        <p id="status-dialog">
-                                            <div class="container-fluid">
-                                                <div class="row">
-                                                    <div class="col-lg-6">
-                                                         <a href="#" onclick="statusUpdate(1)" style="" class="btn btn-success w-100 mt-2 mt-xl-0">APPROVE</a>
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <a href="#" onclick="statusUpdate(2)" style="" class="btn btn-warning w-100 mt-2 mt-xl-0">CANCEL</a>
-                                                    </div>
+                                        <div class="container-fluid" id="status-dialog" style="display: none;">
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <a href="#" onclick="statusUpdate(1)" style="" class="btn btn-success w-100 mt-2 mt-xl-0">APPROVE</a>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <a href="#" onclick="statusUpdate(2)" style="" class="btn btn-warning w-100 mt-2 mt-xl-0">CANCEL</a>
+                                                </div> 
+                                            </div>
+                                        </div>
+                                        <div class="container-fluid">
+                                             <div class="row">
+                                                <div class="col-12">
+                                                    <button type="button" class="btn btn-secondary w-100 mt-2 mt-xl-0" class="close" data-bs-dismiss="modal" aria-label="Close">CLOSE</button>
                                                 </div>
                                             </div>
-                                        </p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -344,7 +350,7 @@ $user_auth = Auth::user();
                         <div class="col-lg-2 pt-2">
                         </div>
                         <div class="col-lg-2 pt-2">
-                            <button type="button" class="btn btn-secondary w-100" class="close" data-bs-dismiss="modal" aria-label="Close">CLOSE</button>
+                           
                         </div>
                     </div>
                 </div>
@@ -840,6 +846,7 @@ $user_auth = Auth::user();
     $(document).ready(function(){
         $(document).on('click', '.view_data', function (e) {
             let id = $(this).data('id');
+            document.getElementById('headerDetailId').value = id;
             $.ajax({
                 url: '{{env("API_URL")}}/LssControlHeaderDetail/'+id,
                 type: 'GET',
@@ -862,17 +869,17 @@ $user_auth = Auth::user();
                         }
                        
                     });
+                    if(data[0].status != 0){
+                        document.getElementById('status-dialog').style.display = 'none';
+                        document.getElementById('alert-dialog').style.display = 'block';
+                        document.getElementById('alert-dialog').innerText = 'THIS LOADSHEET IS ALREADY APPROVED/CANCELLED AND CANNOT BE EDITED';
+                        document.getElementById('editPlateNumber').disabled = true;
+                    } else {
+                        document.getElementById('status-dialog').style.display = 'block';
+                        document.getElementById('alert-dialog').style.display = 'none';
+                        document.getElementById('editPlateNumber').disabled = false;
+                    }
                     $('#modalViewBody').append(modalBody);
-                    // let modalBody = '';
-                    // modalBody += '<div class="table-responsive" style="height: 400px; overflow-y: scroll;">';
-                    // modalBody += '<table class="table table-bordered irene-table">';
-                    // modalBody += '<thead><tr class="text-center irene_thead"><th style="width:20%;">PO NUMBER</th><th style="width:15%;">INVOICE</th><th style="width:10%;">SKU</th><th style="width:25%;">DESCRIPTION</th><th style="style:width:10%;">UOM</th><th style="style:width:20%;">QTY</th></tr></thead>';
-                    // modalBody += '<tbody>';
-                    // data.forEach(function(detail){
-                    //     modalBody += '<tr class="text-center"><td>'+detail.customerPoNumber+'</td><td>'+detail.invoice+'</td><td>'+detail.stockCode+'</td><td>'+detail.description+'</td><td>CS</td><td>'+detail.qty+'</td></tr>';
-                    // });
-                    // modalBody += '</tbody></table></div>';
-                    // $('#modalViewBody').append(modalBody);
                 },
                 error: function(xhr){
                 }
@@ -882,10 +889,44 @@ $user_auth = Auth::user();
 
     function statusUpdate(status){
         let editPlateNumber = document.getElementById('editPlateNumber').value;
+        let ApprovedBy = '{{ $user->name }}';
+        let ApprovedDate = '{{ $date_today }}';
+        let headerDetailId = document.getElementById('headerDetailId').value;
+        if (editPlateNumber == null || editPlateNumber == ""){
+            Swal.fire({
+                icon: 'error',
+                title: 'PLEASE ENTER PLATE NUMBER BEFORE APPROVING/ FOR CANCEL PUT N/A',
+                timer: 3000,
+            });
+            return;
+        }
         let data = {
             Status: status,
-            PlateNumber: editPlateNumber
+            PlateNumber: editPlateNumber,
+            ApprovedBy: ApprovedBy,
+            ApprovedDate: ApprovedDate
         };
+        $.ajax({
+            url: '{{env("API_URL")}}/LssControlHeaderDetail/UpdateStatus/'+headerDetailId,
+            type: 'PUT',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            data: JSON.stringify(data),
+            success: function(response){
+               Swal.fire({
+                    icon: 'success',
+                    title: 'DETAIL UPDATED SUCCESSFULLY',
+                    timer: 2000,
+                    showConfirmButton: false
+                }).then(() => {
+                    location.reload();
+                });
+            },
+            error: function(xhr){
+            }
+        });
     }
 
     function updateDetail(detailId){

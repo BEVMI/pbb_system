@@ -9,6 +9,7 @@ ini_set('sqlsrv.ClientBufferMaxKBSize','1000000'); // Setting to 512M
 ini_set('pdo_sqlsrv.client_buffer_max_kb_size','1000000');
 use Illuminate\Support\Facades\Http;
 use Carbon\Carbon;
+use Auth;
 
 class LoadSheetController extends Controller
 {
@@ -21,6 +22,7 @@ class LoadSheetController extends Controller
         $customers = $response_customers->object();
         $month = Carbon::now()->format('m');
         $year = Carbon::now()->format('Y');
+        $user = Auth::user();
         
         if($month_post):
             $month_post = $month_post;
@@ -43,6 +45,6 @@ class LoadSheetController extends Controller
         $response_loadsheet = Http::get($api_url.'/LssControlHeader/GetAllLssHeaders?month='.$month.'&year='.$year.'&sortBy=true&pageNumber='.$page.'&pageSize=10');
         $headers = $response_loadsheet->object();
 
-        return view('loadsheet.index', compact('customers', 'month', 'year', 'date_today','headers','month_post','year_post','page'));
+        return view('loadsheet.index', compact('customers', 'month', 'year', 'date_today','headers','month_post','year_post','page','user'));
     }
 }
