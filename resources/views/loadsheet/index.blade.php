@@ -36,6 +36,9 @@ $user_auth = Auth::user();
     .irene-table th, .irene-table td {
         text-align: center;
     }
+    .modalViewBody tr td {
+        vertical-align: middle;
+    }
 </style>
 @endsection
 
@@ -65,20 +68,103 @@ $user_auth = Auth::user();
     let truckHeader = [];
     let truckDetails = [];
 </script>
+
+{!! html()->modelForm(null, null)->class('form')->id('search')->attribute('action',route('loadsheet.index'))->attribute('method','GET')->open() !!}
+{!! html()->closeModelForm() !!}
+
 <div class="container-fluid">
     <div class="row">
-        <div class="col-lg-3">
+        <div class="col-lg-2">
             <label for="rejectName">Month:</label>
+            <select class="form-control" name="month_post" id="loadsheetMonth" form="search">
+                <option value="01" @if($month_post == '01') selected @endif>JANUARY</option>
+                <option value="02" @if($month_post == '02') selected @endif>FEBRUARY</option>
+                <option value="03" @if($month_post == '03') selected @endif>MARCH</option>
+                <option value="04" @if($month_post == '04') selected @endif>APRIL</option>
+                <option value="05" @if($month_post == '05') selected @endif>MAY</option>
+                <option value="06" @if($month_post == '06') selected @endif>JUNE</option>
+                <option value="07" @if($month_post == '07') selected @endif>JULY</option>
+                <option value="08" @if($month_post == '08') selected @endif>AUGUST</option>
+                <option value="09" @if($month_post == '09') selected @endif>SEPTEMBER</option>
+                <option value="10" @if($month_post == '10') selected @endif>OCTOBER</option>
+                <option value="11" @if($month_post == '11') selected @endif>NOVEMBER</option>
+                <option value="12" @if($month_post == '12') selected @endif>DECEMBER</option>
+            </select>
         </div>
-        <div class="col-lg-3">
+        <div class="col-lg-2">
             <label for="rejectCode">Year:</label>
+            <select class="form-control" name="year_post" id="loadsheetYear" form="search">
+                @for($i = 2023; $i <= date('Y')+1; $i++)
+                    <option value="{{ $i }}" @if($year_post == $i) selected @endif>{{ $i }}</option>
+                @endfor
+            </select>
         </div>
-        <div class="col-lg-4">
-            <br>
+        <div class="col-lg-2">
+            <label>PAGE:</label>
+            <select class="form-control" name="page" form="search">
+                @for($p = 1; $p <= $headers->pages; $p++)
+                    <option value="{{ $p }}" @if(request()->get('page') == $p) selected @endif>{{ $p }}</option>
+                @endfor
+            </select>
         </div>
         <div class="col-lg-2">
             <br>
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAdd" style="width: 100%;">CREATE</button>
+            <button class="btn btn-secondary w-100 mt-1" form="search">FILTER</button>
+        </div>
+        <div class="col-lg-2"></div>
+        <div class="col-lg-2">
+            <br>
+            <button class="btn btn-primary w-100 mt-1" data-bs-toggle="modal" data-bs-target="#modalAdd">CREATE</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 pt-4">
+            <div class="table-responsive">
+                <table class="table table-bordered irene-table" id="loadsheetTable">
+                    <thead>
+                        <tr class="irene_thead">
+                            <th style="width:10%;">LOADSHEET NO.</th>
+                            <th style="width:15%;">CUSTOMER</th>
+                            <th style="width:15%;">DEPOT</th>
+                            <th style="width:10%;">TRUCKS</th>
+                            <th style="width:10%;">CREATED DATE</th>
+                            <th style="width:10%;">STATUS</th>
+                            <th style="width:10%;">ACTION</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if(!empty($headers))
+                            @foreach($headers->data as $header)
+                                @foreach($header->lssDetailHeaders as $detailHeader)
+                                    <tr class="text-center">
+                                        <td>
+                                            <span class="badge bg-primary">
+                                                {{$header->loadSheetNumber}}-{{$detailHeader->truckSequence}}
+                                            </span>
+                                        </td>
+                                        <td>{{$header->customer}}</td>
+                                        <td>{{$header->depot}}</td>
+                                        <td>{{$detailHeader->truckType}}</td>
+                                        <td>{{date('Y-m-d', strtotime($header->createdDate))}}</td>
+                                        <td>
+                                            @if($detailHeader->status == '0')
+                                                <span class="badge bg-danger">PENDING</span>
+                                            @elseif($detailHeader->status == '1')
+                                                <span class="badge bg-secondary">APPROVED</span>
+                                            @else
+                                                <span class="badge bg-warning">CANCELLED</span>
+                                            @endif
+                                        </td>
+                                        <td>
+                                           <a href="#" class="btn btn-success mt-2 mt-xl-0 view_data" data-bs-toggle="modal" data-bs-target="#modalView" data-id="{{$detailHeader->id}}"> <i class="fas fa-eye"></i></a>
+                                        </td>
+                                    </tr>   
+                                @endforeach
+                            @endforeach
+                        @endif
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
@@ -173,7 +259,7 @@ $user_auth = Auth::user();
                                 
                             </div>
                             <div class="col-lg-2 pt-2">
-                                <button type="button" class="btn btn-secondary w-100" data-dismiss="modal">CLOSE</button>
+                                <button type="button" class="btn btn-secondary w-100" class="close" data-bs-dismiss="modal" aria-label="Close">CLOSE</button>
                             </div>
                             <div class="col-lg-2 pt-2">
                                 <button onclick="createLoadsheet()" class="btn btn-primary" style="width: 100%;">CREATE</button>
@@ -185,6 +271,89 @@ $user_auth = Auth::user();
     </div>
 </div>
 
+{{-- MODAL EDIT --}}
+<div class="modal fade" id="modalEdit" tabindex="-1" aria-labelledby="modalAddLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog" style="max-width: 80%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalEditLabel">EDIT LOADSHEET</h3>
+                
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <h4 class="OTHER DETAILS"></h4>
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                          <div class="form-group">
+                                            <label for="PLATE NUMBER">PLATE NUMBER:</label>
+                                            <input type="text" class="form-control" id="editPlateNumber">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <p id="alert-dialog" style="display:none;"></p>
+                                        <p id="status-dialog">
+                                            <div class="container-fluid">
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                         <a href="#" onclick="statusUpdate(1)" style="" class="btn btn-success w-100 mt-2 mt-xl-0">APPROVE</a>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <a href="#" onclick="statusUpdate(2)" style="" class="btn btn-warning w-100 mt-2 mt-xl-0">CANCEL</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-8">
+                            <div class="table-responsive">
+                                <table class="table text-center" id="modalViewTable">
+                                   <thead>
+                                        <tr class="irene_thead">
+                                            <th style="width:20%;">PO NUMBER</th>
+                                            <th style="width:15%;">INVOICE</th>
+                                            <th style="width:10%;">SKU</th>
+                                            <th style="width:25%;">DESCRIPTION</th>
+                                            <th style="width:10%;">UOM</th>
+                                            <th style="width:10%;">QTY</th>
+                                            <th style="width:10%;">-</th>
+                                        </tr>
+                                   </thead>
+                                   <tbody class="text-center" id="modalViewBody">
+
+                                   </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-8 pt-2">
+                            
+                        </div>
+                        <div class="col-lg-2 pt-2">
+                        </div>
+                        <div class="col-lg-2 pt-2">
+                            <button type="button" class="btn btn-secondary w-100" class="close" data-bs-dismiss="modal" aria-label="Close">CLOSE</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{-- END MODAL EDIT --}}
 @endsection
 
 @section ('scripts')
@@ -666,6 +835,84 @@ $user_auth = Auth::user();
         }, 6000);
         // UPDATE CONTROL MASTER 
     }
-   
+</script>
+<script>
+    $(document).ready(function(){
+        $(document).on('click', '.view_data', function (e) {
+            let id = $(this).data('id');
+            $.ajax({
+                url: '{{env("API_URL")}}/LssControlHeaderDetail/'+id,
+                type: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                success: function(data){
+                    let details = data[0].lssDetails;
+                    document.getElementById('modalEditLabel').innerText = data[0].lssHeader.loadSheetNumber+'-'+data[0].truckSequence;
+                    document.getElementById('editPlateNumber').value = data[0].plateNumber;
+                    $('#modalViewBody').empty();
+                    $('#modalEdit').modal('show');
+                    let modalBody = '';
+                    details.forEach(function(detail){
+                        if(data[0].status == 0){
+                             modalBody += '<tr class="text-center"><td>'+detail.customerPoNumber+'</td><td>'+detail.invoice+'</td><td>'+detail.stockCode+'</td><td>'+detail.description+'</td><td>CS</td><td><input type="number" id="updateQty-'+detail.id+'" class="form-control" value="'+detail.qty+'"></td><td><button onclick="updateDetail(\''+detail.id+'\')" class="btn btn-primary mt-3 w-100">UPDATE</button></td></tr>';
+                        }else{
+                             modalBody += '<tr class="text-center"><td>'+detail.customerPoNumber+'</td><td>'+detail.invoice+'</td><td>'+detail.stockCode+'</td><td>'+detail.description+'</td><td>CS</td><td>'+detail.qty+'</td></tr>';
+                        }
+                       
+                    });
+                    $('#modalViewBody').append(modalBody);
+                    // let modalBody = '';
+                    // modalBody += '<div class="table-responsive" style="height: 400px; overflow-y: scroll;">';
+                    // modalBody += '<table class="table table-bordered irene-table">';
+                    // modalBody += '<thead><tr class="text-center irene_thead"><th style="width:20%;">PO NUMBER</th><th style="width:15%;">INVOICE</th><th style="width:10%;">SKU</th><th style="width:25%;">DESCRIPTION</th><th style="style:width:10%;">UOM</th><th style="style:width:20%;">QTY</th></tr></thead>';
+                    // modalBody += '<tbody>';
+                    // data.forEach(function(detail){
+                    //     modalBody += '<tr class="text-center"><td>'+detail.customerPoNumber+'</td><td>'+detail.invoice+'</td><td>'+detail.stockCode+'</td><td>'+detail.description+'</td><td>CS</td><td>'+detail.qty+'</td></tr>';
+                    // });
+                    // modalBody += '</tbody></table></div>';
+                    // $('#modalViewBody').append(modalBody);
+                },
+                error: function(xhr){
+                }
+            });
+        });            
+    });
+
+    function statusUpdate(status){
+        let editPlateNumber = document.getElementById('editPlateNumber').value;
+        let data = {
+            Status: status,
+            PlateNumber: editPlateNumber
+        };
+    }
+
+    function updateDetail(detailId){
+        let updateQty = document.getElementById('updateQty-'+detailId).value;
+        let data = {
+            Qty: parseInt(updateQty)
+        };
+        $.ajax({
+            url: '{{env("API_URL")}}/LssControlDetail/UpdateLssDetail/'+detailId,
+            type: 'PUT',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            data: JSON.stringify(data),
+            success: function(response){
+               Swal.fire({
+                    icon: 'success',
+                    title: 'DETAIL UPDATED SUCCESSFULLY',
+                    timer: 2000,
+                    showConfirmButton: false
+                }).then(() => {
+                });
+            },
+            error: function(xhr){
+            }
+        });
+    }
 </script>
 @endsection
