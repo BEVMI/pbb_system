@@ -10,6 +10,7 @@ ini_set('pdo_sqlsrv.client_buffer_max_kb_size','1000000');
 use Illuminate\Support\Facades\Http;
 use Carbon\Carbon;
 use Auth;
+use PDF;
 
 class LoadSheetController extends Controller
 {
@@ -46,5 +47,37 @@ class LoadSheetController extends Controller
         $headers = $response_loadsheet->object();
 
         return view('loadsheet.index', compact('customers', 'month', 'year', 'date_today','headers','month_post','year_post','page','user'));
+    }
+
+    public function print_loadsheet($id){
+       
+        $date_today = Carbon::now()->format('Y-m-d');
+        $api_url = env('API_URL');
+        $responses = Http::get($api_url.'/LssControlHeaderDetail/'.$id);
+        $loadsheets = $responses->object();
+        $header = $loadsheets[0]->lssDetails[0];
+        $header_detail = $header->lssDetailHeader;
+        $lssheader = $header->lssDetailHeader->lssHeader;
+        $control_number = $lssheader->loadSheetNumber.'-'.$header->truckNo;
+        $depot = $lssheader->depot;
+      
+        $ppic = 'PPCI';
+        $puregold = 'PUREGOLD';
+        $ayalagold = 'AYALAGOLD';
+
+        $plate_number = $header_detail->plateNumber;
+        $created_date = Carbon::parse($header_detail->createdDate)->format('F d, Y');
+        if (str_contains($header->customerName, $ppic) || str_contains($header->customerName, $puregold)|| str_contains($header->customerName, $ayalagold)):
+            $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true,'defaultMediaType'=> 'all','isFontSubsettingEnabled'=>true,'defaultFont'=>'Calibri Light'])
+            ->loadView('pdf.puregold',compact('date_today','loadsheets','control_number','plate_number','created_date'))
+            ->setPaper('A4', 'landscape');
+        else:
+             $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true,'defaultMediaType'=> 'all','isFontSubsettingEnabled'=>true,'defaultFont'=>'Calibri Light'])
+            ->loadView('pdf.nonpuregold',compact('date_today','loadsheets','control_number','plate_number','created_date','depot'))
+            ->setPaper('A4', 'portrait');
+        endif;
+
+        $pdf->getDomPDF()->set_option("enable_php", true);  
+        return $pdf->stream($control_number.'.pdf',array('Attachment' => false));
     }
 }
