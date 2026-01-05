@@ -179,6 +179,15 @@
               </li>
             @endif
 
+            @if($user_auth->is_warehouse=='1')
+              <li class="nav-item dropdown irene_hide px-2 d-flex align-items-center">
+                <a href="{{route('loadsheet.index')}}" class="nav-link text-white p-0">
+                  <i class="fa-solid fa-sheet-plastic"></i>
+                  <span class="nav-link-text ms-1" style="margin-top:8px; font-weight:bold;">LOADSHEET</span>
+                </a>
+              </li>
+            @endif
+
             {{-- @if($user_auth->is_production=='1')
               <li class="nav-item dropdown irene_hide px-2 d-flex align-items-center">
                 <a href="{{route('reject.index')}}" class="nav-link text-white p-0">

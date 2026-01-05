@@ -43,8 +43,9 @@ class LoadSheetController extends Controller
         endif;
 
         $date_today = Carbon::now()->format('Y-m-d');
-        $response_loadsheet = Http::get($api_url.'/LssControlHeader/GetAllLssHeaders?month='.$month.'&year='.$year.'&sortBy=true&pageNumber='.$page.'&pageSize=10');
+        $response_loadsheet = Http::get($api_url.'/LssControlHeader/GetAllLssHeaders?month='.$month_post.'&year='.$year_post.'&sortBy=true&pageNumber='.$page.'&pageSize=10');
         $headers = $response_loadsheet->object();
+
 
         return view('loadsheet.index', compact('customers', 'month', 'year', 'date_today','headers','month_post','year_post','page','user'));
     }

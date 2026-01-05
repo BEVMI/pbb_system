@@ -156,7 +156,10 @@ $user_auth = Auth::user();
                                             @endif
                                         </td>
                                         <td>
-                                           <a href="#" class="btn btn-success mt-2 mt-xl-0 view_data" data-bs-toggle="modal" data-bs-target="#modalView" data-id="{{$detailHeader->id}}"> <i class="fas fa-eye"></i></a>
+                                            <a href="#" class="btn btn-success mt-2 mt-xl-0 view_data" data-bs-toggle="modal" data-bs-target="#modalView" data-id="{{$detailHeader->id}}"> <i class="fas fa-eye"></i></a>
+                                            @if($detailHeader->status == '1')
+                                                <a href="{{ route('loadsheet.print', ['id' => $detailHeader->id]) }}" target="_blank" class="btn btn-primary mt-2 mt-xl-0"> <i class="fas fa-print"></i></a>
+                                            @endif
                                         </td>
                                     </tr>   
                                 @endforeach
