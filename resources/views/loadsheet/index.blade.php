@@ -67,6 +67,7 @@ $user_auth = Auth::user();
 <script>
     let truckHeader = [];
     let truckDetails = [];
+    let totalWeightAndCount = [];
 </script>
 
 {!! html()->modelForm(null, null)->class('form')->id('search')->attribute('action',route('loadsheet.index'))->attribute('method','GET')->open() !!}
@@ -157,9 +158,7 @@ $user_auth = Auth::user();
                                         </td>
                                         <td>
                                             <a href="#" class="btn btn-success mt-2 mt-xl-0 view_data" data-bs-toggle="modal" data-bs-target="#modalView" data-id="{{$detailHeader->id}}"> <i class="fas fa-eye"></i></a>
-                                            @if($detailHeader->status == '1')
-                                                <a href="{{ route('loadsheet.print', ['id' => $detailHeader->id]) }}" target="_blank" class="btn btn-primary mt-2 mt-xl-0"> <i class="fas fa-print"></i></a>
-                                            @endif
+                                            <a href="{{ route('loadsheet.print', ['id' => $detailHeader->id]) }}" target="_blank" class="btn btn-primary mt-2 mt-xl-0"> <i class="fas fa-print"></i></a>
                                         </td>
                                     </tr>   
                                 @endforeach
@@ -487,7 +486,7 @@ $user_auth = Auth::user();
                     newDiv.id = 'truck'+countTruck;
                     newDiv.role = 'tabpanel';
                     newDiv.ariaLabelledby = 'truck'+countTruck+'-tab';
-                    newDiv.innerHTML = '<div class="table-responsive" style="height: 600px; overflow-y: scroll;"><table class="table table-bordered irene-table"><thead><tr class="text-center irene_thead"><tr><th style="width:20%;">PO NUMBER</th><th style="width:15%;">INVOICE</th><th style="width:10%;">SKU</th><th style="width:25%;">DESCRIPTION</th><th style="style:width:10%;">UOM</th><th style="style:width:20%;">QTY</th></tr></thead><tbody id="truck'+countTruck+'Body"></tbody></table></div>';
+                    newDiv.innerHTML = '<p><span class="badge bg-info" id="totalWeight'+countTruck+'"></span><span class="badge bg-info" id="totalPallet'+countTruck+'"></span></p><div class="table-responsive" style="height: 600px; overflow-y: scroll;"><table class="table table-bordered irene-table"><thead><tr class="text-center irene_thead"><tr><th style="width:20%;">PO NUMBER</th><th style="width:15%;">INVOICE</th><th style="width:10%;">SKU</th><th style="width:25%;">DESCRIPTION</th><th style="style:width:10%;">UOM</th><th style="style:width:20%;">QTY</th></tr></thead><tbody id="truck'+countTruck+'Body"></tbody></table></div>';
                     document.querySelector('#tabCreateTruckContent').appendChild(newDiv);
                     document.querySelector('#truckTabsCreate').appendChild(newLi);
                     let data = {
@@ -526,7 +525,7 @@ $user_auth = Auth::user();
                     newDiv.id = 'truck'+countTruck;
                     newDiv.role = 'tabpanel';
                     newDiv.ariaLabelledby = 'truck'+countTruck+'-tab';
-                    newDiv.innerHTML = '<div class="table-responsive" style="height: 600px; overflow-y: scroll;"><table class="table table-bordered irene-table"><thead><tr class="text-center irene_thead"><tr><th style="width:20%;">PO NUMBER</th><th style="width:15%;">INVOICE</th><th style="width:10%;">SKU</th><th style="width:25%;">DESCRIPTION</th><th style="style:width:10%;">UOM</th><th style="style:width:20%;">QTY</th></tr></thead><tbody id="truck'+countTruck+'Body"></tbody></table></div>';
+                    newDiv.innerHTML = '<span class="badge bg-info" id="totalWeight'+countTruck+'"></span><span class="badge bg-info" id="totalPallet'+countTruck+'"></span><div class="table-responsive" style="height: 600px; overflow-y: scroll;"><table class="table table-bordered irene-table"><thead><tr class="text-center irene_thead"><tr><th style="width:20%;">PO NUMBER</th><th style="width:15%;">INVOICE</th><th style="width:10%;">SKU</th><th style="width:25%;">DESCRIPTION</th><th style="style:width:10%;">UOM</th><th style="style:width:20%;">QTY</th></tr></thead><tbody id="truck'+countTruck+'Body"></tbody></table></div>';
                     
                     document.querySelector('#tabCreateTruckContent').appendChild(newDiv);
                     document.querySelector('#truckTabsCreate').appendChild(newLi);
@@ -566,7 +565,7 @@ $user_auth = Auth::user();
                     newDiv.id = 'truck'+countTruck;
                     newDiv.role = 'tabpanel';
                     newDiv.ariaLabelledby = 'truck'+countTruck+'-tab';
-                    newDiv.innerHTML = '<div class="table-responsive" style="height: 600px; overflow-y: scroll;"><table class="table table-bordered irene-table"><thead><tr class="text-center irene_thead"><tr><th style="width:20%;">PO NUMBER</th><th style="width:15%;">INVOICE</th><th style="width:10%;">SKU</th><th style="width:25%;">DESCRIPTION</th><th style="style:width:10%;">UOM</th><th style="style:width:20%;">QTY</th></tr></thead><tbody id="truck'+countTruck+'Body"></tbody></table></div>';
+                    newDiv.innerHTML = '<span class="badge bg-info" id="totalWeight'+countTruck+'"></span><span class="badge bg-info" id="totalPallet'+countTruck+'"></span><div class="table-responsive" style="height: 600px; overflow-y: scroll;"><table class="table table-bordered irene-table"><thead><tr class="text-center irene_thead"><tr><th style="width:20%;">PO NUMBER</th><th style="width:15%;">INVOICE</th><th style="width:10%;">SKU</th><th style="width:25%;">DESCRIPTION</th><th style="style:width:10%;">UOM</th><th style="style:width:20%;">QTY</th></tr></thead><tbody id="truck'+countTruck+'Body"></tbody></table></div>';
                     document.querySelector('#tabCreateTruckContent').appendChild(newDiv);
                     document.querySelector('#truckTabsCreate').appendChild(newLi);
                     let data = {
@@ -596,6 +595,7 @@ $user_auth = Auth::user();
             invoices: separatedValues
         };
         truckDetails = [];
+        totalWeightAndCount = [];
         setTimeout(() => {
             $.ajax({
                 url: '{{env("API_URL")}}/LoadSheetSyspro/truckinvoices?truckNo=0',
@@ -612,13 +612,46 @@ $user_auth = Auth::user();
                         newRow.innerHTML = '<td>'+invoice.customerPoNumber+'</td><td>'+invoice.invoice+'</td><td>'+invoice.stockCode+'</td><td>'+invoice.description+'</td><td>CS</td><td><input onkeyup="updateQty('+countDetail+')" id="qtyInput'+countDetail+'" class="form-control" type="number" value="'+invoice.qty+'"></td>';
                         document.getElementById(truckBodyId).appendChild(newRow);
                         countDetail++;
+                        let detail = {
+                            truckNo: 'truck'+invoice.truckNo,
+                            weight: parseFloat(invoice.caseWeight),
+                            pallet: parseInt(invoice.palletNo)
+                        };
+                        totalWeightAndCount.push(detail);
                         truckDetails.push(invoice);
                     });
+                  
                 },
                 error: function(xhr){
                 }
             });  
         }, 3000);
+        
+        setTimeout(() => {
+            let headers = truckHeader;
+            headers.forEach(function(truck, index){
+                let separateStringTruck = truck.split("-");
+                let name = 'truck'+separateStringTruck[0];
+                let totalSum = 0;
+                let totalPallet = 0;
+                let pallet = [];    
+                let sum = 0;
+                totalWeightAndCount.forEach(user => {
+                    if(user.truckNo == name){
+                        pallet.push(user.pallet);
+                        sum += user.weight;
+                    }
+                });
+                let filteredPallet = pallet.filter(unique);
+
+                document.getElementById('totalWeight'+separateStringTruck[0]).innerHTML = 'TOTAL WEIGHT: '+sum.toFixed(2)+' KG';
+                document.getElementById('totalPallet'+separateStringTruck[0]).innerHTML = 'TOTAL PALLET: '+filteredPallet.length;
+            });
+        }, 4500);
+       
+    }
+    function unique(value, index, array) {
+        return array.indexOf(value) === index;
     }
 
     function updateQty(detailIndex){
